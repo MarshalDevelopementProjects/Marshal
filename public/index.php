@@ -2,12 +2,12 @@
 
 require __DIR__ . "/../vendor/autoload.php";
 
-use App\Controller\Authenticate\AuthenticateController;
 use App\Controller\Index\IndexController;
 use App\Controller\User\UserController;
-use App\Controller\Administrator\AdministratorController;
+use App\Controller\Administrator\AdminController;
+use App\Controller\Authenticate\AdminAuthController;
+use App\Controller\Authenticate\UserAuthController;
 use Core\Request;
-use Core\Response;
 use Core\Router;
 
 // register custom error and exception handlers
@@ -17,23 +17,27 @@ use Core\Router;
 
 $router = new Router();
 
-$router->get('', IndexController::class . '::defaultAction');
+// REMEMBER +> GET methods is used to create a resource and serve it
 
-$router->get('login', AuthenticateController::class . '::onLogIn');
-$router->post('login', AuthenticateController::class . '::onLogIn');
+$router->get('/', IndexController::class . '::defaultAction');
 
-$router->get('signup', AuthenticateController::class . '::OnSignUp');
-$router->post('signup', AuthenticateController::class . '::OnSignUp');
+$router->get('/user/login', UserAuthController::class . '::onUserLogin');
+$router->post('/user/login', UserAuthController::class . '::onUserLogin');
 
-$router->get('user/dashboard', UserController::class . '::defaultAction');
-$router->get('admin/dashboard', AdministratorController::class . '::defaultAction');
+$router->get('/user/signup', UserAuthController::class . '::onUserSignup');
+$router->post('/user/signup', UserAuthController::class . '::onUserSignup');
 
-$router->post('logout', AuthenticateController::class . '::OnLogOut');
+$router->get('/admin/login', AdminAuthController::class . '::onAdminLogin');
+$router->post('/admin/login', AdminAuthController::class . '::onAdminLogin');
 
-$router->get('logged', AuthenticateController::class . '::logged');
+$router->get('/user/dashboard', UserController::class . '::defaultAction');
+$router->get('/admin/dashboard', AdminController::class . '::defaultAction');
 
-$router->get('user/projects', UserController::class . '::viewProjects');
-$router->post('user/projects', UserController::class . '::createProject');
+$router->post('/user/logout', UserAuthController::class . '::logout');
+$router->post('/admin/logout', AdminAuthController::class . '::logout');
+
+$router->get('/user/projects', UserController::class . '::viewProjects');
+$router->post('/user/projects', UserController::class . '::createProject');
 
 // sanitize the uri
 $uri = htmlspecialchars(
