@@ -17,6 +17,7 @@ abstract class Controller
 {
     public function __construct()
     {
+        session_start();
     }
 
     /* 
@@ -26,7 +27,7 @@ abstract class Controller
      * used to trigger the default action of a controller if no action was
      * mentioned in there request uri
      */
-    abstract public function defaultAction();
+    abstract public function defaultAction(Object|array|string|int $optional = null);
 
     /**
      * Function description
