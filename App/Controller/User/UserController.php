@@ -56,39 +56,30 @@ class UserController extends Controller
         }
     }
 
-    // "INSERT INTO projects (owner_id, project_name, project_description, start_date, end_date) VALUES
-    // (:owner_id, :project_name, :project_description, :start_date, :end_date)";
     public function createProject(array $project_details = array())
     {
         if ($this->auth()) {
             $payload = $this->userAuth->getCredentials(); // get the payload content
 
             // add owner_id
-            $project_details["owner_id"] = $payload->id;
+            $project_details["created_by"] = $payload->id;
 
-            // validate the data
-            $this->validator->validate($project_details, "project");
+            // add the data to the database
+            try {
+                $project = new Project($payload->id);
+                $project->createProject($project_details);
+                $results = $project->getProjectData();
 
-            if ($this->validator->getPassed()) {
-                // add the data to the database
-                try {
-                    $project = new Project($payload->id);
-                    $project->create($project_details);
-                    $results = $project->getProjectData();
-
-                    foreach ($results as $result) {
-                        unset($result->owner_id); // remove the project id from the data sent back need the project id
-                    }
-
-                    return $this->sendJsonResponse("success", array("message" => "Project successfully created", "projects" => $results));
-                } catch (\Exception $exception) {
-                    throw $exception;
+                foreach ($results as $result) {
+                    unset($result->owner_id); // remove the project id from the data sent back need the project id
                 }
-            } else {
-                return $this->sendJsonResponse("error", array("message" => "Input validation errors", "errors" => $this->validator->getErrors()));
+
+                return $this->sendJsonResponse("success", array("message" => "Project successfully created", "projects" => $results));
+            } catch (\Exception $exception) {
+                throw $exception;
             }
         } else {
-            return $this->sendJsonResponse("forbidden", array("message" => "Access denied"));
+            return $this->sendJsonResponse("error", array("message" => "Input validation errors", "errors" => $this->validator->getErrors()));
         }
     }
 
@@ -96,13 +87,9 @@ class UserController extends Controller
     {
         if ($this->auth()) {
             $payload = $this->userAuth->getCredentials(); // get the payload content
-
-            // validate the user_id as a valid user id
-            $this->validator->validate(array("owner_id" => $payload->id), "project");
-
-            if ($this->validator->getPassed()) {
+            try {
                 $project = new Project($payload->id);
-                if ($project->read($payload->id)) {
+                if ($project->readProjectsOfUser($payload->id)) {
                     return $this->sendJsonResponse(
                         "success",
                         array(
@@ -114,7 +101,7 @@ class UserController extends Controller
                     // if there are no projects then an empty string is send as the message
                     $this->sendJsonResponse("success");
                 }
-            } else {
+            } catch (\Exception $exception) {
                 $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
             }
         } else {
