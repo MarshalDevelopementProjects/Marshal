@@ -26,6 +26,8 @@ class UserAuthController extends Token
     public function onUserLogin(array $credentials = array())
     {
         if ($this->isLogged()) {
+            session_start();
+            $_SESSION["primary_role"] = "user";
             header("Location: http://localhost/public/user/dashboard");
         } else {
             if (!empty($credentials)) {
@@ -47,7 +49,7 @@ class UserAuthController extends Token
 
                         $id = $this->user->getUserData()->id;
                         $name = $this->user->getUserData()->username;
-                        $primary_role = $this->user->getUserData()->primary_role;
+                        $primary_role = "user";
 
                         $this->setBearerTokenInCookie(
                             headers: array(
@@ -175,6 +177,7 @@ class UserAuthController extends Token
         }
     }
 
+    // make sure you check the user role and the user id in this function
     public function isLogged(): bool
     {
         if ($this->validateToken($this->getBearerToken())) {
@@ -214,9 +217,7 @@ class UserAuthController extends Token
 
     public function logout()
     {
-        var_dump("This function was called");
-        // invalidate the cookies(destroy the tokens) and unset the cookies
-        session_destroy();
+        session_start();
         if ($this->isLogged()) {
             if (Cookie::cookieExists(Config::getApiGlobal("remember")['access'])) {
                 Cookie::deleteCookie(Config::getApiGlobal("remember")['access']);
@@ -224,6 +225,7 @@ class UserAuthController extends Token
             if (Cookie::cookieExists(Config::getApiGlobal("remember")['refresh'])) {
                 Cookie::deleteCookie(Config::getApiGlobal("remember")['refresh']);
             }
+            session_destroy();
             $this->sendJsonResponse("success", ["message" => "user successfully logged out"]);
         } else {
             $this->sendJsonResponse("unauthorized", ["message" => "Bad request"]);
