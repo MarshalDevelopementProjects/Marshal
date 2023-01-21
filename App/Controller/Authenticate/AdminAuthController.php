@@ -26,6 +26,8 @@ class AdminAuthController extends Token
     public function onAdminLogin(array $credentials = array())
     {
         if ($this->isLogged()) {
+            session_start();
+            $_SESSION["primary_role"] = "admin";
             header("Location: http://localhost/public/admin/dashboard");
         } else {
             if (!empty($credentials)) {
@@ -135,6 +137,7 @@ class AdminAuthController extends Token
         }
     }
 
+    // make sure you check the user role and the user id in this function
     // check the role here otherwise normal admins can also go to the admin page as well.
     public function isLogged(): bool
     {
@@ -185,6 +188,7 @@ class AdminAuthController extends Token
 
     public function logout()
     {
+        session_start();
         if ($this->isLogged()) {
             if (Cookie::cookieExists(Config::getApiGlobal("remember")['access'])) {
                 Cookie::deleteCookie(Config::getApiGlobal("remember")['access']);
