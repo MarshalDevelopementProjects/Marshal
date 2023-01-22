@@ -47,7 +47,8 @@ class UserController extends Controller
     {
         $this->sendResponse(
             view: "/user/dashboard.html",
-            status: "success"
+            status: "success",
+            content: array("message" => "Welcome")
         );
     }
 
@@ -106,42 +107,55 @@ class UserController extends Controller
             if ($project->readUserRole(member_id: $payload->id, project_id: $data["id"])) {
                 // check the user role in the project and redirect him/her to the correct project page
                 $_SESSION["project_id"] = $data["id"];
-                $res = $project->getProjectData()[0];
-                switch ($res->role) {
+                switch ($project->getProjectData()[0]->role) {
                     case 'LEADER':
-                        $this->sendJsonResponse(
-                            "success",
-                            array(
-                                "message" => "Success",
-                                "url" => "http://localhost/public/projectleader/dashboard"
-                            )
+                        $this->sendResponse(
+                            view: "/project_leader/dashboard.html",
+                            status: "success",
+                            content: $project->readProjectsOfUser(
+                                member_id: $payload->id,
+                                project_id: $data["id"]
+                            ) ? $project->getProjectData() : array()
                         );
                         break;
                     case 'CLIENT':
-                        $this->sendJsonResponse(
-                            "success",
-                            array(
-                                "message" => "Success",
-                                "url" => "http://localhost/public/client/dashboard"
-                            )
+                        $this->sendResponse(
+                            view: "/client/dashboard.html",
+                            status: "success",
+                            content: $project->readProjectsOfUser(
+                                member_id: $payload->id,
+                                project_id: $data["id"]
+                            ) ? $project->getProjectData() : array()
                         );
                         break;
                     case 'MEMBER':
-                        $this->sendJsonResponse(
-                            "success",
-                            array(
-                                "message" => "Success",
-                                "url" => "http://localhost/public/projectmember/dashboard"
-                            )
+                        $this->sendResponse(
+                            view: "/project_member/dashboard.html",
+                            status: "success",
+                            content: $project->readProjectsOfUser(
+                                member_id: $payload->id,
+                                project_id: $data["id"]
+                            ) ? $project->getProjectData() : array()
                         );
                         break;
+                    default: {
+                            unset($_SESSION["project_id"]);
+                            $this->sendResponse(
+                                view: "/errors/403.html",
+                                status: "unauthorized",
+                                content: array("message" => "User cannot access this project")
+                            );
+                        }
                 }
             } else {
-                $this->sendJsonResponse("unauthorized", array("message" => "User cannot access this project"));
+                $this->sendResponse(
+                    view: "/errors/404.html",
+                    status: "error",
+                    content: array("message" => "User cannot access this project")
+                );
             }
         } catch (\Exception $exception) {
-            throw $exception;
-            // $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
+            $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
         }
     }
 
