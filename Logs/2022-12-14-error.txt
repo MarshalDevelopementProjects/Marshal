@@ -1,0 +1,4 @@
+{"Error number":2,"Error string":"Attempt to read property \"id\" on null","File name":"\/home\/bobby\/Desktop\/project\/RestAPI_MVC\/App\/Controller\/User\/UserController.php","Line number":49,"Time stamp":"Dec,14,2022 02:18:22 PM"}
+{"Error number":2,"Error string":"Attempt to read property \"id\" on null","File name":"\/home\/bobby\/Desktop\/project\/RestAPI_MVC\/App\/Controller\/User\/UserController.php","Line number":49,"Time stamp":"Dec,14,2022 02:23:19 PM"}
+{"Error number":2,"Error string":"Attempt to read property \"id\" on null","File name":"\/home\/bobby\/Desktop\/project\/RestAPI_MVC\/App\/Controller\/User\/UserController.php","Line number":49,"Time stamp":"Dec,14,2022 02:26:04 PM"}
+{"Error number":2,"Error string":"Attempt to read property \"id\" on null","File name":"\/home\/bobby\/Desktop\/project\/RestAPI_MVC\/App\/Controller\/User\/UserController.php","Line number":49,"Time stamp":"Dec,14,2022 02:26:26 PM"}

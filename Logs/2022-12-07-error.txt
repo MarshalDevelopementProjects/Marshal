@@ -1,0 +1,10 @@
+{"Error number":2,"Error string":"Undefined property: stdClass::$username","File name":"C:\\wamp64\\www\\App\\Controller\\Authenticate\\AuthenticateController.php","Line number":127}
+{"Error number":2,"Error string":"Undefined array key \"password\"","File name":"C:\\wamp64\\www\\Core\\Validator.php","Line number":77,"Time stamp":"Dec,07,2022 11:55:23 AM"}
+{"Error number":2,"Error string":"foreach() argument must be of type array|object, null given","File name":"C:\\wamp64\\www\\Core\\Validator.php","Line number":77,"Time stamp":"Dec,07,2022 11:55:23 AM"}
+{"Error number":2,"Error string":"Undefined array key \"user_password\"","File name":"C:\\wamp64\\www\\App\\Controller\\Authenticate\\AuthenticateController.php","Line number":205,"Time stamp":"Dec,07,2022 11:55:23 AM"}
+{"Error number":2,"Error string":"Undefined array key \"password\"","File name":"C:\\wamp64\\www\\Core\\Validator.php","Line number":77,"Time stamp":"Dec,07,2022 11:55:30 AM"}
+{"Error number":2,"Error string":"foreach() argument must be of type array|object, null given","File name":"C:\\wamp64\\www\\Core\\Validator.php","Line number":77,"Time stamp":"Dec,07,2022 11:55:30 AM"}
+{"Error number":2,"Error string":"Undefined array key \"user_password\"","File name":"C:\\wamp64\\www\\App\\Controller\\Authenticate\\AuthenticateController.php","Line number":205,"Time stamp":"Dec,07,2022 11:55:30 AM"}
+{"Error number":2,"Error string":"Undefined array key \"password\"","File name":"C:\\wamp64\\www\\Core\\Validator.php","Line number":77,"Time stamp":"Dec,07,2022 11:55:48 AM"}
+{"Error number":2,"Error string":"foreach() argument must be of type array|object, null given","File name":"C:\\wamp64\\www\\Core\\Validator.php","Line number":77,"Time stamp":"Dec,07,2022 11:55:48 AM"}
+{"Error number":2,"Error string":"Undefined array key \"user_password\"","File name":"C:\\wamp64\\www\\App\\Controller\\Authenticate\\AuthenticateController.php","Line number":205,"Time stamp":"Dec,07,2022 11:55:48 AM"}

@@ -1,0 +1,5 @@
+{"Error number":8192,"Error string":"setcookie(): Passing null to parameter #5 ($domain) of type string is deprecated","File name":"\/home\/bobby\/Desktop\/project\/RestAPI_MVC\/Core\/Cookie.php","Line number":42,"Time stamp":"Dec,10,2022 12:12:16 PM"}
+{"Error number":2,"Error string":"Undefined array key \"user_password_re_enter\"","File name":"\/home\/bobby\/Desktop\/project\/RestAPI_MVC\/Core\/Validator.php","Line number":76,"Time stamp":"Dec,10,2022 05:22:43 PM"}
+{"Error number":2,"Error string":"foreach() argument must be of type array|object, null given","File name":"\/home\/bobby\/Desktop\/project\/RestAPI_MVC\/Core\/Validator.php","Line number":76,"Time stamp":"Dec,10,2022 05:22:43 PM"}
+{"Error number":2,"Error string":"Undefined array key \"user_password_re_enter\"","File name":"\/home\/bobby\/Desktop\/project\/RestAPI_MVC\/Core\/Validator.php","Line number":76,"Time stamp":"Dec,10,2022 05:26:32 PM"}
+{"Error number":2,"Error string":"foreach() argument must be of type array|object, null given","File name":"\/home\/bobby\/Desktop\/project\/RestAPI_MVC\/Core\/Validator.php","Line number":76,"Time stamp":"Dec,10,2022 05:26:32 PM"}

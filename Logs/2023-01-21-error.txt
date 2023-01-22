@@ -20,3 +20,4 @@
 {"Error number":2,"Error string":"foreach() argument must be of type array|object, string given","File name":"C:\\wamp64\\www\\Core\\Validator\\Validator.php","Line number":81,"Time stamp":"Jan,21,2023 05:53:39 AM"}
 {"Error number":2,"Error string":"foreach() argument must be of type array|object, string given","File name":"C:\\wamp64\\www\\Core\\Validator\\Validator.php","Line number":81,"Time stamp":"Jan,21,2023 05:55:52 AM"}
 {"Error number":2,"Error string":"foreach() argument must be of type array|object, string given","File name":"C:\\wamp64\\www\\Core\\Validator\\Validator.php","Line number":81,"Time stamp":"Jan,21,2023 05:56:29 AM"}
+{"Error number":2,"Error string":"Cannot modify header information - headers already sent by (output started at C:\\wamp64\\www\\Core\\Router.php:191)","File name":"C:\\wamp64\\www\\Core\\Response.php","Line number":73,"Time stamp":"Jan,21,2023 12:20:00 PM"}
