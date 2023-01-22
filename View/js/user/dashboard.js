@@ -120,40 +120,28 @@ LogOutButton.addEventListener("click", () => {
     });
 });
 
-// takes a js object as an argument
 function createProjectDiv(obj) {
-  const Project = document.createElement("div");
+  const Project = document.createElement("a");
   Project.className = "project-card";
-
+  Project.href = `http://localhost/public/user/project?id=${obj.id}`;
+  Project.style.width = "300px";
+  Project.style.height = "400px";
+  Project.style.display = "inline-block";
+  Project.style.textDecoration = "none";
+  Project.style.color = "black";
+  Project.style.margin = "10px";
+  Project.style.padding = "20px";
+  Project.style.boxShadow = "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)";
+  Project.style.borderRadius = "10px";
+  Project.style.backgroundColor = "#f2f2f2";
+  
   Project.innerHTML = `
-        <h3 style="width: 400px;">${obj.project_name}</h3>
-        <div style="height: 150px; background-color: bisque; width: 100%; margin: 10px;">
-                An image goes here
-        </div>
-        <p style="width: 400px;"> Description : ${obj.description}</p>
-        <br>
-        <p style="width: 400px;"> Start Date : ${obj.start_on}</p>
-        <br>
-        <p style="width: 400px;"> End Date : ${obj.end_on}</p>
+        <h3 style="width: 100%; text-align: center;">${obj.project_name}</h3>
+        <div style="height: 150px; width: 100%; margin: 10px; background-image: url(${obj.image}); background-size: cover; background-position: center;"></div>
+        <p style="width: 100%; text-align: center;"> Description : ${obj.description}</p>
+        <p style="width: 100%; text-align: center;"> Start Date : ${obj.start_on}</p>
+        <p style="width: 100%; text-align: center;"> End Date : ${obj.end_on}</p>
         `;
-  Project.addEventListener('click', function() {
-      const PAGER_FOR_USER_PROJECTS = async function (obj) {
-      let url = "http://localhost/public/user/project?id=" + obj.id;
-      let response = await fetch(url, {
-            withCredentials: true,
-            credentials: "include",
-            mode: "cors",
-            method: "GET",
-            redirect: "follow",
-            cache: "no-cache"
-        }
-      );
-      if (response.ok) {
-        let res = await response.json();
-        window.location.replace(res.url);
-      }
-    }
-    PAGER_FOR_USER_PROJECTS(obj);
-  });
+  
   ProjectContainerDiv.appendChild(Project);
 }
