@@ -29,10 +29,10 @@ class Project implements Model
     public function createProject(array $args = array()): bool
     {
         if (!empty($args)) {
-            $sql_string = "INSERT INTO project(`created_by`, `project_name`, `description`, `field`)
+            $sql_string = "INSERT INTO `project`(`created_by`, `project_name`, `description`, `field`)
                            VALUES(:created_by, :project_name, :description, :field)";
             if (array_key_exists("start_on", $args) && array_key_exists("end_on", $args)) {
-                $sql_string = "INSERT INTO project(`created_by`, `project_name`, `description`, `field`, `start_on`, `end_on`)
+                $sql_string = "INSERT INTO `project`(`created_by`, `project_name`, `description`, `field`, `start_on`, `end_on`)
                            VALUES(:created_by, :project_name, :description, :field, :start_on, :end_on)";
             } else if (array_key_exists("end_on", $args)) {
                 $sql_string = "INSERT INTO project(`created_by`, `project_name`, `description`, `field`, `end_on`)
@@ -55,10 +55,48 @@ class Project implements Model
             $sql_string = "SELECT * FROM `project` WHERE `id` IN (SELECT `project_id` FROM `project_join` WHERE `member_id` = :member_id)";
             $args = array("member_id" => $member_id);
             if ($project_id) {
-                $sql_string = "SELECT * FROM `project` WHERE `id` IN 
-                               (SELECT `project_id` FROM `project_join` WHERE `member_id` = :member_id AND `project_id` = :project_id)";
+                $sql_string = "SELECT * FROM `project` WHERE `id` IN (SELECT `project_id` FROM `project_join` WHERE `project_id` = :project_id AND `member_id` = :member_id);";
                 $args["project_id"] = $project_id;
             }
+            // execute the query
+            $result = $this->crud_util->execute($sql_string, $args);
+            if ($result->getCount() > 0) {
+                $this->project_data = $result->getResults(); // get all the results or just one result this is an array of objects
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+        return false;
+    }
+
+    public function readUserRole(string|int $member_id, string|int $project_id): bool
+    {
+        try {
+            $sql_string = "SELECT `project_join`.`role` FROM `project_join` WHERE `project_id` = :project_id AND `member_id` = :member_id";
+            $args = array("member_id" => $member_id, "project_id" => $project_id);
+            // execute the query
+            $result = $this->crud_util->execute($sql_string, $args);
+            if ($result->getCount() > 0) {
+                $this->project_data = $result->getResults(); // get all the results or just one result this is an array of objects
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+        return false;
+    }
+
+    public function getProjectDetailsOfUser(string|int $user_id, string|int $project_id): bool
+    {
+        try {
+            $sql_string = "SELECT `project`.`id`,`project`.`project_name`, `project`.`description`, `project`.`start_on`, `project`.`end_on`, `project_join`.`member_id`, `project_join`.`role`
+                       FROM `project` INNER JOIN `project_join` ON `project_join`.`member_id` = 1 AND `project`.`id` = 2 LIMIT 1";
+            $args = array("member_id" => $user_id, "project_id" => $project_id);
             // execute the query
             $result = $this->crud_util->execute($sql_string, $args);
             if ($result->getCount() > 0) {
