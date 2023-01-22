@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marshal</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #ff0000;
+        }
+        
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        
+        .navbar {
+            background-color: #ff0000;
+            /* you can change the color according to your need */
+            color: rgb(241, 233, 233);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 20px;
+            padding: 10px;
+        }
+        
+        .navbar a:hover {
+            background-color: #2980b9;
+            /* you can change the color according to your need */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="#">Home</a>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">Contact</a>
+        <a href="http://localhost/public/user/login">Log In</a>
+        <a href="http://localhost/public/user/signup">Sign Up</a>
+    </div>
+
+    <div class="container">
+        <h1>Welcome to Marshal</h1>
+        <p>Marshal is a powerful project management system designed to help teams and individuals stay organized and on top of their tasks. With Marshal, you can easily create and manage projects, assign tasks to team members, and track progress. It's user-friendly
+            interface makes it easy for both beginners and experts to use.</p>
+        <p>Whether you're working on a small personal project or a large team project, Marshal has the tools you need to stay on top of your tasks and meet your goals.</p>
+        <p>Get started by creating an account and start creating your first project.</p>
+    </div>
+    <script>
+        var jsonData = JSON.parse('<?= $data; ?>');
+    </script>
+</body>
+
+</html>

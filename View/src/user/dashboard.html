@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/View/styles/styles_less.css" />
+    <link rel="stylesheet" href="/View/styles/landing.css" />
+    <title>Marshal</title>
+</head>
+
+<body onload="OnLoad();">
+
+    <nav class="navbar">
+        <!-- LOGO -->
+        <div class="logo">MARSHAL</div>
+        <!-- NAVIGATION MENU -->
+        <ul class="nav-links" list-style-type="none">
+            <div class="menu">
+                <button id="create-project-btn">Create new project</button>
+                <button id="log-out-btn">Log Out</button>
+            </div>
+        </ul>
+    </nav>
+
+    <div class="container-landing">
+        <div class="container-project-cards" id="project-container-div"></div>
+    </div>
+
+    <div class="model-container" id="model-container-div">
+        <div class="model">
+            <h2>Create a New Project</h2>
+            <form id="create-project-form">
+                <!-- Name, Description, Start date, End date -->
+                <input type="text" name="project_name" id="project_name" placeholder="Name of the New Project" />
+                <input type="text" name="project_description" id="project_description" placeholder="Add a Description" />
+                <br />
+                <label for="start_date">Start Date </label>
+                <input type="date" name="start_date" id="start_date" placeholder="Start Date" />
+                <br />
+                <label for="end_date">End Date </label>
+                <input type="date" name="end_date" id="end_date" placeholder="End Date" />
+                <button type="submit">Create project</button>
+            </form>
+
+            <button id="model-close-btn" style="width: 200px">Close</button>
+        </div>
+    </div>
+
+    <script>
+        var jsonData = JSON.parse('<?= $data; ?>');
+    </script>
+    <script src="/View/js/user/dashboard.js"></script>
+</body>
+
+</html>

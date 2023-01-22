@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/View/styles/styles_less_admin.css">
+    <title>Marshal</title>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <!-- LOGO -->
+        <div class="logo">MARSHAL</div>
+        <!-- NAVIGATION MENU -->
+        <ul class="nav-links" list-style-type="none">
+            <div class="menu">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </div>
+        </ul>
+    </nav>
+
+    <div class="container-login">
+        <h1>Login</h1>
+        <form id="login-form" method="POST" action="http://localhost/public/admin/login">
+            <input type="text" placeholder="Username" name="username" id="username">
+            <input type="password" placeholder="Password" name="password" id="password">
+            <label for="remember_me">Remember me</label>
+            <input type="checkbox" name="remember_me" id="remember_me" value="Remember me">
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <script src="/View/js/admin/login.js"></script>
+</body>
+
+</html>
+

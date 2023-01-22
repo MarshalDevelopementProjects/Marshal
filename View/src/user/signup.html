@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/View/styles/styles_less.css">
+    <title>Marshal</title>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <!-- LOGO -->
+        <div class="logo">MARSHAL</div>
+        <!-- NAVIGATION MENU -->
+        <ul class="nav-links" list-style-type="none">
+            <div class="menu">
+                <li><a href="http://localhost/public/">Home</a></li>
+                <li><a href="http://localhost/public/about">About</a></li>
+                <li><a href="http://localhost/public/contact">Contact</a></li>
+            </div>
+        </ul>
+    </nav>
+
+    <div class="container-sign-up">
+        <h1>Sign up</h1>
+        <form id="signup-form" method="POST" action="http://localhost/public/user/signup">
+            <input type="text" placeholder="Username" name="username" id="username">
+            <input type="text" placeholder="First Name" name="first_name" id="first_name">
+            <input type="text" placeholder="Last Name" name="last_name" id="last_name">
+            <input type="email" placeholder="Email" name="email_address" id="email_address">
+            <input type="password" placeholder="Password" name="password" id="password">
+            <input type="password" placeholder="Re-Enter Password" name="password_re_enter" id="password_re_enter">
+            <button type="submit">Sign Up</button>
+        </form>
+        <div class="member_div">
+            Already a member? <a href="./login">Login Here</a>
+        </div>
+    </div>
+    <script>
+        var jsonData = JSON.parse('<?= $data; ?>');
+    </script>
+    <script src="/View/js/user/signup.js"></script>
+</body>
+
+</html>
