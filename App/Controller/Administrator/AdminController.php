@@ -15,7 +15,7 @@ class AdminController extends Controller
     private Admin $admin;
     private Validator $validator;
 
-    public function __construct(string|int $admin_id = null)
+    public function __construct()
     {
         try {
             parent::__construct();
@@ -24,10 +24,11 @@ class AdminController extends Controller
                 $credentials = $this->adminAuth->getCredentials();
                 if ($credentials->id) $this->admin = new Admin($credentials->id);
                 else $this->admin = new Admin($credentials->id);
-            } else if ($admin_id) {
-                $this->admin = new Admin($admin_id);
             } else {
-                $this->admin = new Admin();
+                $this->sendResponse(
+                    view: "/admin/login.html",
+                    status: "unauthorized"
+                );
             }
             $this->validator = new Validator();
         } catch (\Exception $exception) {
@@ -40,18 +41,12 @@ class AdminController extends Controller
         return $this->adminAuth->isLogged();
     }
 
-    public function defaultAction()
+    public function defaultAction(Object|array|string|int $optional = null)
     {
-        if ($this->auth()) {
-            $this->sendResponse(
-                view: "/admin/dashboard.html",
-                status: "success"
-            );
-        } else {
-            $this->sendResponse(
-                view: "/admin/login.html",
-                status: "unauthorized"
-            );
-        }
+        $this->sendResponse(
+            view: "/admin/dashboard.html",
+            status: "success",
+            content: array("message" => "Welcome")
+        );
     }
 }
