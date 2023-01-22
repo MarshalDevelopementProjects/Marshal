@@ -1,0 +1,17 @@
+{
+    "table": "admin",
+    "username": {
+        "required": true,
+        "min": 4,
+        "max": 40
+    },
+    "email_address": {
+        "required": true,
+        "unique": true,
+        "email": true
+    },
+    "password": {
+        "required": true,
+        "min": 8
+    }
+}

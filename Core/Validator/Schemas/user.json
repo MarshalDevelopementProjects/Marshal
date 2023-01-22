@@ -1,0 +1,18 @@
+{
+    "table": "users",
+    "username": {
+        "required": true,
+        "min": 4,
+        "max": 40,
+        "exists": true
+    },
+    "email_address": {
+        "required": true,
+        "email": true,
+        "exists": true
+    },
+    "user_password": {
+        "required": true,
+        "min": 8
+    }
+}
