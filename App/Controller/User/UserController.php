@@ -12,11 +12,11 @@ use Core\Validator\Validator;
 
 class UserController extends Controller
 {
-    private UserAuthController $userAuth;
-    private User $user;
-    private Validator $validator;
+    protected UserAuthController $userAuth;
+    protected User $user;
+    protected Validator $validator;
 
-    public function __construct(string|int $user_id = null)
+    public function __construct()
     {
         try {
             parent::__construct();
@@ -25,10 +25,12 @@ class UserController extends Controller
                 $credentials = $this->userAuth->getCredentials();
                 if ($credentials->id) $this->user = new User($credentials->id);
                 else $this->user = new User($credentials->id);
-            } else if ($user_id) {
-                $this->user = new User($user_id);
             } else {
-                $this->user = new User();
+                $this->sendResponse(
+                    view: "/user/login.html",
+                    status: "unauthorized"
+                );
+                exit;
             }
             $this->validator = new Validator();
         } catch (\Exception $exception) {
@@ -41,71 +43,105 @@ class UserController extends Controller
         return $this->userAuth->isLogged();
     }
 
-    public function defaultAction()
+    public function defaultAction(Object|array|string|int $optional = null)
     {
-        if ($this->auth()) {
-            $this->sendResponse(
-                view: "/user/dashboard.html",
-                status: "success"
-            );
-        } else {
-            $this->sendResponse(
-                view: "/user/login.html",
-                status: "unauthorized"
-            );
-        }
+        $this->sendResponse(
+            view: "/user/dashboard.html",
+            status: "success"
+        );
     }
 
-    public function createProject(array $project_details = array())
+    public function createProject(array $args = array())
     {
-        if ($this->auth()) {
-            $payload = $this->userAuth->getCredentials(); // get the payload content
+        $payload = $this->userAuth->getCredentials(); // get the payload content
 
-            // add owner_id
-            $project_details["created_by"] = $payload->id;
+        // add owner_id
+        $args["created_by"] = $payload->id;
 
-            // add the data to the database
-            try {
-                $project = new Project($payload->id);
-                $project->createProject($project_details);
-                $results = $project->getProjectData();
+        // have to validate user inputs here
 
-                foreach ($results as $result) {
-                    unset($result->owner_id); // remove the project id from the data sent back need the project id
-                }
+        // add the data to the database
+        try {
+            $project = new Project($payload->id);
+            $project->createProject($args);
+            $results = $project->getProjectData();
 
-                return $this->sendJsonResponse("success", array("message" => "Project successfully created", "projects" => $results));
-            } catch (\Exception $exception) {
-                throw $exception;
+            foreach ($results as $result) {
+                unset($result->created_by); // remove the project id from the data sent back need the project id
             }
-        } else {
-            return $this->sendJsonResponse("error", array("message" => "Input validation errors", "errors" => $this->validator->getErrors()));
+            return $this->sendJsonResponse("success", array("message" => "Project successfully created", "projects" => $results));
+        } catch (\Exception $exception) {
+            throw $exception;
         }
     }
 
     public function viewProjects()
     {
-        if ($this->auth()) {
-            $payload = $this->userAuth->getCredentials(); // get the payload content
-            try {
-                $project = new Project($payload->id);
-                if ($project->readProjectsOfUser($payload->id)) {
-                    return $this->sendJsonResponse(
-                        "success",
-                        array(
-                            "message" => "user projects",
-                            "projects" => $project->getProjectData() // this is an array of objects
-                        )
-                    );
-                } else {
-                    // if there are no projects then an empty string is send as the message
-                    $this->sendJsonResponse("success");
-                }
-            } catch (\Exception $exception) {
-                $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
+        $payload = $this->userAuth->getCredentials(); // get the payload content
+        try {
+            $project = new Project($payload->id);
+            if ($project->readProjectsOfUser($payload->id)) {
+                return $this->sendJsonResponse(
+                    "success",
+                    array(
+                        "message" => "user projects",
+                        "projects" => $project->getProjectData() // this is an array of objects
+                    )
+                );
+            } else {
+                // if there are no projects then an empty string is send as the message
+                $this->sendJsonResponse("success");
             }
-        } else {
-            $this->sendJsonResponse("forbidden", array("message" => "Access denied"));
+        } catch (\Exception $exception) {
+            $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
+        }
+    }
+
+    public function goToProject(array $data)
+    {
+        try {
+            $payload = $this->userAuth->getCredentials(); // get the payload content
+            $project = new Project($payload->id);
+
+            if ($project->readUserRole(member_id: $payload->id, project_id: $data["id"])) {
+                // check the user role in the project and redirect him/her to the correct project page
+                $_SESSION["project_id"] = $data["id"];
+                $res = $project->getProjectData()[0];
+                switch ($res->role) {
+                    case 'LEADER':
+                        $this->sendJsonResponse(
+                            "success",
+                            array(
+                                "message" => "Success",
+                                "url" => "http://localhost/public/projectleader/dashboard"
+                            )
+                        );
+                        break;
+                    case 'CLIENT':
+                        $this->sendJsonResponse(
+                            "success",
+                            array(
+                                "message" => "Success",
+                                "url" => "http://localhost/public/client/dashboard"
+                            )
+                        );
+                        break;
+                    case 'MEMBER':
+                        $this->sendJsonResponse(
+                            "success",
+                            array(
+                                "message" => "Success",
+                                "url" => "http://localhost/public/projectmember/dashboard"
+                            )
+                        );
+                        break;
+                }
+            } else {
+                $this->sendJsonResponse("unauthorized", array("message" => "User cannot access this project"));
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+            // $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
         }
     }
 
@@ -115,11 +151,6 @@ class UserController extends Controller
     }
 
     public function editProfile()
-    {
-        throw new \Exception("Not implemented");
-    }
-
-    public function findUser(string $user_id)
     {
         throw new \Exception("Not implemented");
     }
