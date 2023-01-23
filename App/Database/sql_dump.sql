@@ -2,7 +2,7 @@ if exists drop database `marshal2_0`;
 
 CREATE DATABASE `marshal2_0`;
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `USER`;
 
 CREATE TABLE `user`(
     `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -24,7 +24,7 @@ CREATE TABLE `user`(
 DROP TABLE IF EXISTS `admin`;
 
 CREATE TABLE `admin`(
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id` VARCHAR(18) PRIMARY KEY,
     `first_name` VARCHAR(40) NOT NULL,
     `last_name` VARCHAR(40) NOT NULL,
     `username` VARCHAR(40) NOT NULL UNIQUE,
