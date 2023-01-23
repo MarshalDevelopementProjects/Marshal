@@ -31,7 +31,7 @@ function testCreateAdmin()
 function testReadAdmin()
 {
     $admin = new Admin();
-    if ($admin->readAdmin(key: "id", value: 1)) {
+    if ($admin->readAdmin(key: "id", value: "admin63cd29b9531c8")) {
         echo "<pre>";
         var_dump($admin->getAdminData());
         echo "</pre>";
@@ -45,7 +45,7 @@ function testReadAdmin()
 function testReadAdminWithID()
 {
     try {
-        $admin = new Admin(1);
+        $admin = new Admin("admin63cd29b9531c8");
         echo "<pre>";
         var_dump($admin->getAdminData());
         echo "</pre>";
@@ -73,7 +73,7 @@ function testReadAdminWithUsername()
     }
 }
 
-testCreateAdmin();
+// testCreateAdmin();
 testReadAdmin();
 testReadAdminWithID();
 testReadAdminWithUsername();
