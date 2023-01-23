@@ -21,17 +21,31 @@ class AdminController extends Controller
             parent::__construct();
             $this->adminAuth = new AdminAuthController();
             if ($this->auth()) {
-                $credentials = $this->adminAuth->getCredentials();
-                if ($credentials->id) $this->admin = new Admin($credentials->id);
-                else $this->admin = new Admin($credentials->id);
+                if ($this->adminAuth->getCredentials()->primary_role == "user") {
+                    $this->sendResponse(
+                        view: "/errors/403.html",
+                        status: "unauthorized"
+                    );
+                    exit;
+                } else {
+                    $credentials = $this->adminAuth->getCredentials();
+                    if ($credentials->id) $this->admin = new Admin($credentials->id);
+                }
             } else {
                 $this->sendResponse(
                     view: "/admin/login.html",
                     status: "unauthorized"
                 );
+                exit;
             }
             $this->validator = new Validator();
         } catch (\Exception $exception) {
+            $this->sendResponse(
+                view: 404,
+                status: "error",
+                content: array("message" => "No such user, the user id of the user is not valid")
+            );
+            exit;
             throw $exception;
         }
     }
@@ -48,5 +62,6 @@ class AdminController extends Controller
             status: "success",
             content: array("message" => "Welcome")
         );
+        exit;
     }
 }
