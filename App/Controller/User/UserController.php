@@ -8,6 +8,7 @@ use App\Controller\Authenticate\UserAuthController;
 use App\Model\User;
 use App\Controller\Controller;
 use App\Model\Project;
+use App\Model\Notification;
 use Core\Validator\Validator;
 
 class UserController extends Controller
@@ -45,10 +46,18 @@ class UserController extends Controller
 
     public function defaultAction(Object|array|string|int $optional = null)
     {
+        // get relevant projects
+        $payload = $this->userAuth->getCredentials(); // get the payload content
+        $project = new Project($payload->id);
+        $relevantProjects = [];
+        if ($project->readProjectsOfUser($payload->id)) {
+            $relevantProjects = $project->getProjectData();
+        }
+
         $this->sendResponse(
             view: "/user/dashboard.html",
             status: "success",
-            content: array("message" => "Welcome")
+            content: $relevantProjects
         );
     }
 
@@ -175,5 +184,75 @@ class UserController extends Controller
             return $this->user->getUserData();
         }
         return null;
+    }
+    public function getNotifications(){
+
+        $payload = $this->userAuth->getCredentials();
+        $userId = $payload->id;
+
+        $notification = new Notification();
+        $args = array(
+            "memberId" => $userId
+        );
+        $notifications = $notification->getNotificationsOfUser($args);
+        
+        foreach($notifications as $notification){
+            $senderId = $notification->senderId;
+
+            // get sender name
+            $sender = new User($senderId);
+            $sendername = $sender->getUserData()->first_name . ' ' . $sender->getUserData()->last_name;
+            $notification->senderId = $sendername;
+            $notification->sendTime = explode(' ', $notification->sendTime)[0];
+        }
+
+        // $projectId = $notifications[0]->projectId;
+        
+        // $args = array(
+        //     "id" => $projectId
+        // );
+        
+        if($notifications){
+            echo (json_encode(array("message" => $notifications)));
+        }else{
+            echo (json_encode(array("message" => null)));
+        }
+        
+    }
+
+    public function userJoinOnProject(){
+        $projectid = $_GET['data1'];
+        $notificationId = $_GET['data2'];
+
+        $payload = $this->userAuth->getCredentials();
+        $userId = $payload->id;
+
+        $args = array(
+            "project_id" => $projectid,
+            "member_id" => $userId,
+            "role" => "MEMBER",
+            "joined" => date("Y-m-d H:i:s")
+        );
+
+        $project = new Project($userId);
+
+        // set as read the notification 
+        $notification = new Notification();
+        $conditions = array(
+            "notificationId" => $notificationId,
+            "memberId" => $userId
+        );
+ 
+        if($project->joinProject($args) && $notification->readNotification($conditions)){
+            $this->sendResponse(
+                view: "/user/login.html",
+                status: "success"
+            );
+        }else{
+            $this->sendResponse(
+                view: "/user/signup.html",
+                status: "success"
+            );
+        }
     }
 }
