@@ -29,6 +29,7 @@ class UserAuthController extends Token
             session_start();
             $_SESSION["primary_role"] = "user";
             header("Location: http://localhost/public/user/dashboard");
+            exit;
         } else {
             if (!empty($credentials)) {
                 try {
@@ -79,22 +80,25 @@ class UserAuthController extends Token
                         );
                         $_SESSION["primary_role"] = "user";
                         header("Location: http://localhost/public/user/dashboard");
+                        exit;
                     } else {
                         $this->sendResponse(
                             view: "/user/login.html",
                             status: "unauthorized",
                             content: $this->errors
                         );
+                        exit;
                     }
                 } catch (\Exception $exception) {
                     throw $exception;
                 }
             } else {
-                return $this->sendResponse(
+                $this->sendResponse(
                     view: "/user/login.html",
                     status: "unauthorized",
                     content: array("message" => "Authentication credentials are empty")
                 );
+                exit;
             }
         }
     }
@@ -162,6 +166,7 @@ class UserAuthController extends Token
                         status: "success",
                         content: array("message" => "User successfully registered")
                     );
+                    exit;
                 } else {
                     $this->errors["message"] = "Validation errors in your inputs";
                     $this->errors["errors"] = array_merge([], $this->validator->getErrors());
