@@ -6,10 +6,10 @@ require __DIR__ . "/../vendor/autoload.php";
 var_dump($_SERVER);
 echo "</pre>"; */
 
-// header("Access-Control-Allow-Origin: http://localhost");
-// header("Access-Control-Allow-Credentials: true");
-// header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Authorization, Origin');
-// header('Access-Control-Allow-Methods:  POST, PUT, GET, DELETE');
+header("Access-Control-Allow-Origin: http://localhost");
+header("Access-Control-Allow-Credentials: true");
+header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Authorization, Origin');
+header('Access-Control-Allow-Methods:  POST, PUT, GET, DELETE');
 
 use App\Controller\Index\IndexController;
 use App\Controller\User\UserController;
@@ -30,6 +30,8 @@ use Core\Router;
 // set_exception_handler('Core\ErrorHandler::exceptionHandler');
 
 $router = new Router();
+
+// REMEMBER +> GET methods is used to create a resource and serve it
 
 $router->get('/', IndexController::class . '::defaultAction');
 
@@ -58,6 +60,11 @@ $router->get('/user/projects', UserController::class . '::viewProjects');
 $router->post('/user/projects', UserController::class . '::createProject');
 
 $router->get('/user/project', UserController::class . '::gotoProject');
+$router->get('/user/notifications', UserController::class . '::getNotifications');
+$router->get('/user/join', UserController::class . '::userJoinOnProject');
+
+$router->get('/projectleader/getinfo', ProjectLeaderController::class . '::getProjectInfo');
+$router->post('/projectleader/invite', ProjectLeaderController::class . '::sendProjectInvitation');
 
 // sanitize the uri
 $uri = htmlspecialchars(
