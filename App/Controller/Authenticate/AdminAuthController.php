@@ -147,9 +147,7 @@ class AdminAuthController extends Token
                     Config::getApiGlobal("remember")['refresh']
                 )
             );
-            if ($payload->primary_role == "admin")
-                return true;
-            else return false;
+            return true;
         } else {
             if ($this->validateToken($this->getBearerToken("refresh"))) {
                 if (Cookie::cookieExists(Config::getApiGlobal("remember")['access']))
@@ -163,7 +161,7 @@ class AdminAuthController extends Token
                 if ($payload) {
                     if ($payload->primary_role == "admin") {
                         $id = $payload->id;
-                        $username = $payload->username;
+                        $username = $payload->name;
                         $primary_role = $payload->primary_role;
                         $this->setBearerTokenInCookie(
                             headers: array(
