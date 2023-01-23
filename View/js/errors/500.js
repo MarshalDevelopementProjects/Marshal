@@ -1,1 +1,2 @@
-console.log(jsonData);
+let jsonData = JSON.parse('<?= $data; ?>');
+alert(jsonData);
