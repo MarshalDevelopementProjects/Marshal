@@ -22,9 +22,17 @@ class UserController extends Controller
             parent::__construct();
             $this->userAuth = new UserAuthController();
             if ($this->auth()) {
-                $credentials = $this->userAuth->getCredentials();
-                if ($credentials->id) $this->user = new User($credentials->id);
-                else $this->user = new User($credentials->id);
+                if ($this->userAuth->getCredentials()->primary_role == "admin") {
+                    $this->sendResponse(
+                        view: "/errors/403.html",
+                        status: "unauthorized"
+                    );
+                    exit;
+                } else {
+                    $credentials = $this->userAuth->getCredentials();
+                    if ($credentials->id) $this->user = new User($credentials->id);
+                    else $this->user = new User($credentials->id);
+                }
             } else {
                 $this->sendResponse(
                     view: "/user/login.html",
@@ -50,6 +58,7 @@ class UserController extends Controller
             status: "success",
             content: array("message" => "Welcome")
         );
+        exit;
     }
 
     public function createProject(array $args = array())
@@ -147,6 +156,7 @@ class UserController extends Controller
                             );
                         }
                 }
+                exit;
             } else {
                 $this->sendResponse(
                     view: "/errors/404.html",
@@ -154,6 +164,7 @@ class UserController extends Controller
                     content: array("message" => "User cannot access this project")
                 );
             }
+            exit;
         } catch (\Exception $exception) {
             $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
         }
