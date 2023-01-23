@@ -29,10 +29,10 @@ class Project implements Model
     public function createProject(array $args = array()): bool
     {
         if (!empty($args)) {
-            $sql_string = "INSERT INTO `project`(`created_by`, `project_name`, `description`, `field`)
+            $sql_string = "INSERT INTO project(`created_by`, `project_name`, `description`, `field`)
                            VALUES(:created_by, :project_name, :description, :field)";
             if (array_key_exists("start_on", $args) && array_key_exists("end_on", $args)) {
-                $sql_string = "INSERT INTO `project`(`created_by`, `project_name`, `description`, `field`, `start_on`, `end_on`)
+                $sql_string = "INSERT INTO project(`created_by`, `project_name`, `description`, `field`, `start_on`, `end_on`)
                            VALUES(:created_by, :project_name, :description, :field, :start_on, :end_on)";
             } else if (array_key_exists("end_on", $args)) {
                 $sql_string = "INSERT INTO project(`created_by`, `project_name`, `description`, `field`, `end_on`)
@@ -110,6 +110,16 @@ class Project implements Model
         }
         return false;
     }
+    public function joinProject(array $args = array()){
+        $sql_string = "INSERT INTO project_join(`project_id`, `member_id`, `role`, `joined`) VALUES (:project_id, :member_id, :role, :joined)";
+        
+        try {
+            $this->crud_util->execute($sql_string, $args);
+            return true;
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
 
     public function update(string $_id = null, array $_array = array())
     {
@@ -125,4 +135,6 @@ class Project implements Model
     {
         return $this->project_data;
     }
+
+    
 }
