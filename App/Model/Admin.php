@@ -32,8 +32,9 @@ class Admin implements Model
     public function createAdmin(array $args = array())
     {
         if (!empty($args)) {
-            $sql_string = "INSERT INTO `admin` (`username`, `first_name`, `last_name`, `email_address`, `password`, `street_address`, `city`, `country`, `phone_number`)
-                           VALUES (:username, :first_name, :last_name, :email_address, :password, :street_address, :city, :country, :phone_number)";
+            $sql_string = "INSERT INTO `admin` (`id`, `username`, `first_name`, `last_name`, `email_address`, `password`, `street_address`, `city`, `country`, `phone_number`)
+                           VALUES (:id, :username, :first_name, :last_name, :email_address, :password, :street_address, :city, :country, :phone_number)";
+            $args['id'] = uniqid("admin");
             $args['password'] = password_hash($args['password'], PASSWORD_ARGON2ID);
             try {
                 $this->crud_util->execute($sql_string, $args);
