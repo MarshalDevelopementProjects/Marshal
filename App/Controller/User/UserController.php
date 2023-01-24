@@ -261,7 +261,8 @@ class UserController extends Controller
         $notificationId = $_GET['data'];
         $this->readNotification($notificationId);
 
-        $this->defaultAction();
+        // $this->defaultAction();
+
     }
 
     public function readNotification($notificationId){
