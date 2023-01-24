@@ -543,6 +543,10 @@ div::-webkit-scrollbar {
     margin: 5px;
     height: 80px;
 }
+.notification a{
+    list-style: none;
+    text-decoration: none;
+}
 .notification-popup .request-notification{
     margin: 5px;
     height: 140px;
@@ -566,6 +570,7 @@ div::-webkit-scrollbar {
 }
 .notification-details .content{
     padding-top: 6px;
+    text-decoration: none;
 }
 
 .content .request-content{
@@ -573,6 +578,7 @@ div::-webkit-scrollbar {
 }
 .request-content h5{
     margin: 2px 0 5px 15px;
+    text-decoration: none;
 }
 .request-content p{
     font-size: 11px;
