@@ -28,8 +28,8 @@ class User implements Model
     public function createUser(array $args = array())
     {
         if (!empty($args)) {
-            $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`)
-                           VALUES (:username, :first_name, :last_name, :email_address, :password)";
+            $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `phone_number`)
+                           VALUES (:username, :first_name, :last_name, :email_address, :password, :phone_number)";
             $args['password'] = password_hash($args['password'], PASSWORD_ARGON2ID);
             try {
                 $this->crud_util->execute($sql_string, $args);
@@ -41,29 +41,57 @@ class User implements Model
         return false;
     }
 
-    public function readUser(string $key, string|int $value = null)
+    public function updateState(string|int $id, string $state = "OFFLINE")
     {
-        if ($key) {
-            // example format => "SELECT * FROM users WHERE id = :id";
-            $sql_string = "SELECT * FROM `user` WHERE `" . $key . "` = :" . $key;
-            try {
-                $result = $this->crud_util->execute($sql_string, array($key => $value));
-                if ($result->getCount() > 0) {
-                    $this->user_data = $result->getFirstResult();
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (\Exception $exception) {
-                throw $exception;
-            }
+        try {
+            $sql_string = "UPDATE `user` SET `state` = :state WHERE `id` = :id";
+            $this->crud_util->execute($sql_string, ["state" => $state, "id" => $id]);
+            return true;
+        } catch (\Exception $exception) {
+            throw $exception;
         }
-        return false;
     }
 
-    public function update(string $id = null, array $args = array())
+    public function readUser(string $key, string|int $value = null)
     {
-        throw new \Exception("Not implemented");
+        // example format => "SELECT * FROM users WHERE id = :id";
+        $sql_string = "SELECT * FROM `user` WHERE `" . $key . "` = :" . $key;
+        try {
+            $result = $this->crud_util->execute($sql_string, array($key => $value));
+            if ($result->getCount() > 0) {
+                $this->user_data = $result->getFirstResult();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function updateUser(string|int $id, array $args = array())
+    {
+        try {
+            $sql_string = "UPDATE `user` SET
+                          `username` = :username,
+                          `first_name` = :first_name,
+                          `last_name` = :last_name,
+                          `email_address` = :email_address,
+                          `phone_number` = :phone_number,
+                          `position` = :position,
+                          `bio` = :bio,
+                          `user_status` = :user_status
+                          WHERE `id` = :id";
+            $args["id"] = $id;
+            echo "<pre>";
+            var_dump($sql_string);
+            var_dump($args);
+            echo "</pre>";
+            $this->crud_util->execute($sql_string, $args);
+            return true;
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
     }
 
     // handle with care
