@@ -2,7 +2,7 @@ if exists drop database `marshal2_0`;
 
 CREATE DATABASE `marshal2_0`;
 
-DROP TABLE IF EXISTS `USER`;
+DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user`(
     `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -11,15 +11,32 @@ CREATE TABLE `user`(
     `first_name` VARCHAR(40) NOT NULL,
     `last_name` VARCHAR(40) NOT NULL,
     `password` VARCHAR(136) NOT NULL,
-    `status` ENUM("AVAILABLE", "UNAVAILABLE", "BUSY") DEFAULT "AVAILABLE",
+    `user_status` ENUM("Available", "Idle", "Busy") DEFAULT "Available",
+    `phone_number` VARCHAR(20) NOT NULL,
+    `position` VARCHAR(40) DEFAULT "position(s) that you hold",
+    `bio` TEXT NOT NULL,
+    `state` ENUM("OFFLINE", "ONLINE") NOT NULL DEFAULT "OFFLINE",
     `joined_datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     INDEX `user_id`(`id`),
     INDEX `user_email`(`email_address`),
+    INDEX `user_phone_number`(`phone_number`),
+    INDEX `user_position`(`position`),
     INDEX `user_username`(`username`)
 );
 
--- `verified` BOOLEAN NOT NULL,
--- `verification_code` BOOLEAN NOT NULL,
+DELIMITER $$
+CREATE TRIGGER add_default_value_to_bio_if_null 
+BEFORE INSERT ON `user` 
+FOR EACH ROW
+BEGIN
+  IF NEW.`bio` IS NULL THEN
+    SET NEW.`bio` = 'Introduce yourself to the others.';
+  END IF;
+END$$
+DELIMITER ;
+
+-- `verified` ENUM("YES", "NO") NOT NULL DEFAULT "NO",
+-- `verification_code` VARCHAR(13) NOT NULL,
 
 DROP TABLE IF EXISTS `admin`;
 
