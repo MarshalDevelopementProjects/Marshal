@@ -5,6 +5,8 @@ namespace App\Controller\ProjectLeader;
 use App\Controller\User\UserController;
 use App\Model\ProjectLeader;
 use App\Model\Project;
+use App\Model\Notification;
+use App\Model\User;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
