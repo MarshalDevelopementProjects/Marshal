@@ -65,6 +65,7 @@ class Response
     {
         http_response_code(Status::getStatusCode($status));
         View::render(view: $view, args: $content);
+        exit;
     }
 
     public static function sendJsonResponse(string $status, array $content): void
@@ -72,5 +73,6 @@ class Response
         http_response_code(Status::getStatusCode($status));
         header("Content-Type: application/json");
         echo json_encode($content);
+        exit;
     }
 }
