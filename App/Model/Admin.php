@@ -13,11 +13,11 @@ class Admin implements Model
     private $admin_data;
     private $query_results;
 
-    public function __construct(string|int $id = null)
+    public function __construct(private string $id = "")
     {
         try {
             $this->crud_util = new CrudUtil();
-            if ($id != null) {
+            if ($id != "") {
                 if (!$this->readAdmin(key: "id", value: $id)) {
                     throw new \Exception("Admin cannot be found");
                 }
@@ -84,13 +84,63 @@ class Admin implements Model
     }
 
     // read a single user in the system 
-    public function readUser(string|int $keys)
+    public function readUser(string|int $key = "username", string $value)
     {
+        if ($key) {
+            $sql_string = "SELECT * FROM `user` WHERE `" . $key . "` = :" . $key;
+            // example format => "SELECT * FROM users WHERE id = :id";
+            try {
+                $result = $this->crud_util->execute($sql_string, [$key => $value]);
+                if ($result->getCount() > 0) {
+                    $this->admin_data = $result->getResults();
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (\Exception $exception) {
+                throw $exception;
+            }
+        }
+        return false;
+    }
+
+    // read a single user in the system 
+    public function readUserByUsername(string|int $username)
+    {
+        if ($username) {
+            $sql_string = "SELECT * FROM `user` WHERE `username` = :username";
+            // example format => "SELECT * FROM users WHERE id = :id";
+            try {
+                $result = $this->crud_util->execute($sql_string, ["username" => $username]);
+                if ($result->getCount() > 0) {
+                    $this->admin_data = $result->getResults();
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (\Exception $exception) {
+                throw $exception;
+            }
+        }
+        return false;
     }
 
     // read all the users in the system 
     public function readAllUsers()
     {
+        $sql_string = "SELECT * FROM `user`";
+        // example format => "SELECT * FROM users WHERE id = :id";
+        try {
+            $result = $this->crud_util->execute($sql_string);
+            if ($result->getCount() > 0) {
+                $this->admin_data = $result->getResults();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
     }
 
     // this function will be used for searching table with conditions
