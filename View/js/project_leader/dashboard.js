@@ -181,7 +181,8 @@ selectedPriority = document.querySelector('.selected-priority'),
 btns = document.querySelector('.finish-created-task'),
 addTaskBtn = document.getElementById('add-task-btn'),
 addTaskPopup = document.querySelector('.create-task-popup'),
-cancelBtn = document.getElementById('cancel-task-btn');
+cancelBtn = document.getElementById('cancel-task-btn'),
+createTaskBtn = document.getElementById('create-task-btn');
 
 selectPriority.addEventListener('click', ()=>{
     // selectPriority.classList.toggle('select-priority-clicked')
@@ -207,6 +208,7 @@ addTaskBtn.addEventListener('click', () => {
 cancelBtn.addEventListener('click', () => {
     addTaskPopup.classList.remove('active')
 })
+
 
 
 
