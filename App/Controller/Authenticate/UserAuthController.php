@@ -79,6 +79,8 @@ class UserAuthController extends Token
                             ttl: $ttl
                         );
                         $_SESSION["primary_role"] = "user";
+                        // set the state to "ONLINE"
+                        $this->user->updateState(id: $this->user->getUserData()->id, state: "ONLINE");
                         header("Location: http://localhost/public/user/dashboard");
                         exit;
                     } else {
@@ -87,7 +89,6 @@ class UserAuthController extends Token
                             status: "unauthorized",
                             content: $this->errors
                         );
-                        exit;
                     }
                 } catch (\Exception $exception) {
                     throw $exception;
@@ -98,7 +99,6 @@ class UserAuthController extends Token
                     status: "unauthorized",
                     content: array("message" => "Authentication credentials are empty")
                 );
-                exit;
             }
         }
     }
@@ -146,6 +146,7 @@ class UserAuthController extends Token
     {
         if ($this->isLogged()) {
             header("Location: http://localhost/public/user/dashboard");
+            exit;
         } else {
             $this->userSignup($user_info);
         }
@@ -229,6 +230,12 @@ class UserAuthController extends Token
             }
             if (Cookie::cookieExists(Config::getApiGlobal("remember")['refresh'])) {
                 Cookie::deleteCookie(Config::getApiGlobal("remember")['refresh']);
+            }
+            // set the state to "OFFLINE"
+            try {
+                $this->user->updateState(id: $this->user->getUserData()->id, state: "OFFLINE");
+            } catch (\Exception $exception) {
+                throw $exception;
             }
             session_destroy();
             $this->sendJsonResponse("success", ["message" => "user successfully logged out"]);
