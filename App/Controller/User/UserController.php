@@ -27,7 +27,6 @@ class UserController extends Controller
                         view: "/errors/403.html",
                         status: "unauthorized"
                     );
-                    exit;
                 } else {
                     $credentials = $this->userAuth->getCredentials();
                     if ($credentials->id) $this->user = new User($credentials->id);
@@ -38,7 +37,6 @@ class UserController extends Controller
                     view: "/user/login.html",
                     status: "unauthorized"
                 );
-                exit;
             }
             $this->validator = new Validator();
         } catch (\Exception $exception) {
@@ -58,7 +56,6 @@ class UserController extends Controller
             status: "success",
             content: array("message" => "Welcome")
         );
-        exit;
     }
 
     public function createProject(array $args = array())
@@ -87,8 +84,8 @@ class UserController extends Controller
 
     public function viewProjects()
     {
-        $payload = $this->userAuth->getCredentials(); // get the payload content
         try {
+            $payload = $this->userAuth->getCredentials(); // get the payload content
             $project = new Project($payload->id);
             if ($project->readProjectsOfUser($payload->id)) {
                 return $this->sendJsonResponse(
@@ -156,7 +153,6 @@ class UserController extends Controller
                             );
                         }
                 }
-                exit;
             } else {
                 $this->sendResponse(
                     view: "/errors/404.html",
@@ -172,12 +168,74 @@ class UserController extends Controller
 
     public function viewProfile()
     {
-        throw new \Exception("Not implemented");
+        try {
+            $user_data = $this->user->getUserData();
+            // send the statistical data as well next time
+            $this->sendResponse(
+                view: "/user/profilepage.html",
+                status: "success",
+                content: [
+                    "message" => "Successful",
+                    "first_name" => $user_data->first_name,
+                    "last_name" => $user_data->last_name,
+                    "email_address" => $user_data->email_address,
+                    "phone_number" => $user_data->phone_number,
+                    "user_status" => $user_data->user_status,
+                    "position" => $user_data->position,
+                    "bio" => $user_data->bio
+                ]
+            );
+        } catch (\Exception $exception) {
+            $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
+        }
     }
 
-    public function editProfile()
+    // in this args array look for the data value to get the profile picture
+    public function uploadProfilePicture(array $args = array())
     {
-        throw new \Exception("Not implemented");
+    }
+
+    public function editProfile(array $args = array())
+    {
+        try {
+            $old_user_info = $this->user->getUserData();
+            $new_user_info = array();
+            foreach ($args as $key => $value) {
+                if ($old_user_info->$key != $value) {
+                    $new_user_info[$key] = $value;
+                } else {
+                    $args[$key] = $value;
+                }
+            }
+            $this->validator->validate($new_user_info, "user_edit_profile");
+            if ($this->validator->getPassed()) {
+                $args["id"] = $old_user_info->id;
+                if ($this->user->updateUser(id: $old_user_info->id, args: array_merge($args, $new_user_info))) {
+                    $this->user->readUser(key: "id", value: $old_user_info->id);
+                    $user_data = $this->user->getUserData();
+                    $this->sendResponse(
+                        view: "/user/profilepage.html",
+                        status: "success",
+                        content: [
+                            "message" => "Profile successfully updated",
+                            "first_name" => $user_data->first_name,
+                            "last_name" => $user_data->last_name,
+                            "email_address" => $user_data->email_address,
+                            "phone_number" => $user_data->phone_number,
+                            "user_status" => $user_data->user_status,
+                            "position" => $user_data->position,
+                            "bio" => $user_data->bio
+                        ]
+                    );
+                } else {
+                    $this->sendJsonResponse(status: "error", content: array_merge(["message" => "User data cannot be updated"]));
+                }
+            } else {
+                $this->sendJsonResponse(status: "error", content: array_merge(["message" => "Please check your inputs"], $this->validator->getErrors()));
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
     }
 
     public function getUserData()
