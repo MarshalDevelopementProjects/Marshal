@@ -1,3 +1,5 @@
+console.log(jsonData[0])
+
 const toastContainer = document.querySelector('.toast-notification');
 const notificationCloseBtn = document.querySelector('.close-btn');
 var toastNotificationTimeout = 5000;
@@ -9,7 +11,7 @@ setTimeout(() => {
     toastContainer.classList.remove('active');
 }, toastNotificationTimeout);
 
-console.log(toastNotificationTimeout)
+// console.log(toastNotificationTimeout)
 
 notificationCloseBtn.addEventListener('click', () => toastContainer.classList.remove('active'));
 
@@ -36,9 +38,12 @@ $notifications = [];
 
 // check notifications for this user
 const notificationArea = document.querySelector('.notifications'),
-toastNotificationDetails = document.querySelector('.details');
+toastNotificationDetails = document.querySelector('.details'),
+projects = document.querySelector('.projects');
 
-function checkNotifications(){
+// this onLoad function receive notifications and load page data
+function onLoad(){
+    // load notifications
     fetch(
         "http://localhost/public/user/notifications", 
         {
@@ -85,19 +90,22 @@ function checkNotifications(){
             }else{
                 code += `<div class="notification">
                         <hr>
-                        <div class="notification-details">
-                            <img src="/View/images/Picture5.png" alt="notificaton sender image">
-                            <div class="content">
-                                <div class="sender-and-project">
-                                    <h4>${notification['senderId']}</h4>
-                                </div>
-                                <p class="notification-content">${notification['message']}</p>
-                                <div class="date-and-project">
-                                    <p class="send-date">${notification['sendTime']}</p>
-                                    <p class="notification-project">Mentcare Center Web App</p>
+                        <a href="http://localhost/public/user/clicknotification?data=${notification['id']}">
+                            <div class="notification-details">
+                                <img src="/View/images/Picture5.png" alt="notificaton sender image">
+                                <div class="content">
+                                    <div class="sender-and-project">
+                                        <h4>${notification['senderId']}</h4>
+                                    </div>
+                                    <p class="notification-content">${notification['message']}</p>
+                                    <div class="date-and-project">
+                                        <p class="send-date">${notification['sendTime']}</p>
+                                        <p class="notification-project">Mentcare Center Web App</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
+                        
                     </div>`
             }
 
@@ -126,6 +134,41 @@ function checkNotifications(){
     .catch(error => {
       console.error(error);
     })
+
+    // load project data
+    projectCardsCode = ""
+    jsonData.forEach(project => {
+        projectCardsCode += `<div class="project-card">
+                                <a href="http://localhost/public/user/project?id=${project['id']}" class="clickable-project">
+                                    <p class="project-field ">${project['field']}</p>
+                                <h3 class="project-name">${project['project_name']}</h3>
+
+                                <div class="tasks">
+                                    <p>Ongoing Work</p>
+                                    <ul class="task-list">
+                                        <li>Design UI for login page</li>
+                                        <li>Fixing #15 bug</li>
+                                        <li>Develop API</li>
+                                        <li>Create reports for #3 week</li>
+                                    </ul>
+                                </div>
+                                <p class="team">Team</p>
+                                <div class="card-bottom">
+                                    <div class="member-images">
+                                        <img class="image first" src="/View/images/Picture1.png" alt="Picture1">
+                                        <img class="image rest1" src="/View/images/Picture2.png" alt="Picture2">
+                                        <img class="image rest2"src="/View/images/Picture3.png" alt="Picture3">
+                                        <img class="image rest3"src="/View/images/Picture4.png" alt="Picture4">
+                                        <img class="image rest4"src="/View/images/Picture5.png" alt="Picture5">
+                                    </div>
+                                    <!-- <button type="submit">Get Info</button> -->
+                                    
+                                </div>
+                                </a>
+                            </div>`
+    })
+
+    projects.innerHTML = projectCardsCode
 }
 
 
