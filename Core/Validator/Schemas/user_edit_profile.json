@@ -1,0 +1,38 @@
+{
+    "table": "user",
+    "username": {
+        "required": true,
+        "min": 4,
+        "max": 40,
+        "unique": true
+    },
+    "first_name": {
+        "required": true,
+        "min": 4,
+        "max": 40
+    },
+    "last_name": {
+        "required": true,
+        "min": 4,
+        "max": 40
+    },
+    "email_address": {
+        "required": true,
+        "unique": true,
+        "email": true
+    },
+    "bio": {
+        "required": true
+    },
+    "position": {
+        "required": true
+    },
+    "phone_number": {
+        "required": true,
+        "format": "/[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}/"
+    },
+    "user_status": {
+        "required": true,
+        "enum": ["Available", "Idle", "Busy"]
+    }
+}
