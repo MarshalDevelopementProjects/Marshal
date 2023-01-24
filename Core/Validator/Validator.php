@@ -123,6 +123,12 @@ class Validator
                                         // check whether the property exists
                                     };
                                     break;
+                                case 'enum': {
+                                        if (!in_array($value, $rule_value)) {
+                                            array_push($this->errors, "Input is not valid, could be only one of the following $rule_value");
+                                        }
+                                    };
+                                    break;
                                 default: {
                                         array_push($this->errors, "{$rule} is not a valid rule");
                                     };
