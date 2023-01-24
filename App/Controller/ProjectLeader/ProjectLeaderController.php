@@ -7,6 +7,7 @@ use App\Model\ProjectLeader;
 use App\Model\Project;
 use App\Model\Notification;
 use App\Model\User;
+use App\Model\Task;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -49,8 +50,6 @@ class ProjectLeaderController extends UserController
     }
 
     public function sendProjectInvitation(){
-        
-
         try {
             // get receiver user name
             $data = file_get_contents('php://input');
@@ -101,6 +100,22 @@ class ProjectLeaderController extends UserController
 
         } catch (\Throwable $th) {
             echo (json_encode(array("message" => $th)));
+        }
+    }
+
+    public function createTask($args){
+        $data = array(
+            "project_id" => $_SESSION['project_id'],
+            "description" => $args['taskdescription'],
+            "deadline" => $args['taskdeadline'],
+            "task_name" => $args['taskname']
+        );
+        $task = new Task();
+        if($task->createTask($data)){
+            header("Location: http://localhost/public/user/project?id=".$_SESSION['project_id']);
+            exit;
+        }else{
+            echo "Fail";
         }
     }
 }
