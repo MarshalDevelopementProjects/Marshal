@@ -66,6 +66,7 @@ $router->get('/user/clicknotification', UserController::class . '::clickOnNotifi
 
 $router->get('/projectleader/getinfo', ProjectLeaderController::class . '::getProjectInfo');
 $router->post('/projectleader/invite', ProjectLeaderController::class . '::sendProjectInvitation');
+$router->post('/projectleader/createtask', ProjectLeaderController::class . '::createTask');
 
 // sanitize the uri
 $uri = htmlspecialchars(
