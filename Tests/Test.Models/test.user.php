@@ -14,6 +14,7 @@ function testCreateUser()
         "last_name" => "North",
         "email_address" => "edward_north@gmail.com",
         "password" => "1234567890",
+        "phone_number" => "0773132798",
     ))) {
         echo "<pre>";
         echo "User successfully added to the database";
@@ -70,7 +71,34 @@ function testReadUserWithUsername()
     }
 }
 
+function testUpdateUser()
+{
+    try {
+        $user = new User(1);
+        $user->updateUser("1", [
+            "bio" => "I am Kylo Ren, I work at 99X and I am system architect there. Interested in creating well documented secure systems. And believe it or not I love Rust and Haskell",
+            "email_address" => "kylo_ren@gmail.com",
+            "username" => "kylo_ren",
+            "first_name" => "Kylo",
+            "last_name" => "Skywalker",
+            "phone_number" => "0789902101",
+            "position" => "System architect",
+            "user_status" => "Busy"
+        ]);
+        echo "<pre>";
+        var_dump($user->getUserData());
+        echo "</pre>";
+    } catch (\Exception $exception) {
+        echo "<pre>";
+        echo "Cannot read user by ID";
+        echo "</pre>";
+        throw $exception;
+    }
+}
+
 testCreateUser();
 testReadUser();
 testReadUserWithID();
 testReadUserWithUsername();
+testReadUserWithUsername();
+testUpdateUser();
