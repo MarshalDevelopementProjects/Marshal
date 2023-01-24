@@ -59,6 +59,9 @@ $router->post('/user/projects', UserController::class . '::createProject');
 
 $router->get('/user/project', UserController::class . '::gotoProject');
 
+$router->get('/user/profile', UserController::class . '::viewProfile');
+$router->post('/user/profile/edit', UserController::class . '::editProfile');
+
 // sanitize the uri
 $uri = htmlspecialchars(
     trim(array_key_exists("REDIRECT_URL", $_SERVER) ? $_SERVER["REDIRECT_URL"] : $_SERVER["REQUEST_URI"]),
