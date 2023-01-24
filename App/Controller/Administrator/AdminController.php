@@ -40,13 +40,11 @@ class AdminController extends Controller
             }
             $this->validator = new Validator();
         } catch (\Exception $exception) {
-            $this->sendResponse(
-                view: 404,
-                status: "error",
-                content: array("message" => "No such user, the user id of the user is not valid")
+            $this->sendJsonResponse(
+                status: "unauthorized",
+                content: array("message" => "No such user")
             );
             exit;
-            throw $exception;
         }
     }
 
@@ -57,11 +55,24 @@ class AdminController extends Controller
 
     public function defaultAction(Object|array|string|int $optional = null)
     {
+        // default page should have the following 
+        // user count, active user count, admin count
+        // and all the users
+
         $this->sendResponse(
             view: "/admin/dashboard.html",
             status: "success",
             content: array("message" => "Welcome")
         );
         exit;
+    }
+
+    // get all the users in the database
+    public function viewAllUsers()
+    {
+    }
+
+    public function createNewUser(array $args = array())
+    {
     }
 }
