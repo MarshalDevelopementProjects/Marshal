@@ -27,8 +27,8 @@
     <div class="container-login">
         <h1>Login</h1>
         <form id="login-form" method="POST" action="http://localhost/public/admin/login">
-            <input type="text" placeholder="Username" name="username" id="username">
-            <input type="password" placeholder="Password" name="password" id="password">
+            <input type="text" placeholder="Username" name="username" id="username" required>
+            <input type="password" placeholder="Password" name="password" id="password" required>
             <label for="remember_me">Remember me</label>
             <input type="checkbox" name="remember_me" id="remember_me" value="Remember me">
             <button type="submit">Login</button>
@@ -38,4 +38,3 @@
 </body>
 
 </html>
-

@@ -27,12 +27,13 @@
     <div class="container-sign-up">
         <h1>Sign up</h1>
         <form id="signup-form" method="POST" action="http://localhost/public/user/signup">
-            <input type="text" placeholder="Username" name="username" id="username">
-            <input type="text" placeholder="First Name" name="first_name" id="first_name">
-            <input type="text" placeholder="Last Name" name="last_name" id="last_name">
-            <input type="email" placeholder="Email" name="email_address" id="email_address">
-            <input type="password" placeholder="Password" name="password" id="password">
-            <input type="password" placeholder="Re-Enter Password" name="password_re_enter" id="password_re_enter">
+            <input type="text" placeholder="Username" name="username" id="username" required>
+            <input type="text" placeholder="First Name" name="first_name" id="first_name" required>
+            <input type="text" placeholder="Last Name" name="last_name" id="last_name" required>
+            <input type="email" placeholder="Email" name="email_address" id="email_address" required>
+            <input type="tel" placeholder="Phone number" name="phone_number" id="phone_number" pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$" required>
+            <input type="password" placeholder="Password" name="password" id="password" required>
+            <input type="password" placeholder="Re-Enter Password" name="password_re_enter" id="password_re_enter" required>
             <button type="submit">Sign Up</button>
         </form>
         <div class="member_div">
