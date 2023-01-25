@@ -468,9 +468,31 @@ body{
     font-size: 15px;
     margin: 8px 12px;
 }
-.top-task p{
+.top-task .priority-high{
     color: #fff;
     background-color: #F83B3B;
+    width: 50px;
+    font-size: 12px;
+    height: 16px;
+    text-align: center;
+    margin: 8px 12px 0 0;
+    padding-top: 1px;
+    border-radius: 4px;
+}
+.top-task .priority-medium{
+    color: #fff;
+    background-color: #F0B11D;
+    width: 50px;
+    font-size: 12px;
+    height: 16px;
+    text-align: center;
+    margin: 8px 12px 0 0;
+    padding-top: 1px;
+    border-radius: 4px;
+}
+.top-task .priority-low{
+    color: #fff;
+    background-color: #20B289;
     width: 50px;
     font-size: 12px;
     height: 16px;
