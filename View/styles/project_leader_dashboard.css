@@ -343,14 +343,20 @@ body{
 }
 .priority{
     /* border: 1px solid black; */
+    margin-top: 20px;
     margin-left: 10px;
     position: relative;
-    height: 100px;
+    height: 80px;
     width: 100px;
     border-radius: 5px;
     font-size: 14px;
     /* text-align: center; */
 }
+.priority label{
+    margin-left: 5px;
+    font-size: 12px;
+}
+
 .priority .select-priority{
     font-size: 14px;
     height: 20px;
@@ -363,6 +369,10 @@ body{
     border-radius: 5px;
     padding-left: 10px;
     margin-bottom: 5px;
+}
+.select-priority input{
+    display: none;
+    opacity: 0;
 }
 .select-priority-clicked{
 
@@ -409,12 +419,10 @@ body{
 
 .finish-created-task{
     /* border: 1px solid black; */
-    margin-top: 140px;
+    margin-top: 90px;
     height: 60px;
 }
-.finish-created-task.active{
-    margin-top: 65px;
-}
+
 .finish-created-task p{
     width: 100%;
     height: 25px;

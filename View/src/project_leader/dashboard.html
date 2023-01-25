@@ -95,15 +95,16 @@
                                     
                                 </div>
                                 <div class="priority">
-                                    <div class="select-priority">
-                                        <span class="selected-priority">Low</span>
-                                        <div class="caret"></div>
-                                    </div>
-                                    <ul class="priority-menu">
-                                        <li class="active-priority">Low</li>
-                                        <li>Medium</li>
-                                        <li>High</li>
-                                    </ul>
+                                    
+                                    <input type="radio" value="low" id="low" name="priority" checked>
+                                    <label for="priority">Low</label>
+                                    <br>
+                                    <input type="radio" value="medium" id="medium" name="priority">
+                                    <label for="priority">Medium</label>
+                                    <br>
+                                    <input type="radio" value="high" id="high" name="priority">
+                                    <label for="priority">High</label>
+                                    <br>
 
                                     <div class="finish-created-task">
                                         <button type="submit" id="create-task-btn">Create</button>
