@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+*{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family:'Poppins',sans-serif; 
+}
+
+body{
+    width: 100%;
+    background:#e5e7eb;
+    position: relative;
+    display: flex;
+}
+#menu{
+    background: #363740;
+    width: 300px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+#menu .logo{
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding: 30px 0 0 30px;
+}
+#menu .logo img{
+    width: 60px;
+    margin-right: 15px;
+}
+
+#menu .items{
+    margin-top: 40px;
+}
+
+#menu .items li{
+    list-style: none;
+    padding: 15px 0;
+    transition: 0.3s ease;
+}
+
+#menu .items li:hover{
+    background:#9FA2B4;
+    cursor: pointer;
+}
+
+#menu .items li:nth-child(1){
+    border-left: 4px solid #fff;
+}
+
+#menu .items li i{
+    color: rgb(134, 141, 151);
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
+    margin: 0 10px 0 25px;
+}
+
+#menu .items li:hover i,
+#menu .items li:hover a{
+    color: #fff;
+}
+
+#menu .items li a{
+    text-decoration: none;
+    color: rgb(134, 141, 151);
+    font-weight: 300px;
+    transition: 0.3s ease;
+}
+
+#interface{
+    width:calc(100% - 300px); 
+    margin-left: 300px;
+    position: relative;
+}
+
+#interface .navigation{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background:#fff;
+    padding:15px 30px;
+    border-bottom: 3px solid #363740;
+    width:calc(100% - 300px); 
+    position: fixed;
+}
+
+#interface .navigation .search{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding:10px 14px;
+    border: 1px solid #d7dbe6;
+    border-radius: 4px;
+}
+
+#interface .navigation .search i{
+    margin-left: 14px;
+}
+
+#interface .navigation .search input{
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+#interface .navigation .profile{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#interface .navigation .profile img{
+    width:30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.user-name{
+    margin-right: 10px;
+    font-size: 14px;
+    color: #828997;
+}
+
+.fa-bell{
+    margin-right: 25px;
+    font-size: 20px;
+    color:#253047;
+    cursor: pointer;
+}
+
+.fa-search{
+    margin-right:10px;
+    color:#828997;
+}
+
+.i-name{
+    color:#444a53;
+    padding: 30px 30px 0 30px;
+    font-style: 24px;
+    font-weight: 700;
+    margin-top: 70px;
+}
+.values{
+    padding: 30px 30px 0px 30px;
+    display: flex;
+    justify-content:left;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.values-box{
+    background: #fff;
+    width: 235px;
+    padding: 16px 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 20px;
+}
+.values-box i{
+    font-size: 25px;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    color: #fff;
+    background-color:#594ef7;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.values-box:nth-child(1) i{
+    background:#7b74ec;
+}
+
+.values-box:nth-child(2) i{
+    background:#5c8af0;
+}
+
+.values-box:nth-child(3) i{
+    background:#e45d99;
+}
+
+.values-box:nth-child(4) i{
+    background:#74daec;
+}
+
+.values-box h3{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.values-box span{
+    font-size: 16px;
+    color:#828997;
+}
+
+.board{
+    width: 94%;
+    margin: 30px 0px 30px 30px;
+    overflow: auto;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.board img{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.board p{
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.board .people{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: start;
+}
+table{
+    border-collapse: collapse;
+}
+tr{
+    border-bottom: 1px solid #eef0f3;
+}
+thead td{
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 400;
+    background: #f9fafb;
+    text-align: start;
+    padding:15px;
+}
+
+tbody tr td{
+    padding:10px 15px;
+}
+
+.edit a{
+    text-decoration: none;
+    font-size: 14px;
+    color: #554cd1;
+    font-weight: 600;
+    
+}
