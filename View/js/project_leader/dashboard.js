@@ -1,46 +1,3 @@
-const tasks = document.querySelectorAll('.task');
-const boards = document.querySelectorAll('.board');
-
-tasks.forEach(task => {
-    task.addEventListener('dragstart', ()=>{
-        task.classList.add('dragging');
-    })
-
-    task.addEventListener('dragend', ()=>{
-        task.classList.remove('dragging');
-    })
-})
-
-boards.forEach(board => {
-    board.addEventListener('dragover', e => {
-        e.preventDefault();
-        const afterElement = getDragAfterElement(board, e.clientY);
-        const task = document.querySelector('.dragging');
-        
-        if(afterElement == null){
-            board.appendChild(task);
-        }else{
-            board.insertBefore(task, afterElement);
-        }
-    })
-})
-
-function getDragAfterElement(board, y){
-    const draggableElements = [...board.querySelectorAll('.task:not(.dragging)')]
-
-    return draggableElements.reduce((closest, child)=>{
-        const box = child.getBoundingClientRect()
-        const offset = y - box.top - box.height/2
-        console.log(offset)
-        if(offset < 0 && offset > closest.offset){
-            return {offset: offset, element: child}
-        }else{
-            return closest
-        }
-    }, {offset: Number.NEGATIVE_INFINITY}).element
-}
-
-
 
 // calendor 
 
@@ -191,6 +148,118 @@ cancelBtn.addEventListener('click', () => {
 })
 
 
+console.log(jsonData)
+
+// set tasks of the project
+
+
+todoBoard = document.querySelector('.todo .tasks'),
+ongoingBoard = document.querySelector('.ongoing .tasks'),
+reviewBoard = document.querySelector('.review .tasks'),
+doneBoard = document.querySelector('.done .tasks');
+
+todoTasksCode = "";
+
+jsonData['todoTasks'].forEach(task => {
+    todoTasksCode += `<div class="task" draggable="true">
+                            <div class="top-task">
+                                <h4>${task['task_name']}</h4>
+                                <p class="priority-${task['priority']}">${task['priority']}</p>
+                            </div>
+                            <p class="task-description">${task['description']}</p>
+                            <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                        </div>`
+})
+todoBoard.innerHTML = todoTasksCode;
+
+ongoingTasksCode = "";
+
+jsonData['ongoingTasks'].forEach(task => {
+    ongoingTasksCode += `<div class="task" draggable="true">
+                            <div class="top-task">
+                                <h4>${task['task_name']}</h4>
+                                <p class="priority-${task['priority']}">${task['priority']}</p>
+                            </div>
+                            <p class="task-description">${task['description']}</p>
+                            <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                        </div>`
+})
+ongoingBoard.innerHTML = ongoingTasksCode;
+
+reviewTasksCode = "";
+
+jsonData['reviewTasks'].forEach(task => {
+    reviewTasksCode += `<div class="task" draggable="true">
+                            <div class="top-task">
+                                <h4>${task['task_name']}</h4>
+                                <p class="priority-${task['priority']}">${task['priority']}</p>
+                            </div>
+                            <p class="task-description">${task['description']}</p>
+                            <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                        </div>`
+})
+reviewBoard.innerHTML = reviewTasksCode;
+
+doneTasksCode = "";
+
+jsonData['doneTasks'].forEach(task => {
+    doneTasksCode += `<div class="task" draggable="true">
+                            <div class="top-task">
+                                <h4>${task['task_name']}</h4>
+                                <p class="priority">${task['priority']}</p>
+                            </div>
+                            <p class="task-description">${task['description']}</p>
+                            <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                        </div>`
+})
+doneBoard.innerHTML = doneTasksCode;
+
+
+
+const tasks = document.querySelectorAll('.task');
+const boards = document.querySelectorAll('.board');
+
+tasks.forEach(task => {
+    task.addEventListener('dragstart', ()=>{
+        task.classList.add('dragging');
+    })
+
+    task.addEventListener('dragend', ()=>{
+        task.classList.remove('dragging');
+    })
+})
+
+boards.forEach(board => {
+    board.addEventListener('dragover', e => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(board, e.clientY);
+        console.log(board)
+        // if(board == '')
+        const task = document.querySelector('.dragging');
+        
+        if(afterElement == null){
+            board.appendChild(task);
+        }else{
+            board.insertBefore(task, afterElement);
+        }
+    })
+})
+
+function getDragAfterElement(board, y){
+    const draggableElements = [...board.querySelectorAll('.task:not(.dragging)')]
+
+    return draggableElements.reduce((closest, child)=>{
+        const box = child.getBoundingClientRect()
+        const offset = y - box.top - box.height/2
+        // console.log(offset)
+        if(offset < 0 && offset > closest.offset){
+            return {offset: offset, element: child}
+        }else{
+            return closest
+        }
+    }, {offset: Number.NEGATIVE_INFINITY}).element
+}
+
 
 
 
@@ -198,8 +267,6 @@ cancelBtn.addEventListener('click', () => {
 
 
 const LogOutButton = document.getElementById("log-out-btn");
-
-// console.log(jsonData);
 
 LogOutButton.addEventListener("click", () => {
   fetch("http://localhost/public/user/logout", {
@@ -230,9 +297,3 @@ LogOutButton.addEventListener("click", () => {
 });
 
 
-// load tasks 
-
-todoBoard = document.querySelector('.todo .tasks');
-todoBoard.addEventListener('click',() => {
-    console.log('todoBoard tasks clicked')
-})
