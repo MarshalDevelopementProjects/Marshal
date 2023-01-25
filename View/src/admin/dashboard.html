@@ -1,31 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/View/styles/styles_less_admin.css" />
-    <link rel="stylesheet" href="/View/styles/landing.css" />
+    <link rel="stylesheet" href="/View/styles/admin/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Marshal</title>
 </head>
-
 <body>
-
-    <nav class="navbar">
-        <!-- LOGO -->
-        <div class="logo">MARSHAL</div>
-        <!-- NAVIGATION MENU -->
-        <ul class="nav-links" list-style-type="none">
-            <div class="menu">
-                <button id="create-project-btn">Create new project</button>
-                <button id="log-out-btn">Log Out</button>
+    <section id="menu">
+        <div class="logo">
+            <img src="/View/images/admin/Frame 1.png" alt="" srcset="">
+            <h2>Marshal</h2>
+        </div>
+        <div class="items">
+            <li><i class="fa fa-pie-chart" aria-hidden="true"></i><a href="#">Dashboard</a></li>
+            <li><i class="fa fa-users" aria-hidden="true"></i><a href="#">Users</a></li>
+            <li><i class="fa fa-users" aria-hidden="true"></i><a href="#">Add new users</a></li>
+            <li id="log-out-btn" ><i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i><a>Logout</a></li>
+        </div>
+    </section>
+    <section id="interface">
+        <div class="navigation">
+            <div class="n1">
+                <div class="search">
+                    <i class="fa fa-search"></i>
+                    <input type="text" placeholder="Search">
+                </div>
             </div>
-        </ul>
-    </nav>
+            <div class="profile">
+                <i class="fa fa-bell"></i>
+                <p class="user-name">Tharindu Darshana</p>
+                <img src="/View/images/admin/1.jpg" alt="">
+            </div>
+        </div>
+        <h3 class="i-name">Dashboard</h3>
+        <div class="values">
+            <div class="values-box">
+                <i class="fa fa-user"></i>
+                <div>
+                    <h3>100</h3>
+                    <span>Users</span>
+                </div>
+            </div>
+            <div class="values-box">
+                <i class="fa fa-user"></i>
+                <div>
+                    <h3>3</h3>
+                    <span>Admins</span>
+                </div>
+            </div>
+            <!-- <div class="values-box"> -->
+                <!-- <i class="fa fa-user"></i> -->
+                <!-- <div> -->
+                    <!-- <h3>8,345</h3> -->
+                    <!-- <span>Users</span> -->
+                <!-- </div> -->
+            <!-- </div> -->
+            <!-- <div class="values-box"> -->
+                <!-- <i class="fa fa-user"></i> -->
+                <!-- <div> -->
+                    <!-- <h3>8,345</h3> -->
+                    <!-- <span>Users</span> -->
+                <!-- </div> -->
+            <!-- </div> -->
 
-    <p>This is the admin dashboard.</p>
-
+        </div>
+        <dir class="board">
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Email</td>
+                        <td>Role</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="people">
+                            <img src="/View/images/admin/2.jpg" alt="">
+                            <div class="people-de">
+                                <h5>John Doe</h5>
+                            </div>
+                        </td>
+                        <td class="people-email">
+                            <h5>example@gmail.com</h5>
+                        </td>
+                        <td class="role">
+                            <p>Admin</p>
+                        </td>
+                        <td class="edit"><a href="#">Edit</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </dir>
+    </section>
     <script src="/View/js/admin/dashboard.js"></script>
 </body>
 
