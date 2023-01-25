@@ -104,18 +104,42 @@ class ProjectLeaderController extends UserController
     }
 
     public function createTask($args){
-        $data = array(
-            "project_id" => $_SESSION['project_id'],
-            "description" => $args['taskdescription'],
-            "deadline" => $args['taskdeadline'],
-            "task_name" => $args['taskname']
-        );
-        $task = new Task();
-        if($task->createTask($data)){
-            header("Location: http://localhost/public/user/project?id=".$_SESSION['project_id']);
-            exit;
-        }else{
-            echo "Fail";
+
+        if($args['taskname'] && $args['taskdescription']){
+            $status = "TO-DO";
+            if($args['assignedMember']){
+                $user = new User();
+                $user->readUser("username", $args['assignedMember']);
+                $receivedUser = $user->getUserData();
+
+                if($receivedUser){
+                    $conditions = array(
+                        "project_id" => $_SESSION['project_id'],
+                        "member_id" => $receivedUser->id
+                    );
+                    
+                    if($user->isUserJoinedToProject($conditions)){
+                        $status = "ONGOING";
+                    }
+                }
+            }
+
+            $data = array(
+                "project_id" => $_SESSION['project_id'],
+                "description" => $args['taskdescription'],
+                "deadline" => $args['taskdeadline'],
+                "task_name" => $args['taskname'],
+                "priority" => $args['priority'],
+                "status" => $status
+            );
+
+            $task = new Task();
+            if($task->createTask($data)){
+                header("Location: http://localhost/public/user/project?id=".$_SESSION['project_id']);
+                exit;
+            }else{
+                echo "Fail";
+            }
         }
     }
 }
