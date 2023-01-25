@@ -18,7 +18,7 @@ class Task implements Model
     }
 
     public function createTask(array $args = array()){
-        $sql_string = "INSERT INTO task (`project_id`, `description`, `deadline`, `task_name`) VALUES (:project_id, :description, :deadline, :task_name)";
+        $sql_string = "INSERT INTO task (`project_id`, `description`, `deadline`, `task_name`, `priority`, `status`) VALUES (:project_id, :description, :deadline, :task_name, :priority, :status)";
         
         try {
             $this->crud_util->execute($sql_string, $args);
