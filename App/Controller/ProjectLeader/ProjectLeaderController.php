@@ -166,10 +166,11 @@ class ProjectLeaderController extends UserController
             $task = new Task();
             if($task->createTask($data)){
                 header("Location: http://localhost/public/user/project?id=".$_SESSION['project_id']);
-                exit;
             }else{
                 echo "Fail";
             }
+        }else{
+            header("Location: http://localhost/public/user/project?id=".$_SESSION['project_id']);
         }
     }
 }
