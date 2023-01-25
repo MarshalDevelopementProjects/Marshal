@@ -29,4 +29,15 @@ class Task implements Model
         }
     }
 
+    public function getAllTasks(array $args = array()){
+        $sql_string = "SELECT * FROM task WHERE project_id = :project_id";
+
+        $result = $this->crud_util->execute($sql_string, $args);
+        if ($result->getCount() > 0) {
+            return $result->getResults();
+        } else {
+            return false;
+        }   
+    }
+
 }
