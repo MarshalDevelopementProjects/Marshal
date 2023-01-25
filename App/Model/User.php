@@ -76,4 +76,14 @@ class User implements Model
     {
         return $this->user_data;
     }
+
+    public function isUserJoinedToProject(array $args = array()){
+        $sql_string = "SELECT * FROM project_join WHERE project_id = :project_id AND member_id = :member_id";
+        try {
+            $this->crud_util->execute($sql_string, $args);
+            return true;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }
