@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Marshal</title>
 </head>
+
 <body>
     <section id="menu">
         <div class="logo">
@@ -18,7 +20,7 @@
             <li><i class="fa fa-pie-chart" aria-hidden="true"></i><a href="#">Dashboard</a></li>
             <li><i class="fa fa-users" aria-hidden="true"></i><a href="#">Users</a></li>
             <li><i class="fa fa-users" aria-hidden="true"></i><a href="#">Add new users</a></li>
-            <li id="log-out-btn" ><i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i><a>Logout</a></li>
+            <li id="log-out-btn"><i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i><a>Logout</a></li>
         </div>
     </section>
     <section id="interface">
@@ -52,18 +54,18 @@
                 </div>
             </div>
             <!-- <div class="values-box"> -->
-                <!-- <i class="fa fa-user"></i> -->
-                <!-- <div> -->
-                    <!-- <h3>8,345</h3> -->
-                    <!-- <span>Users</span> -->
-                <!-- </div> -->
+            <!-- <i class="fa fa-user"></i> -->
+            <!-- <div> -->
+            <!-- <h3>8,345</h3> -->
+            <!-- <span>Users</span> -->
+            <!-- </div> -->
             <!-- </div> -->
             <!-- <div class="values-box"> -->
-                <!-- <i class="fa fa-user"></i> -->
-                <!-- <div> -->
-                    <!-- <h3>8,345</h3> -->
-                    <!-- <span>Users</span> -->
-                <!-- </div> -->
+            <!-- <i class="fa fa-user"></i> -->
+            <!-- <div> -->
+            <!-- <h3>8,345</h3> -->
+            <!-- <span>Users</span> -->
+            <!-- </div> -->
             <!-- </div> -->
 
         </div>
@@ -90,15 +92,16 @@
                         </td>
                         <td class="role">
                             <p>Admin</p>
-    <script>
-        var jsonData = JSON.parse('<?= $data; ?>');
-    </script>                        </td>
+                        </td>
                         <td class="edit"><a href="#">Edit</a></td>
                     </tr>
                 </tbody>
             </table>
         </dir>
     </section>
+    <script>
+        var jsonData = JSON.parse('<?= $data; ?>');
+    </script>
     <script src="/View/js/admin/dashboard.js"></script>
 </body>
 
