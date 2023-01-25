@@ -120,6 +120,36 @@ class ProjectLeaderController extends UserController
                     
                     if($user->isUserJoinedToProject($conditions)){
                         $status = "ONGOING";
+
+                        // get leader id
+                        $payload = $this->userAuth->getCredentials();
+                        $user_id = $payload->id;
+                        $date = date("Y-m-d H:i:s");
+
+                        // now we have to send a notification as well 
+                        $notificationArgs = array(
+                            "projectId" => $_SESSION['project_id'],
+                            "message" => "You are assigned to ".$args['taskname']. " by project leader",
+                            "type" => "notification",
+                            "senderId" => $user_id,
+                            "sendTime" => $date
+                        );
+                        $notification = new Notification();
+                        $notification->createNotification($notificationArgs);
+
+                        $notifyConditions = array(
+                            "projectId" => $_SESSION['project_id'],
+                            "senderId" => $user_id,
+                            "sendTime" => $date
+                        );
+                        $newNotification = $notification->getNotificationData($notifyConditions);
+                        $newNotificationId = $newNotification[0]->id;
+
+                        $notifyMemberArgs = array(
+                            "notificationId" => $newNotificationId,
+                            "memberId" => $receivedUser->id
+                        );
+                        $notification->setNotifiedMembers($notifyMemberArgs);
                     }
                 }
             }
