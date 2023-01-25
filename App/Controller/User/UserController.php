@@ -7,6 +7,7 @@ require __DIR__ . "/../../../vendor/autoload.php";
 use App\Controller\Authenticate\UserAuthController;
 use App\Model\User;
 use App\Controller\Controller;
+use App\Controller\Project\ProjectController;
 use App\Model\Project;
 use App\Model\Notification;
 use Core\Validator\Validator;
@@ -122,13 +123,19 @@ class UserController extends Controller
                 $_SESSION["project_id"] = $data["id"];
                 switch ($project->getProjectData()[0]->role) {
                     case 'LEADER':
+                        $args = array(
+                            "project_id" => $_SESSION['project_id']
+                        );
+                        $projectController = new ProjectController();
+                        
                         $this->sendResponse(
                             view: "/project_leader/dashboard.html",
                             status: "success",
-                            content: $project->readProjectsOfUser(
-                                member_id: $payload->id,
-                                project_id: $data["id"]
-                            ) ? $project->getProjectData() : array()
+                            content: $projectController->getProjectTasks($args)
+                            // content: $project->readProjectsOfUser(
+                            //     member_id: $payload->id,
+                            //     project_id: $data["id"]
+                            // ) ? $project->getProjectData() : array()
                         );
                         break;
                     case 'CLIENT':
