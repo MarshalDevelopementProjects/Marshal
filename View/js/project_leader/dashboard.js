@@ -170,36 +170,17 @@ const renderCalendar = (year, month) => {
 renderCalendar(year, month);
 
 
+
 // create task popup
 
 const priority = document.querySelector('.priority'),
-selectPriority = document.querySelector('.select-priority'),
-caret = document.querySelector('.caret'),
-priorityMenu = document.querySelector('.priority-menu'),
-priorityOptions = document.querySelectorAll('.priority-menu li'),
-selectedPriority = document.querySelector('.selected-priority'),
 btns = document.querySelector('.finish-created-task'),
 addTaskBtn = document.getElementById('add-task-btn'),
 addTaskPopup = document.querySelector('.create-task-popup'),
 cancelBtn = document.getElementById('cancel-task-btn'),
-createTaskBtn = document.getElementById('create-task-btn');
+createTaskBtn = document.getElementById('create-task-btn'),
+actualPriority = document.querySelector('.select-priority input');
 
-selectPriority.addEventListener('click', ()=>{
-    // selectPriority.classList.toggle('select-priority-clicked')
-    caret.classList.toggle('caret-rotate')
-    priorityMenu.classList.add('open')
-    btns.classList.add('active')
-})
-
-priorityOptions.forEach(option => {
-    option.addEventListener('click', () => {
-        selectedPriority.innerText = option.innerText;
-        selectPriority.classList.remove('select-priority-clicked')
-        caret.classList.remove('caret-rotate')
-        priorityMenu.classList.remove('open')
-        btns.classList.remove('active')
-    })
-})
 
 addTaskBtn.addEventListener('click', () => {
     addTaskPopup.classList.add('active')
@@ -249,4 +230,9 @@ LogOutButton.addEventListener("click", () => {
 });
 
 
+// load tasks 
 
+todoBoard = document.querySelector('.todo .tasks');
+todoBoard.addEventListener('click',() => {
+    console.log('todoBoard tasks clicked')
+})
