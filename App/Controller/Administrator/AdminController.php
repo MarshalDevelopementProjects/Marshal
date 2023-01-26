@@ -75,4 +75,8 @@ class AdminController extends Controller
     public function createNewUser(array $args = array())
     {
     }
+
+    public function editUserDetails(array $args = array())
+    {
+    }
 }
