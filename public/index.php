@@ -27,6 +27,8 @@ use Core\Router;
 
 $router = new Router();
 
+// REMEMBER +> GET methods is used to create a resource and serve it
+
 $router->get('/', IndexController::class . '::defaultAction');
 
 $router->get('/user/login', UserAuthController::class . '::onUserLogin');
@@ -54,6 +56,13 @@ $router->get('/user/projects', UserController::class . '::viewProjects');
 $router->post('/user/projects', UserController::class . '::createProject');
 
 $router->get('/user/project', UserController::class . '::gotoProject');
+$router->get('/user/notifications', UserController::class . '::getNotifications');
+$router->get('/user/join', UserController::class . '::userJoinOnProject');
+$router->get('/user/clicknotification', UserController::class . '::clickOnNotification');
+
+$router->get('/projectleader/getinfo', ProjectLeaderController::class . '::getProjectInfo');
+$router->post('/projectleader/invite', ProjectLeaderController::class . '::sendProjectInvitation');
+$router->post('/projectleader/createtask', ProjectLeaderController::class . '::createTask');
 
 $router->get('/user/profile', UserController::class . '::viewProfile');
 $router->put('/user/profile/edit', UserController::class . '::editProfile');
