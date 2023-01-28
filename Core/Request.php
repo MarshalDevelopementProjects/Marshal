@@ -34,7 +34,7 @@ class Request
      * $req_data if supplied must be the JSON string
      * 
      */
-    public static function getData(string $req_data = ""): array
+    public static function getData(string $req_data = ""): null|array
     {
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
             return self::sanitize($_GET);
@@ -43,7 +43,7 @@ class Request
         } else {
             if (!empty($req_data)) {
                 $data = json_decode($req_data, true);
-                self::sanitize($data);
+                if (!empty($data)) self::sanitize($data);
                 return $data;
             }
             return array();
@@ -90,9 +90,6 @@ class Request
      */
     public static function getQueryParams(string $route, string $uri): array|bool
     {
-        /* echo "<pre>";
-        var_dump(array("route" => $route, "uri" => $uri));
-        echo "</pre>"; */
         if (preg_match($route, $uri, $matches)) {
             $params = array_filter($matches, fn ($key) => is_string($key), ARRAY_FILTER_USE_KEY);
             $params = self::sanitize($params);
