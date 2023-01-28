@@ -158,9 +158,31 @@ ongoingBoard = document.querySelector('.ongoing .tasks'),
 reviewBoard = document.querySelector('.review .tasks'),
 doneBoard = document.querySelector('.done .tasks');
 
+var todoTasks = jsonData['todoTasks'];
+var ongoingTasks = jsonData['ongoingTasks'];
+var reviewTasks = jsonData['reviewTasks'];
+var doneTasks = jsonData['doneTasks'];
+
+
+let priorities = { "high": 3, "medium": 2, "low": 1 };
+
+todoTasks = Object.values(todoTasks).sort((a, b) => {
+    return priorities[b.priority] - priorities[a.priority];
+});
+ongoingTasks = Object.values(ongoingTasks).sort((a, b) => {
+    return priorities[b.priority] - priorities[a.priority];
+});
+reviewTasks = Object.values(reviewTasks).sort((a, b) => {
+    return priorities[b.priority] - priorities[a.priority];
+});
+doneTasks = Object.values(doneTasks).sort((a, b) => {
+    return priorities[b.priority] - priorities[a.priority];
+});
+
+
 todoTasksCode = "";
 
-jsonData['todoTasks'].forEach(task => {
+todoTasks.forEach(task => {
     todoTasksCode += `<div class="task" draggable="true">
                             <div class="top-task">
                                 <h4>${task['task_name']}</h4>
@@ -174,7 +196,7 @@ todoBoard.innerHTML = todoTasksCode;
 
 ongoingTasksCode = "";
 
-jsonData['ongoingTasks'].forEach(task => {
+ongoingTasks.forEach(task => {
     ongoingTasksCode += `<div class="task" draggable="true">
                             <div class="top-task">
                                 <h4>${task['task_name']}</h4>
@@ -188,7 +210,7 @@ ongoingBoard.innerHTML = ongoingTasksCode;
 
 reviewTasksCode = "";
 
-jsonData['reviewTasks'].forEach(task => {
+reviewTasks.forEach(task => {
     reviewTasksCode += `<div class="task" draggable="true">
                             <div class="top-task">
                                 <h4>${task['task_name']}</h4>
@@ -202,7 +224,7 @@ reviewBoard.innerHTML = reviewTasksCode;
 
 doneTasksCode = "";
 
-jsonData['doneTasks'].forEach(task => {
+doneTasks.forEach(task => {
     doneTasksCode += `<div class="task" draggable="true">
                             <div class="top-task">
                                 <h4>${task['task_name']}</h4>
@@ -218,7 +240,7 @@ doneBoard.innerHTML = doneTasksCode;
 // drag and drop tasks
 
 const tasks = document.querySelectorAll('.task');
-const boards = document.querySelectorAll('.board');
+const boards = document.querySelectorAll('.tasks');
 
 var startX, endX;
 
@@ -235,10 +257,11 @@ tasks.forEach(task => {
 })
 
 boards.forEach(board => {
+    board.addEventListener('click', () => {
+        console.log('ok')
+    })
     board.addEventListener('dragover', event => {
         event.preventDefault();
-        // const afterElement = getDragAfterElement(board, event.clientY);
-        // console.log(board)
 
         const task = document.querySelector('.dragging');
 
@@ -248,13 +271,11 @@ boards.forEach(board => {
 
             var firstChild = board.firstChild
             if(firstChild){
-                var secondChild = firstChild.nextSibling;
-                if(secondChild){
-                    board.insertBefore(task, secondChild)
-                }else{
-                    board.appendChild(task);
-                }
+                // var secondChild = firstChild.nextSibling;
+                console.log(firstChild)
                 
+                board.insertBefore(task, firstChild)
+                // board.appendChild(task);
             }else{
                 board.appendChild(task);
             }
@@ -263,26 +284,12 @@ boards.forEach(board => {
     })
 })
 
-function getDragAfterElement(board, y){
-    const draggableElements = [...board.querySelectorAll('.task:not(.dragging)')]
-
-    return draggableElements.reduce((closest, child)=>{
-        const box = child.getBoundingClientRect()
-        const offset = y - box.top - box.height/2
-        // console.log(offset)
-        if(offset < 0 && offset > closest.offset){
-            return {offset: offset, element: child}
-        }else{
-            return closest
-        }
-    }, {offset: Number.NEGATIVE_INFINITY}).element
-}
 
 
 
 
 
-
+// logout functionality
 
 const LogOutButton = document.getElementById("log-out-btn");
 
