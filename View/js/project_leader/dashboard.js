@@ -215,32 +215,50 @@ jsonData['doneTasks'].forEach(task => {
 doneBoard.innerHTML = doneTasksCode;
 
 
+// drag and drop tasks
 
 const tasks = document.querySelectorAll('.task');
 const boards = document.querySelectorAll('.board');
 
+var startX, endX;
+
 tasks.forEach(task => {
-    task.addEventListener('dragstart', ()=>{
+    task.addEventListener('dragstart', (event)=>{
         task.classList.add('dragging');
+        startX = event.clientX;
     })
 
-    task.addEventListener('dragend', ()=>{
+    task.addEventListener('dragend', (event)=>{
         task.classList.remove('dragging');
+        endX = event.clientX;
     })
 })
 
 boards.forEach(board => {
-    board.addEventListener('dragover', e => {
-        e.preventDefault();
-        const afterElement = getDragAfterElement(board, e.clientY);
-        console.log(board)
-        // if(board == '')
+    board.addEventListener('dragover', event => {
+        event.preventDefault();
+        // const afterElement = getDragAfterElement(board, event.clientY);
+        // console.log(board)
+
         const task = document.querySelector('.dragging');
-        
-        if(afterElement == null){
-            board.appendChild(task);
-        }else{
-            board.insertBefore(task, afterElement);
+
+        var dragDistance = event.clientX - startX;
+        if(dragDistance > 0 && dragDistance < 350){
+            console.log(event.clientX - startX)
+
+            var firstChild = board.firstChild
+            if(firstChild){
+                var secondChild = firstChild.nextSibling;
+                if(secondChild){
+                    board.insertBefore(task, secondChild)
+                }else{
+                    board.appendChild(task);
+                }
+                
+            }else{
+                board.appendChild(task);
+            }
+            
         }
     })
 })
