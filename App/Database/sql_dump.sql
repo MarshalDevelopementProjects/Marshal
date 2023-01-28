@@ -28,6 +28,8 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `admin`
 --
+create database marshal2_0;
+use marshal2_0;
 
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
