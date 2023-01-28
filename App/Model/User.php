@@ -41,11 +41,11 @@ class User implements Model
         return false;
     }
 
-    public function updateState(string|int $id, string $state = "OFFLINE")
+    public function updateState(string|int $id, string $user_state = "OFFLINE")
     {
         try {
-            $sql_string = "UPDATE `user` SET `state` = :state WHERE `id` = :id";
-            $this->crud_util->execute($sql_string, ["state" => $state, "id" => $id]);
+            $sql_string = "UPDATE `user` SET `user_state` = :user_state WHERE `id` = :id";
+            $this->crud_util->execute($sql_string, ["user_state" => $user_state, "id" => $id]);
             return true;
         } catch (\Exception $exception) {
             throw $exception;
@@ -69,7 +69,18 @@ class User implements Model
         }
     }
 
-    public function updateUser(string|int $id, array $args = array())
+    public function updateProfilePicture(string|int $id, string $value)
+    {
+        $sql_string = "UPDATE `user` SET `profile_picture` = :profile_picture WHERE `id` =:id";
+        try {
+            $this->crud_util->execute($sql_string, array("id" => $id, "profile_picture" => $value));
+            return true;
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function updateUser(string|int $id, array $args)
     {
         try {
             $sql_string = "UPDATE `user` SET
@@ -83,10 +94,6 @@ class User implements Model
                           `user_status` = :user_status
                           WHERE `id` = :id";
             $args["id"] = $id;
-            echo "<pre>";
-            var_dump($sql_string);
-            var_dump($args);
-            echo "</pre>";
             $this->crud_util->execute($sql_string, $args);
             return true;
         } catch (\Exception $exception) {
