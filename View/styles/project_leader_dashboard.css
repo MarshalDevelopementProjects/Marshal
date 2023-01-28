@@ -445,6 +445,7 @@ body{
     /* border: 1px solid black; */
     height: fit-content;
     max-height: 450px;
+    min-height: 15px;
     overflow-y: scroll;
     overflow-x: hidden;
 }
