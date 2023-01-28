@@ -80,7 +80,7 @@ class UserAuthController extends Token
                         );
                         $_SESSION["primary_role"] = "user";
                         // set the state to "ONLINE"
-                        $this->user->updateState(id: $this->user->getUserData()->id, state: "ONLINE");
+                        $this->user->updateState(id: $this->user->getUserData()->id, user_state: "ONLINE");
                         header("Location: http://localhost/public/user/dashboard");
                         exit;
                     } else {
@@ -167,7 +167,6 @@ class UserAuthController extends Token
                         status: "success",
                         content: array("message" => "User successfully registered")
                     );
-                    exit;
                 } else {
                     $this->errors["message"] = "Validation errors in your inputs";
                     $this->errors["errors"] = array_merge([], $this->validator->getErrors());
@@ -225,17 +224,18 @@ class UserAuthController extends Token
     {
         session_start();
         if ($this->isLogged()) {
+            // set the state to "OFFLINE"
+            try {
+                $this->user = new User($this->getCredentials()->id);
+                $this->user->updateState(id: $this->user->getUserData()->id, user_state: "OFFLINE");
+            } catch (\Exception $exception) {
+                throw $exception;
+            }
             if (Cookie::cookieExists(Config::getApiGlobal("remember")['access'])) {
                 Cookie::deleteCookie(Config::getApiGlobal("remember")['access']);
             }
             if (Cookie::cookieExists(Config::getApiGlobal("remember")['refresh'])) {
                 Cookie::deleteCookie(Config::getApiGlobal("remember")['refresh']);
-            }
-            // set the state to "OFFLINE"
-            try {
-                $this->user->updateState(id: $this->user->getUserData()->id, state: "OFFLINE");
-            } catch (\Exception $exception) {
-                throw $exception;
             }
             session_destroy();
             $this->sendJsonResponse("success", ["message" => "user successfully logged out"]);
