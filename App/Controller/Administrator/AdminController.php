@@ -62,7 +62,17 @@ class AdminController extends Controller
         $this->sendResponse(
             view: "/admin/dashboard.html",
             status: "success",
-            content: array("message" => "Welcome")
+            content: array(
+                "message" => "Welcome",
+                "no_users" => 100,
+                "no_admins" => 4,
+                "no_active_users" => 10,
+                "user_details" => array(
+                    "ed_north" => "ed_north@gmail.com",
+                    "andrea_thomas" => "andrea_thomas@gmail.com",
+                    "kylo_ren" => "kylo_ren@gmail.com",
+                )
+            )
         );
         exit;
     }
@@ -70,13 +80,204 @@ class AdminController extends Controller
     // get all the users in the database
     public function viewAllUsers()
     {
+        try {
+            // check whether the user exists first by checking the count then send the details
+            // and unset the user password from this
+            if ($this->admin->readAllUsers()) {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "Users successfully retrieved",
+                        "user_details" => $this->admin->getQueryResults()
+                    )
+                );
+            } else {
+                $this->sendJsonResponse(
+                    status: "error",
+                    content: array(
+                        "message" => "System users cannot be retrieved",
+                    )
+                );
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    // this $args here should contain a field with a key as the
+    // column name and the value as the column value
+    public function viewUserDetails(array $args)
+    {
+        try {
+            // check whether the user exists first by checking the count then send the details
+            // and unset the user password from this
+            if ($this->admin->readUser($args["key"], $args["value"])) {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "User details successfully retrieved",
+                        "user_details" => $this->admin->getQueryResults()
+                    )
+                );
+            } else {
+                $this->sendJsonResponse(
+                    status: "error",
+                    content: array(
+                        "message" => "User details cannot be retrieved",
+                    )
+                );
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
     }
 
     public function createNewUser(array $args = array())
     {
+        try {
+            // validate the data first and then create the user
+            $this->validator->validate(values: $args, schema: "signup");
+            if ($this->validator->getPassed()) {
+                if ($this->admin->createUser($args))
+                    $this->sendJsonResponse(
+                        status: "success",
+                        content: array(
+                            "message" => "New user successfully created",
+                        )
+                    );
+                else
+                    $this->sendJsonResponse(
+                        status: "internal_server_error",
+                        content: array(
+                            "message" => "User cannot be created",
+                        )
+                    );
+            } else {
+                $this->sendJsonResponse(
+                    status: "error",
+                    content: array(
+                        "message" => "You have the errors in our inputs",
+                        "errors" => $this->validator->getErrors()
+                    )
+                );
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
     }
 
-    public function editUserDetails(array $args = array())
+    // this args array should contain the following
+    // $args["key"] => "column_name"
+    // $args["value"] => "column_value"
+    public function blockUser(array $args)
     {
+        try {
+            if ($this->admin->disableUserAccount(key: $args["key"], value: $args["value"])) {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "User account successfully disabled",
+                    )
+                );
+            } else {
+                $this->sendJsonResponse(
+                    status: "error",
+                    content: array(
+                        "message" => "User account cannot be disabled",
+                    )
+                );
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    // this args array should contain the following
+    // $args["key"] => "column_name"
+    // $args["value"] => "column_value"
+    public function grantAccessToUser(array $args)
+    {
+        try {
+            if ($this->admin->enableUserAccount(key: $args["key"], value: $args["value"])) {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "Active users successfully activated",
+                    )
+                );
+            } else {
+                $this->sendJsonResponse(
+                    status: "error",
+                    content: array(
+                        "message" => "User account cannot be activated",
+                    )
+                );
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function viewActiveUsers()
+    {
+        try {
+            if ($this->admin->getActiveUsers()) {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "Active users successfully retrieved",
+                        "active_users" => $this->admin->getQueryResults()
+                    )
+                );
+            } else {
+                $this->sendJsonResponse(
+                    status: "error",
+                    content: array(
+                        "message" => "Active users cannot be retrieved",
+                    )
+                );
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function viewBlockedUsers()
+    {
+        try {
+            if ($this->admin->getBlockedUsers()) {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "Blocked users successfully retrieved",
+                        "blocked_users" => $this->admin->getQueryResults()
+                    )
+                );
+            } else {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "Blocked users cannot be retrieved",
+                    )
+                );
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    // after notification is fixed
+    public function broadcastMessages(array $args)
+    {
+        // this args array should contain the following
+        // $args["message"] => "message_to_be_sent"
+    }
+
+    // after notification is fixed
+    public function unicastMessages(array $args)
+    {
+        // this args array should contain the following
+        // $args["id"] => "user_id_of_the_receiver"
+        // $args["message"] => "message_to_be_sent"
     }
 }
