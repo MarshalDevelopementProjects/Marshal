@@ -1,0 +1,30 @@
+.profile {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 20px;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.username {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.user-info {
+    width: 100%;
+}
+
+.user-info p {
+    margin-bottom: 10px;
+}
+
+.user-info .info {
+    font-weight: bold;
+}
