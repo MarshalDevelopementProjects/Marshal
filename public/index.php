@@ -2,14 +2,10 @@
 
 require __DIR__ . "/../vendor/autoload.php";
 
-/* echo "<pre>";
-var_dump($_SERVER);
-echo "</pre>"; */
-
-// header("Access-Control-Allow-Origin: http://localhost");
-// header("Access-Control-Allow-Credentials: true");
-// header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Authorization, Origin');
-// header('Access-Control-Allow-Methods:  POST, PUT, GET, DELETE');
+header("Access-Control-Allow-Origin: http://localhost");
+header("Access-Control-Allow-Credentials: true");
+header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Authorization, Origin, IMAGE_TYPE, IMAGE_NAME');
+header('Access-Control-Allow-Methods:  POST, PUT, GET, DELETE');
 
 use App\Controller\Index\IndexController;
 use App\Controller\User\UserController;
@@ -60,7 +56,8 @@ $router->post('/user/projects', UserController::class . '::createProject');
 $router->get('/user/project', UserController::class . '::gotoProject');
 
 $router->get('/user/profile', UserController::class . '::viewProfile');
-$router->post('/user/profile/edit', UserController::class . '::editProfile');
+$router->put('/user/profile/edit', UserController::class . '::editProfile');
+$router->post('/user/profile/edit/picture', UserController::class . '::uploadProfilePicture');
 
 // sanitize the uri
 $uri = htmlspecialchars(
