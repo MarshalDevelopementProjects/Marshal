@@ -2,11 +2,10 @@
 
 namespace Core;
 
-require __DIR__ . "/../../vendor/autoload.php";
+require __DIR__ . "/../vendor/autoload.php";
 
 use Core\Response;
 use App\CrudUtil\CrudUtil;
-use \finfo;
 
 /**
  * This class encapsulates all the functionalities required for 
@@ -21,7 +20,7 @@ class FileUploader
      * A field must contain the following 
      * 
      * array(
-     *  $field_to_look_for => what is the field to look for in the $_FILES super global variable,
+     *  $field_to_look_for => what is the field to look for in the $_FILES super global variable and the value for this is an array,
      *      array(
      *          $upload_to => directory to upload the file to
      *          $upload_as => a proper name to be given for the file
@@ -36,27 +35,24 @@ class FileUploader
     {
         if (!empty($_FILES)) {
             foreach ($fields as $key => $values) {
-                forward_static_call(static function (
-                    array $allowed_file_types,
-                    string|array $field_to_look_for,
-                    string $upload_to,
-                    string $upload_as = "",
-                    int $max_cap = 1048576,
-                    string $query = ""
-                ) {
-                    $val = self::performChecksAndUpload($allowed_file_types, $field_to_look_for, $upload_to, $upload_as, $max_cap, $query);
-                    if ($val === false) exit("returned false");
-                }, array_merge(array("allowed_file_type" => $allowed_file_types, "field_to_look_for" => $key), $values));
+                $values["allowed_file_types"] = $allowed_file_types;
+                $values["field_to_look_for"] = $key;
+                $return_val = forward_static_call(
+                    array(FileUploader::class, 'performChecksAndUpload'),
+                    $values['allowed_file_types'],
+                    $values['field_to_look_for'],
+                    $values['upload_to'],
+                    $values['upload_as'],
+                    $values['max_cap'],
+                    $values['query']
+                );
                 // if (!array_key_exists("max_cap", $values)) self::performChecks($allowed_file_types, $values["field"], $values["upload_to"], $values["upload_as"]);
                 // else self::performChecks($allowed_file_types, $values["field"], $values["upload_to"], $values["upload_as"], $values["max_cap"]);
+                if (!$return_val) {
+                    return false;
+                }
             }
-            Response::sendJsonResponse(
-                status: "success",
-                content: array(
-                    "message" => "File uploaded successfully"
-                )
-            );
-            exit;
+            return true;
         } else {
             Response::sendJsonResponse(
                 status: "error",
@@ -64,10 +60,11 @@ class FileUploader
                     "message" => "Form submission without any content is not permitted"
                 )
             );
+            exit;
         }
     }
 
-    private static function performChecksAndUpload(
+    public static function performChecksAndUpload(
         array $allowed_file_types,
         string|array $field_to_look_for,
         string $upload_to,
@@ -141,29 +138,37 @@ class FileUploader
                     exit;
                     break;
             }
+        } else {
             // check the maximum file size, if the incoming file exceeds this rate then reject the file
             if ($_FILES[$field_to_look_for]["size"] <= $max_cap) {
                 // check for the valid file types
-                $finfo = new finfo(FILEINFO_MIME_TYPE);
-                $mime_type = $finfo->file($_FILES[$field_to_look_for]["tmp"]);
-                if (in_array($mime_type, $allowed_file_types)) {
+                $finfo = new \finfo(FILEINFO_MIME_TYPE);
+                $mime_type = $finfo->file($_FILES[$field_to_look_for]["tmp_name"]);
+                if (in_array($_FILES[$field_to_look_for]["type"], $allowed_file_types)) {
                     // if the file is valid move the file to a permanent location
-                    $destination = $upload_to . '/' . $upload_as !== "" ? $upload_as : $_FILES[$field_to_look_for]["name"];
+
+                    $pathinfo = pathinfo($_FILES[$field_to_look_for]["name"]);
+                    $base = $pathinfo["filename"];
+                    $base = preg_replace("/[^\w-]/", "_", $base);
+                    $filename = $base . "." . $pathinfo["extension"];
+
+                    // $destination = $upload_to . '\\' . ($upload_as != "" ? $upload_as : $filename);
+                    $destination = "D:/xampp/htdocs" . $upload_to . '/' . ($upload_as != "" ? $upload_as : $filename);
                     if (!move_uploaded_file($_FILES[$field_to_look_for]["tmp_name"], $destination)) {
                         // file cannot be moved failed to move the file
                         throw new \Exception("File cannot be moved due to permission errors");
                     } else {
                         // file successfully moved and added to the database
-                        if (!empty($database_credentials)) {
+                        if (!empty($query)) {
                             try {
                                 $crud_util = new CrudUtil();
-                                $crud_util->execute($query, array($field_to_look_for => $destination));
+                                $crud_util->execute($query, array($field_to_look_for => preg_replace("/\\\\/", "/", $upload_to . "/" . $filename)));
                             } catch (\Exception $exception) {
                                 throw $exception;
                             }
                         }
-                        return true;
                     }
+                    return true;
                 } else {
                     Response::sendJsonResponse(
                         status: "error",
@@ -182,13 +187,6 @@ class FileUploader
                 );
                 exit;
             }
-        } else {
-            Response::sendJsonResponse(
-                status: "error",
-                content: array(
-                    "message" => "File cannot be uploaded, please check the file and try again"
-                )
-            );
         }
     }
 }
