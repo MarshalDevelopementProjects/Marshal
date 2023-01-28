@@ -9,6 +9,7 @@ use App\Model\User;
 use App\Controller\Controller;
 use App\Model\Project;
 use Core\Validator\Validator;
+use Core\FileUploader;
 
 class UserController extends Controller
 {
@@ -176,13 +177,18 @@ class UserController extends Controller
                 status: "success",
                 content: [
                     "message" => "Successful",
-                    "first_name" => $user_data->first_name,
-                    "last_name" => $user_data->last_name,
-                    "email_address" => $user_data->email_address,
-                    "phone_number" => $user_data->phone_number,
-                    "user_status" => $user_data->user_status,
-                    "position" => $user_data->position,
-                    "bio" => $user_data->bio
+                    "user_info" => [
+                        "username" => $user_data->username,
+                        "first_name" => $user_data->first_name,
+                        "last_name" => $user_data->last_name,
+                        "email_address" => $user_data->email_address,
+                        "phone_number" => $user_data->phone_number,
+                        "user_status" => $user_data->user_status,
+                        "position" => $user_data->position,
+                        "display_picture" => $user_data->profile_picture,
+                        "bio" => $user_data->bio
+                    ],
+                    "other_info" => []
                 ]
             );
         } catch (\Exception $exception) {
@@ -190,9 +196,38 @@ class UserController extends Controller
         }
     }
 
-    // in this args array look for the data value to get the profile picture
-    public function uploadProfilePicture(array $args = array())
+    public function uploadProfilePicture()
     {
+        // perform additional checks and other validations before giving data to this function
+        // and also make sure to construct an appropriate file name for storing the file
+        $result = FileUploader::upload(
+            allowed_file_types: array("image/jpg", "image/png", "image/gif"),
+            fields: array(
+                "profile_picture" => array(
+                    "upload_to" => "/App/Database/Uploads/ProfilePictures",
+                    "upload_as" => "",
+                    "query" => "UPDATE `user` SET `profile_picture` = :profile_picture WHERE `id` = {$this->userAuth->getCredentials()->id}",
+                    "max_cap" => 6291456
+                )
+            )
+        );
+
+        if ($result) {
+            $this->sendJsonResponse(
+                status: "success",
+                content: [
+                    "message" => "Profile picture successfully updated"
+                ]
+            );
+        } else {
+            $this->sendResponse(
+                view: "/errors/500.html",
+                status: "error",
+                content: [
+                    "message" => "Image cannot be uploaded"
+                ]
+            );
+        }
     }
 
     public function editProfile(array $args = array())
@@ -201,37 +236,65 @@ class UserController extends Controller
             $old_user_info = $this->user->getUserData();
             $new_user_info = array();
             foreach ($args as $key => $value) {
-                if ($old_user_info->$key != $value) {
+                if ($old_user_info->$key !== $value) {
                     $new_user_info[$key] = $value;
                 } else {
                     $args[$key] = $value;
                 }
             }
-            $this->validator->validate($new_user_info, "user_edit_profile");
-            if ($this->validator->getPassed()) {
-                $args["id"] = $old_user_info->id;
-                if ($this->user->updateUser(id: $old_user_info->id, args: array_merge($args, $new_user_info))) {
-                    $this->user->readUser(key: "id", value: $old_user_info->id);
-                    $user_data = $this->user->getUserData();
-                    $this->sendResponse(
-                        view: "/user/profilepage.html",
-                        status: "success",
-                        content: [
-                            "message" => "Profile successfully updated",
-                            "first_name" => $user_data->first_name,
-                            "last_name" => $user_data->last_name,
-                            "email_address" => $user_data->email_address,
-                            "phone_number" => $user_data->phone_number,
-                            "user_status" => $user_data->user_status,
-                            "position" => $user_data->position,
-                            "bio" => $user_data->bio
-                        ]
-                    );
+            if (!empty($new_user_info)) {
+                $this->validator->validate($new_user_info, "user_edit_profile");
+                if ($this->validator->getPassed()) {
+                    $args["id"] = $old_user_info->id;
+                    if ($this->user->updateUser(id: $old_user_info->id, args: array_merge($args, $new_user_info))) {
+                        $this->user->readUser(key: "id", value: $old_user_info->id);
+                        $user_data = $this->user->getUserData();
+                        $this->sendJsonResponse(
+                            status: "success",
+                            content: [
+                                "message" => "Profile successfully updated",
+                                "user_info" => [
+                                    "username" => $user_data->username,
+                                    "first_name" => $user_data->first_name,
+                                    "last_name" => $user_data->last_name,
+                                    "email_address" => $user_data->email_address,
+                                    "phone_number" => $user_data->phone_number,
+                                    "user_status" => $user_data->user_status,
+                                    "position" => $user_data->position,
+                                    "display_picture" => $user_data->profile_picture,
+                                    "bio" => $user_data->bio
+                                ],
+                                "other_info" => []
+                            ]
+                        );
+                    } else {
+                        $this->sendJsonResponse(
+                            status: "error",
+                            content: array_merge(
+                                [
+                                    "message" => "User data cannot be updated",
+                                ]
+                            )
+                        );
+                    }
                 } else {
-                    $this->sendJsonResponse(status: "error", content: array_merge(["message" => "User data cannot be updated"]));
+                    $this->sendJsonResponse(
+                        status: "error",
+                        content: array_merge(
+                            [
+                                "message" => "Please check your inputs",
+                                "errors" => $this->validator->getErrors()
+                            ]
+                        )
+                    );
                 }
             } else {
-                $this->sendJsonResponse(status: "error", content: array_merge(["message" => "Please check your inputs"], $this->validator->getErrors()));
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array_merge([
+                        "message" => "Nothing new to update"
+                    ])
+                );
             }
         } catch (\Exception $exception) {
             throw $exception;
