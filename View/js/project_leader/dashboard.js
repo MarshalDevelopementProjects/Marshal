@@ -239,51 +239,92 @@ doneBoard.innerHTML = doneTasksCode;
 
 // drag and drop tasks
 
-const tasks = document.querySelectorAll('.task');
-const boards = document.querySelectorAll('.tasks');
+// const tasks = document.querySelectorAll('.task');
+// const boards = document.querySelectorAll('.tasks');
 
-var startX, endX;
+// var startX, endX;
+
+// tasks.forEach(task => {
+//     task.addEventListener('dragstart', (event)=>{
+//         task.classList.add('dragging');
+//         startX = event.clientX;
+//     })
+
+//     task.addEventListener('dragend', (event)=>{
+//         task.classList.remove('dragging');
+//         endX = event.clientX;
+//     })
+// })
+
+// boards.forEach(board => {
+//     board.addEventListener('click', () => {
+//         console.log('ok')
+//     })
+//     board.addEventListener('dragover', event => {
+//         event.preventDefault();
+
+//         const task = document.querySelector('.dragging');
+
+//         var dragDistance = event.clientX - startX;
+//         if(dragDistance > 0 && dragDistance < 350){
+//             console.log(event.clientX - startX)
+
+//             var firstChild = board.firstChild
+//             if(firstChild){
+//                 // var secondChild = firstChild.nextSibling;
+//                 console.log(firstChild)
+                
+//                 board.insertBefore(task, firstChild)
+//                 // board.appendChild(task);
+//             }else{
+//                 board.appendChild(task);
+//             }
+            
+//         }
+//     })
+// })
+
+const tasks = document.querySelectorAll('.task');
+const boards = document.querySelectorAll('.board');
 
 tasks.forEach(task => {
-    task.addEventListener('dragstart', (event)=>{
+    task.addEventListener('dragstart', ()=>{
         task.classList.add('dragging');
-        startX = event.clientX;
     })
 
-    task.addEventListener('dragend', (event)=>{
+    task.addEventListener('dragend', ()=>{
         task.classList.remove('dragging');
-        endX = event.clientX;
     })
 })
 
 boards.forEach(board => {
-    board.addEventListener('click', () => {
-        console.log('ok')
-    })
-    board.addEventListener('dragover', event => {
-        event.preventDefault();
-
+    board.addEventListener('dragover', e => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(board, e.clientY);
         const task = document.querySelector('.dragging');
-
-        var dragDistance = event.clientX - startX;
-        if(dragDistance > 0 && dragDistance < 350){
-            console.log(event.clientX - startX)
-
-            var firstChild = board.firstChild
-            if(firstChild){
-                // var secondChild = firstChild.nextSibling;
-                console.log(firstChild)
-                
-                board.insertBefore(task, firstChild)
-                // board.appendChild(task);
-            }else{
-                board.appendChild(task);
-            }
-            
+        
+        if(afterElement == null){
+            board.appendChild(task);
+        }else{
+            board.insertBefore(task, afterElement);
         }
     })
 })
 
+function getDragAfterElement(board, y){
+    const draggableElements = [...board.querySelectorAll('.task:not(.dragging)')]
+
+    return draggableElements.reduce((closest, child)=>{
+        const box = child.getBoundingClientRect()
+        const offset = y - box.top - box.height/2
+        console.log(offset)
+        if(offset < 0 && offset > closest.offset){
+            return {offset: offset, element: child}
+        }else{
+            return closest
+        }
+    }, {offset: Number.NEGATIVE_INFINITY}).element
+}
 
 
 
