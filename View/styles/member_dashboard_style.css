@@ -323,6 +323,7 @@ body{
     max-height: 450px;
     overflow-y: scroll;
     overflow-x: hidden;
+    min-height: 15px;
 }
 .board .task{
     height: 90px;
@@ -338,6 +339,39 @@ body{
 .task .top-task{
     display: flex;
     justify-content: space-between;
+}
+.top-task .priority-high{
+    color: #fff;
+    background-color: #F83B3B;
+    width: 50px;
+    font-size: 12px;
+    height: 16px;
+    text-align: center;
+    margin: 8px 12px 0 0;
+    padding-top: 1px;
+    border-radius: 4px;
+}
+.top-task .priority-medium{
+    color: #fff;
+    background-color: #F0B11D;
+    width: 50px;
+    font-size: 12px;
+    height: 16px;
+    text-align: center;
+    margin: 8px 12px 0 0;
+    padding-top: 1px;
+    border-radius: 4px;
+}
+.top-task .priority-low{
+    color: #fff;
+    background-color: #20B289;
+    width: 50px;
+    font-size: 12px;
+    height: 16px;
+    text-align: center;
+    margin: 8px 12px 0 0;
+    padding-top: 1px;
+    border-radius: 4px;
 }
 .top-task h4{
     color: #222;
