@@ -7,7 +7,9 @@ require __DIR__ . "/../../../vendor/autoload.php";
 use App\Controller\Authenticate\UserAuthController;
 use App\Model\User;
 use App\Controller\Controller;
+use App\Controller\Project\ProjectController;
 use App\Model\Project;
+use App\Model\Notification;
 use Core\Validator\Validator;
 use Core\FileUploader;
 
@@ -52,10 +54,22 @@ class UserController extends Controller
 
     public function defaultAction(Object|array|string|int $optional = null)
     {
+        // get relevant projects
+        $payload = $this->userAuth->getCredentials(); // get the payload content
+        $project = new Project($payload->id);
+
+        $Projects = array();
+        if ($project->readProjectsOfUser($payload->id)) {
+            $Projects = $project->getProjectData();
+        }
+        // if ($Projects == null) {
+        //     $Projects = array();
+        // }
+
         $this->sendResponse(
             view: "/user/dashboard.html",
             status: "success",
-            content: array("message" => "Welcome")
+            content: $Projects
         );
     }
 
@@ -116,13 +130,19 @@ class UserController extends Controller
                 $_SESSION["project_id"] = $data["id"];
                 switch ($project->getProjectData()[0]->role) {
                     case 'LEADER':
+                        $args = array(
+                            "project_id" => $_SESSION['project_id']
+                        );
+                        $projectController = new ProjectController();
+                        
                         $this->sendResponse(
                             view: "/project_leader/dashboard.html",
                             status: "success",
-                            content: $project->readProjectsOfUser(
-                                member_id: $payload->id,
-                                project_id: $data["id"]
-                            ) ? $project->getProjectData() : array()
+                            content: $projectController->getProjectTasks($args)
+                            // content: $project->readProjectsOfUser(
+                            //     member_id: $payload->id,
+                            //     project_id: $data["id"]
+                            // ) ? $project->getProjectData() : array()
                         );
                         break;
                     case 'CLIENT':
@@ -308,4 +328,153 @@ class UserController extends Controller
         }
         return null;
     }
+    public function getNotifications(){
+
+        $payload = $this->userAuth->getCredentials();
+        $userId = $payload->id;
+
+        $notification = new Notification();
+        $args = array(
+            "memberId" => $userId
+        );
+        $notifications = $notification->getNotificationsOfUser($args);
+        
+        foreach($notifications as $notification){
+            $senderId = $notification->senderId;
+
+            // get sender name
+            $sender = new User($senderId);
+            $sendername = $sender->getUserData()->first_name . ' ' . $sender->getUserData()->last_name;
+            $notification->senderId = $sendername;
+            $notification->sendTime = explode(' ', $notification->sendTime)[0];
+        }
+
+        // $projectId = $notifications[0]->projectId;
+        
+        // $args = array(
+        //     "id" => $projectId
+        // );
+        
+        if($notifications){
+            echo (json_encode(array("message" => $notifications)));
+        }else{
+            echo (json_encode(array("message" => null)));
+        }
+        
+    }
+
+    public function userJoinOnProject(){
+        $projectId = $_GET['data1'];
+        $notificationId = $_GET['data2'];
+
+        $payload = $this->userAuth->getCredentials();
+        $userId = $payload->id;
+
+        $args = array(
+            "project_id" => $projectId,
+            "member_id" => $userId,
+            "role" => "MEMBER",
+            "joined" => date("Y-m-d H:i:s")
+        );
+
+        $project = new Project($userId);
+
+        // set as read the notification 
+
+        if($project->joinProject($args) && $this->readNotification($notificationId)){
+            $this->sendResponse(
+                view: "/user/login.html",
+                status: "success"
+            );
+        }else{
+            $this->sendResponse(
+                view: "/user/signup.html",
+                status: "success"
+            );
+        }
+        // we should send the notification to leader to inform our response
+        $this->sendResponseNotification($notificationId, $projectId);
+    }
+
+    public function clickOnNotification(){
+        $notificationId = $_GET['data'];
+        $this->readNotification($notificationId);
+
+        // $this->defaultAction();
+
+    }
+
+    public function readNotification($notificationId){
+
+        $payload = $this->userAuth->getCredentials();
+        $userId = $payload->id;
+
+        $notification = new Notification();
+        $conditions = array(
+            "notificationId" => $notificationId,
+            "memberId" => $userId
+        );
+        
+        if($notification->readNotification($conditions)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function sendResponseNotification($notificationId, $projectId){
+        try {
+            $notification = new Notification();
+            $args = array(
+                "id" => $notificationId
+            );
+            $notificationData = $notification->getNotificationData($args);
+
+            // get received user id
+            // $user = new User();
+            // $user->readUser("id", $notificationData['senderId']);
+            // $receivedUser = $user->getUserData();
+
+            
+            $payload = $this->userAuth->getCredentials();
+            $user_id = $payload->id;
+
+            $date = date("Y-m-d H:i:s");
+
+            $args = array(
+                "projectId" => $projectId,
+                "message" => "I accept your invitation, So now I will a member of your project",
+                "type" => "notification",
+                "senderId" => $user_id,
+                "sendTime" => $date
+            );
+        
+            // set notified members
+            // get notification id
+            $notification = new Notification();
+            $notification->createNotification($args);
+
+            $conditions = array(
+                "projectId" => $projectId,
+                "senderId" => $user_id,
+                "sendTime" => $date
+            );
+
+            $newNotification = $notification->getNotificationData($conditions);
+            $newNotificationId = $newNotification[0]->id;
+
+            $receivedUserId = 1;
+            $arguments = array(
+                "notificationId" => $newNotificationId,
+                "memberId" => $receivedUserId
+            );
+            $notification->setNotifiedMembers($arguments);
+
+            echo (json_encode(array("message" => "Success")));
+
+        } catch (\Throwable $th) {
+            echo (json_encode(array("message" => $th)));
+        }
+    }
+
 }
