@@ -37,7 +37,7 @@ abstract class Controller
      */
     public function actionNotFound()
     {
-        $this->sendResponse(503, "service_unavailable", array("message" => "such a service cannot be found"));
+        $this->sendResponse("/errors/503.html", "service_unavailable", array("message" => "such a service cannot be found"));
     }
 
     /** 
