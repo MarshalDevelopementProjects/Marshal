@@ -207,7 +207,7 @@ class UserController extends Controller
                     "upload_to" => "/App/Database/Uploads/ProfilePictures",
                     "upload_as" => "",
                     "query" => "UPDATE `user` SET `profile_picture` = :profile_picture WHERE `id` = {$this->userAuth->getCredentials()->id}",
-                    "max_cap" => 6291456
+                    "max_cap" => 6291456 // file size in binary bytes
                 )
             )
         );
