@@ -188,7 +188,7 @@ class Router
     private function match(string $pattern, string $target): bool
     {
         $params = Request::getQueryParams($pattern, $target);
-        if ($params) {
+        if ($params || preg_match($pattern, $target)) {
             if (is_array($params)) $this->params = $params;
             return true;
         }
@@ -209,7 +209,7 @@ class Router
      * @throws \Exception if callback registered in the @var array $routes is not valid
      * @return void
      */
-    public function dispatch(string $uri, array $data = array()): void
+    public function dispatch(string $uri, null|array $data = array()): void
     {
         // GET . "/user/project" => GET/user/project
         $request = $_SERVER["REQUEST_METHOD"] . $uri;
@@ -218,7 +218,7 @@ class Router
         foreach ($this->routes as $pattern => $callback) {
             if ($matched = $this->match($pattern, $request)) {
 
-                $data = array_merge($this->params, $data);
+                $data = $data !== null ? array_merge($this->params, $data) : $this->params;
 
                 if (is_string($callback)) {
                     $parts = explode('::', $callback);
