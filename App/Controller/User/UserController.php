@@ -156,13 +156,20 @@ class UserController extends Controller
                         );
                         break;
                     case 'MEMBER':
+
+                        $args = array(
+                            "project_id" => $_SESSION['project_id']
+                        );
+                        $projectController = new ProjectController();
+                        
                         $this->sendResponse(
                             view: "/project_member/dashboard.html",
                             status: "success",
-                            content: $project->readProjectsOfUser(
-                                member_id: $payload->id,
-                                project_id: $data["id"]
-                            ) ? $project->getProjectData() : array()
+                            content: $projectController->getProjectTasks($args)
+                            // content: $project->readProjectsOfUser(
+                            //     member_id: $payload->id,
+                            //     project_id: $data["id"]
+                            // ) ? $project->getProjectData() : array()
                         );
                         break;
                     default: {
