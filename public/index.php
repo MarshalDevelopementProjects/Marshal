@@ -67,6 +67,7 @@ $router->post('/projectleader/createtask', ProjectLeaderController::class . '::c
 $router->get('/user/profile', UserController::class . '::viewProfile');
 $router->put('/user/profile/edit', UserController::class . '::editProfile');
 $router->post('/user/profile/edit/picture', UserController::class . '::uploadProfilePicture');
+$router->get('/user/signup/email/verification', UserAuthController::class . '::verifyUserEmailOnSignUp');
 
 // sanitize the uri
 $uri = htmlspecialchars(
