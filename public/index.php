@@ -49,6 +49,8 @@ $router->get('/projectmember/dashboard', ProjectMemberController::class . '::def
 $router->get('/groupleader/dashboard', GroupLeaderController::class . '::defaultAction');
 $router->get('/groupmember/dashboard', GroupMemberController::class . '::defaultAction');
 
+$router->post('/projectmember/pickuptask', ProjectMemberController::class . '::pickupTask');
+
 $router->post('/user/logout', UserAuthController::class . '::logout');
 $router->post('/admin/logout', AdminAuthController::class . '::logout');
 
