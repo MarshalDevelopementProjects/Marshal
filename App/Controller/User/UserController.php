@@ -12,6 +12,7 @@ use App\Model\Project;
 use App\Model\Notification;
 use Core\Validator\Validator;
 use Core\FileUploader;
+use Core\PdfGenerator;
 
 class UserController extends Controller
 {
@@ -134,7 +135,7 @@ class UserController extends Controller
                             "project_id" => $_SESSION['project_id']
                         );
                         $projectController = new ProjectController();
-                        
+
                         $this->sendResponse(
                             view: "/project_leader/dashboard.html",
                             status: "success",
@@ -328,7 +329,8 @@ class UserController extends Controller
         }
         return null;
     }
-    public function getNotifications(){
+    public function getNotifications()
+    {
 
         $payload = $this->userAuth->getCredentials();
         $userId = $payload->id;
@@ -338,8 +340,8 @@ class UserController extends Controller
             "memberId" => $userId
         );
         $notifications = $notification->getNotificationsOfUser($args);
-        
-        foreach($notifications as $notification){
+
+        foreach ($notifications as $notification) {
             $senderId = $notification->senderId;
 
             // get sender name
@@ -350,20 +352,20 @@ class UserController extends Controller
         }
 
         // $projectId = $notifications[0]->projectId;
-        
+
         // $args = array(
         //     "id" => $projectId
         // );
-        
-        if($notifications){
+
+        if ($notifications) {
             echo (json_encode(array("message" => $notifications)));
-        }else{
+        } else {
             echo (json_encode(array("message" => null)));
         }
-        
     }
 
-    public function userJoinOnProject(){
+    public function userJoinOnProject()
+    {
         $projectId = $_GET['data1'];
         $notificationId = $_GET['data2'];
 
@@ -381,12 +383,12 @@ class UserController extends Controller
 
         // set as read the notification 
 
-        if($project->joinProject($args) && $this->readNotification($notificationId)){
+        if ($project->joinProject($args) && $this->readNotification($notificationId)) {
             $this->sendResponse(
                 view: "/user/login.html",
                 status: "success"
             );
-        }else{
+        } else {
             $this->sendResponse(
                 view: "/user/signup.html",
                 status: "success"
@@ -396,7 +398,8 @@ class UserController extends Controller
         $this->sendResponseNotification($notificationId, $projectId);
     }
 
-    public function clickOnNotification(){
+    public function clickOnNotification()
+    {
         $notificationId = $_GET['data'];
         $this->readNotification($notificationId);
 
@@ -404,7 +407,8 @@ class UserController extends Controller
 
     }
 
-    public function readNotification($notificationId){
+    public function readNotification($notificationId)
+    {
 
         $payload = $this->userAuth->getCredentials();
         $userId = $payload->id;
@@ -414,15 +418,16 @@ class UserController extends Controller
             "notificationId" => $notificationId,
             "memberId" => $userId
         );
-        
-        if($notification->readNotification($conditions)){
+
+        if ($notification->readNotification($conditions)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public function sendResponseNotification($notificationId, $projectId){
+    public function sendResponseNotification($notificationId, $projectId)
+    {
         try {
             $notification = new Notification();
             $args = array(
@@ -435,7 +440,7 @@ class UserController extends Controller
             // $user->readUser("id", $notificationData['senderId']);
             // $receivedUser = $user->getUserData();
 
-            
+
             $payload = $this->userAuth->getCredentials();
             $user_id = $payload->id;
 
@@ -448,7 +453,7 @@ class UserController extends Controller
                 "senderId" => $user_id,
                 "sendTime" => $date
             );
-        
+
             // set notified members
             // get notification id
             $notification = new Notification();
@@ -471,10 +476,18 @@ class UserController extends Controller
             $notification->setNotifiedMembers($arguments);
 
             echo (json_encode(array("message" => "Success")));
-
         } catch (\Throwable $th) {
             echo (json_encode(array("message" => $th)));
         }
     }
 
+    // this function will be used to generate reports
+    public function generateReport()
+    {
+    }
+
+    // change the user password
+    public function changePassword()
+    {
+    }
 }
