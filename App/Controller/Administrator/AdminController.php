@@ -266,6 +266,12 @@ class AdminController extends Controller
         }
     }
 
+    // method will be used to send emails to either
+    // all or a single user of the system
+    public function sendEmailsToUsers(array $args)
+    {
+    }
+
     // after notification is fixed
     public function broadcastMessages(array $args)
     {
