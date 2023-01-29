@@ -40,4 +40,16 @@ class Task implements Model
         }   
     }
 
+    public function pickupTask(array $args = array()){
+        $sql_string = "UPDATE task SET `status` = :status , `memberId` = :memberId WHERE `project_id` = :project_id AND `task_name` = :task_name";
+
+        try {
+            $this->crud_util->execute($sql_string, $args);
+            
+            return true;
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
 }
