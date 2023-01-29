@@ -111,16 +111,53 @@ const tasks = document.querySelectorAll('.task');
 const boards = document.querySelectorAll('.tasks');
 
 var startX, endX;
+// member does not allow to drag all tasks anywhere on anytime, they have restrictions
+var hasAccess = true;
+
+var oldBoard, newBoard;
 
 tasks.forEach(task => {
     task.addEventListener('dragstart', (event)=>{
         task.classList.add('dragging');
         startX = event.clientX;
+
+        oldBoard = task.parentNode.parentNode.className.split(' ')[0]
+        if(oldBoard === "review" || oldBoard === "done") {
+            hasAccess = false;
+        }else{
+            hasAccess = true;
+        }
     })
 
     task.addEventListener('dragend', (event)=>{
         task.classList.remove('dragging');
         endX = event.clientX;
+
+        newBoard = task.parentNode.parentNode.className.split(' ')[0].toUpperCase()
+
+        if(newBoard != oldBoard.toUpperCase()){
+            
+            let draggedTaskName = task.firstElementChild.firstElementChild.textContent;
+            
+            fetch("http://localhost/public/projectmember/pickuptask", {
+                withCredentials: true,
+                credentials: "include",
+                mode: "cors",
+                method: "POST",
+                body: JSON.stringify({
+                    "task_name" : draggedTaskName.toString(),
+                    "state" : newBoard
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error(error)
+            });
+        }
+                
     })
 })
 
@@ -132,21 +169,24 @@ boards.forEach(board => {
         const task = document.querySelector('.dragging');
 
         var dragDistance = event.clientX - startX;
-        if(dragDistance > 0 && dragDistance < 350){
-            console.log(event.clientX - startX)
+        if(hasAccess){
+            if(dragDistance > 0 && dragDistance < 350){
+                // console.log(event.clientX - startX)
 
-            var firstChild = board.firstChild
-            if(firstChild){
-                // var secondChild = firstChild.nextSibling;
-                console.log(firstChild)
+                var firstChild = board.firstChild
+                if(firstChild){
+                    // var secondChild = firstChild.nextSibling;
+                    // console.log(firstChild)
+                    
+                    board.insertBefore(task, firstChild)
+                    // board.appendChild(task);
+                }else{
+                    board.appendChild(task);
+                }
                 
-                board.insertBefore(task, firstChild)
-                // board.appendChild(task);
-            }else{
-                board.appendChild(task);
             }
-            
         }
+        console.log(hasAccess)
     })
 })
 
