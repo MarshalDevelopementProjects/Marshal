@@ -4,3 +4,4 @@ composer.lock
 Core/Router
 _.htaccess
 _index.php
+.env
