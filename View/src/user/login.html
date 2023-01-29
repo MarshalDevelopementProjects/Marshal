@@ -5,40 +5,68 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/View/styles/styles_less.css">
-    <title>Marshal</title>
+    <script src="https://kit.fontawesome.com/3fd5abf68b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/View/styles/user/user_login_style.css">
+    <title>Marshal | Login</title>
 </head>
 
 <body>
-
-    <nav class="navbar">
-        <!-- LOGO -->
-        <div class="logo">MARSHAL</div>
-        <!-- NAVIGATION MENU -->
-        <ul class="nav-links" list-style-type="none">
-            <div class="menu">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+    <header>
+        <div class="container">
+            <div class="form signup">
+                <form action="http://localhost/public/user/login" method="POST" name="form">
+                    <h2 class="title-login">login into marshal</h2>
+                    <div class="input-field"">
+                    <div class=" icon-container">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <div class="email">
+                        <label for="Username" hidden></label>
+                        <input type="text" placeholder="Username" name="username" id="username" required>
+                    </div>
             </div>
-        </ul>
-    </nav>
-
-    <div class="container-login">
-        <h1>Login</h1>
-        <form id="login-form" method="POST" action="http://localhost/public/user/login">
-            <input type="text" placeholder="Username" name="username" id="username" required>
-            <input type="password" placeholder="Password" name="password" id="password" required>
-            <label for="remember_me">Remember me</label>
-            <input type="checkbox" name="remember_me" id="remember_me" value="Remember me">
-            <button type="submit">Login</button>
-        </form>
-        <div class="member_div">
-            Not a member? <a href="./signup">Sign Up Here</a>
+            <div id="email_error"></div>
+            <div class="input-field"">
+                    <div class=" icon-container">
+                <i class="fa fa-lock"></i>
+            </div>
+            <div class="email">
+                <label for="password" hidden></label>
+                <input type="password" placeholder="Password" name="password" id="password" required>
+            </div>
         </div>
-    </div>
+        <div id="email_error"></div>
+        <div class="input-field button">
+            <div class="icon-container into">
+                <i class="fa fa-right-to-bracket"></i>
+            </div>
+            <div class="email">
+                <input type="submit" value="Login">
+            </div>
+        </div>
+        <div class="login-signup">
+            <div class="line"></div>
+            <br>
+            <div>
+                <span class="text ">
+                    <a href="#" class="text login-link">Forgot Password</a>
+                </span>
+                <span class="text">
+                    <a href="./signup" class="text login-link">Not Yet signup</a>
+                </span>
+            </div>
+        </div>
+        </form>
+        </div>
+        </div>
+        <div class="image-container">
+            <img src="/View/images/user/user_login.svg" alt="login image">
+        </div>
+    </header>
+    <script>
+        var jsonData = JSON.parse('<?= $data; ?>');
+    </script>
     <script src="/View/js/user/login.js"></script>
 </body>
 
 </html>
-
