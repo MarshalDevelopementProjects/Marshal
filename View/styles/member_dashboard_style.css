@@ -273,7 +273,7 @@ body{
     display: none;
     position: fixed;
     width: 600px;
-    height: 450px;
+    max-height: 450px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     border-radius: 15px;
     margin: 25px 0 0 175px;
@@ -320,7 +320,7 @@ body{
 .TO-DO-task-details .task-details-description{
     font-size: 13px;
     width: 80%;
-    height: 90px;
+    max-height: 90px;
     border-bottom: 10px;
     color: #222;
     margin: 20px 0 0 40px;
@@ -329,6 +329,7 @@ body{
     font-size: 14px;
     color: #FB160D;
     margin-left: 20px;
+    margin-top: 20px;
 }
 .TO-DO-task-details .task-feedbacks{
     border: 1px solid #eee;
