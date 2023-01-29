@@ -101,6 +101,9 @@ if(doneTasks){
 }
 doneBoard.innerHTML = doneTasksCode;
 
+const getTaskDetails = (boardName, taskName) => {
+    return boardName.find(element => element.task_name === taskName)
+}
 
 // drag and drop tasks
 
@@ -146,6 +149,41 @@ boards.forEach(board => {
         }
     })
 })
+
+tasks.forEach(task => {
+    task.addEventListener('click', event => {
+        var position = event.clientX;
+
+        // get task name
+        task.classList.add('clicked');
+        var taskName = document.querySelector('.clicked .top-task h4').innerText;
+        var taskDetails;
+
+        // check the board by position
+        if(position > 292 && position < 514){
+            taskDetails = getTaskDetails(todoTasks, taskName)
+        }else if(position > 562 && position < 784){
+            taskDetails = getTaskDetails(ongoingTasks, taskName)
+        }else if(position > 832 && position < 1054){
+            taskDetails = getTaskDetails(reviewTasks, taskName)
+        }else if(position > 1102 && position < 1324){
+            taskDetails = getTaskDetails(doneTasks, taskName)
+        }
+
+        console.log(taskDetails);
+
+        task.classList.remove('clicked');
+    })
+})
+
+
+
+
+
+
+
+
+
 
 
 // calendor 
