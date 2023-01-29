@@ -18,7 +18,17 @@ class PdfGenerator
     private Dompdf $dompdf;
     private string $default_html;
     private string $default_css;
-    private string $footer = "footer { position: absolute; bottom: 0; left: 0; right: 0; background-color: #7F0000; color: #fff; font-size: 10px; text-align: center; padding: 10px; }";
+    private string $footer = "footer {
+                                position: absolute;
+                                bottom: 0;
+                                left: 0;
+                                right: 0;
+                                background-color: #ff0000;
+                                color: #fff;
+                                font-size: 10px;
+                                text-align: center;
+                                padding: 10px;
+                              }";
 
     public function __construct()
     {
@@ -32,10 +42,11 @@ class PdfGenerator
         $this->options->setDefaultPaperSize("A4");
 
         $this->dompdf = new Dompdf(options: $this->options);
+        // $this->dompdf->setPaper("A4");
 
         // basic structure implementation of the documentation
         $this->default_html = file_get_contents(__DIR__ . '/pdf-template.html');
-        $this->default_css = file_get_contents(__DIR__ . '/pdf-styles.html');
+        $this->default_css = file_get_contents(__DIR__ . '/pdf-styles.css');
     }
 
     /** 
@@ -62,14 +73,17 @@ class PdfGenerator
     public function renderPDF(string $content, string $styles = "", string $file_name)
     {
         // creating the content using html and css
+        // $styles = "<style>" . ($styles !== "" ? $styles : $this->default_css) . $this->footer . "</style>";
+        $styles = ($styles !== "" ? $styles : $this->default_css) . $this->footer;
         $content = str_replace(
-            ["{{ styles }}", "{{ content }}"], // replacements
+            ["/*{{ styles }}*/", "{{ content }}"], // replacements
             [
-                "<style>" . ($styles !== "" ? $styles : $this->default_css) . $this->footer . "</style>", // styles
+                $styles, // styles
                 $content // file content, should be handled by the calling code
             ],
             $this->default_html // the template file 
         );
+
         // loading the html to generate the pdf
         $this->dompdf->loadHtml($content);
         // rendering the pdf
