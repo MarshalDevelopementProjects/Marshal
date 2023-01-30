@@ -1,3 +1,197 @@
+// set tasks of the project
+
+
+todoBoard = document.querySelector('.todo .tasks'),
+ongoingBoard = document.querySelector('.ongoing .tasks'),
+reviewBoard = document.querySelector('.review .tasks'),
+doneBoard = document.querySelector('.done .tasks');
+
+var todoTasks = jsonData['todoTasks'];
+var ongoingTasks = jsonData['ongoingTasks'];
+var reviewTasks = jsonData['reviewTasks'];
+var doneTasks = jsonData['doneTasks'];
+
+
+let priorities = { "high": 3, "medium": 2, "low": 1 };
+
+if(todoTasks){
+    todoTasks = Object.values(todoTasks).sort((a, b) => {
+        return priorities[b.priority] - priorities[a.priority];
+    });
+}
+if(ongoingTasks){
+    ongoingTasks = Object.values(ongoingTasks).sort((a, b) => {
+        return priorities[b.priority] - priorities[a.priority];
+    });
+}
+if(reviewTasks){
+    reviewTasks = Object.values(reviewTasks).sort((a, b) => {
+        return priorities[b.priority] - priorities[a.priority];
+    });
+}
+if(doneTasks){
+    doneTasks = Object.values(doneTasks).sort((a, b) => {
+        return priorities[b.priority] - priorities[a.priority];
+    });
+}
+
+
+var todoTasksCode = "";
+
+if(todoTasks){
+    todoTasks.forEach(task => {
+        todoTasksCode += `<div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>${task['task_name']}</h4>
+                                    <p class="priority-${task['priority']}">${task['priority']}</p>
+                                </div>
+                                <p class="task-description">${task['description']}</p>
+                                <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                            </div>`
+    })
+}
+todoBoard.innerHTML = todoTasksCode;
+
+var ongoingTasksCode = "";
+
+if(ongoingTasks){
+    ongoingTasks.forEach(task => {
+        ongoingTasksCode += `<div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>${task['task_name']}</h4>
+                                    <p class="priority-${task['priority']}">${task['priority']}</p>
+                                </div>
+                                <p class="task-description">${task['description']}</p>
+                                <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                            </div>`
+    })
+}
+ongoingBoard.innerHTML = ongoingTasksCode;
+
+var reviewTasksCode = "";
+
+if(reviewTasks){
+    reviewTasks.forEach(task => {
+        reviewTasksCode += `<div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>${task['task_name']}</h4>
+                                    <p class="priority-${task['priority']}">${task['priority']}</p>
+                                </div>
+                                <p class="task-description">${task['description']}</p>
+                                <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                            </div>`
+    })
+}
+reviewBoard.innerHTML = reviewTasksCode;
+
+var doneTasksCode = "";
+
+if(doneTasks){
+    doneTasks.forEach(task => {
+        doneTasksCode += `<div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>${task['task_name']}</h4>
+                                    <p class="priority">${task['priority']}</p>
+                                </div>
+                                <p class="task-description">${task['description']}</p>
+                                <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                            </div>`
+    })
+}
+doneBoard.innerHTML = doneTasksCode;
+
+
+// drag and drop tasks
+
+// const tasks = document.querySelectorAll('.task');
+// const boards = document.querySelectorAll('.tasks');
+
+// var startX, endX;
+
+// tasks.forEach(task => {
+//     task.addEventListener('dragstart', (event)=>{
+//         task.classList.add('dragging');
+//         startX = event.clientX;
+//     })
+
+//     task.addEventListener('dragend', (event)=>{
+//         task.classList.remove('dragging');
+//         endX = event.clientX;
+//     })
+// })
+
+// boards.forEach(board => {
+//     board.addEventListener('click', () => {
+//         console.log('ok')
+//     })
+//     board.addEventListener('dragover', event => {
+//         event.preventDefault();
+
+//         const task = document.querySelector('.dragging');
+
+//         var dragDistance = event.clientX - startX;
+//         if(dragDistance > 0 && dragDistance < 350){
+//             console.log(event.clientX - startX)
+
+//             var firstChild = board.firstChild
+//             if(firstChild){
+//                 // var secondChild = firstChild.nextSibling;
+//                 console.log(firstChild)
+                
+//                 board.insertBefore(task, firstChild)
+//                 // board.appendChild(task);
+//             }else{
+//                 board.appendChild(task);
+//             }
+            
+//         }
+//     })
+// })
+
+const tasks = document.querySelectorAll('.task');
+const boards = document.querySelectorAll('.board');
+
+tasks.forEach(task => {
+    task.addEventListener('dragstart', ()=>{
+        task.classList.add('dragging');
+    })
+
+    task.addEventListener('dragend', ()=>{
+        task.classList.remove('dragging');
+    })
+})
+
+boards.forEach(board => {
+    board.addEventListener('dragover', e => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(board, e.clientY);
+        const task = document.querySelector('.dragging');
+        
+        if(afterElement == null){
+            board.appendChild(task);
+        }else{
+            board.insertBefore(task, afterElement);
+        }
+    })
+})
+
+function getDragAfterElement(board, y){
+    const draggableElements = [...board.querySelectorAll('.task:not(.dragging)')]
+
+    return draggableElements.reduce((closest, child)=>{
+        const box = child.getBoundingClientRect()
+        const offset = y - box.top - box.height/2
+        console.log(offset)
+        if(offset < 0 && offset > closest.offset){
+            return {offset: offset, element: child}
+        }else{
+            return closest
+        }
+    }, {offset: Number.NEGATIVE_INFINITY}).element
+}
+
+
+
 
 // calendor 
 
@@ -148,183 +342,8 @@ cancelBtn.addEventListener('click', () => {
 })
 
 
-console.log(jsonData)
+// console.log(jsonData)
 
-// set tasks of the project
-
-
-todoBoard = document.querySelector('.todo .tasks'),
-ongoingBoard = document.querySelector('.ongoing .tasks'),
-reviewBoard = document.querySelector('.review .tasks'),
-doneBoard = document.querySelector('.done .tasks');
-
-var todoTasks = jsonData['todoTasks'];
-var ongoingTasks = jsonData['ongoingTasks'];
-var reviewTasks = jsonData['reviewTasks'];
-var doneTasks = jsonData['doneTasks'];
-
-
-let priorities = { "high": 3, "medium": 2, "low": 1 };
-
-todoTasks = Object.values(todoTasks).sort((a, b) => {
-    return priorities[b.priority] - priorities[a.priority];
-});
-ongoingTasks = Object.values(ongoingTasks).sort((a, b) => {
-    return priorities[b.priority] - priorities[a.priority];
-});
-reviewTasks = Object.values(reviewTasks).sort((a, b) => {
-    return priorities[b.priority] - priorities[a.priority];
-});
-doneTasks = Object.values(doneTasks).sort((a, b) => {
-    return priorities[b.priority] - priorities[a.priority];
-});
-
-
-todoTasksCode = "";
-
-todoTasks.forEach(task => {
-    todoTasksCode += `<div class="task" draggable="true">
-                            <div class="top-task">
-                                <h4>${task['task_name']}</h4>
-                                <p class="priority-${task['priority']}">${task['priority']}</p>
-                            </div>
-                            <p class="task-description">${task['description']}</p>
-                            <p class="deadline">${task['deadline'].split(' ')[0]}</p>
-                        </div>`
-})
-todoBoard.innerHTML = todoTasksCode;
-
-ongoingTasksCode = "";
-
-ongoingTasks.forEach(task => {
-    ongoingTasksCode += `<div class="task" draggable="true">
-                            <div class="top-task">
-                                <h4>${task['task_name']}</h4>
-                                <p class="priority-${task['priority']}">${task['priority']}</p>
-                            </div>
-                            <p class="task-description">${task['description']}</p>
-                            <p class="deadline">${task['deadline'].split(' ')[0]}</p>
-                        </div>`
-})
-ongoingBoard.innerHTML = ongoingTasksCode;
-
-reviewTasksCode = "";
-
-reviewTasks.forEach(task => {
-    reviewTasksCode += `<div class="task" draggable="true">
-                            <div class="top-task">
-                                <h4>${task['task_name']}</h4>
-                                <p class="priority-${task['priority']}">${task['priority']}</p>
-                            </div>
-                            <p class="task-description">${task['description']}</p>
-                            <p class="deadline">${task['deadline'].split(' ')[0]}</p>
-                        </div>`
-})
-reviewBoard.innerHTML = reviewTasksCode;
-
-doneTasksCode = "";
-
-doneTasks.forEach(task => {
-    doneTasksCode += `<div class="task" draggable="true">
-                            <div class="top-task">
-                                <h4>${task['task_name']}</h4>
-                                <p class="priority">${task['priority']}</p>
-                            </div>
-                            <p class="task-description">${task['description']}</p>
-                            <p class="deadline">${task['deadline'].split(' ')[0]}</p>
-                        </div>`
-})
-doneBoard.innerHTML = doneTasksCode;
-
-
-// drag and drop tasks
-
-// const tasks = document.querySelectorAll('.task');
-// const boards = document.querySelectorAll('.tasks');
-
-// var startX, endX;
-
-// tasks.forEach(task => {
-//     task.addEventListener('dragstart', (event)=>{
-//         task.classList.add('dragging');
-//         startX = event.clientX;
-//     })
-
-//     task.addEventListener('dragend', (event)=>{
-//         task.classList.remove('dragging');
-//         endX = event.clientX;
-//     })
-// })
-
-// boards.forEach(board => {
-//     board.addEventListener('click', () => {
-//         console.log('ok')
-//     })
-//     board.addEventListener('dragover', event => {
-//         event.preventDefault();
-
-//         const task = document.querySelector('.dragging');
-
-//         var dragDistance = event.clientX - startX;
-//         if(dragDistance > 0 && dragDistance < 350){
-//             console.log(event.clientX - startX)
-
-//             var firstChild = board.firstChild
-//             if(firstChild){
-//                 // var secondChild = firstChild.nextSibling;
-//                 console.log(firstChild)
-                
-//                 board.insertBefore(task, firstChild)
-//                 // board.appendChild(task);
-//             }else{
-//                 board.appendChild(task);
-//             }
-            
-//         }
-//     })
-// })
-
-const tasks = document.querySelectorAll('.task');
-const boards = document.querySelectorAll('.board');
-
-tasks.forEach(task => {
-    task.addEventListener('dragstart', ()=>{
-        task.classList.add('dragging');
-    })
-
-    task.addEventListener('dragend', ()=>{
-        task.classList.remove('dragging');
-    })
-})
-
-boards.forEach(board => {
-    board.addEventListener('dragover', e => {
-        e.preventDefault();
-        const afterElement = getDragAfterElement(board, e.clientY);
-        const task = document.querySelector('.dragging');
-        
-        if(afterElement == null){
-            board.appendChild(task);
-        }else{
-            board.insertBefore(task, afterElement);
-        }
-    })
-})
-
-function getDragAfterElement(board, y){
-    const draggableElements = [...board.querySelectorAll('.task:not(.dragging)')]
-
-    return draggableElements.reduce((closest, child)=>{
-        const box = child.getBoundingClientRect()
-        const offset = y - box.top - box.height/2
-        console.log(offset)
-        if(offset < 0 && offset > closest.offset){
-            return {offset: offset, element: child}
-        }else{
-            return closest
-        }
-    }, {offset: Number.NEGATIVE_INFINITY}).element
-}
 
 
 
