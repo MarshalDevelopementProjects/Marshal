@@ -37,7 +37,7 @@ if(doneTasks){
 }
 
 
-todoTasksCode = "";
+var todoTasksCode = "";
 
 if(todoTasks){
     todoTasks.forEach(task => {
@@ -53,7 +53,7 @@ if(todoTasks){
 }
 todoBoard.innerHTML = todoTasksCode;
 
-ongoingTasksCode = "";
+var ongoingTasksCode = "";
 
 if(ongoingTasks){
     ongoingTasks.forEach(task => {
@@ -69,7 +69,7 @@ if(ongoingTasks){
 }
 ongoingBoard.innerHTML = ongoingTasksCode;
 
-reviewTasksCode = "";
+var reviewTasksCode = "";
 
 if(reviewTasks){
     reviewTasks.forEach(task => {
@@ -85,7 +85,7 @@ if(reviewTasks){
 }
 reviewBoard.innerHTML = reviewTasksCode;
 
-doneTasksCode = "";
+var doneTasksCode = "";
 
 if(doneTasks){
     doneTasks.forEach(task => {
