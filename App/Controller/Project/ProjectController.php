@@ -6,6 +6,7 @@ namespace App\Controller\Project;
 use App\Controller\User\UserController;
 // use App\Model\Project;
 use App\Model\Task;
+use App\Model\User;
 // use Core\Validator\Validator;
 // use App\Controller;
 
@@ -23,6 +24,7 @@ class ProjectController extends UserController{
 
     public function getProjectTasks(array $args = array()){
         $task = new Task();
+        $user = new User();
         // get all tasks related to this project
         $tasks = $task->getAllTasks($args);
 
@@ -40,6 +42,10 @@ class ProjectController extends UserController{
                         $todoTasks[] = $task;
                         break;
                     case 'ONGOING':
+                        $userData = $user->readUser("id", $task->memberId);
+                        $userData = $user->getUserData();
+
+                        $task->profile = $userData->profile_picture;
                         $ongoingTasks[] = $task;
                         break;
                     case 'REVIEW':
