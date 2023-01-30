@@ -118,6 +118,17 @@ class Project implements Model
         }
     }
 
+    public function getProject(array $args = array()){
+        $sql_string = "SELECT * FROM project WHERE project_id = :project_id";
+        
+        try {
+            $result = $this->crud_util->execute($sql_string, $args);
+            return $result->getResults();
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
     public function update(string $_id = null, array $_array = array())
     {
         throw new \Exception("Not implemented yet");
