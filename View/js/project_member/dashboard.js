@@ -63,7 +63,10 @@ if(ongoingTasks){
                                     <p class="priority-${task['priority']}">${task['priority']}</p>
                                 </div>
                                 <p class="task-description">${task['description']}</p>
-                                <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                <div class="bottom-task style="display:flex">
+                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                    <img id="member-profile" src="${task['profile']}" alt="">
+                                </div>
                             </div>`
     })
 }
@@ -138,6 +141,8 @@ tasks.forEach(task => {
         if(newBoard != oldBoard.toUpperCase()){
             
             let draggedTaskName = task.firstElementChild.firstElementChild.textContent;
+
+            // we have to check the board as well
             
             fetch("http://localhost/public/projectmember/pickuptask", {
                 withCredentials: true,
@@ -145,8 +150,7 @@ tasks.forEach(task => {
                 mode: "cors",
                 method: "POST",
                 body: JSON.stringify({
-                    "task_name" : draggedTaskName.toString(),
-                    "state" : newBoard
+                    "task_name" : draggedTaskName.toString()
                 })
             })
             .then(response => response.json())
@@ -171,15 +175,10 @@ boards.forEach(board => {
         var dragDistance = event.clientX - startX;
         if(hasAccess){
             if(dragDistance > 0 && dragDistance < 350){
-                // console.log(event.clientX - startX)
 
                 var firstChild = board.firstChild
-                if(firstChild){
-                    // var secondChild = firstChild.nextSibling;
-                    // console.log(firstChild)
-                    
+                if(firstChild){      
                     board.insertBefore(task, firstChild)
-                    // board.appendChild(task);
                 }else{
                     board.appendChild(task);
                 }
@@ -222,11 +221,36 @@ tasks.forEach(task => {
                             </div>
                             <div class="buttons">
                                 <a id="cancel-task-details" href="#">Cancel</a>
-                                <a href="#">PickUp</a>
+                                <a id="pickup-task-btn" href="#">PickUp</a>
                             </div>`
             
             todoTaskDetails.innerHTML = code
             todoTaskDetails.classList.add('active')
+
+            const pickupTaskBtn = document.getElementById('pickup-task-btn')
+            pickupTaskBtn.addEventListener('click', () => {
+                let draggedTaskName = task.firstElementChild.firstElementChild.textContent;
+                let newBoard = task.parentNode.parentNode.className.split(' ')[0].toUpperCase()
+
+                fetch("http://localhost/public/projectmember/pickuptask", {
+                    withCredentials: true,
+                    credentials: "include",
+                    mode: "cors",
+                    method: "POST",
+                    body: JSON.stringify({
+                        "task_name" : draggedTaskName.toString()
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    todoTaskDetails.classList.remove('active')
+                    location.reload();
+                })
+                .catch((error) => {
+                    console.error(error)
+                });
+            })
             
             const cancelTodoTaskDetails = document.getElementById('cancel-task-details')
             cancelTodoTaskDetails.addEventListener('click', () => todoTaskDetails.classList.remove('active'))
