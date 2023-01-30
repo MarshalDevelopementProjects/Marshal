@@ -2,7 +2,7 @@
 
 namespace App\Controller\ProjectLeader;
 
-use App\Controller\User\UserController;
+use App\Controller\ProjectMember\ProjectMemberController;
 use App\Model\ProjectLeader;
 use App\Model\Project;
 use App\Model\Notification;
@@ -11,7 +11,7 @@ use App\Model\Task;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
-class ProjectLeaderController extends UserController
+class ProjectLeaderController extends ProjectMemberController
 {
     private ProjectLeader $projectLeader;
     private Project $project;

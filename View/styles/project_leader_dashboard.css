@@ -468,6 +468,8 @@ body{
     color: #222;
     font-size: 15px;
     margin: 8px 12px;
+    max-height: 20px;
+    overflow: hidden;
 }
 .top-task .priority-high{
     color: #fff;

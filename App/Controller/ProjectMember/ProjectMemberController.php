@@ -42,7 +42,7 @@ class ProjectMemberController extends UserController
         $user_id = $payload->id;
 
         $args = array(
-            "status" => $data->state,
+            "status" => "ONGOING",
             "memberId" => $user_id,
             "project_id" => $project_id,
             "task_name" => $data->task_name

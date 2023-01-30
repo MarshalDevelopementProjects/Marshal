@@ -446,7 +446,7 @@ body{
     min-height: 15px;
 }
 .board .task{
-    height: 90px;
+    height: 100px;
     margin: 0 5px 15px 5px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 10px;
@@ -497,6 +497,9 @@ body{
     color: #222;
     font-size: 15px;
     margin: 8px 12px;
+    max-height: 20px;
+    overflow: hidden;
+    /* border: 1px solid black; */
 }
 .top-task p{
     color: #fff;
@@ -517,9 +520,21 @@ body{
     overflow-x: hidden;
     overflow-y: hidden;
 }
-.task .deadline{
+.task .bottom-task{
+    display: flex;
+    justify-content: space-between;
+    max-height: 30px;
+}
+.bottom-task p{
     width: fit-content;
     font-size: 11px;
     margin-left: 15px;
     color: #FB160D;
+    margin-top: 5px;
+}
+#member-profile{
+    width: 25px;
+    height: 25px;
+    margin: 0 15px 5px 0;
+    border-radius: 50%;
 }
