@@ -13,11 +13,9 @@
 <body>
     <section id="menu">
         <div class="logo">
-            <img src="/View/images/admin/Frame 1.png" alt="" srcset="">
             <h2>Marshal</h2>
         </div>
         <div class="items">
-            <li><i class="fa fa-pie-chart" aria-hidden="true"></i><a href="#">Dashboard</a></li>
             <li><i class="fa fa-users" aria-hidden="true"></i><a href="#">Users</a></li>
             <li><i class="fa fa-users" aria-hidden="true"></i><a href="#">Add new users</a></li>
             <li id="log-out-btn"><i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i><a>Logout</a></li>
@@ -32,9 +30,7 @@
                 </div>
             </div>
             <div class="profile">
-                <i class="fa fa-bell"></i>
                 <p class="user-name">Tharindu Darshana</p>
-                <img src="/View/images/admin/1.jpg" alt="">
             </div>
         </div>
         <h3 class="i-name">Dashboard</h3>
@@ -49,25 +45,18 @@
             <div class="values-box">
                 <i class="fa fa-user"></i>
                 <div>
-                    <h3>3</h3>
-                    <span>Admins</span>
+                    <h3>89</h3>
+                    <span>Active users
+                    </span>
                 </div>
             </div>
-            <!-- <div class="values-box"> -->
-            <!-- <i class="fa fa-user"></i> -->
-            <!-- <div> -->
-            <!-- <h3>8,345</h3> -->
-            <!-- <span>Users</span> -->
-            <!-- </div> -->
-            <!-- </div> -->
-            <!-- <div class="values-box"> -->
-            <!-- <i class="fa fa-user"></i> -->
-            <!-- <div> -->
-            <!-- <h3>8,345</h3> -->
-            <!-- <span>Users</span> -->
-            <!-- </div> -->
-            <!-- </div> -->
-
+            <div class="values-box">
+                <i class="fa fa-user"></i>
+                <div>
+                    <h3>8</h3>
+                    <span>Block users</span>
+                </div>
+            </div>
         </div>
         <dir class="board">
             <table width="100%">
@@ -76,7 +65,7 @@
                         <td>Name</td>
                         <td>Email</td>
                         <td>Role</td>
-                        <td></td>
+                        <td>Access</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,7 +82,9 @@
                         <td class="role">
                             <p>Admin</p>
                         </td>
-                        <td class="edit"><a href="#">Edit</a></td>
+                        <td class="access">
+                            <i class="fa fa-circle"></i>
+                        </td>
                     </tr>
                 </tbody>
             </table>
