@@ -139,10 +139,6 @@ class UserController extends Controller
                             view: "/project_leader/dashboard.html",
                             status: "success",
                             content: $projectController->getProjectTasks($args)
-                            // content: $project->readProjectsOfUser(
-                            //     member_id: $payload->id,
-                            //     project_id: $data["id"]
-                            // ) ? $project->getProjectData() : array()
                         );
                         break;
                     case 'CLIENT':
@@ -166,10 +162,6 @@ class UserController extends Controller
                             view: "/project_member/dashboard.html",
                             status: "success",
                             content: $projectController->getProjectTasks($args)
-                            // content: $project->readProjectsOfUser(
-                            //     member_id: $payload->id,
-                            //     project_id: $data["id"]
-                            // ) ? $project->getProjectData() : array()
                         );
                         break;
                     default: {
