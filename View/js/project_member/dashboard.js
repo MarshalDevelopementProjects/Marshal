@@ -122,6 +122,30 @@ const getTaskDetails = (boardName, taskName) => {
 const tasks = document.querySelectorAll('.task');
 const boards = document.querySelectorAll('.tasks');
 
+const sendConfirmationFunction = (draggedTaskName, message, formattedDate, time) => {
+    fetch("http://localhost/public/projectmember/sendconfirmation", {
+        withCredentials: true,
+        credentials: "include",
+        mode: "cors",
+        method: "POST",
+        body: JSON.stringify({
+            "task_name" : draggedTaskName.toString(),
+            "confirmation_message" : message,
+            "confirmation_type" : message ? "message" : "file",
+            "date" : formattedDate,
+            "time" : time
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        location.reload();
+    })
+    .catch((error) => {
+        console.error(error)
+    });
+}
+
 var startX, endX;
 // member does not allow to drag all tasks anywhere on anytime, they have restrictions
 var hasAccess = true;
@@ -133,7 +157,7 @@ tasks.forEach(task => {
         task.classList.add('dragging');
         startX = event.clientX;
 
-        oldBoard = task.parentNode.parentNode.className.split(' ')[0]
+        oldBoard = task.parentNode.parentNode.className.split(' ')[0].toUpperCase()
         if(oldBoard === "review" || oldBoard === "done") {
             hasAccess = false;
         }else{
@@ -146,8 +170,10 @@ tasks.forEach(task => {
         endX = event.clientX;
 
         newBoard = task.parentNode.parentNode.className.split(' ')[0].toUpperCase()
+        if(newBoard === "TODO") newBoard = "TO-DO"
+        if(oldBoard === "TODO") oldBoard = "TO-DO"
 
-        if(newBoard != oldBoard.toUpperCase()){
+        if(newBoard === "ONGOING" && oldBoard === "TO-DO"){
             
             let draggedTaskName = task.firstElementChild.firstElementChild.textContent;
 
@@ -170,10 +196,57 @@ tasks.forEach(task => {
             .catch((error) => {
                 console.error(error)
             });
+        }else if(newBoard === "REVIEW" && oldBoard === "ONGOING"){
+            const confirmationPopup = document.querySelector('.confirmation-popup')
+            const confirmationPopupCloseBtn = document.querySelector('.confirmation-popup .close-area i')
+
+            const sendConfirmation = document.querySelector('.confirmation-popup .input-area button')
+            const confirmationMessage = document.getElementById('confirmationMessage')
+
+            let draggedTaskName = task.firstElementChild.firstElementChild.textContent;
+            var message = ""
+
+            // get current date and time
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var day = date.getDate().toString().padStart(2, '0');
+            var formattedDate = year + '-' + month + '-' + day;
+
+            var time = date.toLocaleTimeString();
+
+            confirmationMessage.addEventListener('input', () => {
+                message = confirmationMessage.value
+                console.log(message)
+            })
+            if(message){
+                console.log('OK')
+            }else{
+                console.log('ERROR')
+            }
+
+            sendConfirmation.addEventListener('click', () => {
+                sendConfirmationFunction(draggedTaskName, message, formattedDate, time)
+            })
+            confirmationMessage.addEventListener('keyup', (event) =>{
+                if(event.keyCode === 13){
+                    sendConfirmationFunction(draggedTaskName, message, formattedDate, time)
+                }
+            })
+
+
+            confirmationPopup.classList.add('active')
+            confirmationPopupCloseBtn.addEventListener('click', () => {
+                confirmationPopup.classList.remove('active')
+                location.reload();
+            })
+            
         }
                 
     })
 })
+
+
 
 boards.forEach(board => {
 
