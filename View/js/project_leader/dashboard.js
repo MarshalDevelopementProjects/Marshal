@@ -158,6 +158,26 @@ tasks.forEach(task => {
                     console.error(error)
                 });
             }
+            if(event.clientX - startX < 0){
+                fetch("http://localhost/public/projectleader/rearangetask", {
+                    withCredentials: true,
+                    credentials: "include",
+                    mode: "cors",
+                    method: "POST",
+                    body: JSON.stringify({
+                        "task_name" : draggedTaskName.toString(),
+                        "new_board" : newBoard
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    location.reload();
+                })
+                .catch((error) => {
+                    console.error(error)
+                });
+            }
         }
     })
 })
@@ -168,10 +188,14 @@ boards.forEach(board => {
         const afterElement = getDragAfterElement(board, e.clientY);
         const task = document.querySelector('.dragging');
         
-        if(afterElement == null){
-            board.appendChild(task);
-        }else{
-            board.insertBefore(task, afterElement);
+        let dragDistance = e.clientX - startX;
+        // leader can drag to left any far but not to forward
+        if(dragDistance < 350){
+            if(afterElement == null){
+                board.appendChild(task);
+            }else{
+                board.insertBefore(task, afterElement);
+            }
         }
     })
 })

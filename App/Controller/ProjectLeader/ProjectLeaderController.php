@@ -173,4 +173,33 @@ class ProjectLeaderController extends ProjectMemberController
             header("Location: http://localhost/public/user/project?id=".$_SESSION['project_id']);
         }
     }
+
+    public function rearangeTask(){
+        $data = json_decode(file_get_contents('php://input'));
+        $project_id = $_SESSION["project_id"];
+
+        $args = array(
+            "status" => $data->new_board,
+            "project_id" => $project_id,
+            "task_name" => $data->task_name
+        );
+        $task = new Task();
+        $message = "";
+        $atTodo = false;
+        if($data->new_board === "TO-DO"){
+            $atTodo = true;
+        }
+        try {
+            $task->rearangeTask($args, $atTodo);
+            $message = "Successfully rearraged the task";
+        } catch (\Throwable $th) {
+            $message = "Failed to rearange the task";
+        }
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => $message
+            ]
+        );
+    }
 }

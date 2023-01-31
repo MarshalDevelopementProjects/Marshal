@@ -50,6 +50,7 @@ $router->get('/groupleader/dashboard', GroupLeaderController::class . '::default
 $router->get('/groupmember/dashboard', GroupMemberController::class . '::defaultAction');
 
 $router->post('/projectmember/pickuptask', ProjectMemberController::class . '::pickupTask');
+$router->post('/projectleader/rearangetask', ProjectLeaderController::class . '::rearangeTask');
 
 $router->post('/user/logout', UserAuthController::class . '::logout');
 $router->post('/admin/logout', AdminAuthController::class . '::logout');

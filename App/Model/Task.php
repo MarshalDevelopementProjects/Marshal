@@ -52,4 +52,20 @@ class Task implements Model
         }
     }
 
+    public function rearangeTask(array $args = array(), $atTodo = false){
+        if($atTodo){
+            $sql_string = "UPDATE task SET `status` = :status , `memberId` = NULL WHERE `project_id` = :project_id AND `task_name` = :task_name";
+        }else{
+            $sql_string = "UPDATE task SET `status` = :status WHERE `project_id` = :project_id AND `task_name` = :task_name";
+        }
+
+        try {
+            $this->crud_util->execute($sql_string, $args);
+            
+            return true;
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
 }
