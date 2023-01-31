@@ -2,7 +2,7 @@
 
 namespace App\Controller\Project;
 
-// use App\Controller\Authenticate\UserAuthController;
+use App\Controller\Authenticate\UserAuthController;
 use App\Controller\User\UserController;
 // use App\Model\Project;
 use App\Model\Task;
@@ -15,7 +15,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 class ProjectController extends UserController{
 
     public function __construct(){
-
+        $this->userAuth = new UserAuthController();
     }
     public function defaultAction(Object|array|string|int $optional = null)
     {
@@ -42,10 +42,15 @@ class ProjectController extends UserController{
                         $todoTasks[] = $task;
                         break;
                     case 'ONGOING':
+                        $payload = $this->userAuth->getCredentials();
+                        $user_id = $payload->id;
+
                         $userData = $user->readUser("id", $task->memberId);
                         $userData = $user->getUserData();
 
                         $task->profile = $userData->profile_picture;
+                        $task->userId = $user_id;
+
                         $ongoingTasks[] = $task;
                         break;
                     case 'REVIEW':
