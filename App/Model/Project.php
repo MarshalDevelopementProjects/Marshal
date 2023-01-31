@@ -129,6 +129,24 @@ class Project implements Model
         }
     }
 
+    public function readProjectData(string|int $project_id)
+    {
+        try {
+            $sql_string = "SELECT * FROM `project` WHERE `id` = :id";
+            $args = array("project_id" => $project_id);
+            // execute the query
+            $result = $this->crud_util->execute($sql_string, $args);
+            if ($result->getCount() > 0) {
+                $this->project_data = $result->getResults(); // get all the results or just one result this is an array of objects
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
     public function update(string $_id = null, array $_array = array())
     {
         throw new \Exception("Not implemented yet");
@@ -143,6 +161,5 @@ class Project implements Model
     {
         return $this->project_data;
     }
-
-    
+ 
 }
