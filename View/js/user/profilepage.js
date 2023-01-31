@@ -20,6 +20,8 @@ const Status = document.getElementById("status");
 
 const ProfilePictureImg = document.getElementById("profile-picture-img");
 
+const ChangePasswordBtn = document.getElementById("change-password-btn");
+
 // ==============================================================
 // user profile information
 console.log(jsonData);
@@ -140,7 +142,6 @@ EditProfileFrom.addEventListener('submit', async function(event) {
     event.preventDefault();
     let formData = new FormData(EditProfileFrom);
     let jsonFormData = JSON.stringify(Object.fromEntries(formData));
-    console.log(jsonFormData);
     try {
         let response = await fetch("http://localhost/public/user/profile/edit", {
             withCredentials: true,
@@ -161,4 +162,62 @@ EditProfileFrom.addEventListener('submit', async function(event) {
         // alert(error.message);
         console.error(error);
     }
+});
+
+ChangePasswordBtn.addEventListener('click', async function(event) {
+    event.preventDefault();
+    // on click make a popup and prompt the user whether he wants to proceed or not
+    const VerifyPasswordFromDiv = document.getElementById("verify-password-form-div");
+    VerifyPasswordFromDiv.setAttribute("style", "display: inline");
+
+    const VerifyPasswordFrom = document.getElementById("verify-password-form");
+    VerifyPasswordFrom.addEventListener("submit", async function(event) {
+        event.preventDefault();
+        try {
+            let formData_1 = new FormData(VerifyPasswordFrom);
+            let formDataObj_1 = Object.fromEntries(formData_1);
+            let response_1 = await fetch(
+                "http://localhost/public/user/edit/password", {
+                    withCredentials: true,
+                    credentials: "include",
+                    mode: "cors",
+                    method: "POST",
+                    body: formData_1
+                }
+            );
+
+            let data_1 = await response_1.json();
+            if (response_1.ok) {
+                // another popup to ask the user whether he wants to proceed or not
+                alert(data_1.message);
+                const UpdatePasswordFormDiv = document.getElementById("update-password-form-div");
+                UpdatePasswordFormDiv.setAttribute("style", "display: inline");
+
+                const UpdatePasswordForm = document.getElementById("update-password-form");
+                UpdatePasswordForm.addEventListener('submit', async function(event) {
+                    event.preventDefault();
+                    let formData_2 = new FormData(UpdatePasswordForm);
+                    let formDataObj_2 = Object.fromEntries(formData_2);
+                    let response_2 = await fetch(
+                        "http://localhost/public/user/edit/password", {
+                            withCredentials: true,
+                            credentials: "include",
+                            mode: "cors",
+                            method: "PUT",
+                            body: JSON.stringify(formDataObj_2)
+                        }
+                    );
+
+                    let data_2 = await response_2.json();
+                    alert(data_2.message);
+                    location.reload();
+                });
+            } else {
+                alert(data_1.message);
+                location.reload();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    });
 });
