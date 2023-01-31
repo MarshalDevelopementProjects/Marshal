@@ -95,5 +95,48 @@ class ProjectMemberController extends UserController
         );
     }
 
+    public function sendConfirmation() {
+        $data = json_decode(file_get_contents('php://input'));
+
+        $projectId = $_SESSION['project_id'];
+        $taskArgs = array(
+            "project_id" => $projectId,
+            "task_name" => $data->task_name
+        );
+        $task = new Task();
+        $taskData = $task->getTask($taskArgs);
+        // var_dump($taskData);
+
+        if($taskData){
+            $taskId = $taskData->task_id;
+        }
+
+        $args = array(
+            "taskId" => $taskId,
+            "confirmation_type" => $data->confirmation_type,
+            "confirmation_message" => $data->confirmation_message,
+            "date" => $data->date,
+            "time" => $data->time
+        );
+        $task->completeTask($args);
+
+        // change the state of the task
+        $args = array(
+            "status" => "REVIEW",
+            "project_id" => $projectId,
+            "task_name" => $data->task_name
+        );
+        $task->updateTaskState($args);
+
+        // send notification to infor the project leader 
+        
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => "OK!"
+            ]
+        );
+        
+    }
     
 }
