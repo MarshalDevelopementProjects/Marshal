@@ -1,37 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/View/styles/styles_less.css" />
-    <link rel="stylesheet" href="/View/styles/landing.css" />
-    <title>Marshal</title>
-</head>
-
-<body>
-    <nav class="navbar">
-        
-        <div class="logo">MARSHAL</div>
-        
-        <ul class="nav-links" list-style-type="none">
-            <div class="menu">
-                <button id="create-project-btn">Create new project</button>
-                <button id="log-out-btn">Log Out</button>
-            </div>
-        </ul>
-    </nav>
-
-    <p>This is the project landing page of a project member</p>
-    <script>
-        var jsonData = JSON.parse('<?= $data; ?>');
-    </script>
-    <script src="/View/js/project_member/dashboard.js"></script>
-</body>
-
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,6 +93,21 @@
                     <div class="buttons">
                         <a id="cancel-task-details" href="#">Cancel</a>
                         <a href="#">PickUp</a>
+                    </div>
+                </div>
+
+                <div class="confirmation-popup">
+                    <div class="close-area"><i class="fa fa-times" aria-hidden="true"></i></div>
+                    <div class="message-area">
+                        <p></p>
+                    </div>
+                    <div class="input-area">
+                        
+                        <input id="confirmationMessage" type="text" name="confirmationMessage" placeholder="Type confirmation message...">
+                        <label for="confirmationFile"><i class="fa fa-file" aria-hidden="true"></i></label>
+                        <input id="confirmationFile" type="file" name="confirmationFile" style="display: none;">
+                        <button type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                        
                     </div>
                 </div>
 

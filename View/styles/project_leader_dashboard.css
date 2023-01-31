@@ -633,11 +633,22 @@ body{
     border-bottom-right-radius: 12px;
 }
 
-.TO-DO-task-details .buttons{
+.TO-DO-task-details .bottom{
     display: flex;
+    justify-content: space-between;
     /* border: 1px solid black; */
-    width: 220px;
-    margin-left: 350px;
+    /* width: 420px; */
+    /* margin-left: 350px; */
+}
+.bottom input{
+    height: 25px;
+    margin: 0 0 5px 20px;
+    border: 1px solid #dbd7d7;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+.bottom .buttons{
+    margin-top: 5px;
 }
 .buttons a{
     margin:  0 10px 0 10px;
