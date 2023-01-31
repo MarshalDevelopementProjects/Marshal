@@ -1,4 +1,3 @@
-
 // set tasks of the project
 
 
@@ -47,7 +46,9 @@ if(todoTasks){
                                     <p class="priority-${task['priority']}">${task['priority']}</p>
                                 </div>
                                 <p class="task-description">${task['description']}</p>
-                                <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                <div class="bottom-task style="display:flex">
+                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                </div>
                             </div>`
     })
 }
@@ -57,7 +58,11 @@ var ongoingTasksCode = "";
 
 if(ongoingTasks){
     ongoingTasks.forEach(task => {
-        ongoingTasksCode += `<div class="task" draggable="true">
+        let access = ""
+        if(task['memberId'] != task['userId']){
+            access = ' style="pointer-events: none"'
+        }
+        ongoingTasksCode += `<div class="task" draggable="true"${access}>
                                 <div class="top-task">
                                     <h4>${task['task_name']}</h4>
                                     <p class="priority-${task['priority']}">${task['priority']}</p>
@@ -82,7 +87,9 @@ if(reviewTasks){
                                     <p class="priority-${task['priority']}">${task['priority']}</p>
                                 </div>
                                 <p class="task-description">${task['description']}</p>
-                                <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                <div class="bottom-task style="display:flex">
+                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                </div>
                             </div>`
     })
 }
@@ -98,7 +105,9 @@ if(doneTasks){
                                     <p class="priority">${task['priority']}</p>
                                 </div>
                                 <p class="task-description">${task['description']}</p>
-                                <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                <div class="bottom-task style="display:flex">
+                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                </div>
                             </div>`
     })
 }
@@ -156,6 +165,7 @@ tasks.forEach(task => {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
+                location.reload();
             })
             .catch((error) => {
                 console.error(error)
