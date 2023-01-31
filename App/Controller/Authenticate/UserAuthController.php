@@ -11,10 +11,11 @@ use Core\Token;
 use Core\Cookie;
 use Core\Response;
 use Core\Mailer;
+use Exception;
 
 class UserAuthController extends Token
 {
-    private User $user; // used to store the remember me session in database
+    private User $user; // used to store to remember me session in database
     private array $errors;
     private Validator $validator;
 
@@ -24,6 +25,9 @@ class UserAuthController extends Token
         $this->errors = array();
     }
 
+    /**
+     * @throws Exception
+     */
     public function onUserLogin(array $credentials = array())
     {
         if ($this->isLogged()) {
@@ -34,10 +38,7 @@ class UserAuthController extends Token
         } else {
             if (!empty($credentials)) {
                 try {
-                    $remember_me = array_key_exists("remember_me", $credentials) ?
-                        (!empty($credentials["remember_me"]) ?
-                            true : false
-                        ) : false;
+                    $remember_me = array_key_exists("remember_me", $credentials) && !empty($credentials["remember_me"]);
 
                     if (array_key_exists("remember_me", $credentials))
                         unset($credentials["remember_me"]);
@@ -91,7 +92,7 @@ class UserAuthController extends Token
                             content: $this->errors
                         );
                     }
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     throw $exception;
                 }
             } else {
@@ -143,7 +144,7 @@ class UserAuthController extends Token
                     $this->errors["errors"] = array_merge([], $this->validator->getErrors());
                     return false;
                 }
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 throw $exception;
             }
         } else {
@@ -153,6 +154,9 @@ class UserAuthController extends Token
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function onUserSignup(array $user_info = array())
     {
         if ($this->isLogged()) {
@@ -172,11 +176,9 @@ class UserAuthController extends Token
                 $this->validator->validate(values: $params, schema: "signup");
                 if ($this->validator->getPassed()) {
                     unset($params["password_re_enter"]);
-
-
                     $recipient_name = $params["first_name"] . " " . $params["last_name"];
                     $recipient_email_address = $params["email_address"];
-                    $verification_code = bin2hex(random_bytes(16));
+                    $verification_code = $this->generateVerificationCode();
                     // $expires_at = time() + 60 * 2; // expires in two minutes
                     // verify the email
                     $postman = new Mailer();
@@ -205,14 +207,14 @@ class UserAuthController extends Token
                 } else {
                     $this->errors["message"] = "Validation errors in your inputs";
                     $this->errors["errors"] = array_merge([], $this->validator->getErrors());
-                    return $this->sendResponse("/user/signup.html", "error", $this->errors);
+                    $this->sendResponse("/user/signup.html", "error", $this->errors);
                 }
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 throw $exception;
             }
         } else {
             $this->errors["message"] = "";
-            return $this->sendResponse("/user/signup.html", "error", $this->errors);
+            $this->sendResponse("/user/signup.html", "error", $this->errors);
         }
     }
 
@@ -268,7 +270,7 @@ class UserAuthController extends Token
             try {
                 $this->user = new User($this->getCredentials()->id);
                 $this->user->updateState(id: $this->user->getUserData()->id, user_state: "OFFLINE");
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 throw $exception;
             }
             if (Cookie::cookieExists(Config::getApiGlobal("remember")['access'])) {
@@ -287,7 +289,7 @@ class UserAuthController extends Token
     /* 
      * Function description
      * 
-     * take the data inside of the token payload and return that data as a php object
+     * take the data inside the token payload and return that data as a php object
      */
     public function getCredentials()
     {
@@ -308,11 +310,6 @@ class UserAuthController extends Token
     protected function sendJsonResponse(string $status, array $content = array())
     {
         Response::sendJsonResponse(status: $status, content: $content);
-    }
-
-    // send an email then get the code check the code
-    public function forgotPassword()
-    {
     }
 
     // need to have the following 
@@ -357,7 +354,7 @@ class UserAuthController extends Token
                         content: array("message" => "Email verification failed, no such email was found")
                     );
                 }
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 throw $exception;
             }
         } else {
@@ -369,12 +366,163 @@ class UserAuthController extends Token
         }
     }
 
+    // send an email then get the code check the code
+    // check whether the user is verified and have access
+    public function forgotPasswordServePage()
+    {
+        $this->sendResponse(
+            view: "/user/forgotpassword.html",
+            status: "success",
+            content: array("message" => "")
+        );
+    }
+
+    public function sendVerificationOnForgotPassword(array $args)
+    {
+        // verify the username and the email address
+        // on the front end ask the user to enter the username and the email address
+        if (array_key_exists("email_address", $args)) {
+            try {
+                $user = new User();
+                $user->readUser("email_address", $args["email_address"]);
+                if ($user->readUser(key: "email_address", value: $args["email_address"])) {
+                    if ($user->getUserData()->verified === "TRUE") {
+                        if ($user->getUserData()->access === "ENABLED") {
+                            $recipient_email_address = $user->getUserData()->email_address;
+                            $recipient_name = $user->getUserData()->first_name . " " . $user->getUserData()->last_name;
+                            $verification_code = $this->generateVerificationCode();
+                            $user->updateVerificationCode($user->getUserData()->id, $verification_code);
+                            $postman = new Mailer();
+                            $mail_sent = $postman->sendHTMLEmail(
+                                recipients: [$recipient_email_address],
+                                subject: "Reset your Marshal password",
+                                // please make this link look like a button
+                                body: "<p>Dear $recipient_name,</p>
+                                           <p>We have received a request to reset the password for your Marshal account. To verify your identity and complete the password reset process, please use the verification code below:</p>
+                                           <p>Verification code: [$verification_code]</p>
+                                           <p>If you did not make this request, please ignore this email and your password will remain unchanged.</p>
+                                           <p>If you need further assistance, please don't hesitate to contact us at support@marshal.com.</p>
+                                           <p>Best regards,</p>
+                                           <p>The Marshal Team</p>"
+                            );
+                            if ($mail_sent) {
+                                $this->sendJsonResponse(
+                                    status: "success",
+                                    content: array("message" => "Please check your email for the verification code")
+                                );
+                            } else {
+                                $this->sendJsonResponse(
+                                    status: "internal_server_error",
+                                    content: array("message" => "Verification email cannot be sent")
+                                );
+                            }
+                        } else {
+                            $this->sendJsonResponse(
+                                status: "unauthorized",
+                                content: array("message" => "Your account have been disabled")
+                            );
+                        }
+                    } else {
+                        $this->sendJsonResponse(
+                            status: "unauthorized",
+                            content: array("message" => "User is not yet verified, please verify your account first")
+                        );
+                    }
+                } else {
+                    $this->sendJsonResponse(
+                        status: "error",
+                        content: array("message" => "User cannot be identified")
+                    );
+                }
+            } catch (Exception $exception) {
+                throw $exception;
+                $this->sendJsonResponse(
+                    status: "error",
+                    content: array("message" => "User with the provided email cannot be found")
+                );
+            }
+        } else {
+            $this->sendJsonResponse(
+                status: "error",
+                content: array("message" => "Bad request")
+            );
+        }
+    }
+
     // need to have the following 
     // [
     // "email_address" => "user email address",
     // "verification_code" => "verification code"
     // ]
-    public function verifyUserEmailOnForgotPassword(array $args)
+    public function verifyCodeOnForgotPassword(array $args)
     {
+        if (
+            array_key_exists("email_address", $args) &&
+            array_key_exists("verification_code", $args)
+        ) {
+            $user = new User();
+            try {
+                $user->readUser("email_address", $args["email_address"]);
+                if ($user->getUserData()->verification_code === $args["verification_code"]) {
+                    $this->sendJsonResponse(
+                        status: "success",
+                        content: array("message" => "User verification successful")
+                    );
+                } else {
+                    $this->sendJsonResponse(
+                        status: "error",
+                        content: array("message" => "Invalid verification code, please try again later")
+                    );
+                }
+            } catch (Exception $exception) {
+                $this->sendJsonResponse(
+                    status: "unauthorized",
+                    content: array("message" => "User cannot be found")
+                );
+            }
+        } else {
+            $this->sendJsonResponse(
+                status: "error",
+                content: array("message" => "Bad request")
+            );
+        }
+    }
+
+    public function updateUserPasswordOnForgotPassword(array $args)
+    {
+        if (
+            array_key_exists("email_address", $args) &&
+            array_key_exists("new_password", $args) &&
+            array_key_exists("re_enter_new_password", $args)
+        ) {
+            try {
+                $user = new User();
+                $user->readUser("email_address", $args["email_address"]);
+                if ($user->updatePassword($user->getUserData()->id, $args["new_password"]))
+                    $this->sendJsonResponse(
+                        status: "success",
+                        content: array("message" => "User password successfully changed")
+                    );
+                else $this->sendJsonResponse(
+                    status: "internal_server_error",
+                    content: array("message" => "User password cannot be changed")
+                );
+            } catch (Exception $exception) {
+                $this->sendJsonResponse(
+                    status: "unauthorized",
+                    content: array("message" => "User cannot be found")
+                );
+            }
+        } else {
+            $this->sendJsonResponse(
+                status: "error",
+                content: array("message" => "missing parameters")
+            );
+        }
+    }
+
+    public function generateVerificationCode(): string
+    {
+        return strval(rand(100000, 999999));
     }
 }
