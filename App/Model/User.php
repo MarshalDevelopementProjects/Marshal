@@ -52,7 +52,32 @@ class User implements Model
         }
     }
 
-    public function readUser(string $key, string|int $value = null)
+    public function updatePassword(string|int $id, string $new_password)
+    {
+        try {
+            $sql_string = "UPDATE `user` SET `password` = :password WHERE `id` = :id";
+            $args['id'] = $id;
+            $args['password'] = password_hash($new_password, PASSWORD_ARGON2ID);
+            $this->crud_util->execute($sql_string, $args);
+            return true;
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function updateVerificationCode(string|int $id, int|string $verification_code)
+    {
+        try {
+            $sql_string = "UPDATE `user` SET `verification_code` = :verification_code WHERE `id` = :id";
+            $args = ["id" => $id, "verification_code" => $verification_code];
+            $this->crud_util->execute($sql_string, $args);
+            return true;
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function readUser(string $key, string|int $value)
     {
         // example format => "SELECT * FROM users WHERE id = :id";
         $sql_string = "SELECT * FROM `user` WHERE `" . $key . "` = :" . $key;
