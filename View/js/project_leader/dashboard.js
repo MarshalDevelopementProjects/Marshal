@@ -247,13 +247,44 @@ tasks.forEach(task => {
                                     <button disabled type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
                                 </form>
                             </div>
-                            <div class="buttons">
-                                <a id="cancel-task-details" href="#">Cancel</a>
-                                <a id="pickup-task-btn" href="#">PickUp</a>
+                            <div class="bottom">
+                                <input type="text" name="assignedMember" placeholder="Assign member ...">
+                                <div class="buttons">
+                                    <a id="cancel-task-details" href="#">Cancel</a>
+                                    <a id="pickup-task-btn" href="#">PickUp</a>
+                                </div>
                             </div>`
             
             todoTaskDetails.innerHTML = code
             todoTaskDetails.classList.add('active')
+
+            // assign memeber feature 
+            const assignMemberInput = document.querySelector('.bottom input');
+
+            assignMemberInput.addEventListener('keyup', (event) =>{
+                if (event.keyCode === 13) {
+                    
+                    fetch("http://localhost/public/projectleader/assigntask", {
+                        withCredentials: true,
+                        credentials: "include",
+                        mode: "cors",
+                        method: "POST",
+                        body: JSON.stringify({
+                            "task_name" : taskDetails['task_name'],
+                            "member_username" : assignMemberInput.value
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        todoTaskDetails.classList.remove('active')
+                        location.reload();
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    });
+                }
+            })
 
             const pickupTaskBtn = document.getElementById('pickup-task-btn')
             pickupTaskBtn.addEventListener('click', () => {
