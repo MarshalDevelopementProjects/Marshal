@@ -40,6 +40,16 @@ class Task implements Model
         }   
     }
 
+    public function getTask(array $args = array()){
+        $sql_string = "SELECT * FROM task WHERE project_id = :project_id AND task_name = :task_name";
+
+        $result = $this->crud_util->execute($sql_string, $args);
+        if ($result->getCount() > 0) {
+            return $result->getFirstResult();
+        } else {
+            return false;
+        }   
+    }
     public function pickupTask(array $args = array()){
         $sql_string = "UPDATE task SET `status` = :status , `memberId` = :memberId WHERE `project_id` = :project_id AND `task_name` = :task_name";
 
@@ -68,4 +78,25 @@ class Task implements Model
         }
     }
 
+    public function completeTask(array $args = array()){
+        $sql_string = "INSERT INTO completedtask (`taskId`, `confirmation_type`, `confirmation_message`, `date`, `time`) VALUES (:taskId, :confirmation_type, :confirmation_message, :date, :time)";
+
+        try {
+            $this->crud_util->execute($sql_string, $args);
+            
+            return true;
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+    public function updateTaskState(array $args = array()){
+        $sql_string = "UPDATE task SET `status` = :status WHERE project_id = :project_id AND task_name = :task_name";
+        try {
+            $this->crud_util->execute($sql_string, $args);
+            
+            return true;
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
 }
