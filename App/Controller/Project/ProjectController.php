@@ -12,21 +12,19 @@ use App\Model\User;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
-class ProjectController extends UserController{
+class ProjectController{
 
     public function __construct(){
-        $this->userAuth = new UserAuthController();
     }
     public function defaultAction(Object|array|string|int $optional = null)
     {
-
     }
 
-    public function getProjectTasks(array $args = array()){
-        $task = new Task();
+    public function getProjectTasks(array $args = array(), $user_id = null){
+        $newTask = new Task();
         $user = new User();
         // get all tasks related to this project
-        $tasks = $task->getAllTasks($args);
+        $tasks = $newTask->getAllTasks($args);
 
         if($tasks){
             // divide the tasks by status
@@ -42,8 +40,6 @@ class ProjectController extends UserController{
                         $todoTasks[] = $task;
                         break;
                     case 'ONGOING':
-                        $payload = $this->userAuth->getCredentials();
-                        $user_id = $payload->id;
 
                         $userData = $user->readUser("id", $task->memberId);
                         $userData = $user->getUserData();
@@ -54,6 +50,21 @@ class ProjectController extends UserController{
                         $ongoingTasks[] = $task;
                         break;
                     case 'REVIEW':
+
+
+                        $userData = $user->readUser("id", $task->memberId);
+                        $userData = $user->getUserData();
+
+                        $task->profile = $userData->profile_picture;
+                        $task->userId = $user_id;
+
+                        // get completed data
+
+                        // $taskData = $newTask->getTask(array("project_id" => $_SESSION['project_id'], "task_name" => "Build API")); 
+                        $completedData = $newTask->getTaskCompletedDetails(array("taskId" => $task->task_id));
+                        $task->completeTime = $completedData->date . ' ' . $completedData->time;
+                        $task->confirmationMessage = $completedData->confirmation_message;
+
                         $reviewTasks[] = $task;
                         break;
                     case 'DONE':

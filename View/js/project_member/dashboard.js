@@ -81,7 +81,11 @@ var reviewTasksCode = "";
 
 if(reviewTasks){
     reviewTasks.forEach(task => {
-        reviewTasksCode += `<div class="task" draggable="true">
+        let access = ""
+        if(task['memberId'] != task['userId']){
+            access = ' style="pointer-events: none"'
+        }
+        reviewTasksCode += `<div class="task" draggable="true"${access}>
                                 <div class="top-task">
                                     <h4>${task['task_name']}</h4>
                                     <p class="priority-${task['priority']}">${task['priority']}</p>
@@ -89,6 +93,7 @@ if(reviewTasks){
                                 <p class="task-description">${task['description']}</p>
                                 <div class="bottom-task style="display:flex">
                                     <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                    <img id="member-profile" src="${task['profile']}" alt="">
                                 </div>
                             </div>`
     })
@@ -360,11 +365,18 @@ tasks.forEach(task => {
                             </div>
                             <div class="buttons">
                                 <a id="cancel-task-details" href="#">Cancel</a>
-                                <a href="#">Finish</a>
+                                <p id="finishTaskBtn">Finish</p>
                             </div>`
             
             todoTaskDetails.innerHTML = code
             todoTaskDetails.classList.add('active')
+
+            const finishBtn = document.querySelector('#finishTaskBtn')
+            const confirmationPopup = document.querySelector('.confirmation-popup')
+            const confirmationPopupCloseBtn = document.querySelector('.confirmation-popup .close-area i')
+
+            finishBtn.addEventListener('click', () => confirmationPopup.classList.add('active'))
+            confirmationPopupCloseBtn.addEventListener('click', () => confirmationPopup.classList.remove('active'))
             
             const cancelTodoTaskDetails = document.getElementById('cancel-task-details')
             cancelTodoTaskDetails.addEventListener('click', () => todoTaskDetails.classList.remove('active'))
@@ -377,7 +389,7 @@ tasks.forEach(task => {
                                 <p class="${taskDetails['priority']}">${taskDetails['priority']}</p>
                             </div>
                             <p class="task-details-description">${taskDetails['description']}</p>
-                            <p class="task-details-deadline">Deadline : ${taskDetails['deadline'].split(' ')[0]}</p>
+                            <p class="task-details-deadline">Deadline : ${taskDetails['deadline'].split(' ')[0]} <span>Completed at : ${taskDetails['completeTime']}</span></p>
 
                             <div class="task-feedbacks">
                                 <p class="incomming-feedbacks"></p>
@@ -389,7 +401,7 @@ tasks.forEach(task => {
                                 </form>
                             </div>
                             <div class="buttons">
-                                
+                                <p id="completedMessage">Confirmation message : <span>${taskDetails['confirmationMessage']}</span></p>
                                 <a href="#" style="margin-left: 100px">Continue</a>
                             </div>`
             

@@ -326,11 +326,16 @@ body{
     margin: 20px 0 0 40px;
 }
 .TO-DO-task-details .task-details-deadline{
-    font-size: 14px;
+    font-size: 12px;
     color: #FB160D;
-    margin-left: 20px;
+    margin-left: 25px;
     margin-top: 20px;
 }
+.task-details-deadline span{
+    color: #20B289;
+    margin-left: 75px;
+}
+
 .TO-DO-task-details .task-feedbacks{
     border: 1px solid #eee;
     border-radius: 12px;
@@ -382,9 +387,36 @@ body{
     text-decoration: none;
     cursor: pointer;
 }
+#finishTaskBtn{
+    margin:  0 10px 0 10px;
+    padding: 7px 18px;
+    border-radius: 5px;
+    background-color: #20B289;
+    color: #fff;
+    font-weight: 550;
+    text-decoration: none;
+    cursor: pointer;
+}
 #cancel-task-details{
     background-color: #F83B3B;
 }
+
+#completedMessage{
+    margin-left: -320px;
+    font-size: 13px;
+    overflow: hidden;
+    /* border: 1px solid black; */
+    width: 600px;
+    height: 20px;
+    color: #031738;
+    font-weight: 550;
+}
+#confirmationMessage span{
+    color: #333;
+}
+
+
+
 
 
 .task-boards{

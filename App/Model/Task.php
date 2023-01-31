@@ -99,4 +99,16 @@ class Task implements Model
             return false;
         }
     }
+
+    public function getTaskCompletedDetails(array $args = array()){
+        $sql_string = "SELECT * FROM completedtask WHERE taskId = :taskId";
+
+        $result = $this->crud_util->execute($sql_string, $args);
+        if ($result->getCount() > 0) {
+            return $result->getFirstResult();
+        } else {
+            return false;
+        }   
+    }
+
 }

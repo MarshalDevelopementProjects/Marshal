@@ -138,7 +138,7 @@ class UserController extends Controller
                         $this->sendResponse(
                             view: "/project_leader/dashboard.html",
                             status: "success",
-                            content: $projectController->getProjectTasks($args)
+                            content: $projectController->getProjectTasks($args, $payload->id)
                         );
                         break;
                     case 'CLIENT':
@@ -161,7 +161,7 @@ class UserController extends Controller
                         $this->sendResponse(
                             view: "/project_member/dashboard.html",
                             status: "success",
-                            content: $projectController->getProjectTasks($args)
+                            content: $projectController->getProjectTasks($args, $payload->id)
                         );
                         break;
                     default: {
