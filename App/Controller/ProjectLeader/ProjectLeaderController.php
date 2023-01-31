@@ -202,4 +202,71 @@ class ProjectLeaderController extends ProjectMemberController
             ]
         );
     }
+
+    public function assignTask(){
+        $data = json_decode(file_get_contents('php://input'));
+
+        $user = new User();
+        $user->readUser("username", $data->member_username);
+        $receivedUser = $user->getUserData();
+
+        $payload = $this->userAuth->getCredentials();
+        $project_id = $_SESSION["project_id"];
+        $user_id = $payload->id;
+
+        if($receivedUser){
+            $args = array(
+                "status" => "ONGOING",
+                "memberId" => $receivedUser->id,
+                "project_id" => $project_id,
+                "task_name" => $data->task_name
+            );
+
+            $task = new Task();
+            $message = "";
+
+            try {
+                $task->pickupTask($args);
+                $message = "Successfully picked";
+
+                // send notification to leader
+                $date = date("Y-m-d H:i:s");
+
+                // now we have to send a notification as well 
+                $notificationArgs = array(
+                    "projectId" => $project_id,
+                    "message" => "Leader assigned you to " . $data->task_name . '.',
+                    "type" => "notification",
+                    "senderId" => $user_id,
+                    "sendTime" => $date
+                );
+                $notification = new Notification();
+                $notification->createNotification($notificationArgs);
+                
+                $notifyConditions = array(
+                    "projectId" => $project_id,
+                    "senderId" => $user_id,
+                    "sendTime" => $date
+                );
+                $newNotification = $notification->getNotificationData($notifyConditions);
+                $newNotificationId = $newNotification[0]->id;
+
+                $notifyMemberArgs = array(
+                    "notificationId" => $newNotificationId,
+                    "memberId" => $receivedUser->id
+                );
+                $notification->setNotifiedMembers($notifyMemberArgs);
+
+            } catch (\Throwable $th) {
+                $message = "Failed to pick up";
+            }
+
+            $this->sendJsonResponse(
+                status: "success",
+                content: [
+                    "message" => $message
+                ]
+            );
+        }
+    }
 }
