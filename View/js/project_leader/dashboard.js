@@ -46,7 +46,9 @@ if(todoTasks){
                                     <p class="priority-${task['priority']}">${task['priority']}</p>
                                 </div>
                                 <p class="task-description">${task['description']}</p>
-                                <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                <div class="bottom-task style="display:flex">
+                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                </div>
                             </div>`
     })
 }
@@ -62,7 +64,10 @@ if(ongoingTasks){
                                     <p class="priority-${task['priority']}">${task['priority']}</p>
                                 </div>
                                 <p class="task-description">${task['description']}</p>
-                                <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                <div class="bottom-task style="display:flex">
+                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                    <img id="member-profile" src="${task['profile']}" alt="">
+                                </div>
                             </div>`
     })
 }
@@ -78,7 +83,9 @@ if(reviewTasks){
                                     <p class="priority-${task['priority']}">${task['priority']}</p>
                                 </div>
                                 <p class="task-description">${task['description']}</p>
-                                <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                <div class="bottom-task style="display:flex">
+                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                </div>
                             </div>`
     })
 }
@@ -94,7 +101,9 @@ if(doneTasks){
                                     <p class="priority">${task['priority']}</p>
                                 </div>
                                 <p class="task-description">${task['description']}</p>
-                                <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                <div class="bottom-task style="display:flex">
+                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                </div>
                             </div>`
     })
 }
@@ -107,15 +116,49 @@ const getTaskDetails = (boardName, taskName) => {
 
 
 const tasks = document.querySelectorAll('.task');
-const boards = document.querySelectorAll('.board');
+const boards = document.querySelectorAll('.tasks');
+
+var startX, endX, oldBoard, newBoard;
 
 tasks.forEach(task => {
-    task.addEventListener('dragstart', ()=>{
+    task.addEventListener('dragstart', (event)=>{
+        startX = event.clientX;
+        oldBoard = task.parentNode.parentNode.className.split(' ')[0].toUpperCase()
+
         task.classList.add('dragging');
     })
 
-    task.addEventListener('dragend', ()=>{
+    task.addEventListener('dragend', (event)=>{
         task.classList.remove('dragging');
+        endX = event.clientX;
+
+        newBoard = task.parentNode.parentNode.className.split(' ')[0].toUpperCase()
+
+        if(newBoard === "TODO") newBoard = "TO-DO"
+        if(oldBoard === "TODO") oldBoard = "TO-DO"
+        let draggedTaskName = task.firstElementChild.firstElementChild.textContent;
+
+        if(newBoard != oldBoard){
+            if(oldBoard == "TO-DO" && newBoard == "ONGOING"){
+                fetch("http://localhost/public/projectmember/pickuptask", {
+                    withCredentials: true,
+                    credentials: "include",
+                    mode: "cors",
+                    method: "POST",
+                    body: JSON.stringify({
+                        "task_name" : draggedTaskName.toString()
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    location.reload();
+                })
+                .catch((error) => {
+                    console.error(error)
+                });
+            }
+        }
     })
 })
 
