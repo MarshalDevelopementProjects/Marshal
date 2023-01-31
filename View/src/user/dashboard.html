@@ -1,65 +1,6 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/View/styles/styles_less.css" />
-    <link rel="stylesheet" href="/View/styles/landing.css" />
-    <title>Marshal</title>
-</head>
-
-<body onload="OnLoad();">
-
-    <nav class="navbar">
-        
-        <div class="logo">MARSHAL</div>
-        
-        <ul class="nav-links" list-style-type="none">
-            <div class="menu">
-                <button id="notification-bell">Notification</button>
-                <button id="create-project-btn">Create new project</button>
-                <a href="http://localhost/public/user/profile">Go to Profile</a>
-                <button id="log-out-btn">Log Out</button>
-            </div>
-        </ul>
-    </nav>
-
-    <div class="container-landing">
-        <div class="container-project-cards" id="project-container-div"></div>
-    </div>
-
-    <div class="model-container" id="model-container-div">
-        <div class="model">
-            <h2>Create a New Project</h2>
-            <form id="create-project-form">
-                <input type="text" name="project_name" id="project_name" placeholder="Name of the New Project">
-                <input type="text" name="project_description" id="project_description"
-                    placeholder="Add a Description">
-                <br>
-                <label for="start_date">Start Date </label>
-                <input type="date" name="start_date" id="start_date" placeholder="Start Date">
-                <br>
-                <label for="end_date">End Date </label>
-                <input type="date" name="end_date" id="end_date" placeholder="End Date">
-                <button type="submit">Create project</button>
-            </form>
-
-            <button id="model-close-btn" style="width: 200px">Close</button>
-        </div>
-    </div>
-
-    <script src="/View/js/user/dashboard.js"></script>
-</body>
-
-</html> -->
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,9 +11,9 @@
 </head>
 
 <body onload="onLoad()">
-    
+
     <div class="container">
-        
+
         <div class="navbar">
             <div class="left-logo-area">
                 <img src="/View/images/logo.png" alt="logo" class="logo">
@@ -81,7 +22,7 @@
                 <button type="submit" class="navbar-new-project">+ New Project</button>
                 <i class="fa fa-bell-o  notification-bell-btn" aria-hidden="true"></i>
                 <i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i>
-                <img src="/View/images/dp.png" alt="profile picture" class="profile-image">
+                <img id="profile-picture-img-tag" alt="profile picture" class="profile-image">
             </div>
         </div>
 
@@ -91,7 +32,8 @@
                     <ul>
                         <li class="dashboard active">Dashboard</li>
                         <li class="new-project">New project</li>
-                        <li class="profile">Profile</li>
+                        <li class="profile">
+                            <a href="http://localhost/public/user/profile" style="color: inherit; text-decoration: none;">Profile</a></li>
                         <li class="settings">Settings</li>
                         <li class="sketch-idea">Sketch idea</li>
                     </ul>
@@ -116,7 +58,7 @@
                         <p>Sun</p>
                     </div>
                     <div class="days">
-                        
+
                     </div>
                 </div>
             </div>
@@ -151,33 +93,33 @@
                     <div class="project-card">
                         <a href="./index.html" class="clickable-project">
                             <p class="project-field "></p>
-                        <h3 class="project-name"></h3>
+                            <h3 class="project-name"></h3>
 
-                        <div class="tasks">
-                            <p>Ongoing Work</p>
-                            <ul class="task-list">
-                                <li>Design UI for login page</li>
-                                <li>Fixing #15 bug</li>
-                                <li>Develop API</li>
-                                <li>Create reports for #3 week</li>
-                            </ul>
-                        </div>
-                        <p class="team">Team</p>
-                        <div class="card-bottom">
-                            <div class="member-images">
-                                <img class="image first" src="/View/images/Picture1.png" alt="Picture1">
-                                <img class="image rest1" src="/View/images/Picture2.png" alt="Picture2">
-                                <img class="image rest2"src="/View/images/Picture3.png" alt="Picture3">
-                                <img class="image rest3"src="/View/images/Picture4.png" alt="Picture4">
-                                <img class="image rest4"src="/View/images/Picture5.png" alt="Picture5">
+                            <div class="tasks">
+                                <p>Ongoing Work</p>
+                                <ul class="task-list">
+                                    <li>Design UI for login page</li>
+                                    <li>Fixing #15 bug</li>
+                                    <li>Develop API</li>
+                                    <li>Create reports for #3 week</li>
+                                </ul>
                             </div>
-                            <!-- <button type="submit">Get Info</button> -->
-                            
-                        </div>
+                            <p class="team">Team</p>
+                            <div class="card-bottom">
+                                <div class="member-images">
+                                    <img class="image first" src="/View/images/Picture1.png" alt="Picture1">
+                                    <img class="image rest1" src="/View/images/Picture2.png" alt="Picture2">
+                                    <img class="image rest2" src="/View/images/Picture3.png" alt="Picture3">
+                                    <img class="image rest3" src="/View/images/Picture4.png" alt="Picture4">
+                                    <img class="image rest4" src="/View/images/Picture5.png" alt="Picture5">
+                                </div>
+                                <!-- <button type="submit">Get Info</button> -->
+
+                            </div>
                         </a>
                     </div>
-                    
-                    
+
+
                 </div>
             </div>
         </div>
@@ -188,7 +130,7 @@
                     <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
                 </div>
                 <div class="notifications">
-                    
+
                 </div>
             </div>
         </div>
@@ -210,16 +152,16 @@
                             <input type="text" name="projectName" placeholder="Enter project name ...">
                             <br>
                             <p>Your business, group, or organization's name is here.</p>
-    
+
                             <label for="projectType">Project Type</label>
                             <br>
                             <input type="text" name="projectType" placeholder="Enter project type ...">
-    
+
                             <br>
                             <label for="projectDescription">Project Description</label>
                             <br>
                             <input type="text" id="projectDescription" name="projectDescription" placeholder="Please enter something on your project ... ">
-    
+
                             <br>
                             <button type="submit">CREATE</button>
                         </form>
@@ -229,14 +171,15 @@
             </div>
         </div>
 
-        
+
     </div>
-    
+
     <script>
         var jsonData = JSON.parse('<?= $data; ?>');
     </script>
     <script src="/View/js/user/dashboard.js"></script>
 </body>
+
 </html>
 
 
@@ -247,5 +190,3 @@
         </div>
     </div>
 </div> -->
-
-
