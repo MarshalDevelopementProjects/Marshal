@@ -13,6 +13,7 @@ use App\Model\Notification;
 use Core\Validator\Validator;
 use Core\FileUploader;
 use Core\PdfGenerator;
+use Exception;
 
 class UserController extends Controller
 {
@@ -33,8 +34,7 @@ class UserController extends Controller
                     );
                 } else {
                     $credentials = $this->userAuth->getCredentials();
-                    if ($credentials->id) $this->user = new User($credentials->id);
-                    else $this->user = new User($credentials->id);
+                    $this->user = new User($credentials->id);
                 }
             } else {
                 $this->sendResponse(
@@ -43,16 +43,19 @@ class UserController extends Controller
                 );
             }
             $this->validator = new Validator();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
 
-    public function auth()
+    public function auth(): bool
     {
         return $this->userAuth->isLogged();
     }
 
+    /**
+     * @throws Exception
+     */
     public function defaultAction(Object|array|string|int $optional = null)
     {
         // get relevant projects
@@ -92,8 +95,8 @@ class UserController extends Controller
             foreach ($results as $result) {
                 unset($result->created_by); // remove the project id from the data sent back need the project id
             }
-            return $this->sendJsonResponse("success", array("message" => "Project successfully created", "projects" => $results));
-        } catch (\Exception $exception) {
+            $this->sendJsonResponse("success", array("message" => "Project successfully created", "projects" => $results));
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
@@ -104,7 +107,7 @@ class UserController extends Controller
             $payload = $this->userAuth->getCredentials(); // get the payload content
             $project = new Project($payload->id);
             if ($project->readProjectsOfUser($payload->id)) {
-                return $this->sendJsonResponse(
+                $this->sendJsonResponse(
                     "success",
                     array(
                         "message" => "user projects",
@@ -112,10 +115,10 @@ class UserController extends Controller
                     )
                 );
             } else {
-                // if there are no projects then an empty string is send as the message
+                // if there are no projects then an empty string is sent as the message
                 $this->sendJsonResponse("success");
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
         }
     }
@@ -183,7 +186,7 @@ class UserController extends Controller
                 );
             }
             exit;
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
         }
     }
@@ -196,9 +199,9 @@ class UserController extends Controller
             $this->sendResponse(
                 view: "/user/profilepage.html",
                 status: "success",
-                content: [
+                content: array(
                     "message" => "Successful",
-                    "user_info" => [
+                    "user_info" => array(
                         "username" => $user_data->username,
                         "first_name" => $user_data->first_name,
                         "last_name" => $user_data->last_name,
@@ -208,11 +211,11 @@ class UserController extends Controller
                         "position" => $user_data->position,
                         "display_picture" => $user_data->profile_picture,
                         "bio" => $user_data->bio
-                    ],
-                    "other_info" => []
-                ]
+                    ),
+                    "other_info" => array()
+                )
             );
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
         }
     }
@@ -317,7 +320,7 @@ class UserController extends Controller
                     ])
                 );
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
@@ -487,7 +490,70 @@ class UserController extends Controller
     }
 
     // change the user password
-    public function changePassword()
+    //
+    // for the post request, need the following format 
+    // ["old_password" => "old password of the user"]
+    // 
+    // for the put request, need the following format
+    // ["new_password" => "new password of the user", "re_entered_new_password" => "re entered new password of the user"]
+    // displaying of the popup should be handled by the front end
+    public function changePassword(array $args)
     {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            // verify the current password 
+            if (
+                array_key_exists("old_password", $args) &&
+                password_verify($args["old_password"], $this->user->getUserData()->password)
+            ) {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array("message" => "User verified")
+                );
+            } else {
+                $this->sendJsonResponse(
+                    status: "error",
+                    content: array("message" => "The password provided doesn't match")
+                );
+            }
+        } else if ($_SERVER["REQUEST_METHOD"] === "PUT") {
+            // change the password
+            if (
+                array_key_exists("new_password", $args) &&
+                array_key_exists("re_entered_new_password", $args)
+            ) {
+                $this->validator = new Validator();
+                $this->validator->validate($args, "password_change");
+                if ($this->validator->getPassed()) {
+                    if ($this->user->updatePassword($this->user->getUserData()->id, $args["new_password"]))
+                        $this->sendJsonResponse(
+                            status: "success",
+                            content: array("message" => "Password successfully changed")
+                        );
+                    else $this->sendJsonResponse(
+                        status: "internal_server_error",
+                        content: array("message" => "Password cannot be changed")
+                    );
+                } else {
+                    $this->sendJsonResponse(
+                        status: "success",
+                        content: array(
+                            "message" => "Input validation failed",
+                            "errors" => $this->validator->getErrors()
+                        )
+                    );
+                }
+            } else {
+                $this->sendJsonResponse(
+                    status: "error",
+                    content: array("message" => "Bad request, missing arguments")
+                );
+            }
+        } else {
+            $this->sendResponse(
+                view: "/errors/404.html",
+                status: "error",
+                content: array("message" => "Bad request")
+            );
+        }
     }
 }
