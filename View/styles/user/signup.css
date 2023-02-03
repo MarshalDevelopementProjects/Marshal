@@ -1,0 +1,225 @@
+/* for google fonts  */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.container{
+    position: relative;
+    max-width: 430px;
+    width: 100%;
+    background: #f83b3b;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 0 20px;
+}
+
+.container .form{
+    width: 100%;
+    padding: 30px;
+    background-color: #f83b3b;
+    transition: margin-left 0.18s ease;
+}
+
+.container.active .forms{
+    height: 600px;
+}
+.container .form .title{
+    position: relative;
+    font-size: 27px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.form .title::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #fff;
+    border-radius: 25px;
+}
+
+.form .input-field{
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 18px;
+}
+#full-name{
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+    justify-content: space-between;
+    display: flex;
+}
+.first-name{
+    position: relative;
+    height: 100%;
+    width: 48%;
+    padding: 0;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    border-radius: 25px;
+}
+.last-name{
+    position: relative;
+    height: 100%;
+    width: 48%;
+    padding: 0;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    border-radius: 25px;
+}
+.input-field input{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0 35px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    border-radius: 25px;
+    padding-left: 50px;
+}
+
+.input-field i{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 23px;
+    padding-left: 20px;
+}
+
+.input-field input:is(:focus, :valid) ~ i{
+    color: #f83b3b;
+}
+
+
+.input-field i.showHidePw{
+    right: 0;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.form .checkbox-text{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.checkbox-text .checkbox-content{
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-content input{
+    margin-right: 10px;
+    accent-color: #fff;
+}
+
+.form .text{
+    color: #bbb;
+    font-size: 14px;
+}
+
+.form a.text{
+    color: #fff;
+    text-decoration: none;
+}
+.form a:hover{
+    text-decoration: underline;
+}
+
+.form .button{
+    margin-top: 25px;
+} 
+
+.form .button button{
+    margin-left: 10%;
+    width: 80%;
+    height: 40px;
+    border: none;
+    color: #f83b3b;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.form .button button:hover{
+    background-color: #f83b3b;
+    color: #fff;
+}
+
+.form .login-signup{
+    margin-top: 5px;
+    text-align: center;
+}
+#error-message{
+    color: #000;
+    background-color: #fde8ec;
+    padding-top: 8px;
+    font-size: 15px;
+    display: none;
+    text-align: center;
+    width: 80%;
+    height: 40px;
+    margin: 15px 0 -20px 10%;
+    border-radius: 20px;
+}
+.error{
+    color: #af4242;
+    background-color: #fde8ec;
+    padding-top: 8px;
+    font-size: 15px;
+    display: none;
+    text-align: center;
+    width: 80%;
+    height: 40px;
+    margin: 15px 0 -20px 10%;
+    border-radius: 20px;
+}
+#error-message.display-error{
+    display: block;
+    transition: 0.3s ease;
+}
+.success{
+    color: rgb(7, 31, 7);
+    background-color: #caeccf;
+    padding-top: 8px;
+    font-size: 15px;
+    display: none;
+    text-align: center;
+    width: 80%;
+    height: 40px;
+    margin: 15px 0 -20px 10%;
+    border-radius: 20px;
+}
+.success.display-success{
+    display: block;
+    transition: 0.3s ease;
+}
