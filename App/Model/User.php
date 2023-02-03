@@ -28,8 +28,8 @@ class User implements Model
     public function createUser(array $args = array())
     {
         if (!empty($args)) {
-            $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `phone_number`)
-                           VALUES (:username, :first_name, :last_name, :email_address, :password, :phone_number)";
+            $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`)
+                           VALUES (:username, :first_name, :last_name, :email_address, :password)";
             $args['password'] = password_hash($args['password'], PASSWORD_ARGON2ID);
             try {
                 $this->crud_util->execute($sql_string, $args);
