@@ -228,6 +228,7 @@ sketchIdea.addEventListener('click', function(){
 
 
 
+// Send form data for creating a new project
 
 
 
