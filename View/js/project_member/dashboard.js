@@ -1,5 +1,10 @@
-// set tasks of the project
 
+/** 
+ * @jsonData {array} : It returns all details that relevant to the page
+ * From below lines of code,
+ *      get the details (all tasks related to the project) and divide them into categories based on the status of the task
+ *      then sort based on the priority of the task
+*/
 
 todoBoard = document.querySelector('.todo .tasks'),
 ongoingBoard = document.querySelector('.ongoing .tasks'),
@@ -11,7 +16,9 @@ var ongoingTasks = jsonData['ongoingTasks'];
 var reviewTasks = jsonData['reviewTasks'];
 var doneTasks = jsonData['doneTasks'];
 
-
+/**
+ * Sort the tasks by priority
+ */
 let priorities = { "high": 3, "medium": 2, "low": 1 };
 
 if(todoTasks){
@@ -35,7 +42,11 @@ if(doneTasks){
     });
 }
 
-
+/**
+ * Set the html code based on the data that passed
+ * There are some additional details on some status, as example ongoing task has a profile picture which is working on it
+ * So we have to do this individually
+ */
 var todoTasksCode = "";
 
 if(todoTasks){
@@ -118,26 +129,35 @@ if(doneTasks){
 }
 doneBoard.innerHTML = doneTasksCode;
 
+/**
+ * 
+ * @param {string} boardName The name of the board (Todo, Ongoing, Review, Done)
+ * @param {string} taskName The name of the task
+ * @returns {Array} The details of the task that passed through jsonData
+ */
 const getTaskDetails = (boardName, taskName) => {
     return boardName.find(element => element.task_name === taskName)
 }
 
-// drag and drop tasks
+/**
+ * Send the confirmation message to project leader
+ * @param {string} taskName name of the task to be confirmed
+ * @param {string} message message to be sent when the task is completed
+ * @param {*} date date the task was cmpleted
+ * @param {*} time time the task was completed
+ */
 
-const tasks = document.querySelectorAll('.task');
-const boards = document.querySelectorAll('.tasks');
-
-const sendConfirmationFunction = (draggedTaskName, message, formattedDate, time) => {
+const sendConfirmationFunction = (taskName, message, date, time) => {
     fetch("http://localhost/public/projectmember/sendconfirmation", {
         withCredentials: true,
         credentials: "include",
         mode: "cors",
         method: "POST",
         body: JSON.stringify({
-            "task_name" : draggedTaskName.toString(),
+            "task_name" : taskName.toString(),
             "confirmation_message" : message,
             "confirmation_type" : message ? "message" : "file",
-            "date" : formattedDate,
+            "date" : date,
             "time" : time
         })
     })
@@ -151,25 +171,36 @@ const sendConfirmationFunction = (draggedTaskName, message, formattedDate, time)
     });
 }
 
-var startX, endX;
-// member does not allow to drag all tasks anywhere on anytime, they have restrictions
-var hasAccess = true;
+/**
+ * Build drag and drop tasks feature
+ */
 
+const tasks = document.querySelectorAll('.task');
+const boards = document.querySelectorAll('.tasks');
+
+var startX, endX;
+/**
+ * @hasAccess {boolean}
+ * member does not allow to drag all tasks anywhere on anytime, they have restrictions
+ * Member has access only for their own task
+ */
+var hasAccess = true;
 var oldBoard, newBoard;
 
 tasks.forEach(task => {
+    /**
+     * when task start dragging, set the old board and the position
+     */
     task.addEventListener('dragstart', (event)=>{
         task.classList.add('dragging');
         startX = event.clientX;
 
-        oldBoard = task.parentNode.parentNode.className.split(' ')[0].toUpperCase()
-        if(oldBoard === "review" || oldBoard === "done") {
-            hasAccess = false;
-        }else{
-            hasAccess = true;
-        }
-    })
+        oldBoard = task.parentNode.parentNode.className.split(' ')[0].toUpperCase();
 
+    })
+    /**
+     * task finish dragging, drop it down
+     */
     task.addEventListener('dragend', (event)=>{
         task.classList.remove('dragging');
         endX = event.clientX;
@@ -181,8 +212,6 @@ tasks.forEach(task => {
         if(newBoard === "ONGOING" && oldBoard === "TO-DO"){
             
             let draggedTaskName = task.firstElementChild.firstElementChild.textContent;
-
-            // we have to check the board as well
             
             fetch("http://localhost/public/projectmember/pickuptask", {
                 withCredentials: true,
@@ -211,7 +240,9 @@ tasks.forEach(task => {
             let draggedTaskName = task.firstElementChild.firstElementChild.textContent;
             var message = ""
 
-            // get current date and time
+            /**
+             * get current date and time
+             */            
             var date = new Date();
             var year = date.getFullYear();
             var month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -222,13 +253,8 @@ tasks.forEach(task => {
 
             confirmationMessage.addEventListener('input', () => {
                 message = confirmationMessage.value
-                console.log(message)
             })
-            if(message){
-                console.log('OK')
-            }else{
-                console.log('ERROR')
-            }
+
 
             sendConfirmation.addEventListener('click', () => {
                 sendConfirmationFunction(draggedTaskName, message, formattedDate, time)
@@ -261,22 +287,26 @@ boards.forEach(board => {
         const task = document.querySelector('.dragging');
 
         var dragDistance = event.clientX - startX;
-        if(hasAccess){
-            if(dragDistance > 0 && dragDistance < 350){
+        /**
+         * Restrict the dragging to the member
+         * Member cannot be dragged to left side and jump the boards
+         */
+        if(dragDistance > 0 && dragDistance < 350 && event.clientX < 1100){
 
-                var firstChild = board.firstChild
-                if(firstChild){      
-                    board.insertBefore(task, firstChild)
-                }else{
-                    board.appendChild(task);
-                }
-                
+            var firstChild = board.firstChild
+            if(firstChild){      
+                board.insertBefore(task, firstChild)
+            }else{
+                board.appendChild(task);
             }
+            
         }
-        console.log(hasAccess)
     })
 })
 
+/**
+ * When tasks click , it must show details of it
+ */
 tasks.forEach(task => {
     task.addEventListener('click', event => {
         var position = event.clientX;
@@ -376,6 +406,41 @@ tasks.forEach(task => {
             const confirmationPopupCloseBtn = document.querySelector('.confirmation-popup .close-area i')
 
             finishBtn.addEventListener('click', () => confirmationPopup.classList.add('active'))
+
+            const confirmationMessage = document.getElementById('confirmationMessage')
+            const sendConfirmation = document.querySelector('.confirmation-popup .input-area button')
+            var message = ""
+
+            // get current date and time
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var day = date.getDate().toString().padStart(2, '0');
+            var formattedDate = year + '-' + month + '-' + day;
+
+            var time = date.toLocaleTimeString();
+
+            confirmationMessage.addEventListener('input', () => {
+                message = confirmationMessage.value
+            })
+
+            console.log(taskName)
+            sendConfirmation.addEventListener('click', () => {
+                sendConfirmationFunction(taskName, message, formattedDate, time)
+            })
+            confirmationMessage.addEventListener('keyup', (event) =>{
+                if(event.keyCode === 13){
+                    sendConfirmationFunction(taskName, message, formattedDate, time)
+                }
+            })
+
+
+            confirmationPopup.classList.add('active')
+            confirmationPopupCloseBtn.addEventListener('click', () => {
+                confirmationPopup.classList.remove('active')
+                location.reload();
+            })
+
             confirmationPopupCloseBtn.addEventListener('click', () => confirmationPopup.classList.remove('active'))
             
             const cancelTodoTaskDetails = document.getElementById('cancel-task-details')
@@ -402,13 +467,13 @@ tasks.forEach(task => {
                             </div>
                             <div class="buttons">
                                 <p id="completedMessage">Confirmation message : <span>${taskDetails['confirmationMessage']}</span></p>
-                                <a href="#" style="margin-left: 100px">Continue</a>
+                                <p id="continueBtn" style="margin-left: 100px">Continue</p>
                             </div>`
             
             todoTaskDetails.innerHTML = code
             todoTaskDetails.classList.add('active')
             
-            const cancelTodoTaskDetails = document.querySelector('.buttons a')
+            const cancelTodoTaskDetails = document.querySelector('#continueBtn')
             cancelTodoTaskDetails.addEventListener('click', () => todoTaskDetails.classList.remove('active'))
         }else if(position > 1102 && position < 1324){
             taskDetails = getTaskDetails(doneTasks, taskName)
@@ -459,7 +524,12 @@ tasks.forEach(task => {
 
 
 // calendor 
-
+/**
+ * 
+ * @param {*} month Current month
+ * @param {*} year Current year
+ * @returns the date of last monday of previous month
+ */
 function lastMondayOfMonth(month, year) {
     // Create a new date object set to the last day of the given month and year
     var date = new Date(year, month, 0);
@@ -527,6 +597,13 @@ previousMonthBtn.addEventListener('click', function(){
 
     daysTxt.innerHTML = renderDays(year, month, monthState);
 })
+/**
+ * Show the calendar
+ * @param {*} year 
+ * @param {*} month 
+ * @param {*} monthState 
+ * @returns 
+ */
 const renderDays = (year, month, monthState) => {
 
     var checkWeek = 0;
@@ -573,10 +650,12 @@ const renderDays = (year, month, monthState) => {
     return code;
 }
 
-
+/**
+ * Filled up the calendar details
+ * @param {*} year 
+ * @param {*} month 
+ */
 const renderCalendar = (year, month) => {
-    // getting last date of month
-    // let lastDateOfMonth = new Date(year, currentDate.getMonth() + 1, 0).getDate();
 
     monthText.innerHTML = months[month];
     yearText.innerHTML = year;
@@ -585,15 +664,10 @@ const renderCalendar = (year, month) => {
 };
 renderCalendar(year, month);
 
+
+
+
 const LogOutButton = document.getElementById("log-out-btn");
-
-// console.log(jsonData);
-
-
-
-
-
-
 
 LogOutButton.addEventListener("click", () => {
   fetch("http://localhost/public/user/logout", {
