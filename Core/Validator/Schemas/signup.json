@@ -29,9 +29,5 @@
         "required": true,
         "min": 8,
         "match": "password"
-    },
-    "phone_number": {
-        "required": true,
-        "format": "/[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}/"
     }
 }
