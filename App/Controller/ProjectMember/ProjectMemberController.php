@@ -47,12 +47,14 @@ class ProjectMemberController extends UserController
             "project_id" => $project_id,
             "task_name" => $data->task_name
         );
+        $updates = array("status", "memberId");
+        $conditions = array("project_id", "task_name");
 
         $task = new Task();
         $message = "";
 
         try {
-            $task->pickupTask($args);
+            $task->updateTask($args, $updates, $conditions);
             $message = "Successfully picked";
 
             // send notification to leader
@@ -104,8 +106,8 @@ class ProjectMemberController extends UserController
             "task_name" => $data->task_name
         );
         $task = new Task();
-        $taskData = $task->getTask($taskArgs);
-        // var_dump($taskData);
+        $taskData = $task->getTask($taskArgs, array("project_id", "task_name"));
+        // $taskData = $task->getTask($taskArgs);
 
         if($taskData){
             $taskId = $taskData->task_id;
@@ -126,7 +128,7 @@ class ProjectMemberController extends UserController
             "project_id" => $projectId,
             "task_name" => $data->task_name
         );
-        $task->updateTaskState($args);
+        $task->updateTask($args, array("status"), array("project_id", "task_name"));
 
         // send notification to infor the project leader 
         
