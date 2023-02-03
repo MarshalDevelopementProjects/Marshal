@@ -37,44 +37,65 @@ class Task implements Model
             return $result->getResults();
         } else {
             return false;
-        }   
+        }
     }
 
-    public function getTask(array $args = array()){
-        $sql_string = "SELECT * FROM task WHERE project_id = :project_id AND task_name = :task_name";
+    public function getTask(array $args, array $keys){
+        $keyCount = count($keys);
 
-        $result = $this->crud_util->execute($sql_string, $args);
-        if ($result->getCount() > 0) {
-            return $result->getFirstResult();
-        } else {
+        $sql = "SELECT * FROM task WHERE ";
+        for ($i = 0; $i < $keyCount; $i++) {
+            $key = $keys[$i];
+            $sql .= $key . " = :" . $key;
+
+            if ($i != $keyCount - 1) {
+                $sql .= " AND ";
+            }
+        }
+
+        try {
+            $result = $this->crud_util->execute($sql, $args);
+            if ($result->getCount() > 0) {
+                return $result->getFirstResult();
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
             return false;
-        }   
-    }
-    public function pickupTask(array $args = array()){
-        $sql_string = "UPDATE task SET `status` = :status , `memberId` = :memberId WHERE `project_id` = :project_id AND `task_name` = :task_name";
-
-        try {
-            $this->crud_util->execute($sql_string, $args);
-            
-            return true;
-        } catch (\Exception $exception) {
-            throw $exception;
         }
     }
 
-    public function rearangeTask(array $args = array(), $atTodo = false){
-        if($atTodo){
-            $sql_string = "UPDATE task SET `status` = :status , `memberId` = NULL WHERE `project_id` = :project_id AND `task_name` = :task_name";
-        }else{
-            $sql_string = "UPDATE task SET `status` = :status WHERE `project_id` = :project_id AND `task_name` = :task_name";
+    public function updateTask(array $args, array $updates, array $conditions)
+    {
+        $updateFieldsCount = count($updates);
+        $conditionFieldsCount = count($conditions);
+
+        $sql = "UPDATE task SET ";
+        for ($i = 0; $i < $updateFieldsCount; $i++) {
+            $updateField = $updates[$i];
+            $sql .= '`' . $updateField . "` = :" . $updateField;
+
+            if ($i != $updateFieldsCount - 1) {
+                $sql .= ", ";
+            }
+        }
+        $sql .= " WHERE ";
+
+        for ($j = 0; $j < $conditionFieldsCount; $j++) {
+            $conditionField = $conditions[$j];
+            $sql .= '`' . $conditionField . "` = :" . $conditionField;
+
+            if ($j != $conditionFieldsCount - 1) {
+                $sql .= " AND ";
+            }
         }
 
         try {
-            $this->crud_util->execute($sql_string, $args);
-            
-            return true;
+            $this->crud_util->execute($sql, $args);
+            return $sql;
         } catch (\Exception $exception) {
             throw $exception;
+            // return false;
         }
     }
 
@@ -89,17 +110,6 @@ class Task implements Model
             return false;
         }
     }
-    public function updateTaskState(array $args = array()){
-        $sql_string = "UPDATE task SET `status` = :status WHERE project_id = :project_id AND task_name = :task_name";
-        try {
-            $this->crud_util->execute($sql_string, $args);
-            
-            return true;
-        } catch (\Exception $exception) {
-            return false;
-        }
-    }
-
     public function getTaskCompletedDetails(array $args = array()){
         $sql_string = "SELECT * FROM completedtask WHERE taskId = :taskId";
 
