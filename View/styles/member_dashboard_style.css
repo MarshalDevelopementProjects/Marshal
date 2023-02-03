@@ -387,6 +387,16 @@ body{
     text-decoration: none;
     cursor: pointer;
 }
+.buttons p[id="continueBtn"]{
+    margin:  0 10px 0 10px;
+    padding: 7px 18px;
+    border-radius: 5px;
+    background-color: #20B289;
+    color: #fff;
+    font-weight: 550;
+    text-decoration: none;
+    cursor: pointer;
+}
 #finishTaskBtn{
     margin:  0 10px 0 10px;
     padding: 7px 18px;
