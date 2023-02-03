@@ -183,15 +183,19 @@ class ProjectLeaderController extends ProjectMemberController
             "project_id" => $project_id,
             "task_name" => $data->task_name
         );
+        $conditions = array("project_id", "task_name");
+        $updates = array("status");
+
         $task = new Task();
         $message = "";
-        $atTodo = false;
+
         if($data->new_board === "TO-DO"){
-            $atTodo = true;
+            $args['memberId'] = NULL;
+            $updates[] = "memberId";
         }
         try {
-            $task->rearangeTask($args, $atTodo);
-            $message = "Successfully rearraged the task";
+            $message = $task->updateTask($args, $updates, $conditions);
+            // $message = "Successfully rearraged the task";
         } catch (\Throwable $th) {
             $message = "Failed to rearange the task";
         }
