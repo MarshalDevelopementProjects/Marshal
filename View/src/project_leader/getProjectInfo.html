@@ -4,6 +4,486 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Dashboard</title>
+    <link rel="stylesheet" href="/View/styles/project_leader/project_info.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    
+    <div class="container">
+        
+        <div class="navbar">
+            <div class="left-logo-area">
+                <img src="/View/images/logo.png" alt="logo" class="logo">
+            </div>
+            <div class="right-profile-area">
+                <button type="submit" class="navbar-new-project">+ New Project</button>
+                <i class="fa fa-bell-o  notification-bell-btn" aria-hidden="true"></i>
+                <i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i>
+                <img src="/View/images/dp.png" alt="profile picture" class="profile-image">
+            </div>
+        </div>
+
+        <div class="projects-container">
+            <div class="left-panel">
+                <div class="top-menus">
+                    <ul>
+                        <li class="dashboard active">Dashboard</li>
+                        <li class="new-project">New project</li>
+                        <li class="profile">Profile</li>
+                        <li class="settings">Settings</li>
+                        <li class="sketch-idea">Sketch idea</li>
+                    </ul>
+                </div>
+                <div class="middle-icon">
+                    <i class="fa fa-caret-left" aria-hidden="true"></i>
+                </div>
+
+                <div class="bottom-calender">
+                    <div class="top-month">
+                        <button type="submit" class="previous-month-btn"><i class="fa fa-caret-left" aria-hidden="true"></i></button>
+                        <p><span class="month"></span> <span class="year"></span></p>
+                        <button type="submit" class="next-month-btn"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="day-names">
+                        <p>Mon</p>
+                        <p>Tue</p>
+                        <p>Wed</p>
+                        <p>Thu</p>
+                        <p>Fri</p>
+                        <p>Sat</p>
+                        <p>Sun</p>
+                    </div>
+                    <div class="days">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="right-panel">
+
+                <div class="project-info">
+                    <div class="project-info-top">
+                        <h2>Medicare App Development</h2>
+                        <p id="invite-member-btn"><i class="fa fa-user-plus" aria-hidden="true"></i> Invite member</p>
+                    </div>
+                    <p>mHealth apps  between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals.
+                        <br> convenience of their own homes without visiting hospitals.</p>
+
+                    <div class="progress-bar">
+                        <p id="start-date">25-10-22</p>
+                        <div class="bar"><div class="progress"></div></div>
+                        <p id="end-date">10-02-2023</p>
+                    </div>
+
+                    <div class="feedbacks-and-groups">
+                        <div class="feedbacks">
+                            <h3>Feedback Form</h3>
+                            <div class="feedback-form">
+                                <p class="outgoing-feedback">How is Going</p>
+                                <p class="outgoing-feedback">Yes, you have written the first thing first, but after that it becomes muddled. Your next step is to go back to your plan and check your numbering of the order of the events as they happened.</p>
+
+                                <p class="incoming-feedback">Yes, you have written the first thing first, but after that it becomes muddled. Your next step is to go back to your plan and check your numbering of the order of the events as they happened.</p>
+                            </div>
+                            <form action="#" method="post">
+                                <label for="feedback"></label>
+                                <input type="text" name="feedback" id="feedback" placeholder="Type feedback ...">
+                                
+                                <button type="submit"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                            </form>
+                        </div>
+                        <div class="group-list">
+                            <div class="top-group-list">
+                                <h3>Groups</h3>
+                                <p id="create-group-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i></p>
+                            </div>
+                            
+                            <div class="groups">
+                                <p class="group">Build Api</p>
+                                <p class="group">Meeting App</p>
+                                <p class="group">Design Mobile UI</p>
+                                <p class="group">Fix Bug #12</p>
+                                <p class="group">Connect the socket</p>
+                                <p class="group">Create Web Socket</p>
+                                <p class="group">Design Meeting UI</p>
+                                <p class="group">Create Project</p>
+                                <p class="group">Build Api II</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="member-list">
+                    <h3>Project Leader</h3>
+                    <div class="member-card">
+                        <div class="profile-image">
+                            <img src="/View/images/dp.png" alt="">
+                            <i class="fa fa-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="member-info">
+                            <h6>Harsha Gunawardane</h6>
+                            <p>Frontend Developer</p>
+                        </div>
+                    </div>
+                    <h3>Group Leaders</h3>
+                    <div class="group-leaders">
+                        <div class="member-card">
+                            <div class="profile-image">
+                                <img src="/View/images/dp.png" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>Harsha Gunawardane</h6>
+                                <p>Frontend Developer</p>
+                            </div>
+                        </div>
+                        <div class="member-card">
+                            <div class="profile-image">
+                                <img src="/View/images/dp.png" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>Harsha Gunawardane</h6>
+                                <p>Frontend Developer</p>
+                            </div>
+                        </div>
+                        <div class="member-card">
+                            <div class="profile-image">
+                                <img src="/View/images/dp.png" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>Harsha Gunawardane</h6>
+                                <p>Frontend Developer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Project Members</h3>
+                    <div class="project-members">
+                        <div class="member-card">
+                            <div class="profile-image">
+                                <img src="/View/images/dp.png" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>Harsha Gunawardane</h6>
+                                <p>Frontend Developer</p>
+                            </div>
+                        </div>
+                        <div class="member-card">
+                            <div class="profile-image">
+                                <img src="/View/images/dp.png" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>Harsha Gunawardane</h6>
+                                <p>Frontend Developer</p>
+                            </div>
+                        </div>
+                        <div class="member-card">
+                            <div class="profile-image">
+                                <img src="/View/images/dp.png" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>Harsha Gunawardane</h6>
+                                <p>Frontend Developer</p>
+                            </div>
+                        </div>
+                        <div class="member-card">
+                            <div class="profile-image">
+                                <img src="/View/images/dp.png" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>Harsha Gunawardane</h6>
+                                <p>Frontend Developer</p>
+                            </div>
+                        </div>
+                        <div class="member-card">
+                            <div class="profile-image">
+                                <img src="/View/images/dp.png" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>Harsha Gunawardane</h6>
+                                <p>Frontend Developer</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+
+                    
+                </div>
+            </div>
+        </div>
+        <div class="notification-popup-container">
+            <div class="notification-popup">
+                <div class="notification-popup-top">
+                    <h3>Notifications</h3>
+                    <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
+                </div>
+
+                <div class="notification">
+                    <hr>
+                    <div class="notification-details">
+                        <img src="/View/images/Picture5.png" alt="notificaton sender image">
+                        <div class="content">
+                            <div class="sender-and-project">
+                                <h4>Adam Fergouson</h4>
+                            </div>
+                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
+                            <div class="date-and-project">
+                                <p class="send-date">13-01-2023</p>
+                                <p class="notification-project">Mentcare Center Web App</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="request-notification">
+                    <hr>
+                    <div class="notification-details">
+                        <img src="/View/images/Picture5.png" alt="notificaton sender image">
+                        <div class="content">
+                            <div class="sender-and-project">
+                                <h4>Adam Fergouson</h4>
+                            </div>
+                            <div class="request-content">
+                                <h5>Project invite</h5>
+                                <p class="request-message">Look for tasks that are associated with you, How about the progress of them ?</p>
+
+                                <div class="responses">
+                                    <button type="submit" id="rejectInviteBtn">Reject</button>
+                                    <button type="submit" id="acceptInviteBtn">Accept</button>
+                                </div>
+                            </div>
+                            <div class="date-and-project">
+                                <p class="send-date">13-01-2023</p>
+                                <p class="notification-project">Mentcare Center Web App</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="notification">
+                    <hr>
+                    <div class="notification-details">
+                        <img src="/View/images/Picture5.png" alt="notificaton sender image">
+                        <div class="content">
+                            <div class="sender-and-project">
+                                <h4>Adam Fergouson</h4>
+                            </div>
+                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
+                            <div class="date-and-project">
+                                <p class="send-date">13-01-2023</p>
+                                <p class="notification-project">Mentcare Center Web App</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification">
+                    <hr>
+                    <div class="notification-details">
+                        <img src="/View/images/Picture5.png" alt="notificaton sender image">
+                        <div class="content">
+                            <div class="sender-and-project">
+                                <h4>Adam Fergouson</h4>
+                            </div>
+                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
+                            <div class="date-and-project">
+                                <p class="send-date">13-01-2023</p>
+                                <p class="notification-project">Mentcare Center Web App</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification">
+                    <hr>
+                    <div class="notification-details">
+                        <img src="/View/images/Picture1.png" alt="notificaton sender image">
+                        <div class="content">
+                            <div class="sender-and-project">
+                                <h4>Adam Fergouson</h4>
+                            </div>
+                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
+                            <div class="date-and-project">
+                                <p class="send-date">13-01-2023</p>
+                                <p class="notification-project">Mentcare Center Web App</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification">
+                    <hr>
+                    <div class="notification-details">
+                        <img src="/View/images/Picture1.png" alt="notificaton sender image">
+                        <div class="content">
+                            <div class="sender-and-project">
+                                <h4>Adam Fergouson</h4>
+                            </div>
+                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
+                            <div class="date-and-project">
+                                <p class="send-date">13-01-2023</p>
+                                <p class="notification-project">Mentcare Center Web App</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification">
+                    <hr>
+                    <div class="notification-details">
+                        <img src="/View/images/Picture1.png" alt="notificaton sender image">
+                        <div class="content">
+                            <div class="sender-and-project">
+                                <h4>Adam Fergouson</h4>
+                            </div>
+                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
+                            <div class="date-and-project">
+                                <p class="send-date">13-01-2023</p>
+                                <p class="notification-project">Mentcare Center Web App</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification">
+                    <hr>
+                    <div class="notification-details">
+                        <img src="/View/images/Picture1.png" alt="notificaton sender image">
+                        <div class="content">
+                            <div class="sender-and-project">
+                                <h4>Adam Fergouson</h4>
+                            </div>
+                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
+                            <div class="date-and-project">
+                                <p class="send-date">13-01-2023</p>
+                                <p class="notification-project">Mentcare Center Web App</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="create-project-container">
+            <div class="create-project-popup">
+                <div class="create-project-top">
+                    <div class="create-project-header">
+                        <h3>Let's create a workspace.</h3>
+                        <p>Make it simpler for everyone to access boards in one place to increase productivity.</p>
+                    </div>
+                    <i class="fa fa-times create-project-popup-close" aria-hidden="true"></i>
+                </div>
+                <div class="create-project-details">
+                    <div class="create-project-form">
+                        <form action="#" method="post">
+                            <label for="projectName">Project Name</label>
+                            <br>
+                            <input type="text" name="projectName" placeholder="Enter project name ...">
+                            <br>
+                            <p>Your business, group, or organization's name is here.</p>
+    
+                            <label for="projectType">Project Type</label>
+                            <br>
+                            <input type="text" name="projectType" placeholder="Enter project type ...">
+    
+                            <br>
+                            <label for="projectDescription">Project Description</label>
+                            <br>
+                            <input type="text" id="projectDescription" name="projectDescription" placeholder="Please enter something on your project ... ">
+    
+                            <br>
+                            <button type="submit">CREATE</button>
+                        </form>
+                    </div>
+                    <img src="/View/images/project_create.png" alt="project_create">
+                </div>
+            </div>
+        </div>
+
+        <div class="create-group-container">
+            <h3>Create Group</h3>
+            <form action="http://localhost/public/projectleader/group" method="post">
+                <label for="group_name">Group name</label>
+                <br>
+                <input type="text" name="group_name" id="group_name" placeholder="Enter group name" required>
+
+                <br>
+                <label for="task_name">Task name</label>
+                <br>
+                <input type="text" name="task_name" id="task_name" placeholder="Enter task name" required>
+
+                <br>
+                <label for="group-description">Group Description</label>
+                <br>
+                <input type="text" id="group-description" name="group_description" required placeholder="Enter group description">
+                <br>
+                <div class="buttons">
+                    <p id="cancel-create-group">Cancel</p>
+                    <button type="submit">Create</button>
+                </div>
+            </form>
+            
+        </div>
+
+        <div class="invite-popup">
+            <h3>Invite member</h3>
+            <label for="username">Username</label>
+            <br>
+            <input type="text" name="username" placeholder="Enter username">
+            <div class="buttons">
+                <button type="submit" id="inviteBtn">Send</button>
+                <button type="submit" id="closeBtn">Close</button>
+            </div>
+        </div>
+
+        
+    </div>
+    
+
+    <script src="/View/js/project_leader/getProjectInfo.js"></script>
+</body>
+</html>
+
+
+<!-- <div class="progress">
+    <div class="outer">
+        <div class="inner">
+            <p class="progress-status">65%</p>
+        </div>
+    </div>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
@@ -17,10 +497,26 @@
         <button type="submit" id="closeBtn">Close</button>
     </div>
 
+
+    <p>+</p>
+    <h3>Create Group</h3>
+    <form action="http://localhost/public/projectleader/group" method="post">
+        <label for="group_name">Group Name</label>
+        <input type="text" name="group_name" id="group_name" placeholder="Enter group name">
+        <br>
+        <label for="task_name">Task Name</label>
+        <input type="text" name="task_name" id="task_name" placeholder="Enter task name">
+        <br>
+        <label for="group-description">Group Description</label>
+        <input type="text" id="group-description" name="group_description" placeholder="Enter group description">
+        <br>
+        <button type="submit">Create</button>
+    </form>
+
     <script>
         var jsonData = JSON.parse('<?= $data; ?>');
-        // console.log(jsonData);
+
     </script>
     <script src="/View/js/project_leader/getProjectInfo.js"></script>
 </body>
-</html>
+</html> -->
