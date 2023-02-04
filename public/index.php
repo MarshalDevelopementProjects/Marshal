@@ -68,6 +68,7 @@ $router->get('/user/clicknotification', UserController::class . '::clickOnNotifi
 $router->get('/projectleader/getinfo', ProjectLeaderController::class . '::getProjectInfo');
 $router->post('/projectleader/invite', ProjectLeaderController::class . '::sendProjectInvitation');
 $router->post('/projectleader/createtask', ProjectLeaderController::class . '::createTask');
+$router->post('/projectleader/group', ProjectLeaderController::class . '::createGroup');
 
 $router->get('/user/profile', UserController::class . '::viewProfile');
 $router->put('/user/profile/edit', UserController::class . '::editProfile');
