@@ -8,6 +8,7 @@ use App\Model\Project;
 use App\Model\Notification;
 use App\Model\User;
 use App\Model\Task;
+use App\Model\Group;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -273,4 +274,39 @@ class ProjectLeaderController extends ProjectMemberController
             );
         }
     }
+
+    public function createGroup(){
+        $data = $_POST;
+        var_dump($data);
+        $project_id = $_SESSION['project_id'];
+
+        $payload = $this->userAuth->getCredentials();
+        $user_id = $payload->id;
+
+        $args = array(
+            "group_name" => $data['group_name'],
+            "task_name" => $data['task_name'],
+            "description" => $data['group_description'],
+            "project_id" => $project_id,
+            "leader_id" => $user_id
+        );
+        $keys = array("group_name", "task_name", "description", "project_id", "leader_id");
+
+        $group = new Group();
+        $message = "";
+        try {
+            $group->createGroup($args, $keys);
+            $message = "Successfully created";
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+        }
+
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => $message
+            ]
+        );
+    }
 }
+
