@@ -1,3 +1,5 @@
+console.log(jsonData)
+
 const notificationPopupBtn = document.querySelector('.notification-bell-btn')
 const notificationPopup = document.querySelector('.notification-popup-container');
 const notificationPopupCloseBtn = document.querySelector('.notification-popup-close-btn');
@@ -72,8 +74,18 @@ sketchIdea.addEventListener('click', function(){
 })
 
 
+// set the groups
 
+const groups = document.querySelector('.groups');
+var groupsCode = "";
 
+if(jsonData['groups']){
+    jsonData['groups'].forEach(group => {
+        groupsCode += `<a href="http://localhost/public/projectmember/group"><p class="group">${group['group_name']}</p></a>`
+    })
+}
+
+groups.innerHTML = groupsCode
 
 
 
