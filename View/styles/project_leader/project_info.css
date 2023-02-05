@@ -289,7 +289,7 @@ body{
 }
 .bar .progress{
     border-radius: 12px;
-    width: 0%;
+    width: 30%;
     height: 15px;
     background-color: #20B289;
     transition: all 1s ease;
@@ -409,6 +409,10 @@ body{
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     margin-top: 8px;
 }
+.groups a{
+
+    text-decoration: none;
+}
 .groups p{
     /* border: 1px solid black; */
     width: 160px;
@@ -423,6 +427,7 @@ body{
     color: #fff;
     font-weight: 500;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    text-decoration: none;
 }
 
 .member-list{
