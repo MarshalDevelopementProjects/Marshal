@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Marshal</title>
 </head>
-
-<body>
+<body onload="onLoad();">
     <section id="menu">
         <div class="logo">
             <h2>Marshal</h2>
@@ -38,14 +37,14 @@
             <div class="values-box">
                 <i class="fa fa-user"></i>
                 <div>
-                    <h3>100</h3>
+                    <h3 id="NumOfAll">100</h3>
                     <span>Users</span>
                 </div>
             </div>
             <div class="values-box">
                 <i class="fa fa-user"></i>
                 <div>
-                    <h3>89</h3>
+                    <h3 id="numOfActive">89</h3>
                     <span>Active users
                     </span>
                 </div>
@@ -53,7 +52,7 @@
             <div class="values-box">
                 <i class="fa fa-user"></i>
                 <div>
-                    <h3>8</h3>
+                    <h3 id="numOfBlock"></h3>
                     <span>Block users</span>
                 </div>
             </div>
@@ -64,11 +63,12 @@
                     <tr>
                         <td>Name</td>
                         <td>Email</td>
-                        <td>Role</td>
+                        <td>Joined_date & time</td>
                         <td>Access</td>
+                        <td>Status</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-row">
                     <tr>
                         <td class="people">
                             <img src="/View/images/admin/2.jpg" alt="">
@@ -79,13 +79,17 @@
                         <td class="people-email">
                             <h5>example@gmail.com</h5>
                         </td>
-                        <td class="role">
-                            <p>Admin</p>
+                        <td class="joined_datetime">
+
                         </td>
                         <td class="access">
+                            <p>Enable</p>
+                        </td>
+                        <td class="status">
                             <i class="fa fa-circle"></i>
                         </td>
                     </tr>
+                    
                 </tbody>
             </table>
         </dir>
