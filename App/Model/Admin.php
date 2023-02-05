@@ -149,7 +149,9 @@ class Admin implements Model
     // read all the users in the system 
     public function readAllUsers()
     {
-        $sql_string = "SELECT `id`, `username`, `email_address` FROM `user`";
+        // $sql_string = "SELECT `id`, `username`, `email_address` FROM `user`";
+        $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime` FROM `user`";
+
         try {
             $result = $this->crud_util->execute($sql_string);
             if ($result->getCount() > 0) {
