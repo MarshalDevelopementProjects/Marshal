@@ -42,11 +42,16 @@ class ProjectLeaderController extends ProjectMemberController
         $user_id = $payload->id;
         $project = new Project($payload->id);
 
-        // print_r($payload);
+        // get all data related to the project
+
+        $group = new Group();
+        $groups = $group->getAllGroups(array("project_id" => $project_id), array("project_id"));
+        $data = array("groups" => $groups);
+        
         $this->sendResponse(
             view: "/project_leader/getProjectInfo.html",
             status: "success",
-            content: $project->readProjectsOfUser($user_id, $project_id) ? $project->getProjectData() : array()
+            content: $project->readProjectsOfUser($user_id, $project_id) ? $data : array()
         );
     }
 
@@ -165,7 +170,7 @@ class ProjectLeaderController extends ProjectMemberController
             );
 
             $task = new Task();
-            if($task->createTask($data)){
+            if($task->createTask($data, array("project_id", "description", "deadline", "task_name", "priority", "status"))){
                 header("Location: http://localhost/public/user/project?id=".$_SESSION['project_id']);
             }else{
                 echo "Fail";
@@ -274,7 +279,6 @@ class ProjectLeaderController extends ProjectMemberController
             );
         }
     }
-
     public function createGroup(){
         $data = $_POST;
         var_dump($data);
@@ -292,10 +296,24 @@ class ProjectLeaderController extends ProjectMemberController
         );
         $keys = array("group_name", "task_name", "description", "project_id", "leader_id");
 
+        // set the task as well
+        $taskArgs = array(
+            "project_id" => $project_id,
+            "description" => $data['group_description'],
+            "task_name" => $data['task_name'],
+            "priority" => "high",
+            "status" => "ONGOING",
+            "assign_type" => "group",
+            "memberId" => $user_id,
+        );
         $group = new Group();
+        $task = new Task();
+
         $message = "";
         try {
             $group->createGroup($args, $keys);
+            $task->createTask($taskArgs, array("project_id", "description", "task_name", "priority", "status", "assign_type", "memberId"));
+
             $message = "Successfully created";
         } catch (\Throwable $th) {
             $message = $th->getMessage();
