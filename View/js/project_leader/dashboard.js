@@ -46,7 +46,7 @@ if(todoTasks){
                                     <p class="priority-${task['priority']}">${task['priority']}</p>
                                 </div>
                                 <p class="task-description">${task['description']}</p>
-                                <div class="bottom-task style="display:flex">
+                                <div class="bottom-task" style="display:flex">
                                     <p class="deadline">${task['deadline'].split(' ')[0]}</p>
                                 </div>
                             </div>`
