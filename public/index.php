@@ -49,6 +49,8 @@ $router->get('/projectmember/dashboard', ProjectMemberController::class . '::def
 $router->get('/groupleader/dashboard', GroupLeaderController::class . '::defaultAction');
 $router->get('/groupmember/dashboard', GroupMemberController::class . '::defaultAction');
 
+$router->get('/projectmember/group', ProjectMemberController::class . '::goToGroup');
+
 $router->post('/projectmember/pickuptask', ProjectMemberController::class . '::pickupTask');
 $router->post('/projectmember/sendconfirmation', ProjectMemberController::class . '::sendConfirmation');
 $router->post('/projectleader/rearangetask', ProjectLeaderController::class . '::rearangeTask');
