@@ -59,15 +59,20 @@ class AdminController extends Controller
         // user count, active user count, admin count
         // and all the users
         try{
-            // $this->admin = new Admin($this->adminAuth->getCredentials()->id);
+            
             $data = array();
             $this->admin->readAllUsers();
             $data["user_details"] = $this->admin->getQueryResults();
+            $data["all_user_count"] = sizeof($data["user_details"]);
             
             $this->admin->getBlockedUsers();
             $count = array();
             $count["block_users"]= $this->admin->getQueryResults();
             $data["block_user_count"] = sizeof($count["block_users"]);
+
+            $this->admin->getActiveUsers();
+            $count["active_users"]= $this->admin->getQueryResults();
+            $data["active_user_count"] = sizeof($count["active_users"]);
             
             $this->sendResponse(
                 view: "/admin/dashboard.html",
