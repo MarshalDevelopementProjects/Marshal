@@ -140,5 +140,12 @@ class ProjectMemberController extends UserController
         );
         
     }
+
+    public function goToGroup(){
+        $this->sendResponse(
+            view: "/group_leader/dashboard.html",
+            status: "success"
+        );
+    }
     
 }
