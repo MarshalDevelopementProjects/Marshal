@@ -49,4 +49,29 @@ class Group implements Model
             throw $exception;
         }
     }
+
+    public function getAllGroups(array $args, array $keys){
+        $keyCount = count($keys);
+        $sql = "SELECT * FROM groups WHERE ";
+
+        for ($i = 0; $i < $keyCount; $i++) {
+            $key = $keys[$i];
+            $sql .= $key . " = :" . $key;
+
+            if ($i != $keyCount - 1) {
+                $sql .= " AND ";
+            }
+        }
+
+        try {
+            $result = $this->crud_util->execute($sql, $args);
+            if ($result->getCount() > 0) {
+                return $result->getResults();
+            } else {
+                return false;
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }

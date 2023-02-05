@@ -17,11 +17,31 @@ class Task implements Model
         }
     }
 
-    public function createTask(array $args = array()){
-        $sql_string = "INSERT INTO task (`project_id`, `description`, `deadline`, `task_name`, `priority`, `status`) VALUES (:project_id, :description, :deadline, :task_name, :priority, :status)";
-        
+    public function createTask(array $args, array $keys){
+        $keyCount = count($keys);
+
+        $sql = "INSERT INTO task (";
+
+        for ($i = 0; $i < $keyCount; $i++) {
+            $key = $keys[$i];
+            $sql .= '`' . $key . '`';
+
+            if ($i != $keyCount - 1) {
+                $sql .= ", ";
+            }
+        }
+        $sql .= ") VALUES (";
+        for ($i = 0; $i < $keyCount; $i++) {
+            $key = $keys[$i];
+            $sql .= ':' . $key;
+
+            if ($i != $keyCount - 1) {
+                $sql .= ", ";
+            }
+        }
+        $sql .= ')';
         try {
-            $this->crud_util->execute($sql_string, $args);
+            $this->crud_util->execute($sql, $args);
             
             return true;
         } catch (\Exception $exception) {
