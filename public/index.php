@@ -51,6 +51,8 @@ $router->get('/groupmember/dashboard', GroupMemberController::class . '::default
 
 $router->post('/user/logout', UserAuthController::class . '::logout');
 $router->post('/admin/logout', AdminAuthController::class . '::logout');
+$router->get('/admin/users/active', AdminController::class . '::viewActiveUsers');
+$router->get('/admin/users/blocked', AdminController::class . '::viewBlockedUsers');
 
 $router->get('/user/projects', UserController::class . '::viewProjects');
 $router->post('/user/projects', UserController::class . '::createProject');
