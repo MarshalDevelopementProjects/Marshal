@@ -204,6 +204,9 @@ body{
 #blocked-users-div.active{
     background-color: #444a53;
 }
+#all-users-div.active{
+    background-color: #444a53;
+}
 
 .board{
     width: 94%;
