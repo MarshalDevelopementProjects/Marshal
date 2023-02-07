@@ -58,12 +58,13 @@ class AdminController extends Controller
         // default page should have the following 
         // user count, active user count, admin count
         // and all the users
-        try{
-            
+        try{  
+
             $data = array();
             $this->admin->readAllUsers();
             $data["user_details"] = $this->admin->getQueryResults();
             $data["all_user_count"] = sizeof($data["user_details"]);
+            $data["admin_data"] = $this->admin->getAdminData();
             
             $this->admin->getBlockedUsers();
             $count = array();
