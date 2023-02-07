@@ -16,7 +16,7 @@ function onLoad(){
     jsonData.user_details.forEach(tableRow => {
         tableRowCode += `<tr>
                         <td class="people">
-                            <img src="/View/images/admin/2.jpg" alt="">
+                            <img src="${tableRow['profile_picture']}" alt="">
                             <div class="people-de">
                                 <h5>${tableRow['username']}</h5>
                             </div>
@@ -82,7 +82,7 @@ ActiveUsersDiv.addEventListener('click', async (event) => {
         data.active_users.forEach(tableRow => {
         tableRowCode += `<tr>
                         <td class="people">
-                            <img src="/View/images/admin/2.jpg" alt="">
+                            <img src="${tableRow['profile_picture']}" alt="">
                             <div class="people-de">
                                 <h5>${tableRow['username']}</h5>
                             </div>
