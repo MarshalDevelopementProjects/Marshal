@@ -190,7 +190,7 @@ class Admin implements Model
 
     public function getBlockedUsers()
     {
-        $sql_string = "SELECT `id`, `username`, `email_address` FROM `user` WHERE `access` = 'DISABLED'";
+        $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture` FROM `user` WHERE `access` = 'DISABLED'";
         try {
             $result = $this->crud_util->execute($sql_string);
             if ($result->getCount() > 0) {
