@@ -2,12 +2,12 @@ console.log(jsonData);
 
 const LogOutButton = document.getElementById("log-out-btn");
 const countBlockUser = document.getElementById("numOfBlock");
-// const countActiveUser = document.getElementById("numOfActive");
-// const countAllUser = document.getElementById("numOfAll");
+const countActiveUser = document.getElementById("numOfActive");
+const countAllUser = document.getElementById("numOfAll");
 
 countBlockUser.innerText = `${jsonData.block_user_count}`;
-// countActiveUser.innerText = `${jsonData.active_user_count}`;
-// countAllUser.innerText = `${jsonData.all_user_count}`;
+countActiveUser.innerText = `${jsonData.active_user_count}`;
+countAllUser.innerText = `${jsonData.all_user_count}`;
 
 tableRows = document.querySelector('.table-row');
 
@@ -62,4 +62,21 @@ LogOutButton.addEventListener("click", () => {
             }
         })
         .catch((error) => console.error(error));
+});
+
+const ActiveUsersDiv = document.getElementById("active-users-div");
+
+ActiveUsersDiv.addEventListener('click', async (event) => {
+    let response = await fetch("http://localhost/public/admin/users/active", {
+        withCredentials: true,
+        credentials: "include",
+        mode: "cors",
+        method: "GET"
+    });
+
+    let data =  await response.json();
+    if(response.ok) {
+        console.log(data.active_users);
+    }
+    alert(data.message);
 });
