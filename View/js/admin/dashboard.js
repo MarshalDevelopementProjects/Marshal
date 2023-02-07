@@ -36,6 +36,7 @@ function onLoad(){
                     </tr>`
     })
     tableRows.innerHTML = tableRowCode
+    AllUsersDiv.classList.add('active');
 }
 
 LogOutButton.addEventListener("click", () => {
@@ -103,6 +104,8 @@ ActiveUsersDiv.addEventListener('click', async (event) => {
     })
     tableRows.innerHTML = tableRowCode
     ActiveUsersDiv.classList.add('active');
+    BlockedUsersDiv.classList.remove('active');
+    AllUsersDiv.classList.remove('active');
     }
     // alert(data.message);
 });
@@ -146,6 +149,8 @@ BlockedUsersDiv.addEventListener('click', async (event) => {
     })
     tableRows.innerHTML = tableRowCode
     BlockedUsersDiv.classList.add('active');
+    AllUsersDiv.classList.remove('active');
+    ActiveUsersDiv.classList.remove('active');
     }
 });
 
@@ -189,5 +194,7 @@ AllUsersDiv.addEventListener('click', async (event) => {
     })
     tableRows.innerHTML = tableRowCode
     AllUsersDiv.classList.add('active');
+    BlockedUsersDiv.classList.remove('active');
+    ActiveUsersDiv.classList.remove('active');
     }
 });
