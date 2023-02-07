@@ -76,7 +76,33 @@ ActiveUsersDiv.addEventListener('click', async (event) => {
 
     let data =  await response.json();
     if(response.ok) {
-        console.log(data.active_users);
+        tableRows.innerHTML = ''
+        console.log(data);
+        tableRowCode = ""
+        data.active_users.forEach(tableRow => {
+        tableRowCode += `<tr>
+                        <td class="people">
+                            <img src="/View/images/admin/2.jpg" alt="">
+                            <div class="people-de">
+                                <h5>${tableRow['username']}</h5>
+                            </div>
+                        </td>
+                        <td class="people-email">
+                            <h5>${tableRow['email_address']}</h5>
+                        </td>
+                        <td class="joined_datetime">
+                            <p>${tableRow['joined_datetime']}</p>
+                        </td>
+                        <td class="access">
+                            <p>${tableRow['access']}</p>
+                        </td>
+                        <td class="status">
+                            <i class="fa fa-circle"></i>
+                        </td>
+                    </tr>`
+    })
+    tableRows.innerHTML = tableRowCode
+    ActiveUsersDiv.classList.add('active');
     }
-    alert(data.message);
+    // alert(data.message);
 });
