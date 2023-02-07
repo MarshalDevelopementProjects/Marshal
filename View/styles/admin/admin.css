@@ -256,8 +256,12 @@ tbody tr td{
 .status i{
     text-decoration: none;
     font-size: 14px;
-    color: green;
     font-weight: 600;
     margin-left: 20px;
-    
+}
+.status .green{
+    color:seagreen;
+}
+.status .red{
+    color:red;
 }
