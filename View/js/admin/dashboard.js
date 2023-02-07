@@ -4,10 +4,12 @@ const LogOutButton = document.getElementById("log-out-btn");
 const countBlockUser = document.getElementById("numOfBlock");
 const countActiveUser = document.getElementById("numOfActive");
 const countAllUser = document.getElementById("numOfAll");
+const adminName = document.getElementById("admin-user-name");
 
 countBlockUser.innerText = `${jsonData.block_user_count}`;
 countActiveUser.innerText = `${jsonData.active_user_count}`;
 countAllUser.innerText = `${jsonData.all_user_count}`;
+adminName.innerText = `${jsonData.admin_data.username}`;
 
 tableRows = document.querySelector('.table-row');
 
@@ -30,10 +32,14 @@ function onLoad(){
                         <td class="access">
                             <p>${tableRow['access']}</p>
                         </td>
-                        <td class="status">
-                            <i class="fa fa-circle"></i>
-                        </td>
-                    </tr>`
+                        <td class="status">`;
+                        if (tableRow['user_state'] === "ONLINE") {
+                          tableRowCode += `<i class="fa fa-circle green"></i>`;
+                        } else {
+                          tableRowCode += `<i class="fa fa-circle red"></i>`;
+                        }
+                        tableRowCode += `</td>
+                                    </tr>`;
     })
     tableRows.innerHTML = tableRowCode
     AllUsersDiv.classList.add('active');
@@ -97,10 +103,14 @@ ActiveUsersDiv.addEventListener('click', async (event) => {
                         <td class="access">
                             <p>${tableRow['access']}</p>
                         </td>
-                        <td class="status">
-                            <i class="fa fa-circle"></i>
-                        </td>
-                    </tr>`
+                        <td class="status">`;
+                        if (tableRow['user_state'] === "ONLINE") {
+                          tableRowCode += `<i class="fa fa-circle green"></i>`;
+                        } else {
+                          tableRowCode += `<i class="fa fa-circle red"></i>`;
+                        }
+                        tableRowCode += `</td>
+                                    </tr>`;
     })
     tableRows.innerHTML = tableRowCode
     ActiveUsersDiv.classList.add('active');
@@ -142,10 +152,14 @@ BlockedUsersDiv.addEventListener('click', async (event) => {
                         <td class="access">
                             <p>${tableRow['access']}</p>
                         </td>
-                        <td class="status">
-                            <i class="fa fa-circle"></i>
-                        </td>
-                    </tr>`
+                        <td class="status">`;
+                        if (tableRow['user_state'] === "ONLINE") {
+                          tableRowCode += `<i class="fa fa-circle green"></i>`;
+                        } else {
+                          tableRowCode += `<i class="fa fa-circle red"></i>`;
+                        }
+                        tableRowCode += `</td>
+                                    </tr>`;
     })
     tableRows.innerHTML = tableRowCode
     BlockedUsersDiv.classList.add('active');
@@ -187,10 +201,14 @@ AllUsersDiv.addEventListener('click', async (event) => {
                         <td class="access">
                             <p>${tableRow['access']}</p>
                         </td>
-                        <td class="status">
-                            <i class="fa fa-circle"></i>
-                        </td>
-                    </tr>`
+                        <td class="status">`;
+                        if (tableRow['user_state'] === "ONLINE") {
+                          tableRowCode += `<i class="fa fa-circle green"></i>`;
+                        } else {
+                          tableRowCode += `<i class="fa fa-circle red"></i>`;
+                        }
+                        tableRowCode += `</td>
+                                    </tr>`;
     })
     tableRows.innerHTML = tableRowCode
     AllUsersDiv.classList.add('active');
