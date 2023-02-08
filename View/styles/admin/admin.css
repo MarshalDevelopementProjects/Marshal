@@ -47,7 +47,10 @@ body{
     cursor: pointer;
 }
 
-#menu .items li:nth-child(1){
+#add-New-User.active{
+    border-left: 4px solid #fff;
+}
+#all-Users.active{
     border-left: 4px solid #fff;
 }
 
@@ -236,6 +239,9 @@ body{
 }
 table{
     border-collapse: collapse;
+}
+#user-table.active{
+    display:none;
 }
 tr{
     border-bottom: 1px solid #eef0f3;
