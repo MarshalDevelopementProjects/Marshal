@@ -74,6 +74,7 @@ class Mailer
         array $recipients, // email of the recipient
         string $subject, // subject of the email
         string $body, // body of the email(in plain text)
+        string $alt_body = "",
         array $ccs = array(), // cc to
         array $bccs = array() // bcc to
     ): bool
@@ -85,6 +86,9 @@ class Mailer
                     $this->mailer->isHTML(true);
                     $this->mailer->Subject = $subject;
                     $this->mailer->Body = $body;
+                    if ($alt_body !== "") {
+                        $this->mailer->AltBody = $body;
+                    }
                     return $this->mailer->send();
                 } else {
                     throw new \Exception("Body of the email is needed for the email to be sent");
