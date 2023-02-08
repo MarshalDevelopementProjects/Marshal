@@ -47,6 +47,9 @@ $router->get('/client/dashboard', ClientController::class . '::defaultAction');
 $router->get('/projectleader/dashboard', ProjectLeaderController::class . '::defaultAction');
 $router->get('/projectmember/dashboard', ProjectMemberController::class . '::defaultAction');
 $router->get('/groupleader/dashboard', GroupLeaderController::class . '::defaultAction');
+$router->post('/groupleader/task', GroupLeaderController::class . '::createTask');
+$router->get('/groupleader/group', GroupLeaderController::class. '::getGroupInfo');
+
 $router->get('/groupmember/dashboard', GroupMemberController::class . '::defaultAction');
 
 $router->get('/projectmember/group', ProjectMemberController::class . '::goToGroup');
