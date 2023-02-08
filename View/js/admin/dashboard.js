@@ -295,6 +295,7 @@ allUserBtn.addEventListener('click', async (event) => {
 });
 
 const AddNewUserFrom = document.getElementById("add-New-User-Form");
+const MessageBox = document.querySelector(".msg");
 
 AddNewUserFrom.addEventListener('submit', async function(event) {
     event.preventDefault();
@@ -313,15 +314,21 @@ AddNewUserFrom.addEventListener('submit', async function(event) {
         let returnData = await response.json();
         console.log(returnData);
         if (response.ok) {
-            alert(returnData.message);
             for (let i = 0; i < AddNewUserFrom.elements.length; i++) {
                 AddNewUserFrom.elements[i].value = "";
             }
             jsonData.user_info = returnData.user_info;
             location.reload();
-            
+            exit; 
         }
-        alert(returnData.message);
+        //alert(returnData.errors);
+        errorsAlert();
+        MessageBox.innerText = `${returnData.errors}`;
+        document.querySelector(".alert").style.cssText = "background-color: #ffe1e3; border-left: 8px solid #fe475c;";
+        document.querySelector(".fa-exclamation-circle").style.cssText = "color: #fe475c;";
+        document.querySelector(".msg").style.cssText = "color: #ec7a8b;";
+        document.querySelector(".close-btn").style.cssText = "background-color: #ff99a4;";
+        document.querySelector(".fa-times").style.cssText = "color: #fc4a57;";
     } catch (error) {
         // alert(error.message);
         console.log(error);
@@ -335,3 +342,18 @@ FormCancelBtn.addEventListener('click',()=>{
     }
     location.reload();
 });
+
+//Errors alert
+function errorsAlert(){
+    document.querySelector('.alert').classList.add('show');
+    document.querySelector('.alert').classList.remove('hide');
+    document.querySelector('.alert').classList.add('showAlert');
+    setTimeout(() => {
+    document.querySelector('.alert').classList.remove('show');
+    document.querySelector('.alert').classList.add('hide');
+    }, 5000);
+    document.querySelector('.close-btn').addEventListener('click', () => {
+    document.querySelector('.alert').classList.remove('show');
+    document.querySelector('.alert').classList.add('hide');
+    });
+}
