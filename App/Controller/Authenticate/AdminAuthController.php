@@ -7,13 +7,14 @@ require __DIR__ . "/../../../vendor/autoload.php";
 use Core\Config;
 use App\Model\Admin;
 use Core\Validator\Validator;
-use Core\Token;
 use Core\Cookie;
 use Core\Response;
+use App\Controller\Authenticate\AuthenticateController;
+use FontLib\Table\Type\name;
 
-class AdminAuthController extends Token
+class AdminAuthController extends AuthenticateController
 {
-    private Admin $admin; // used to store the remember me session in database
+    private Admin $admin; // used to store the remember-me session in database
     private array $errors;
     private Validator $validator;
 
@@ -32,10 +33,7 @@ class AdminAuthController extends Token
         } else {
             if (!empty($credentials)) {
                 try {
-                    $remember_me = array_key_exists("remember_me", $credentials) ?
-                        (!empty($credentials["remember_me"]) ?
-                            true : false
-                        ) : false;
+                    $remember_me = array_key_exists("remember_me", $credentials) && !empty($credentials["remember_me"]);
 
                     if (array_key_exists("remember_me", $credentials))
                         unset($credentials["remember_me"]);
@@ -78,6 +76,24 @@ class AdminAuthController extends Token
                             ttl: $ttl
                         );
                         $_SESSION["primary_role"] = $primary_role;
+                        $ws_token = parent::generateToken(
+                            headers: array(
+                                "alg" => "HS256",
+                                "typ" => "JWT"
+                            ),
+                            payload: array(
+                                "id" => $id,
+                                "name" => $username,
+                                "primary_role" => $primary_role,
+                            ),
+                            ttl : $ttl,
+                        );
+                        Cookie::setCookie(
+                            name: "ws_token",
+                            value: $ws_token,
+                            expiry:  Config::getApiGlobal("remember")[$ttl],
+                            httpOnly: false
+                        );
                         header("Location: http://localhost/public/admin/dashboard");
                     } else {
                         $this->sendResponse(
@@ -90,7 +106,7 @@ class AdminAuthController extends Token
                     throw $exception;
                 }
             } else {
-                return $this->sendResponse(
+                $this->sendResponse(
                     view: "/admin/login.html",
                     status: "unauthorized",
                     content: array("message" => "")
@@ -99,7 +115,7 @@ class AdminAuthController extends Token
         }
     }
 
-    public function adminLogin(array $credentials = array())
+    public function adminLogin(array $credentials = array()): bool
     {
         if (!empty($credentials)) {
             try {
@@ -140,13 +156,13 @@ class AdminAuthController extends Token
 
     // make sure you check the user role and the user id in this function
     // check the role here otherwise normal admins can also go to the admin page as well.
-    public function isLogged(): bool
+    public static function isLogged(): bool
     {
         if (
             Cookie::cookieExists(Config::getApiGlobal("remember")['access']) &&
-            $this->validateToken($this->getBearerToken())
+            self::validateToken(self::getBearerToken())
         ) {
-            $payload = $this->getTokenPayload(
+            $payload = self::getTokenPayload(
                 Cookie::getCookieData(
                     Config::getApiGlobal("remember")['refresh']
                 )
@@ -155,12 +171,12 @@ class AdminAuthController extends Token
         } else {
             if (
                 Cookie::cookieExists(Config::getApiGlobal("remember")["refresh"]) &&
-                $this->validateToken($this->getBearerToken("refresh"))
+                self::validateToken(self::getBearerToken("refresh"))
             ) {
                 if (Cookie::cookieExists(Config::getApiGlobal("remember")['access']))
                     Cookie::deleteCookie(Config::getApiGlobal("remember")['access']);
 
-                $payload = $this->getTokenPayload(
+                $payload = self::getTokenPayload(
                     Cookie::getCookieData(
                         Config::getApiGlobal("remember")['refresh']
                     )
@@ -170,7 +186,7 @@ class AdminAuthController extends Token
                         $id = $payload->id;
                         $username = $payload->name;
                         $primary_role = $payload->primary_role;
-                        $this->setBearerTokenInCookie(
+                        self::setBearerTokenInCookie(
                             headers: array(
                                 "alg" => "HS256",
                                 "typ" => "JWT"
@@ -184,10 +200,8 @@ class AdminAuthController extends Token
                         return true;
                     }
                 }
-                return false;
-            } else {
-                return false;
             }
+            return false;
         }
     }
 
@@ -211,14 +225,14 @@ class AdminAuthController extends Token
     /* 
      * Function description
      * 
-     * take the data inside of the token payload and return that data as a php object
+     * take the data in-side of the token payload and return that data as a php object
      */
-    public function getCredentials()
+    public static function getCredentials()
     {
         if (Cookie::cookieExists(Config::getApiGlobal("remember")['access'])) {
-            return $this->getTokenPayload(Cookie::getCookieData(Config::getApiGlobal("remember")['access']));
+            return self::getTokenPayload(Cookie::getCookieData(Config::getApiGlobal("remember")['access']));
         } else if (Cookie::cookieExists(Config::getApiGlobal("remember")['refresh'])) {
-            return $this->getTokenPayload(Cookie::getCookieData(Config::getApiGlobal("remember")['refresh']));
+            return self::getTokenPayload(Cookie::getCookieData(Config::getApiGlobal("remember")['refresh']));
         } else {
             return null;
         }
