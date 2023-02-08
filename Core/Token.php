@@ -9,34 +9,35 @@ use Core\Config;
 class Token
 {
     // current secret
-    protected $secret = 'secret';
+    const SECRET = 'secret';
+    const ALGORITHM = 'SHA256';
 
-    public function __construct(protected $algorithm = 'SHA256', protected $type = "JWT")
+    const TYPE = "JWT";
+
+    public function __construct()
     {
     }
 
-    public function generateToken($headers = array(), $payload = array(), $ttl = "access_ttl")
+    public static function generateToken($headers = array(), $payload = array(), $ttl = "access_ttl"): ?string
     {
         if (!empty($headers) && !empty($payload)) {
 
             $payload = array_merge($payload, ["exp" => time() + Config::getApiGlobal('remember')[$ttl]]);
 
-            $encoded_headers = $this->_base64url_encode(json_encode($headers));
+            $encoded_headers = self::_base64url_encode(json_encode($headers));
 
-            $encoded_payload = $this->_base64url_encode(json_encode($payload));
+            $encoded_payload = self::_base64url_encode(json_encode($payload));
 
-            $signature = hash_hmac($this->algorithm, "$encoded_headers.$encoded_payload", $this->secret, true);
-            $encoded_signature = $this->_base64url_encode($signature);
+            $signature = hash_hmac(self::ALGORITHM, "$encoded_headers.$encoded_payload", self::SECRET, true);
+            $encoded_signature = self::_base64url_encode($signature);
 
-            $json_web_token = "$encoded_headers.$encoded_payload.$encoded_signature";
-
-            return $json_web_token;
+            return "$encoded_headers.$encoded_payload.$encoded_signature";
         } else {
             return null;
         }
     }
 
-    protected function validateToken($json_web_token)
+    protected static function validateToken($json_web_token): bool
     {
         // break the token into parts
         if ($json_web_token) {
@@ -48,14 +49,14 @@ class Token
 
                 // THE TOKENS GENERATED MUST HAVE A EXPIRATION TIME
                 // OTHERWISE THIS WILL FAIL
-                $is_expired = $this->isTokenExpired($payload);
+                $is_expired = self::isTokenExpired($payload);
 
-                $base64url_encoded_headers = $this->_base64url_encode($headers);
-                $base64url_encoded_payload = $this->_base64url_encode($payload);
+                $base64url_encoded_headers = self::_base64url_encode($headers);
+                $base64url_encoded_payload = self::_base64url_encode($payload);
                 $signature = hash_hmac(
-                    $this->algorithm,
+                    self::ALGORITHM,
                     $base64url_encoded_headers . "." . $base64url_encoded_payload,
-                    $this->secret,
+                    self::SECRET,
                     true
                 );
 
@@ -72,34 +73,34 @@ class Token
         return false;
     }
 
-    protected function _base64url_encode($string)
+    protected static function _base64url_encode($string): string
     {
         return rtrim(strtr(base64_encode($string), '+/', '-_'), '=');
     }
 
-    private function isTokenExpired($payload)
+    private static function isTokenExpired($payload): bool
     {
         $expiration = json_decode($payload)->exp;
         return ($expiration - time()) < 0;
     }
 
-    public function getBearerToken($token_type = "access")
+    public static function getBearerToken($token_type = "access")
     {
         return (Cookie::cookieExists(Config::getApiGlobal('remember')[$token_type]))
             ? json_decode(Cookie::getCookieData(Config::getApiGlobal('remember')[$token_type]), true)['Token']
             : null;
     }
 
-    protected function setBearerTokenInCookie($headers = array(), $payload = array(), $token_type = "access", $ttl = "access_ttl")
+    protected static function setBearerTokenInCookie($headers = array(), $payload = array(), $token_type = "access", $ttl = "access_ttl"): bool
     {
         return Cookie::setCookie(
             name: Config::getApiGlobal('remember')[$token_type],
-            value: json_encode(array("Token" => $this->generateToken($headers, $payload, $ttl))),
+            value: json_encode(array("Token" => self::generateToken($headers, $payload, $ttl))),
             expiry: Config::getApiGlobal('remember')[$ttl]
         );
     }
 
-    protected function unsetBearerTokenCookie()
+    protected static function unsetBearerTokenCookie(): bool
     {
         if (Cookie::cookieExists(Config::getApiGlobal('remember')['access'])) {
             Cookie::deleteCookie(
@@ -114,7 +115,7 @@ class Token
         return true;
     }
 
-    public function getTokenPayload($json_web_token)
+    public static function getTokenPayload($json_web_token)
     {
         // break the token into parts
         $parts_of_token = explode('.', $json_web_token);
