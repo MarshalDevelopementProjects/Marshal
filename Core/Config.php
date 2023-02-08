@@ -28,6 +28,8 @@ class Config
         // logging page remember functionality storage to store the cookie
         'remember' => array(
 
+
+
             // access token cookie config
             'access' => 'access_token',
             'access_ttl' => 60 * 10, // 10 mins
@@ -39,6 +41,9 @@ class Config
             // remember me token and cookie ttl
             'remember_me_ttl' => 60 * 60 * 24 * 14, // for now remember me cookie is set to last for two weeks 
         ),
+        'sockets' => array(
+            "ws" => "ws_token"
+        )
     );
 
     /**
