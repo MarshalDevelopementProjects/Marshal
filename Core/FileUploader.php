@@ -154,6 +154,9 @@ class FileUploader
 
                     // $destination = $upload_to . '\\' . ($upload_as != "" ? $upload_as : $filename);
                     $destination = "D:/xampp/htdocs" . $upload_to . '/' . ($upload_as != "" ? $upload_as : $filename);
+
+                    // TODO: CHECK WHETHER THE FILE ALREADY EXISTS IN THE UPLOAD FOLDER
+
                     if (!move_uploaded_file($_FILES[$field_to_look_for]["tmp_name"], $destination)) {
                         // file cannot be moved failed to move the file
                         throw new \Exception("File cannot be moved due to permission errors");
