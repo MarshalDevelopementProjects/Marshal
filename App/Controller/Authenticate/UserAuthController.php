@@ -7,13 +7,13 @@ require __DIR__ . "/../../../vendor/autoload.php";
 use Core\Config;
 use App\Model\User;
 use Core\Validator\Validator;
-use Core\Token;
 use Core\Cookie;
 use Core\Response;
 use Core\Mailer;
 use Exception;
+use App\Controller\Authenticate\AuthenticateController;
 
-class UserAuthController extends Token
+class UserAuthController extends AuthenticateController
 {
     private User $user; // used to store to remember me session in database
     private array $errors;
@@ -81,6 +81,24 @@ class UserAuthController extends Token
                             ttl: $ttl
                         );
                         $_SESSION["primary_role"] = "user";
+                        $ws_token = parent::generateToken(
+                            headers: array(
+                                "alg" => "HS256",
+                                "typ" => "JWT"
+                            ),
+                            payload: array(
+                                "id" => $id,
+                                "name" => $name,
+                                "primary_role" => $primary_role,
+                            ),
+                            ttl : $ttl,
+                        );
+                        Cookie::setCookie(
+                            name: Config::getApiGlobal("sockets")["ws"],
+                            value: $ws_token,
+                            expiry:  Config::getApiGlobal("remember")[$ttl],
+                            httpOnly: false
+                        );
                         // set the state to "ONLINE"
                         $this->user->updateState(id: $this->user->getUserData()->id, user_state: "ONLINE");
                         header("Location: http://localhost/public/user/dashboard");
@@ -219,22 +237,22 @@ class UserAuthController extends Token
     }
 
     // make sure you check the user role and the user id in this function
-    public function isLogged(): bool
+    public static function isLogged(): bool
     {
         if (
             Cookie::cookieExists(Config::getApiGlobal("remember")['access']) &&
-            $this->validateToken($this->getBearerToken())
+            self::validateToken(self::getBearerToken())
         ) {
             return true;
         } else {
             if (
                 Cookie::cookieExists(Config::getApiGlobal("remember")['refresh']) &&
-                $this->validateToken($this->getBearerToken("refresh"))
+                self::validateToken(self::getBearerToken("refresh"))
             ) {
                 if (Cookie::cookieExists(Config::getApiGlobal("remember")['access']))
                     Cookie::deleteCookie(Config::getApiGlobal("remember")['access']);
 
-                $payload = $this->getTokenPayload(
+                $payload = self::getTokenPayload(
                     Cookie::getCookieData(
                         Config::getApiGlobal("remember")['refresh']
                     )
@@ -243,7 +261,7 @@ class UserAuthController extends Token
                     $id = $payload->id;
                     $username = $payload->name;
                     $primary_role = $payload->primary_role;
-                    $this->setBearerTokenInCookie(
+                    self::setBearerTokenInCookie(
                         headers: array(
                             "alg" => "HS256",
                             "typ" => "JWT"
@@ -279,26 +297,13 @@ class UserAuthController extends Token
             if (Cookie::cookieExists(Config::getApiGlobal("remember")['refresh'])) {
                 Cookie::deleteCookie(Config::getApiGlobal("remember")['refresh']);
             }
+            if (Cookie::cookieExists(Config::getApiGlobal("sockets")['ws'])) {
+            Cookie::deleteCookie(Config::getApiGlobal("sockets")['ws']);
+            }
             session_destroy();
             $this->sendJsonResponse("success", ["message" => "user successfully logged out"]);
         } else {
             $this->sendJsonResponse("unauthorized", ["message" => "Bad request"]);
-        }
-    }
-
-    /* 
-     * Function description
-     * 
-     * take the data inside the token payload and return that data as a php object
-     */
-    public function getCredentials()
-    {
-        if (Cookie::cookieExists(Config::getApiGlobal("remember")['access'])) {
-            return $this->getTokenPayload(Cookie::getCookieData(Config::getApiGlobal("remember")['access']));
-        } else if (Cookie::cookieExists(Config::getApiGlobal("remember")['refresh'])) {
-            return $this->getTokenPayload(Cookie::getCookieData(Config::getApiGlobal("remember")['refresh']));
-        } else {
-            return null;
         }
     }
 
@@ -435,7 +440,6 @@ class UserAuthController extends Token
                     );
                 }
             } catch (Exception $exception) {
-                throw $exception;
                 $this->sendJsonResponse(
                     status: "error",
                     content: array("message" => "User with the provided email cannot be found")
