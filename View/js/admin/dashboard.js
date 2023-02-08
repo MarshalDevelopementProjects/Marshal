@@ -43,6 +43,7 @@ function onLoad(){
     })
     tableRows.innerHTML = tableRowCode
     AllUsersDiv.classList.add('active');
+    allUserBtn.classList.add('active');
 }
 
 LogOutButton.addEventListener("click", () => {
@@ -116,6 +117,10 @@ ActiveUsersDiv.addEventListener('click', async (event) => {
     ActiveUsersDiv.classList.add('active');
     BlockedUsersDiv.classList.remove('active');
     AllUsersDiv.classList.remove('active');
+    wrapper.classList.remove('active');
+    userTable.classList.remove('active');
+    addNewUserBtn.classList.remove('active');
+    allUserBtn.classList.add('active');
     }
     // alert(data.message);
 });
@@ -165,6 +170,10 @@ BlockedUsersDiv.addEventListener('click', async (event) => {
     BlockedUsersDiv.classList.add('active');
     AllUsersDiv.classList.remove('active');
     ActiveUsersDiv.classList.remove('active');
+    wrapper.classList.remove('active');
+    userTable.classList.remove('active');
+    addNewUserBtn.classList.remove('active');
+    allUserBtn.classList.add('active');
     }
 });
 
@@ -214,5 +223,74 @@ AllUsersDiv.addEventListener('click', async (event) => {
     AllUsersDiv.classList.add('active');
     BlockedUsersDiv.classList.remove('active');
     ActiveUsersDiv.classList.remove('active');
+    wrapper.classList.remove('active');
+    userTable.classList.remove('active');
+    addNewUserBtn.classList.remove('active');
+    allUserBtn.classList.add('active');
+    }
+});
+
+const addNewUserBtn = document.querySelector("#add-New-User");
+const allUserBtn = document.querySelector("#all-Users");
+const userTable = document.getElementById("user-table");
+const wrapper = document.querySelector(".wrapper");
+
+addNewUserBtn.addEventListener('click', ()=>{
+    userTable.classList.add('active');
+    wrapper.classList.add('active');
+    addNewUserBtn.classList.add('active');
+    allUserBtn.classList.remove('active');
+    AllUsersDiv.classList.remove('active');
+    
+    
+});
+
+allUserBtn.addEventListener('click', async (event) => {
+    let response = await fetch("http://localhost/public/admin/users/all", {
+        withCredentials: true,
+        credentials: "include",
+        mode: "cors",
+        method: "GET"
+    });
+
+    let data =  await response.json();
+    if(response.ok) {
+        tableRows.innerHTML = ''
+        console.log(data.user_details);
+        tableRowCode = ""
+        data.user_details.forEach(tableRow => {
+        tableRowCode += `<tr>
+                        <td class="people">
+                            <img src="${tableRow['profile_picture']}" alt="">
+                            <div class="people-de">
+                                <h5>${tableRow['username']}</h5>
+                            </div>
+                        </td>
+                        <td class="people-email">
+                            <h5>${tableRow['email_address']}</h5>
+                        </td>
+                        <td class="joined_datetime">
+                            <p>${tableRow['joined_datetime']}</p>
+                        </td>
+                        <td class="access">
+                            <p>${tableRow['access']}</p>
+                        </td>
+                        <td class="status">`;
+                        if (tableRow['user_state'] === "ONLINE") {
+                          tableRowCode += `<i class="fa fa-circle green"></i>`;
+                        } else {
+                          tableRowCode += `<i class="fa fa-circle red"></i>`;
+                        }
+                        tableRowCode += `</td>
+                                    </tr>`;
+    })
+    tableRows.innerHTML = tableRowCode
+    AllUsersDiv.classList.add('active');
+    allUserBtn.classList.add('active');
+    BlockedUsersDiv.classList.remove('active');
+    ActiveUsersDiv.classList.remove('active');
+    wrapper.classList.remove('active');
+    userTable.classList.remove('active');
+    addNewUserBtn.classList.remove('active');
     }
 });
