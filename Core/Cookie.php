@@ -8,12 +8,7 @@ require __DIR__ . "/../vendor/autoload.php";
  * Class description
  * 
  * Encapsulates the behavior of handling cookies
- * 
- * @method setCookie
- * @method cookieExists
- * @method getCookieData
- * @method deleteCookie
- * 
+ *
  */
 class Cookie
 {
@@ -44,7 +39,7 @@ class Cookie
                 "domain" => "",
                 "samesite" => "None"
             ]
-        ) ? true : false;
+        );
     }
 
     /**
@@ -59,7 +54,7 @@ class Cookie
      */
     public static function cookieExists(string $name): bool
     {
-        return (isset($_COOKIE[$name])) ? true : false;
+        return isset($_COOKIE[$name]);
     }
 
     /**
