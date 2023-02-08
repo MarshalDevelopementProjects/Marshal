@@ -16,8 +16,8 @@
             <h2>Marshal</h2>
         </div>
         <div class="items">
-            <li><i class="fa fa-users" aria-hidden="true"></i><a href="#">Users</a></li>
-            <li><i class="fa fa-users" aria-hidden="true"></i><a href="#">Add new users</a></li>
+            <li id="all-Users"><i class="fa fa-users" aria-hidden="true"></i><a>Users</a></li>
+            <li id="add-New-User"><i class="fa fa-users" aria-hidden="true"></i><a>Add new users</a></li>
             <li id="log-out-btn"><i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i><a>Logout</a></li>
         </div>
     </section>
@@ -59,7 +59,7 @@
             </div>
         </div>
         <dir class="board">
-            <table width="100%">
+            <table width="100%" id="user-table">
                 <thead>
                     <tr>
                         <td>Name</td>
@@ -94,6 +94,7 @@
                 </tbody>
             </table>
             <div class="wrapper">
+                <h3 class="title">Add New User</h3>
                 <div class="form">
                     <div class="inputfield">
                         <label>First Name</label>
@@ -131,7 +132,7 @@
                         <p>Agreed to terms and conditions</p>
                     </div>
                     <div class="inputfield">
-                        <input type="submit" value="Add user" class="btn">
+                        <input type="submit" value="Add User" class="btn">
                     </div>
                 </div>
             </div>
