@@ -48,7 +48,7 @@ class AdminController extends Controller
         }
     }
 
-    public function auth()
+    public function auth(): bool
     {
         return $this->adminAuth->isLogged();
     }
