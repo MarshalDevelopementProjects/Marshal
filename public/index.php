@@ -43,11 +43,16 @@ $router->post('/admin/login', AdminAuthController::class . '::onAdminLogin');
 $router->get('/user/dashboard', UserController::class . '::defaultAction');
 $router->get('/admin/dashboard', AdminController::class . '::defaultAction');
 $router->get('/client/dashboard', ClientController::class . '::defaultAction');
-
 $router->get('/projectleader/dashboard', ProjectLeaderController::class . '::defaultAction');
 $router->get('/projectmember/dashboard', ProjectMemberController::class . '::defaultAction');
 $router->get('/groupleader/dashboard', GroupLeaderController::class . '::defaultAction');
 $router->get('/groupmember/dashboard', GroupMemberController::class . '::defaultAction');
+
+$router->get('/client/forum', ClientController::class . '::serveMessageForum');
+$router->get('/projectleader/forum', ProjectLeaderController::class . '::serveMessageForum');
+$router->get('/projectmember/forum', ProjectMemberController::class . '::serveMessageForum');
+$router->get('/groupleader/forum', GroupLeaderController::class . '::serveMessageForum');
+$router->get('/groupmember/forum', GroupMemberController::class . '::serveMessageForum');
 
 $router->post('/user/logout', UserAuthController::class . '::logout');
 $router->post('/admin/logout', AdminAuthController::class . '::logout');
