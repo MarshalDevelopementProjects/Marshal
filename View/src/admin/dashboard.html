@@ -96,6 +96,7 @@
             <div class="wrapper">
                 <h3 class="title">Add New User</h3>
                 <div class="form">
+                    <form id="add-New-User-Form" method="post">
                     <div class="inputfield">
                         <label>First Name</label>
                         <input class="input" type="text" name="first_name" id="first_name" required>
@@ -124,16 +125,10 @@
                         <label>Confirm Password</label>
                         <input type="password" class="input" name="password_re_enter" id="password_re_enter" required>
                     </div>
-                    <div class="inputfield terms">
-                        <label class="check">
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <p>Agreed to terms and conditions</p>
-                    </div>
                     <div class="inputfield">
                         <input type="submit" value="Add User" class="btn">
                     </div>
+                </form>
                 </div>
             </div>
         </dir>
