@@ -174,7 +174,7 @@ class Admin implements Model
 
     public function getActiveUsers()
     {
-        $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture` FROM `user` WHERE `user_state` = 'ONLINE'";
+        $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture`,`user_state` FROM `user` WHERE `user_state` = 'ONLINE'";
         try {
             $result = $this->crud_util->execute($sql_string);
             if ($result->getCount() > 0) {
