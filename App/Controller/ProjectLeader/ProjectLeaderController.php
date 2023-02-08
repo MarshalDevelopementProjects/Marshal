@@ -30,11 +30,12 @@ class ProjectLeaderController extends UserController
     }
 
     // in here check the user role whether it is project leader regarding the project
-    public function auth()
+    public function auth(): bool
     {
         return parent::auth();
     }
-    public function getProjectInfo(){
+    public function getProjectInfo()
+    {
         // print_r($_SESSION);
         $payload = $this->userAuth->getCredentials();
         $project_id = $_SESSION["project_id"];
@@ -49,7 +50,8 @@ class ProjectLeaderController extends UserController
         );
     }
 
-    public function sendProjectInvitation(){
+    public function sendProjectInvitation()
+    {
         try {
             // get receiver user name
             $data = file_get_contents('php://input');
@@ -60,7 +62,7 @@ class ProjectLeaderController extends UserController
             $user->readUser("username", $data);
             $receivedUser = $user->getUserData();
 
-            if($receivedUser){
+            if ($receivedUser) {
                 $payload = $this->userAuth->getCredentials();
                 $project_id = $_SESSION["project_id"];
                 $user_id = $payload->id;
@@ -97,28 +99,28 @@ class ProjectLeaderController extends UserController
             $notification->setNotifiedMembers($arguments);
 
             echo (json_encode(array("message" => "Success")));
-
         } catch (\Throwable $th) {
             echo (json_encode(array("message" => $th)));
         }
     }
 
-    public function createTask($args){
+    public function createTask($args)
+    {
 
-        if($args['taskname'] && $args['taskdescription']){
+        if ($args['taskname'] && $args['taskdescription']) {
             $status = "TO-DO";
-            if($args['assignedMember']){
+            if ($args['assignedMember']) {
                 $user = new User();
                 $user->readUser("username", $args['assignedMember']);
                 $receivedUser = $user->getUserData();
 
-                if($receivedUser){
+                if ($receivedUser) {
                     $conditions = array(
                         "project_id" => $_SESSION['project_id'],
                         "member_id" => $receivedUser->id
                     );
-                    
-                    if($user->isUserJoinedToProject($conditions)){
+
+                    if ($user->isUserJoinedToProject($conditions)) {
                         $status = "ONGOING";
 
                         // get leader id
@@ -129,7 +131,7 @@ class ProjectLeaderController extends UserController
                         // now we have to send a notification as well 
                         $notificationArgs = array(
                             "projectId" => $_SESSION['project_id'],
-                            "message" => "You are assigned to ".$args['taskname']. " by project leader",
+                            "message" => "You are assigned to " . $args['taskname'] . " by project leader",
                             "type" => "notification",
                             "senderId" => $user_id,
                             "sendTime" => $date
@@ -164,13 +166,18 @@ class ProjectLeaderController extends UserController
             );
 
             $task = new Task();
-            if($task->createTask($data)){
-                header("Location: http://localhost/public/user/project?id=".$_SESSION['project_id']);
-            }else{
+            if ($task->createTask($data)) {
+                header("Location: http://localhost/public/user/project?id=" . $_SESSION['project_id']);
+            } else {
                 echo "Fail";
             }
-        }else{
-            header("Location: http://localhost/public/user/project?id=".$_SESSION['project_id']);
+        } else {
+            header("Location: http://localhost/public/user/project?id=" . $_SESSION['project_id']);
         }
+    }
+
+    // need to have the following ["project_id" => 12]
+    public function serverMessageForum(array $args)
+    {
     }
 }
