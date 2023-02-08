@@ -242,7 +242,6 @@ addNewUserBtn.addEventListener('click', ()=>{
     allUserBtn.classList.remove('active');
     AllUsersDiv.classList.remove('active');
     
-    
 });
 
 allUserBtn.addEventListener('click', async (event) => {
@@ -292,5 +291,39 @@ allUserBtn.addEventListener('click', async (event) => {
     wrapper.classList.remove('active');
     userTable.classList.remove('active');
     addNewUserBtn.classList.remove('active');
+    }
+});
+
+const AddNewUserFrom = document.getElementById("add-New-User-Form");
+
+AddNewUserFrom.addEventListener('submit', async function(event) {
+    event.preventDefault();
+    let formData = new FormData(AddNewUserFrom);
+    let jsonFormData = JSON.stringify(Object.fromEntries(formData));
+    console.log(jsonFormData);
+    try {
+        let response = await fetch("http://localhost/public/admin/users/addnewuser", {
+            withCredentials: true,
+            credentials: "include",
+            mode: "cors",
+            method: "POST",
+            body: formData
+        });
+
+        let returnData = await response.json();
+        console.log(returnData);
+        if (response.ok) {
+            alert(returnData.message);
+            for (let i = 0; i < AddNewUserFrom.elements.length; i++) {
+                AddNewUserFrom.elements[i].value = "";
+            }
+            jsonData.user_info = returnData.user_info;
+            location.reload();
+            
+        }
+        alert(returnData.message);
+    } catch (error) {
+        // alert(error.message);
+        console.log(error);
     }
 });
