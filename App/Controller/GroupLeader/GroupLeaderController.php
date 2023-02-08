@@ -25,8 +25,12 @@ class GroupLeaderController extends ProjectMemberController
     {
     }
 
-    public function auth()
+    public function auth(): bool
     {
         return parent::auth();
+    }
+
+    public function serverMessageForum(array $args)
+    {
     }
 }
