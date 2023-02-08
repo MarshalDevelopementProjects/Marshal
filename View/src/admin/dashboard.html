@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/View/styles/admin/admin.css">
+    <link rel="stylesheet" href="/View/styles/admin/admin_add_user_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Marshal</title>
 </head>
@@ -92,6 +93,48 @@
                     
                 </tbody>
             </table>
+            <div class="wrapper">
+                <div class="form">
+                    <div class="inputfield">
+                        <label>First Name</label>
+                        <input class="input" type="text" name="first_name" id="first_name" required>
+                    </div>
+                    <div class="inputfield">
+                        <label>Last Name</label>
+                        <input class="input" type="text" name="last_name" id="last_name" required>
+                    </div>
+                    <div class="inputfield">
+                        <label>Username</label>
+                        <input type="text" class="input" name="username" id="username" required>
+                    </div>
+                    <div class="inputfield">
+                        <label>Email Address</label>
+                        <input class="input" type="email" name="email_address" id="email_address" required>
+                    </div>
+                    <div class="inputfield">
+                        <label>Phone Number</label>
+                        <input type="tel" class="input" name="phone_number" id="phone_number" pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$" required>
+                    </div>
+                    <div class="inputfield">
+                        <label>Password</label>
+                        <input type="password" class="input" name="password" id="password" required>
+                    </div>
+                    <div class="inputfield">
+                        <label>Confirm Password</label>
+                        <input type="password" class="input" name="password_re_enter" id="password_re_enter" required>
+                    </div>
+                    <div class="inputfield terms">
+                        <label class="check">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                        <p>Agreed to terms and conditions</p>
+                    </div>
+                    <div class="inputfield">
+                        <input type="submit" value="Add user" class="btn">
+                    </div>
+                </div>
+            </div>
         </dir>
     </section>
     <script>
