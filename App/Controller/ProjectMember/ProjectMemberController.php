@@ -27,8 +27,13 @@ class ProjectMemberController extends UserController
     {
     }
 
-    public function auth()
+    public function auth(): bool
     {
         return parent::auth();
+    }
+
+    // need to have the following ["project_id" => 12]
+    public function serverMessageForum(array $args)
+    {
     }
 }
