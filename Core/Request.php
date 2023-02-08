@@ -7,9 +7,6 @@ require __DIR__ . '/../vendor/autoload.php';
 /**
  * Class description
  * 
- * @method static array getData() returns data extracted from the body
- * @method static array|bool getQueryParams() returns data extracted from the request URI
- * 
  * Encapsulates the actions to be performed on a query string
  * or query data of a request
  * 
@@ -21,18 +18,17 @@ class Request
 {
     /**
      * Function description
-     * 
+     *
      * @static
      * @access public
      * @param string $req_data - request body
-     * @return array
+     * @return array|null will return user data sent using various http methods decoded
      * will return user data sent using various http methods decoded
      * as an associative array when requesting.
      * if there is no data then will return null.
-     * 
+     *
      * Assumed the body of the request is json encoded hence
      * $req_data if supplied must be the JSON string
-     * 
      */
     public static function getData(string $req_data = ""): null|array
     {
@@ -66,8 +62,8 @@ class Request
     {
         if (!empty($args)) {
             foreach ($args as $key => $value) {
-                $key = htmlspecialchars(trim($key), ENT_QUOTES, 'UTF-8');
-                $value = htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
+                $key = htmlspecialchars(addslashes(trim($key)), ENT_QUOTES, 'UTF-8');
+                $value = htmlspecialchars(addslashes(trim($value)), ENT_QUOTES, 'UTF-8');
                 $args[$key] = $value;
             }
         }
