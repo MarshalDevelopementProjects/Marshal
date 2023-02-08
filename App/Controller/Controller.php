@@ -4,7 +4,6 @@ namespace App\Controller;
 
 require __DIR__ . "/../../vendor/autoload.php";
 
-use App\Controller\Authenticate\AuthenticateController;
 use Core\Response;
 
 /*
@@ -35,7 +34,7 @@ abstract class Controller
      * each controller can implement this action, in case the requested action
      * of the controller cannot be found
      */
-    public function actionNotFound()
+    public function actionNotFound(): void
     {
         $this->sendResponse("/errors/503.html", "service_unavailable", array("message" => "such a service cannot be found"));
     }
@@ -56,7 +55,7 @@ abstract class Controller
      * 
      */
 
-    protected final function sendResponse(string $view, string $status, array $content = array(), array $headers = array())
+    protected final function sendResponse(string $view, string $status, array $content = array(), array $headers = array()): void
     {
         /* echo "<pre>";
         var_dump(array("view" => $view, "status" => $status, "content" => $content, "headers" => $headers));
@@ -64,11 +63,17 @@ abstract class Controller
         Response::sendResponse(view: $view, status: $status, content: $content);
     }
 
-    protected final function sendJsonResponse(string $status, array $content = array(), array $headers = array())
+    protected final function sendJsonResponse(string $status, array $content = array(), array $headers = array()): void
     {
         /* echo "<pre>";
         var_dump(array("status" => $status, "content" => $content, "headers" => $headers));
         echo "</pre>"; */
         Response::sendJsonResponse(status: $status, content: $content);
+    }
+
+    // TODO: MAKE THIS AN ABSTRACT METHOD
+    // TODO: HANDLE ADDING THE MESSAGES TO THE DATABASE USING THE MODELS AND NOTHING MORE
+    public function sendMessages(): void
+    {
     }
 }
