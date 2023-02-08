@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
+    
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/View/styles/admin/admin.css">
     <link rel="stylesheet" href="/View/styles/admin/admin_add_user_style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/View/styles/admin/admin_alert.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <title>Marshal</title>
 </head>
 <body onload="onLoad();">
@@ -32,6 +34,15 @@
             <div class="profile">
                 <p class="user-name" id="admin-user-name"></p>
             </div>
+            
+            <div class="alert hide">
+                <span class="fas fa-exclamation-circle"></span>
+                <span class="msg">Warning: This is a warning alert!</span>
+                <div class="close-btn">
+                   <span class="fas fa-times"></span>
+                </div>
+             </div>
+
         </div>
         <h3 class="i-name">Dashboard</h3>
         <div class="values">
