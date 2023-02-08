@@ -12,13 +12,6 @@ use Core\View;
  * Class encapsulates the actions needed to send JSON responses to requesting clients
  * in a specific format
  * 
- * @method static void sendResponse() - sends a JSON encoded response to the client
- *                                the format is as follows,
- *                                {
- *                                    "message": "message body",
- *                                    "content": if there is content to be sent this will be included in here as well
- *                                }
- * 
  */
 
 class Response
@@ -74,5 +67,16 @@ class Response
         header("Content-Type: application/json");
         echo json_encode($content);
         exit;
+    }
+
+    private static function escapeArrayValues($args) {
+        foreach ($args as $key => $value) {
+            if (is_array($value)) {
+                $args[$key] = self::escapeArrayValues($value);
+            } else if (is_string($value)) {
+                $args[$key] = addslashes($value);
+            }
+        }
+        return $args;
     }
 }
