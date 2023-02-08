@@ -425,14 +425,16 @@ tasks.forEach(task => {
             })
 
             console.log(taskName)
-            sendConfirmation.addEventListener('click', () => {
-                sendConfirmationFunction(taskName, message, formattedDate, time)
-            })
-            confirmationMessage.addEventListener('keyup', (event) =>{
-                if(event.keyCode === 13){
+            if(message){
+                sendConfirmation.addEventListener('click', () => {
                     sendConfirmationFunction(taskName, message, formattedDate, time)
-                }
-            })
+                })
+                confirmationMessage.addEventListener('keyup', (event) =>{
+                    if(event.keyCode === 13){
+                        sendConfirmationFunction(taskName, message, formattedDate, time)
+                    }
+                })
+            }
 
 
             confirmationPopup.classList.add('active')

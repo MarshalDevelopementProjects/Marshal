@@ -687,11 +687,17 @@ body{
 .group-details .group-info{
     width: 720px;
     /* border: 1px solid black; */
+    text-decoration: none;
+}
+.group-info a{
+    text-decoration: none;
+    /* background-color: #20B289; */
 }
 .group-info h3{
     font-size: 18px;
     margin: 10px 0 5px 25px;
     color: #031738;
+    text-decoration: none;
 }
 .group-info p{
     font-size: 13px;
