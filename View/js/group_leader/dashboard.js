@@ -1,4 +1,4 @@
-// console.log(jsonData);
+console.log(jsonData);
 
 const LogOutButton = document.getElementById("log-out-btn");
 
@@ -33,118 +33,118 @@ LogOutButton.addEventListener("click", () => {
 // set tasks of the project
 
 
-// todoBoard = document.querySelector('.todo .tasks'),
-// ongoingBoard = document.querySelector('.ongoing .tasks'),
-// reviewBoard = document.querySelector('.review .tasks'),
-// doneBoard = document.querySelector('.done .tasks');
+todoBoard = document.querySelector('.todo .tasks'),
+ongoingBoard = document.querySelector('.ongoing .tasks'),
+reviewBoard = document.querySelector('.review .tasks'),
+doneBoard = document.querySelector('.done .tasks');
 
-// var todoTasks = jsonData['todoTasks'];
-// var ongoingTasks = jsonData['ongoingTasks'];
-// var reviewTasks = jsonData['reviewTasks'];
-// var doneTasks = jsonData['doneTasks'];
-
-
-// let priorities = { "high": 3, "medium": 2, "low": 1 };
-
-// if(todoTasks){
-//     todoTasks = Object.values(todoTasks).sort((a, b) => {
-//         return priorities[b.priority] - priorities[a.priority];
-//     });
-// }
-// if(ongoingTasks){
-//     ongoingTasks = Object.values(ongoingTasks).sort((a, b) => {
-//         return priorities[b.priority] - priorities[a.priority];
-//     });
-// }
-// if(reviewTasks){
-//     reviewTasks = Object.values(reviewTasks).sort((a, b) => {
-//         return priorities[b.priority] - priorities[a.priority];
-//     });
-// }
-// if(doneTasks){
-//     doneTasks = Object.values(doneTasks).sort((a, b) => {
-//         return priorities[b.priority] - priorities[a.priority];
-//     });
-// }
+var todoTasks = jsonData['todoTasks'];
+var ongoingTasks = jsonData['ongoingTasks'];
+var reviewTasks = jsonData['reviewTasks'];
+var doneTasks = jsonData['doneTasks'];
 
 
-// var todoTasksCode = "";
+let priorities = { "high": 3, "medium": 2, "low": 1 };
 
-// if(todoTasks){
-//     todoTasks.forEach(task => {
-//         todoTasksCode += `<div class="task" draggable="true">
-//                                 <div class="top-task">
-//                                     <h4>${task['task_name']}</h4>
-//                                     <p class="priority-${task['priority']}">${task['priority']}</p>
-//                                 </div>
-//                                 <p class="task-description">${task['description']}</p>
-//                                 <div class="bottom-task style="display:flex">
-//                                     <p class="deadline">${task['deadline'].split(' ')[0]}</p>
-//                                 </div>
-//                             </div>`
-//     })
-// }
-// todoBoard.innerHTML = todoTasksCode;
-
-// var ongoingTasksCode = "";
-
-// if(ongoingTasks){
-//     ongoingTasks.forEach(task => {
-//         ongoingTasksCode += `<div class="task" draggable="true">
-//                                 <div class="top-task">
-//                                     <h4>${task['task_name']}</h4>
-//                                     <p class="priority-${task['priority']}">${task['priority']}</p>
-//                                 </div>
-//                                 <p class="task-description">${task['description']}</p>
-//                                 <div class="bottom-task style="display:flex">
-//                                     <p class="deadline">${task['deadline'].split(' ')[0]}</p>
-//                                     <img id="member-profile" src="${task['profile']}" alt="">
-//                                 </div>
-//                             </div>`
-//     })
-// }
-// ongoingBoard.innerHTML = ongoingTasksCode;
-
-// var reviewTasksCode = "";
-
-// if(reviewTasks){
-//     reviewTasks.forEach(task => {
-//         reviewTasksCode += `<div class="task" draggable="true">
-//                                 <div class="top-task">
-//                                     <h4>${task['task_name']}</h4>
-//                                     <p class="priority-${task['priority']}">${task['priority']}</p>
-//                                 </div>
-//                                 <p class="task-description">${task['description']}</p>
-//                                 <div class="bottom-task style="display:flex">
-//                                     <p class="deadline">${task['deadline'].split(' ')[0]}</p>
-//                                 </div>
-//                             </div>`
-//     })
-// }
-// reviewBoard.innerHTML = reviewTasksCode;
-
-// var doneTasksCode = "";
-
-// if(doneTasks){
-//     doneTasks.forEach(task => {
-//         doneTasksCode += `<div class="task" draggable="true">
-//                                 <div class="top-task">
-//                                     <h4>${task['task_name']}</h4>
-//                                     <p class="priority">${task['priority']}</p>
-//                                 </div>
-//                                 <p class="task-description">${task['description']}</p>
-//                                 <div class="bottom-task style="display:flex">
-//                                     <p class="deadline">${task['deadline'].split(' ')[0]}</p>
-//                                 </div>
-//                             </div>`
-//     })
-// }
-// doneBoard.innerHTML = doneTasksCode;
+if(todoTasks){
+    todoTasks = Object.values(todoTasks).sort((a, b) => {
+        return priorities[b.priority] - priorities[a.priority];
+    });
+}
+if(ongoingTasks){
+    ongoingTasks = Object.values(ongoingTasks).sort((a, b) => {
+        return priorities[b.priority] - priorities[a.priority];
+    });
+}
+if(reviewTasks){
+    reviewTasks = Object.values(reviewTasks).sort((a, b) => {
+        return priorities[b.priority] - priorities[a.priority];
+    });
+}
+if(doneTasks){
+    doneTasks = Object.values(doneTasks).sort((a, b) => {
+        return priorities[b.priority] - priorities[a.priority];
+    });
+}
 
 
-// const getTaskDetails = (boardName, taskName) => {
-//     return boardName.find(element => element.task_name === taskName)
-// }
+var todoTasksCode = "";
+
+if(todoTasks){
+    todoTasks.forEach(task => {
+        todoTasksCode += `<div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>${task['task_name']}</h4>
+                                    <p class="priority-${task['priority']}">${task['priority']}</p>
+                                </div>
+                                <p class="task-description">${task['description']}</p>
+                                <div class="bottom-task style="display:flex">
+                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                </div>
+                            </div>`
+    })
+}
+todoBoard.innerHTML = todoTasksCode;
+
+var ongoingTasksCode = "";
+
+if(ongoingTasks){
+    ongoingTasks.forEach(task => {
+        ongoingTasksCode += `<div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>${task['task_name']}</h4>
+                                    <p class="priority-${task['priority']}">${task['priority']}</p>
+                                </div>
+                                <p class="task-description">${task['description']}</p>
+                                <div class="bottom-task style="display:flex">
+                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                    <img id="member-profile" src="${task['profile']}" alt="">
+                                </div>
+                            </div>`
+    })
+}
+ongoingBoard.innerHTML = ongoingTasksCode;
+
+var reviewTasksCode = "";
+
+if(reviewTasks){
+    reviewTasks.forEach(task => {
+        reviewTasksCode += `<div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>${task['task_name']}</h4>
+                                    <p class="priority-${task['priority']}">${task['priority']}</p>
+                                </div>
+                                <p class="task-description">${task['description']}</p>
+                                <div class="bottom-task style="display:flex">
+                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                </div>
+                            </div>`
+    })
+}
+reviewBoard.innerHTML = reviewTasksCode;
+
+var doneTasksCode = "";
+
+if(doneTasks){
+    doneTasks.forEach(task => {
+        doneTasksCode += `<div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>${task['task_name']}</h4>
+                                    <p class="priority">${task['priority']}</p>
+                                </div>
+                                <p class="task-description">${task['description']}</p>
+                                <div class="bottom-task style="display:flex">
+                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                </div>
+                            </div>`
+    })
+}
+doneBoard.innerHTML = doneTasksCode;
+
+
+const getTaskDetails = (boardName, taskName) => {
+    return boardName.find(element => element.task_name === taskName)
+}
 
 
 let progressBar = document.querySelector('.cuircular-progress');

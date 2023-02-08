@@ -306,6 +306,7 @@ class ProjectLeaderController extends ProjectMemberController
             "assign_type" => "group",
             "memberId" => $user_id,
         );
+
         $group = new Group();
         $task = new Task();
 
@@ -314,6 +315,16 @@ class ProjectLeaderController extends ProjectMemberController
             $group->createGroup($args, $keys);
             $task->createTask($taskArgs, array("project_id", "description", "task_name", "priority", "status", "assign_type", "memberId"));
 
+            // until project leader add a new group leader, he or she will be the group leader
+            $newGroup = $group->getGroup(array("group_name" => $data['group_name'],"project_id" => $project_id,), array("group_name", "project_id"));
+            $addMemberArgs = array(
+                "group_id" => $newGroup->id,
+                "member_id" => $user_id,
+                "role" => "LEADER",
+                "joined" => date("Y-m-d H:i:s")
+            );
+
+            $group->addGroupMember($addMemberArgs, array("group_id", "member_id", "role", "joined"));
             $message = "Successfully created";
         } catch (\Throwable $th) {
             $message = $th->getMessage();

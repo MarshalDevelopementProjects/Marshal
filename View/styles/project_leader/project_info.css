@@ -402,7 +402,8 @@ body{
 .groups{
     background-color: #fff;
     border-radius: 12px;
-    height: 358px;
+    height: fit-content;
+    max-height: 358px;
     overflow: scroll;
     padding-top: 10px;
     /* padding-bottom: 0px; */

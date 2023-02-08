@@ -81,7 +81,7 @@ var groupsCode = "";
 
 if(jsonData['groups']){
     jsonData['groups'].forEach(group => {
-        groupsCode += `<a href="http://localhost/public/projectmember/group"><p class="group">${group['group_name']}</p></a>`
+        groupsCode += `<a href="http://localhost/public/projectmember/group?id=${group['id']}"><p class="group">${group['group_name']}</p></a>`
     })
 }
 

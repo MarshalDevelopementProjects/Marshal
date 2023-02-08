@@ -42,7 +42,6 @@ class Task implements Model
         $sql .= ')';
         try {
             $this->crud_util->execute($sql, $args);
-            
             return true;
         } catch (\Exception $exception) {
             return false;
@@ -50,7 +49,11 @@ class Task implements Model
     }
 
     public function getAllTasks(array $args = array()){
-        $sql_string = "SELECT * FROM task WHERE project_id = :project_id";
+        if($args['task_type'] === 'group'){
+            $sql_string = "SELECT * FROM task WHERE task_id IN(SELECT task_id FROM group_task WHERE group_id = :group_id) AND project_id = :project_id AND task_type = :task_type";
+        }else{
+            $sql_string = "SELECT * FROM task WHERE project_id = :project_id AND task_type = :task_type";
+        }
 
         $result = $this->crud_util->execute($sql_string, $args);
         if ($result->getCount() > 0) {
@@ -141,4 +144,14 @@ class Task implements Model
         }   
     }
 
+    public function addGroupToTask(array $args = array()){
+        $sql = "INSERT INTO group_task (`task_id`, `group_id`) VALUES (:task_id, :group_id)";
+
+        try {
+            $this->crud_util->execute($sql, $args);
+            return true;
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
 }

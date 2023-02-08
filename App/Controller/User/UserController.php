@@ -131,7 +131,8 @@ class UserController extends Controller
                 switch ($project->getProjectData()[0]->role) {
                     case 'LEADER':
                         $args = array(
-                            "project_id" => $_SESSION['project_id']
+                            "project_id" => $_SESSION['project_id'],
+                            "task_type" => "project"
                         );
                         $projectController = new ProjectController();
                         
@@ -154,7 +155,8 @@ class UserController extends Controller
                     case 'MEMBER':
 
                         $args = array(
-                            "project_id" => $_SESSION['project_id']
+                            "project_id" => $_SESSION['project_id'],
+                            "task_type" => "project"
                         );
                         $projectController = new ProjectController();
                         

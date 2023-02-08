@@ -4,10 +4,12 @@ namespace App\Controller\ProjectMember;
 
 use App\Controller\Authenticate\UserAuthController;
 use App\Controller\User\UserController;
+use App\Controller\Group\GroupController;
 use App\Model\ProjectMember;
 use App\Model\Notification;
 use App\Model\Task;
 use App\Model\Project;
+use App\Model\Group;
 use Core\Validator\Validator;
 
 require __DIR__ . '/../../../vendor/autoload.php';
@@ -141,11 +143,75 @@ class ProjectMemberController extends UserController
         
     }
 
-    public function goToGroup(){
-        $this->sendResponse(
-            view: "/group_leader/dashboard.html",
-            status: "success"
-        );
+    public function goToGroup(array $data){
+        
+        try {
+            $payload = $this->userAuth->getCredentials(); // get the payload content
+            $project = new Project($payload->id);
+            $group = new Group();
+
+            if ($project->readUserRole(member_id: $payload->id, project_id: $_SESSION['project_id'])) {
+
+                // check the user role in the group and redirect him/her to the correct project page
+                $_SESSION["group_id"] = $data["id"];
+
+                $args = array(
+                    "group_id" => $data['id'],
+                    "member_id" => $payload->id
+                );
+                switch ($group->getGroupMember($args, array("group_id", "member_id"))->role) {
+                    case 'LEADER':
+                        $args = array(
+                            "group_id" => $data['id'],
+                            "project_id" => $_SESSION['project_id'],
+                            "task_type" => "group"
+                        );
+                        // $projectController = new ProjectController();
+                        $groupController = new GroupController();
+
+                        $this->sendResponse(
+                            view: "/group_leader/dashboard.html",
+                            status: "success",
+                            content: $groupController->getGroupTasks($args, $payload->id)
+                        );
+                        break;
+
+                    case 'MEMBER':
+
+                        $args = array(
+                            "group_id" => $data['id'],
+                            "project_id" => $_SESSION['project_id'],
+                            "task_type" => "group"
+                        );
+                        // $projectController = new ProjectController();
+                        $groupController = new GroupController();
+                        
+                        $this->sendResponse(
+                            view: "/group_member/dashboard.html",
+                            status: "success",
+                            content: $groupController->getGroupTasks($args, $payload->id)
+                        );
+                        break;
+                    default: {
+                            unset($_SESSION["project_id"]);
+                            $this->sendResponse(
+                                view: "/errors/403.html",
+                                status: "unauthorized",
+                                content: array("message" => "User cannot access this project")
+                            );
+                        }
+                }
+            } else {
+                $this->sendResponse(
+                    view: "/errors/404.html",
+                    status: "error",
+                    content: array("message" => "User cannot access this project")
+                );
+            }
+            exit;
+        } catch (\Exception $exception) {
+            $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
+        }
     }
     
 }
