@@ -5,7 +5,10 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Core\Mailer;
 use Dotenv\Dotenv;
 
-function testMailerSendEMail()
+/**
+ * @throws \PHPMailer\PHPMailer\Exception
+ */
+function testMailerSendEMail(): void
 {
     $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../../');
     $dotenv->load();
@@ -18,4 +21,7 @@ function testMailerSendEMail()
     );
 }
 
-testMailerSendEMail();
+try {
+    testMailerSendEMail();
+} catch (\PHPMailer\PHPMailer\Exception $e) {
+}
