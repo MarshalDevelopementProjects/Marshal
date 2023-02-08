@@ -327,3 +327,11 @@ AddNewUserFrom.addEventListener('submit', async function(event) {
         console.log(error);
     }
 });
+
+const FormCancelBtn = document.getElementById("cancel-btn");
+FormCancelBtn.addEventListener('click',()=>{
+    for (let i = 0; i < AddNewUserFrom.elements.length; i++) {
+        AddNewUserFrom.elements[i].value = "";
+    }
+    location.reload();
+});
