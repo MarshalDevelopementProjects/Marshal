@@ -1,21 +1,11 @@
 <?php
 
-namespace App\Controller\Message;
+namespace App\SocketServer\src;
 
 require  __DIR__ . '/../../../vendor/autoload.php';
 
-use App\Controller\Authenticate\AdminAuthController;
-use App\Controller\Authenticate\UserAuthController;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
-use Core\Response;
-use App\Controller\Authenticate\AuthenticateController;
-use App\Controller\ControllerFactory;
-use App\Controller\Administrator\AdminController;
-use App\Controller\ProjectLeader\ProjectLeaderController;
-use App\Controller\ProjectMember\ProjectMemberController;
-use App\Controller\GroupLeader\GroupLeaderController;
-use App\Controller\GroupMember\GroupMemberController;
 
 class MessageController implements MessageComponentInterface
 {
@@ -29,7 +19,6 @@ class MessageController implements MessageComponentInterface
             "groups" =>  array()
         );
 
-        $this->database = Database::getInstance();
     }
 
     function onOpen(ConnectionInterface $conn)
@@ -152,11 +141,11 @@ class MessageController implements MessageComponentInterface
                         // TODO: SEND A NOTIFICATION AS WELL, AS IN UPDATE THE 'Notices' TABLE USING THE 'Notice' MODEL IN 'Notice.php'
                         // TODO: AND TO GET THE CLIENT ID VALIDATE THE TOKEN AND GET THE ID FROM THE TOKEN
                         $to->send($msg);
-                        $this->database->addNewNotices(from:$args["from"], to:$args["to"], type: "MESSAGE", msg: $msg);
-                        var_dump('**********************************************************');
-                        var_dump('ALL THE NOTICES');
-                        var_dump($this->database->getNotices());
-                        var_dump('**********************************************************');
+                        // $this->database->addNewNotices(from:$args["from"], to:$args["to"], type: "MESSAGE", msg: $msg);
+                        // var_dump('**********************************************************');
+                        // var_dump('ALL THE NOTICES');
+                        // var_dump($this->database->getNotices());
+                        // var_dump('**********************************************************');
                     }
                 }
             } else {
