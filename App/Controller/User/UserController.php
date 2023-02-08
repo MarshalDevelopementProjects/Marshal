@@ -367,6 +367,9 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function userJoinOnProject()
     {
         $projectId = $_GET['data1'];
@@ -410,7 +413,7 @@ class UserController extends Controller
 
     }
 
-    public function readNotification($notificationId)
+    public function readNotification($notificationId): bool
     {
 
         $payload = $this->userAuth->getCredentials();
