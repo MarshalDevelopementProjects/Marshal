@@ -68,6 +68,10 @@ class ProjectController{
                         $reviewTasks[] = $task;
                         break;
                     case 'DONE':
+                        $userData = $user->readUser("id", $task->memberId);
+                        $userData = $user->getUserData();
+
+                        $task->profile = $userData->profile_picture;
                         $doneTasks[] = $task;
                         break;
                     default:

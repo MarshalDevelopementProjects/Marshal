@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project | Dashboard</title>
+    <link rel="stylesheet" href="/View/styles/user/sketch.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    
+    <div class="drawing-container">
+        <div class="option-panel">
+            <h4>Shapes</h4>
+            <ul>
+                <li class="option tool" id="rectangle"><img src="/View/images/icons/rectangle.svg" alt="rectangle" > Rectangle</li>
+                <li class="option tool" id="circle"><img src="/View/images/icons/circle.svg" alt="circle" > Circle</li>
+                <li class="option tool" id="triangle"><i class="fa fa-minus" aria-hidden="true"></i> Line</li>
+                <input id="fill-color" class="option" type="checkbox"> Fill Color</input>
+            </ul>
+            <h4>Options</h4>
+            <ul>
+                <li class="option activeTool tool" id="brush"><img src="/View/images/icons/brush.svg" alt="brush" > Brush</li>
+                <li class="option tool" id="eraser"><img src="/View/images/icons/eraser.svg" alt="eraser" > Erase</li>
+            </ul>
+            <input class="option" min="1" max="30" value="5" type="range" id="size-slider">
+            <h4>Colors</h4>
+            <div class="drawing-colors">
+                <li class="color"></li>
+                <li class="color selected"></li>
+                <li class="color"></li>
+                <li class="color"></li>
+                <li class="color"></li>
+            </div>
+            <button class="clear-canvas" type="submit">Clear sketch</button>
+            <br>
+            <button class="save" type="submit">Save as image</button>
+            <br>
+            <a href="http://localhost/public/user/dashboard"><button id="cancelBtn">Cancel</button></a>
+            
+        </div>
+        <div class="drawing-area">
+            <canvas></canvas>
+        </div>
+    </div>
+    <script src="/View/js/user/sketch.js"></script>
+</body>
+</html>

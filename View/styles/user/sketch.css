@@ -1,0 +1,123 @@
+
+.drawing-container{
+    background-color: #fff;
+    border: 1px solid #ddd;
+    width: 80%;
+    height: 600px;
+    margin: 15px 0 0 10%;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    display: flex;
+}
+
+.option-panel{
+    margin-top: 10px;
+    width: 200px;
+    border-right: 1px solid #777;
+}
+.option-panel h4{
+    font-size: 18px;
+    color: #222;
+    margin-left: 25px;
+    margin-top: 0px;
+}
+.option-panel ul{
+    list-style: none;
+    margin-top: -10px;
+}
+.option-panel ul li{
+    margin: 5px 0;
+    cursor: pointer;
+}
+.option-panel ul img{
+    margin-right: 5px;
+}
+.option-panel ul i{
+    margin-right: 6px;
+    margin-left: 2px;
+    color: #555;
+}
+.option-panel ul input[type="checkbox"]{
+    margin-right: 5px;
+}
+.option-panel ul li:hover{
+    color: #283A5A;
+}
+.option-panel img:hover{
+    color: #283A5A;
+}
+.option-panel input[type = "range"]{
+    margin: 2px 0 20px 20px;
+    width: 160px;
+    cursor: pointer;
+}
+.option-panel .drawing-colors{
+    /* border: 1px solid black; */
+    width: 150px;
+    margin: -15px 0 70px 20px;
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+}
+.drawing-colors .color{
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    position: relative;
+    border: 2px solid #f1f1f1;
+    cursor: pointer;
+}
+.drawing-colors .color:nth-child(1){
+    background-color: #fff;
+}
+.drawing-colors .color:nth-child(2){
+    background-color: #000;
+}
+.drawing-colors .color:nth-child(3){
+    background-color: #e02020;
+}
+.drawing-colors .color:nth-child(4){
+    background-color: #6dd400;
+}
+.drawing-colors .color:nth-child(5){
+    background-color: #4a98f7;
+}
+.drawing-colors .color::before{
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 50%;
+    height: 12px;
+    width: 12px;
+    background: inherit;
+    border-radius: inherit;
+    border: 2px solid #f7f7f7;
+    transform: translate(-50%, -50%);
+}
+.option-panel button{
+    width: 130px;
+    height: 36px;
+    margin: 10px 0 5px 32px;
+    background-color: #F83B3B;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+
+canvas{
+    width: 100%;
+    height: 100%;
+    /* border: 1px solid black; */
+}
+#cancelBtn{
+    background-color: #f7f7f7;
+    color: #c94646;
+    font-size: 16px;
+    font-weight: 550;
+    margin-top: 30px;
+}

@@ -46,8 +46,18 @@ class ProjectLeaderController extends ProjectMemberController
 
         $group = new Group();
         $groups = $group->getAllGroups(array("project_id" => $project_id), array("project_id"));
-        $data = array("groups" => $groups);
-        
+
+        $user = new User();
+        $data = array("groups" => $groups, "projectData" => $project->getProject(array("id" => $project_id)));
+
+        // get project members' details
+        $projectMemberCondition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id AND role = :role)";
+        $groupLeaderCondition = "WHERE id IN (SELECT DISTINCT leader_id FROM groups WHERE project_id = :project_id)";
+
+        $data['projectLeader'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "LEADER"), $projectMemberCondition);
+        $data['projectMembers'] = $user->getAllUsers(array("project_id"=> $project_id, "role" => "MEMBER"), $projectMemberCondition);
+        $data['groupLeaders'] = $user->getAllUsers(array("project_id" => $project_id), $groupLeaderCondition);
+
         $this->sendResponse(
             view: "/project_leader/getProjectInfo.html",
             status: "success",

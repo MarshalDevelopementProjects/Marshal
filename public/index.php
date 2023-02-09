@@ -69,6 +69,7 @@ $router->get('/user/project', UserController::class . '::gotoProject');
 $router->get('/user/notifications', UserController::class . '::getNotifications');
 $router->get('/user/join', UserController::class . '::userJoinOnProject');
 $router->get('/user/clicknotification', UserController::class . '::clickOnNotification');
+$router->get('/user/sketch', UserController::class . '::sketch');
 
 $router->get('/projectleader/getinfo', ProjectLeaderController::class . '::getProjectInfo');
 $router->post('/projectleader/invite', ProjectLeaderController::class . '::sendProjectInvitation');

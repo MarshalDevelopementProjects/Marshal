@@ -478,4 +478,10 @@ class UserController extends Controller
         }
     }
 
+    public function sketch(){
+        $this->sendResponse(
+            view: "/user/sketch.html",
+            status: "success",
+        );
+    }
 }

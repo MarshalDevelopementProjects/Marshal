@@ -574,6 +574,15 @@ body{
     color: #FB160D;
     margin-top: 5px;
 }
+#Pending{
+    width: fit-content;
+    font-size: 11px;
+    margin-left: 15px;
+    color: #031738;
+    margin-top: 5px;
+    font-style: italic;
+    font-weight: 550;
+}
 #member-profile{
     width: 25px;
     height: 25px;

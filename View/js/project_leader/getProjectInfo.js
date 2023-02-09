@@ -88,7 +88,67 @@ if(jsonData['groups']){
 groups.innerHTML = groupsCode
 
 
+// project details
 
+var projectDataCode = `<div class="project-info-top">
+                        <h2>${jsonData['projectData']['project_name']}</h2>
+                        <p id="invite-member-btn"><i class="fa fa-user-plus" aria-hidden="true"></i> Invite member</p>
+                        </div>
+                        <p>${jsonData['projectData']['description']}</p>
+
+                        <div class="progress-bar">
+                        <p id="start-date">${jsonData['projectData']['start_on'].split(' ')[0]}</p>
+                        <div class="bar"><div class="progress"></div></div>
+                        <p id="end-date">${jsonData['projectData']['end_on'].split(' ')[0]}</p>
+                        </div>`
+
+const projectData = document.querySelector('.project-details');
+projectData.innerHTML = projectDataCode;
+
+// set member list
+const projectLeaderCard = document.querySelector('#projectLeaderCard');
+const groupLeadersCards = document.querySelector('.group-leaders');
+const projectMembersCards = document.querySelector('.project-members');
+
+projectLeaderCard.innerHTML = `<div class="profile-image">
+                                    <img src="${jsonData['projectLeader'][0]['profile_picture']}" alt="">
+                                    <i class="fa fa-circle" aria-hidden="true"></i>
+                                </div>
+                                <div class="member-info">
+                                    <h6>${jsonData['projectLeader'][0]['first_name']}  ${jsonData['projectLeader'][0]['last_name']}</h6>
+                                    <p>${jsonData['projectLeader'][0]['position']}</p>
+                                </div>`;
+
+var groupLeaderCode = "";
+jsonData['groupLeaders'].forEach(groupLeader => {
+    groupLeaderCode += `<div class="member-card">
+                            <div class="profile-image">
+                                <img src="${groupLeader['profile_picture']}" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>${groupLeader['first_name']}  ${groupLeader['last_name']}</h6>
+                                <p>${groupLeader['position']}</p>
+                            </div>
+                        </div>`
+})
+groupLeadersCards.innerHTML = groupLeaderCode;
+
+var projectMemberCode = "";
+jsonData['projectMembers'].forEach(projectMember => {
+    projectMemberCode += `<div class="member-card">
+                            <div class="profile-image">
+                                <img src="${projectMember['profile_picture']}" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>${projectMember['first_name']}  ${projectMember['last_name']}</h6>
+                                <p>${projectMember['position']}</p>
+                            </div>
+                        </div>`
+})
+
+projectMembersCards.innerHTML = projectMemberCode;
 
 
 // calendor 

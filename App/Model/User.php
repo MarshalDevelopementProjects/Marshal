@@ -68,6 +68,22 @@ class User implements Model
             throw $exception;
         }
     }
+    public function getAllUsers(array $args, string $condition){
+
+        $sql_string = "SELECT * FROM user " . $condition;
+
+        try {
+            $result = $this->crud_util->execute($sql_string, $args);
+            if($result->getCount() > 0) {
+                return $result->getResults();
+            } else {
+                return false;
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        
+    }
 
     public function updateProfilePicture(string|int $id, string $value)
     {

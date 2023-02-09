@@ -220,10 +220,14 @@ body{
     display: flex;
 }
 .right-panel .project-info{
-    
     width: 800px;
     height: 565px;
     margin: 5px;
+}
+.project-info .project-details{
+    /* border: 1px solid black; */
+    height: 160px;
+    width: 100%;
 }
 .project-info .project-info-top{
     display: flex;
@@ -298,7 +302,7 @@ body{
     width: 30%;
 }
 .feedbacks-and-groups{
-    margin-top: 25px;
+    margin-top: 15px;
     height: 390px;
     display: flex;
 }
@@ -466,16 +470,18 @@ body{
 .member-card .profile-image{
     display: flex;
     width: 55px;
+    border-radius: 50%;
 }
 .profile-image img{
     width: 40px;
     height: 40px;
     margin: 5px 5px 5px 10px;
+    border-radius: 50%;
 }
 .profile-image i{
     color: #20B289;
     font-size: 10px;
-    margin: 33px 0 0 -40px;
+    margin: 33px 0 0 -45px;
 }
 
 .member-card .member-info{

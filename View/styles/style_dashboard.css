@@ -91,9 +91,11 @@ body{
 }
 .left-panel .top-menus{
     margin: 0px;
+    text-decoration: none;
     padding: 2px 15px 15px 15px;
 }
 .top-menus ul{
+    text-decoration: none;
     list-style: none;
 }
 .top-menus ul a{
@@ -107,6 +109,8 @@ body{
     text-align: center;
     padding-top: 6px;
     font-size: 15px;
+    color: #031738;
+    text-decoration: none;
     cursor: pointer;
 }
 .top-menus ul li:hover{

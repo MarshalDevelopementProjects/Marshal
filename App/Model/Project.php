@@ -119,11 +119,11 @@ class Project implements Model
     }
 
     public function getProject(array $args = array()){
-        $sql_string = "SELECT * FROM project WHERE project_id = :project_id";
+        $sql_string = "SELECT * FROM project WHERE id = :id";
         
         try {
             $result = $this->crud_util->execute($sql_string, $args);
-            return $result->getResults();
+            return $result->getFirstResult();
         } catch (\Exception $exception) {
             return false;
         }

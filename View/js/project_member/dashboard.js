@@ -103,7 +103,7 @@ if(reviewTasks){
                                 </div>
                                 <p class="task-description">${task['description']}</p>
                                 <div class="bottom-task style="display:flex">
-                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                    <p id="Pending">Pending...</p>
                                     <img id="member-profile" src="${task['profile']}" alt="">
                                 </div>
                             </div>`
@@ -115,16 +115,21 @@ var doneTasksCode = "";
 
 if(doneTasks){
     doneTasks.forEach(task => {
-        doneTasksCode += `<div class="task" draggable="true">
-                                <div class="top-task">
-                                    <h4>${task['task_name']}</h4>
-                                    <p class="priority">${task['priority']}</p>
-                                </div>
-                                <p class="task-description">${task['description']}</p>
-                                <div class="bottom-task style="display:flex">
-                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
-                                </div>
-                            </div>`
+        let access = ""
+        if(task['memberId'] != task['userId']){
+            access = ' style="pointer-events: none"'
+        }
+        doneTasksCode += `<div class="task" draggable="true"${access}>
+                            <div class="top-task">
+                                <h4>${task['task_name']}</h4>
+                                <p class="priority-${task['priority']}">${task['priority']}</p>
+                            </div>
+                            <p class="task-description">${task['description']}</p>
+                            <div class="bottom-task style="display:flex">
+                                <p id="Pending">Done</p>
+                                <img id="member-profile" src="${task['profile']}" alt="">
+                            </div>
+                        </div>`
     })
 }
 doneBoard.innerHTML = doneTasksCode;
@@ -422,12 +427,15 @@ tasks.forEach(task => {
 
             confirmationMessage.addEventListener('input', () => {
                 message = confirmationMessage.value
+                console.log(message)
             })
 
             console.log(taskName)
-            if(message){
+            if(message != null){
+                console.log("done")
                 sendConfirmation.addEventListener('click', () => {
                     sendConfirmationFunction(taskName, message, formattedDate, time)
+                    console.log("done")
                 })
                 confirmationMessage.addEventListener('keyup', (event) =>{
                     if(event.keyCode === 13){
@@ -437,13 +445,11 @@ tasks.forEach(task => {
             }
 
 
-            confirmationPopup.classList.add('active')
+            // confirmationPopup.classList.add('active')
             confirmationPopupCloseBtn.addEventListener('click', () => {
                 confirmationPopup.classList.remove('active')
                 location.reload();
             })
-
-            confirmationPopupCloseBtn.addEventListener('click', () => confirmationPopup.classList.remove('active'))
             
             const cancelTodoTaskDetails = document.getElementById('cancel-task-details')
             cancelTodoTaskDetails.addEventListener('click', () => todoTaskDetails.classList.remove('active'))
@@ -476,36 +482,6 @@ tasks.forEach(task => {
             todoTaskDetails.classList.add('active')
             
             const cancelTodoTaskDetails = document.querySelector('#continueBtn')
-            cancelTodoTaskDetails.addEventListener('click', () => todoTaskDetails.classList.remove('active'))
-        }else if(position > 1102 && position < 1324){
-            taskDetails = getTaskDetails(doneTasks, taskName)
-            const todoTaskDetails = document.querySelector('.TO-DO-task-details')
-
-            let code = `<div class="top-bar">
-                                <h3>${taskDetails['task_name']}</h3>
-                                <p class="${taskDetails['priority']}">${taskDetails['priority']}</p>
-                            </div>
-                            <p class="task-details-description">${taskDetails['description']}</p>
-                            <p class="task-details-deadline">Deadline : ${taskDetails['deadline'].split(' ')[0]}</p>
-
-                            <div class="task-feedbacks">
-                                <p class="incomming-feedbacks"></p>
-                                <p class="outgoing-feedbacks"></p>
-                                <form action="#" method="post">
-                                    <label for="feedbackMessage"></label>
-                                    <input disabled type="text" name="feedbackMessage" placeholder="Send something ...">
-                                    <button disabled type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
-                                </form>
-                            </div>
-                            <div class="buttons">
-                                
-                                <a href="#" style="margin-left: 100px">Continue</a>
-                            </div>`
-            
-            todoTaskDetails.innerHTML = code
-            todoTaskDetails.classList.add('active')
-            
-            const cancelTodoTaskDetails = document.querySelector('.buttons a')
             cancelTodoTaskDetails.addEventListener('click', () => todoTaskDetails.classList.remove('active'))
         }
 
