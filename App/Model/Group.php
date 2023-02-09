@@ -18,7 +18,8 @@ class Group implements Model
         }
     }
 
-    public function createGroup(array $args, array $keys){
+    public function createGroup(array $args, array $keys)
+    {
         $keyCount = count($keys);
 
         $sql = "INSERT INTO groups (";
@@ -50,7 +51,8 @@ class Group implements Model
         }
     }
 
-    public function getAllGroups(array $args, array $keys){
+    public function getAllGroups(array $args, array $keys): object|bool
+    {
         $keyCount = count($keys);
         $sql = "SELECT * FROM groups WHERE ";
 
@@ -75,7 +77,8 @@ class Group implements Model
         }
     }
 
-    public function getGroup(array $args, array $keys){
+    public function getGroup(array $args, array $keys): object|bool
+    {
         $keyCount = count($keys);
         $sql = "SELECT * FROM groups WHERE ";
 
@@ -99,7 +102,9 @@ class Group implements Model
             throw $th;
         }
     }
-    public function addGroupMember(array $args, array $keys){
+
+    public function addGroupMember(array $args, array $keys)
+    {
         $keyCount = count($keys);
 
         $sql = "INSERT INTO group_join (";
@@ -131,7 +136,8 @@ class Group implements Model
         }
     }
 
-    public function getGroupMember(array $args, array $keys) {
+    public function getGroupMember(array $args, array $keys): bool|object
+    {
         $keyCount = count($keys);
         $sql = "SELECT * FROM group_join WHERE ";
 

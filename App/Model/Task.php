@@ -9,7 +9,8 @@ use App\CrudUtil\CrudUtil;
 class Task implements Model
 {
     private CrudUtil $crud_util;
-    public function __construct(){
+    public function __construct()
+    {
         try {
             $this->crud_util = new CrudUtil();
         } catch (\Exception $exception) {
@@ -17,7 +18,8 @@ class Task implements Model
         }
     }
 
-    public function createTask(array $args, array $keys){
+    public function createTask(array $args, array $keys): bool
+    {
         $keyCount = count($keys);
 
         $sql = "INSERT INTO task (";
@@ -48,10 +50,11 @@ class Task implements Model
         }
     }
 
-    public function getAllTasks(array $args = array()){
-        if($args['task_type'] === 'group'){
+    public function getAllTasks(array $args = array()): object|bool
+    {
+        if ($args['task_type'] === 'group') {
             $sql_string = "SELECT * FROM task WHERE task_id IN(SELECT task_id FROM group_task WHERE group_id = :group_id) AND project_id = :project_id AND task_type = :task_type";
-        }else{
+        } else {
             $sql_string = "SELECT * FROM task WHERE project_id = :project_id AND task_type = :task_type";
         }
 
@@ -63,7 +66,8 @@ class Task implements Model
         }
     }
 
-    public function getTask(array $args, array $keys){
+    public function getTask(array $args, array $keys): object|bool
+    {
         $keyCount = count($keys);
 
         $sql = "SELECT * FROM task WHERE ";
@@ -122,18 +126,20 @@ class Task implements Model
         }
     }
 
-    public function completeTask(array $args = array()){
+    public function completeTask(array $args = array()): bool
+    {
         $sql_string = "INSERT INTO completedtask (`taskId`, `confirmation_type`, `confirmation_message`, `date`, `time`) VALUES (:taskId, :confirmation_type, :confirmation_message, :date, :time)";
 
         try {
             $this->crud_util->execute($sql_string, $args);
-            
             return true;
         } catch (\Exception $exception) {
             return false;
         }
     }
-    public function getTaskCompletedDetails(array $args = array()){
+
+    public function getTaskCompletedDetails(array $args = array()): object|bool
+    {
         $sql_string = "SELECT * FROM completedtask WHERE taskId = :taskId";
 
         $result = $this->crud_util->execute($sql_string, $args);
@@ -141,10 +147,11 @@ class Task implements Model
             return $result->getFirstResult();
         } else {
             return false;
-        }   
+        }
     }
 
-    public function addGroupToTask(array $args = array()){
+    public function addGroupToTask(array $args = array()): bool
+    {
         $sql = "INSERT INTO group_task (`task_id`, `group_id`) VALUES (:task_id, :group_id)";
 
         try {
