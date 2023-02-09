@@ -16,7 +16,7 @@ tableRows = document.querySelector('.table-row');
 function onLoad(){
     tableRowCode = ""
     jsonData.user_details.forEach(tableRow => {
-        tableRowCode += `<tr>
+        tableRowCode += `<tr class ="row">
                         <td class="people">
                             <img src="${tableRow['profile_picture']}" alt="">
                             <div class="people-de">
@@ -44,6 +44,7 @@ function onLoad(){
     tableRows.innerHTML = tableRowCode
     AllUsersDiv.classList.add('active');
     allUserBtn.classList.add('active');
+    getTableRowData();
 }
 
 LogOutButton.addEventListener("click", () => {
@@ -88,7 +89,7 @@ ActiveUsersDiv.addEventListener('click', async (event) => {
         console.log(data);
         tableRowCode = ""
         data.active_users.forEach(tableRow => {
-        tableRowCode += `<tr>
+        tableRowCode += `<tr class ="row">
                         <td class="people">
                             <img src="${tableRow['profile_picture']}" alt="">
                             <div class="people-de">
@@ -121,6 +122,7 @@ ActiveUsersDiv.addEventListener('click', async (event) => {
     userTable.classList.remove('active');
     addNewUserBtn.classList.remove('active');
     allUserBtn.classList.add('active');
+    getTableRowData()
     }
     // alert(data.message);
 });
@@ -141,7 +143,7 @@ BlockedUsersDiv.addEventListener('click', async (event) => {
         console.log(data);
         tableRowCode = ""
         data.blocked_users.forEach(tableRow => {
-        tableRowCode += `<tr>
+        tableRowCode += `<tr class ="row">
                         <td class="people">
                             <img src="${tableRow['profile_picture']}" alt="">
                             <div class="people-de">
@@ -174,6 +176,7 @@ BlockedUsersDiv.addEventListener('click', async (event) => {
     userTable.classList.remove('active');
     addNewUserBtn.classList.remove('active');
     allUserBtn.classList.add('active');
+    getTableRowData()
     }
 });
 
@@ -194,7 +197,7 @@ AllUsersDiv.addEventListener('click', async (event) => {
         console.log(data.user_details);
         tableRowCode = ""
         data.user_details.forEach(tableRow => {
-        tableRowCode += `<tr>
+        tableRowCode += `<tr class ="row">
                         <td class="people">
                             <img src="${tableRow['profile_picture']}" alt="">
                             <div class="people-de">
@@ -227,6 +230,7 @@ AllUsersDiv.addEventListener('click', async (event) => {
     userTable.classList.remove('active');
     addNewUserBtn.classList.remove('active');
     allUserBtn.classList.add('active');
+    getTableRowData()
     }
 });
 
@@ -258,7 +262,7 @@ allUserBtn.addEventListener('click', async (event) => {
         console.log(data.user_details);
         tableRowCode = ""
         data.user_details.forEach(tableRow => {
-        tableRowCode += `<tr>
+        tableRowCode += `<tr class ="row">
                         <td class="people">
                             <img src="${tableRow['profile_picture']}" alt="">
                             <div class="people-de">
@@ -291,6 +295,7 @@ allUserBtn.addEventListener('click', async (event) => {
     wrapper.classList.remove('active');
     userTable.classList.remove('active');
     addNewUserBtn.classList.remove('active');
+    getTableRowData()
     }
 });
 
@@ -356,4 +361,19 @@ function errorsAlert(){
     document.querySelector('.alert').classList.remove('show');
     document.querySelector('.alert').classList.add('hide');
     });
+}
+
+function getTableRowData(){
+    const tableRowsData = document.getElementsByClassName("row");
+    for (var i = 0; i < tableRowsData.length; i++) {
+        tableRowsData[i].addEventListener("click", function() {
+            var name = this.getElementsByClassName("people-de")[0].getElementsByTagName("h5")[0].innerHTML;
+            $array = jsonData.user_details;
+            for (let index = 0; index < $array.length; index++) {
+                if(name === jsonData.user_details[index].username){
+                    alert("User name: " + jsonData.user_details[index].email_address);
+                }
+            }
+        });
+    }
 }
