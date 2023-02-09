@@ -11,29 +11,27 @@ use App\Model\Task;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
-class ProjectController extends UserController{
+class ProjectController extends UserController
+{
 
-    public function __construct(){
-
-    }
-    public function defaultAction(Object|array|string|int $optional = null)
+    public function __construct()
     {
-
     }
 
-    public function getProjectTasks(array $args = array()){
+    public function getProjectTasks(array $args = array())
+    {
         $task = new Task();
         // get all tasks related to this project
         $tasks = $task->getAllTasks($args);
 
-        if($tasks){
+        if ($tasks) {
             // divide the tasks by status
             $todoTasks = array();
             $ongoingTasks = array();
             $reviewTasks = array();
             $doneTasks = array();
 
-            foreach($tasks as $task){
+            foreach ($tasks as $task) {
 
                 switch ($task->status) {
                     case 'TO-DO':
@@ -60,9 +58,8 @@ class ProjectController extends UserController{
                 "doneTasks" => $doneTasks
             );
             return $projectTasks;
-        }else{
+        } else {
             return array();
         }
-        
     }
 }

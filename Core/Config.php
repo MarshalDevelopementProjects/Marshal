@@ -9,8 +9,6 @@ require __DIR__ . "/../vendor/autoload.php";
  * 
  * class encapsulates global configurations of the API
  * 
- * @method static string|array|null getApiGlobal() used to retrieve configurations from the @var array $config array
- * 
  */
 class Config
 {
@@ -45,15 +43,15 @@ class Config
 
     /**
      * Function description
-     * 
+     *
      * Retrieve global api configurations such as database configs and cookie configs
      * @access public
-     * @param string $key takes a key to search the configurations
-     * @static
+     * @param string|null $key takes a key to search the configurations
      * @return array|string|null
+     * @static
      */
     public static function getApiGlobal(string $key = null): string|array|null
     {
-        return isset(self::$config[$key]) ?  self::$config[$key] : null;
+        return self::$config[$key] ?? null;
     }
 }

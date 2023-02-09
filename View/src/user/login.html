@@ -16,48 +16,48 @@
             <div class="form signup">
                 <form action="http://localhost/public/user/login" method="POST" name="form">
                     <h2 class="title-login">login into marshal</h2>
-                    <div class="input-field"">
-                    <div class=" icon-container">
-                        <i class="fa fa-user"></i>
+                    <div class="input-field">
+                        <div class=" icon-container ">
+                            <i class="fa fa-user "></i>
+                        </div>
+                        <div class="email">
+                            <label for="Username" hidden></label>
+                            <input type="text" placeholder="Username" name="username" id="username" required>
+                        </div>
                     </div>
-                    <div class="email">
-                        <label for="Username" hidden></label>
-                        <input type="text" placeholder="Username" name="username" id="username" required>
+                    <div id="email_error"></div>
+                    <div class="input-field ">
+                        <div class=" icon-container">
+                            <i class="fa fa-lock"></i>
+                        </div>
+                        <div class="email">
+                            <label for="password" hidden></label>
+                            <input type="password" placeholder="Password" name="password" id="password" required>
+                        </div>
                     </div>
-            </div>
-            <div id="email_error"></div>
-            <div class="input-field"">
-                    <div class=" icon-container">
-                <i class="fa fa-lock"></i>
-            </div>
-            <div class="email">
-                <label for="password" hidden></label>
-                <input type="password" placeholder="Password" name="password" id="password" required>
-            </div>
-        </div>
-        <div id="email_error"></div>
-        <div class="input-field button">
-            <div class="icon-container into">
-                <i class="fa fa-right-to-bracket"></i>
-            </div>
-            <div class="email">
-                <input type="submit" value="Login">
-            </div>
-        </div>
-        <div class="login-signup">
-            <div class="line"></div>
-            <br>
-            <div>
-                <span class="text ">
-                    <a href="#" class="text login-link">Forgot Password</a>
+                    <div id="email_error"></div>
+                    <div class="input-field button">
+                        <div class="icon-container into">
+                            <i class="fa fa-right-to-bracket"></i>
+                        </div>
+                        <div class="email">
+                            <input type="submit" value="Login">
+                        </div>
+                    </div>
+                    <div class="login-signup">
+                        <div class="line "></div>
+                        <br>
+                        <div>
+                            <span class="text">
+                    <a href="# " class="text login-link">Forgot Password</a>
                 </span>
-                <span class="text">
+                            <span class="text">
                     <a href="./signup" class="text login-link">Not Yet signup</a>
                 </span>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div>
-        </form>
-        </div>
         </div>
         <div class="image-container">
             <img src="/View/images/user/user_login.svg" alt="login image">

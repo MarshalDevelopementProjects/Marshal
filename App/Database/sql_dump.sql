@@ -23,6 +23,10 @@ SET time_zone = "+00:00";
 -- Database: `marshal2_0`
 --
 
+CREATE DATABASE `marshal2_0`;
+
+USE `marshal2_0`;
+
 -- --------------------------------------------------------
 
 --
@@ -198,7 +202,9 @@ CREATE TABLE `user` (
   `user_state` enum('OFFLINE','ONLINE') NOT NULL DEFAULT 'OFFLINE',
   `joined_datetime` timestamp NOT NULL DEFAULT current_timestamp(),
   `profile_picture` varchar(255) NOT NULL DEFAULT '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg',
-  `access` enum('ENABLED','DISABLED') NOT NULL
+  `access` enum('ENABLED','DISABLED') NOT NULL,
+  `verified` enum('TRUE', 'FALSE')  NOT NULL DEFAULT "FALSE",
+  `verification_code` VARCHAR(100) NOT NULL DEFAULT "_" 
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -220,6 +226,9 @@ CREATE TRIGGER `add_default_value_to_bio_if_null` BEFORE INSERT ON `user` FOR EA
 END
 $$
 DELIMITER ;
+
+-- things to do how to automatically remove an entry if it meets a particular time limit
+-- you will need a stored procedure to check this periodically
 
 --
 -- Indexes for dumped tables

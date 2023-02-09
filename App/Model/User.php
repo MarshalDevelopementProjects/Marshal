@@ -28,8 +28,8 @@ class User implements Model
     public function createUser(array $args = array())
     {
         if (!empty($args)) {
-            $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `phone_number`)
-                           VALUES (:username, :first_name, :last_name, :email_address, :password, :phone_number)";
+            $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `phone_number`, `verification_code`)
+                           VALUES (:username, :first_name, :last_name, :email_address, :password, :phone_number, :verification_code)";
             $args['password'] = password_hash($args['password'], PASSWORD_ARGON2ID);
             try {
                 $this->crud_util->execute($sql_string, $args);
@@ -52,7 +52,32 @@ class User implements Model
         }
     }
 
-    public function readUser(string $key, string|int $value = null)
+    public function updatePassword(string|int $id, string $new_password)
+    {
+        try {
+            $sql_string = "UPDATE `user` SET `password` = :password WHERE `id` = :id";
+            $args['id'] = $id;
+            $args['password'] = password_hash($new_password, PASSWORD_ARGON2ID);
+            $this->crud_util->execute($sql_string, $args);
+            return true;
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function updateVerificationCode(string|int $id, int|string $verification_code)
+    {
+        try {
+            $sql_string = "UPDATE `user` SET `verification_code` = :verification_code WHERE `id` = :id";
+            $args = ["id" => $id, "verification_code" => $verification_code];
+            $this->crud_util->execute($sql_string, $args);
+            return true;
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function readUser(string $key, string|int $value)
     {
         // example format => "SELECT * FROM users WHERE id = :id";
         $sql_string = "SELECT * FROM `user` WHERE `" . $key . "` = :" . $key;
@@ -101,6 +126,20 @@ class User implements Model
         }
     }
 
+    public function updateVerified(string|int $id, string $value)
+    {
+        try {
+            $sql_string = "UPDATE `user` SET
+                          `verified` = :verified
+                          WHERE `id` = :id";
+            $args = ["id" => $id, "verified" => $value];
+            $this->crud_util->execute($sql_string, $args);
+            return true;
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
     // handle with care
     public function delete(string $id = null)
     {
@@ -112,7 +151,8 @@ class User implements Model
         return $this->user_data;
     }
 
-    public function isUserJoinedToProject(array $args = array()){
+    public function isUserJoinedToProject(array $args = array())
+    {
         $sql_string = "SELECT * FROM project_join WHERE project_id = :project_id AND member_id = :member_id";
         try {
             $this->crud_util->execute($sql_string, $args);

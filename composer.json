@@ -6,6 +6,9 @@
         }
     },
     "require": {
-        "dompdf/dompdf": "^2.0"
+        "dompdf/dompdf": "^2.0",
+        "phpmailer/phpmailer": "^6.7",
+        "vlucas/phpdotenv": "^5.5",
+        "cboden/ratchet": "^0.4.4"
     }
 }

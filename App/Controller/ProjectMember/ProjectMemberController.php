@@ -27,7 +27,7 @@ class ProjectMemberController extends UserController
     {
     }
 
-    public function auth()
+    public function auth(): bool
     {
         return parent::auth();
     }

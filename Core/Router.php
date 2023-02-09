@@ -18,20 +18,14 @@ namespace Core;
 
 require __DIR__ . "/../vendor/autoload.php";
 
-use Core\Response;
-use Core\Request;
+use Exception;
 
 
 /**
  * Class description
  * 
  * Encapsulates routing behavior within the API
- * 
- * @method void get()
- * @method void post()
- * @method void put()
- * @method void delete()
- * 
+ *
  */
 class Router
 {
@@ -81,14 +75,12 @@ class Router
 
     /**
      * Function description
-     * 
-     * Registers a given route along with a pattern in the @var array $routes 
-     * 
-     * @access private
+     *
+     * Registers a given route along with a pattern in the
      * @param string $method takes the http method as a string (GET, POST likewise)
      * @param string $pattern takes the route pattern of a particular route
-     * @param callable|object|string $handler take a handler that will be triggered incase of dispatch
-     * @return void
+     * @param callable|object|string $handler take a handler that will be triggered in case of dispatch
+     * @return void @access private
      */
     private function add(string $method, string $pattern, callable|object|string $handler): void
     {
@@ -98,14 +90,11 @@ class Router
 
     /**
      * Function description
-     * 
-     * Registers a given route pattern in the @var array $routes
-     * as a GET http request route
-     * 
-     * @access public
-     * @param string $path takes the route 
-     * @param callable|object|string $handler take a handler that will be triggered incase of dispatch
-     * @return void
+     *
+     * Registers a given route pattern in the
+     * @param string $path takes the route
+     * @param callable|object|string $handler take a handler that will be triggered in case of dispatch
+     * @return void @access public
      */
     public function get(string $path, callable|object|string $handler): void
     {
@@ -114,14 +103,11 @@ class Router
 
     /**
      * Function description
-     * 
-     * Registers a given route pattern in the @var array $routes
-     * as a POST http request route
-     * 
-     * @access public
-     * @param string $path takes the route 
-     * @param callable|object|string $handler take a handler that will be triggered incase of dispatch
-     * @return void
+     *
+     * Registers a given route pattern in the
+     * @param string $path takes the route
+     * @param callable|object|string $handler take a handler that will be triggered in case of dispatch
+     * @return void @access public
      */
     public function post(string $path, callable|object|string $handler): void
     {
@@ -130,14 +116,11 @@ class Router
 
     /**
      * Function description
-     * 
-     * Registers a given route pattern in the @var array $routes as a PUT http
-     * request route
-     * 
-     * @access public
-     * @param string $path takes the route 
-     * @param callable|object|string $handler take a handler that will be triggered incase of dispatch
-     * @return void
+     *
+     * Registers a given route pattern in the
+     * @param string $path takes the route
+     * @param callable|object|string $handler take a handler that will be triggered in case of dispatch
+     * @return void @access public
      */
     public function put(string $path, callable|object|string $handler): void
     {
@@ -146,14 +129,11 @@ class Router
 
     /**
      * Function description
-     * 
-     * Registers a given route along with a pattern in the @var array $routes as a
-     * DELETE http method route
-     * 
-     * @access public
-     * @param string $path takes the route 
-     * @param callable|object|string $handler take a handler that will be triggered incase of dispatch
-     * @return void
+     *
+     * Registers a given route along with a pattern in the
+     * @param string $path takes the route
+     * @param callable|object|string $handler take a handler that will be triggered in case of dispatch
+     * @return void @access public
      */
     public function delete(string $path, callable|object|string $handler): void
     {
@@ -163,7 +143,7 @@ class Router
     /**
      * Function description
      * 
-     * Incase if the route requested cannot be matched with the registered routes in the @var array $routes
+     * In case if the route requested cannot be matched with the registered routes in the @var array $routes
      * this function will be called
      * 
      * @access private
@@ -197,17 +177,16 @@ class Router
 
     /**
      * Function description
-     * 
+     *
      * If a matching case is found for a particular request URI this function will
      * call the handler registered for the requested pattern with the data sent by
      * the client
-     * 
+     *
      * @access public
      * @param string $uri requested URI
-     * @param array $data takes the arguments for the dispatch handler 
-     * @param callable|object|string $handler take a handler that will be triggered incase of dispatch
-     * @throws \Exception if callback registered in the @var array $routes is not valid
+     * @param array|null $data takes the arguments for the dispatch handler
      * @return void
+     * @throws Exception if callback registered in the @var array $routes is not valid
      */
     public function dispatch(string $uri, null|array $data = array()): void
     {
@@ -229,21 +208,17 @@ class Router
                             $action = $parts[1];
                             if (is_callable([$controller_object, $action])) {
                                 $controller_object->$action($data);
-                            } else {
-                                throw new \Exception("{$action} method cannot be found in the {$class_name} controller");
-                            }
-                        } else {
-                            throw new \Exception("{$class_name} controller cannot be found");
-                        }
-                    } else {
-                        throw new \Exception("Invalid callback format");
-                    }
-                } else if (is_callable($callback)) {
-                    call_user_func_array($callback, array("data" => $data));
-                } else if (is_object($callback)) {
-                    $callback->callback($data);
+                            } else throw new Exception("$action method cannot be found in the $class_name controller");
+                        } else throw new Exception("$class_name controller cannot be found");
+                    } else throw new Exception("Invalid callback format");
                 } else {
-                    throw new \Exception("Invalid callback format");
+                    if (is_callable($callback)) {
+                        call_user_func_array($callback, array("data" => $data));
+                    } else if (is_object($callback)) {
+                        $callback->callback($data);
+                    } else {
+                        throw new Exception("Invalid callback format");
+                    }
                 }
                 break;
             }

@@ -93,11 +93,12 @@ class AdminAuthController extends Token
                 return $this->sendResponse(
                     view: "/admin/login.html",
                     status: "unauthorized",
-                    content: array("message" => "Authentication credentials are empty")
+                    content: array("message" => "")
                 );
             }
         }
     }
+
     public function adminLogin(array $credentials = array())
     {
         if (!empty($credentials)) {
@@ -141,7 +142,10 @@ class AdminAuthController extends Token
     // check the role here otherwise normal admins can also go to the admin page as well.
     public function isLogged(): bool
     {
-        if ($this->validateToken($this->getBearerToken())) {
+        if (
+            Cookie::cookieExists(Config::getApiGlobal("remember")['access']) &&
+            $this->validateToken($this->getBearerToken())
+        ) {
             $payload = $this->getTokenPayload(
                 Cookie::getCookieData(
                     Config::getApiGlobal("remember")['refresh']
@@ -149,7 +153,10 @@ class AdminAuthController extends Token
             );
             return true;
         } else {
-            if ($this->validateToken($this->getBearerToken("refresh"))) {
+            if (
+                Cookie::cookieExists(Config::getApiGlobal("remember")["refresh"]) &&
+                $this->validateToken($this->getBearerToken("refresh"))
+            ) {
                 if (Cookie::cookieExists(Config::getApiGlobal("remember")['access']))
                     Cookie::deleteCookie(Config::getApiGlobal("remember")['access']);
 
