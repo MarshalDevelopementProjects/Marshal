@@ -29,7 +29,7 @@ class AdminController extends Controller
                     exit;
                 } else {
                     $credentials = $this->adminAuth->getCredentials();
-                    if ($credentials->id) $this->admin = new Admin($credentials->id);
+                    $this->admin = new Admin($credentials->id);
                 }
             } else {
                 $this->sendResponse(
@@ -58,23 +58,32 @@ class AdminController extends Controller
         // default page should have the following 
         // user count, active user count, admin count
         // and all the users
+        try{  
 
-        $this->sendResponse(
-            view: "/admin/dashboard.html",
-            status: "success",
-            content: array(
-                "message" => "Welcome",
-                "no_users" => 100,
-                "no_admins" => 4,
-                "no_active_users" => 10,
-                "user_details" => array(
-                    "ed_north" => "ed_north@gmail.com",
-                    "andrea_thomas" => "andrea_thomas@gmail.com",
-                    "kylo_ren" => "kylo_ren@gmail.com",
-                )
-            )
-        );
-        exit;
+            $data = array();
+            $this->admin->readAllUsers();
+            $data["user_details"] = $this->admin->getQueryResults();
+            $data["all_user_count"] = sizeof($data["user_details"]);
+            $data["admin_data"] = $this->admin->getAdminData();
+            
+            $this->admin->getBlockedUsers();
+            $count = array();
+            $count["block_users"]= $this->admin->getQueryResults();
+            $data["block_user_count"] = sizeof($count["block_users"]);
+
+            $this->admin->getActiveUsers();
+            $count["active_users"]= $this->admin->getQueryResults();
+            $data["active_user_count"] = sizeof($count["active_users"]);
+            
+            $this->sendResponse(
+                view: "/admin/dashboard.html",
+                status: "success",
+                content: $data
+            );
+            exit;
+        }catch(\Exception $exception){
+            throw $exception;
+        }
     }
 
     // get all the users in the database
@@ -138,6 +147,7 @@ class AdminController extends Controller
             // validate the data first and then create the user
             $this->validator->validate(values: $args, schema: "signup");
             if ($this->validator->getPassed()) {
+                unset($args['password_re_enter']);
                 if ($this->admin->createUser($args))
                     $this->sendJsonResponse(
                         status: "success",
@@ -220,7 +230,8 @@ class AdminController extends Controller
 
     public function viewActiveUsers()
     {
-        try {
+        try {   
+
             if ($this->admin->getActiveUsers()) {
                 $this->sendJsonResponse(
                     status: "success",

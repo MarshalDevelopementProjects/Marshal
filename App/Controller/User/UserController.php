@@ -188,7 +188,7 @@ class UserController extends Controller
             }
             exit;
         } catch (Exception $exception) {
-            $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
+            $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified", "exceptions" => "$exception"));
         }
     }
 

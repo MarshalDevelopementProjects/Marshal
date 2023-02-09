@@ -51,7 +51,7 @@ class Group implements Model
         }
     }
 
-    public function getAllGroups(array $args, array $keys): object|bool
+    public function getAllGroups(array $args, array $keys): object|bool|array
     {
         $keyCount = count($keys);
         $sql = "SELECT * FROM groups WHERE ";
@@ -77,7 +77,7 @@ class Group implements Model
         }
     }
 
-    public function getGroup(array $args, array $keys): object|bool
+    public function getGroup(array $args, array $keys): object|bool|array
     {
         $keyCount = count($keys);
         $sql = "SELECT * FROM groups WHERE ";
@@ -136,7 +136,7 @@ class Group implements Model
         }
     }
 
-    public function getGroupMember(array $args, array $keys): bool|object
+    public function getGroupMember(array $args, array $keys): bool|object|array
     {
         $keyCount = count($keys);
         $sql = "SELECT * FROM group_join WHERE ";

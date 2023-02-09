@@ -27,10 +27,10 @@ body{
     color: #fff;
     padding: 30px 0 0 30px;
 }
-#menu .logo img{
-    width: 60px;
-    margin-right: 15px;
+#menu .logo h2{
+    margin-left: 20px;
 }
+ 
 
 #menu .items{
     margin-top: 40px;
@@ -47,7 +47,10 @@ body{
     cursor: pointer;
 }
 
-#menu .items li:nth-child(1){
+#add-New-User.active{
+    border-left: 4px solid #fff;
+}
+#all-Users.active{
     border-left: 4px solid #fff;
 }
 
@@ -115,25 +118,13 @@ body{
     align-items: center;
 }
 
-#interface .navigation .profile img{
-    width:30px;
-    height: 30px;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
 .user-name{
     margin-right: 10px;
     font-size: 14px;
     color: #828997;
 }
 
-.fa-bell{
-    margin-right: 25px;
-    font-size: 20px;
-    color:#253047;
-    cursor: pointer;
-}
+ 
 
 .fa-search{
     margin-right:10px;
@@ -163,6 +154,11 @@ body{
     justify-content: flex-start;
     align-items: center;
     margin: 0 20px;
+    transition: all 0.4s ease-in;
+}
+.values-box.active{
+    background-color: #444a53;
+    color: white;
 }
 .values-box i{
     font-size: 25px;
@@ -201,6 +197,19 @@ body{
     font-size: 16px;
     color:#828997;
 }
+.values-box:hover{
+    background-color: #444a53;
+    color: white;
+}
+#active-users-div.active{
+    background-color: #444a53;
+}
+#blocked-users-div.active{
+    background-color: #444a53;
+}
+#all-users-div.active{
+    background-color: #444a53;
+}
 
 .board{
     width: 94%;
@@ -231,6 +240,9 @@ body{
 table{
     border-collapse: collapse;
 }
+#user-table.active{
+    display:none;
+}
 tr{
     border-bottom: 1px solid #eef0f3;
 }
@@ -247,10 +259,15 @@ tbody tr td{
     padding:10px 15px;
 }
 
-.edit a{
+.status i{
     text-decoration: none;
     font-size: 14px;
-    color: #554cd1;
     font-weight: 600;
-    
+    margin-left: 20px;
+}
+.status .green{
+    color:seagreen;
+}
+.status .red{
+    color:red;
 }

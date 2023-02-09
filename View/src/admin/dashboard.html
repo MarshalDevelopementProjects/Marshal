@@ -6,20 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/View/styles/admin/admin.css">
+    <link rel="stylesheet" href="/View/styles/admin/admin_add_user_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Marshal</title>
 </head>
-
-<body>
+<body onload="onLoad();">
     <section id="menu">
         <div class="logo">
-            <img src="/View/images/admin/Frame 1.png" alt="" srcset="">
             <h2>Marshal</h2>
         </div>
         <div class="items">
-            <li><i class="fa fa-pie-chart" aria-hidden="true"></i><a href="#">Dashboard</a></li>
-            <li><i class="fa fa-users" aria-hidden="true"></i><a href="#">Users</a></li>
-            <li><i class="fa fa-users" aria-hidden="true"></i><a href="#">Add new users</a></li>
+            <li id="all-Users"><i class="fa fa-users" aria-hidden="true"></i><a>Users</a></li>
+            <li id="add-New-User"><i class="fa fa-users" aria-hidden="true"></i><a>Add new users</a></li>
             <li id="log-out-btn"><i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i><a>Logout</a></li>
         </div>
     </section>
@@ -32,54 +30,46 @@
                 </div>
             </div>
             <div class="profile">
-                <i class="fa fa-bell"></i>
-                <p class="user-name">Tharindu Darshana</p>
-                <img src="/View/images/admin/1.jpg" alt="">
+                <p class="user-name" id="admin-user-name"></p>
             </div>
         </div>
         <h3 class="i-name">Dashboard</h3>
         <div class="values">
-            <div class="values-box">
+            <div class="values-box" id="all-users-div">
                 <i class="fa fa-user"></i>
                 <div>
-                    <h3>100</h3>
+                    <h3 id="numOfAll">100</h3>
                     <span>Users</span>
                 </div>
             </div>
-            <div class="values-box">
+            <div class="values-box" id="active-users-div">
                 <i class="fa fa-user"></i>
                 <div>
-                    <h3>3</h3>
-                    <span>Admins</span>
+                    <h3 id="numOfActive">89</h3>
+                    <span>Active users
+                    </span>
                 </div>
             </div>
-            <!-- <div class="values-box"> -->
-            <!-- <i class="fa fa-user"></i> -->
-            <!-- <div> -->
-            <!-- <h3>8,345</h3> -->
-            <!-- <span>Users</span> -->
-            <!-- </div> -->
-            <!-- </div> -->
-            <!-- <div class="values-box"> -->
-            <!-- <i class="fa fa-user"></i> -->
-            <!-- <div> -->
-            <!-- <h3>8,345</h3> -->
-            <!-- <span>Users</span> -->
-            <!-- </div> -->
-            <!-- </div> -->
-
+            <div class="values-box" id="blocked-users-div">
+                <i class="fa fa-user"></i>
+                <div>
+                    <h3 id="numOfBlock"></h3>
+                    <span>Block users</span>
+                </div>
+            </div>
         </div>
         <dir class="board">
-            <table width="100%">
+            <table width="100%" id="user-table">
                 <thead>
                     <tr>
                         <td>Name</td>
                         <td>Email</td>
-                        <td>Role</td>
-                        <td></td>
+                        <td>Joined_date & time</td>
+                        <td>Access</td>
+                        <td>Status</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-row">
                     <tr>
                         <td class="people">
                             <img src="/View/images/admin/2.jpg" alt="">
@@ -90,13 +80,58 @@
                         <td class="people-email">
                             <h5>example@gmail.com</h5>
                         </td>
-                        <td class="role">
-                            <p>Admin</p>
+                        <td class="joined_datetime">
+
                         </td>
-                        <td class="edit"><a href="#">Edit</a></td>
+                        <td class="access">
+                            <p>Enable</p>
+                        </td>
+                        <td class="status">
+                            <i class="fa fa-circle"></i>
+                        </td>
                     </tr>
+                    
                 </tbody>
             </table>
+            <div class="wrapper">
+                <h3 class="title">Add New User</h3>
+                <div class="form">
+                    <form id="add-New-User-Form" method="post">
+                    <div class="inputfield">
+                        <label>First Name</label>
+                        <input class="input" type="text" name="first_name" id="first_name" required>
+                    </div>
+                    <div class="inputfield">
+                        <label>Last Name</label>
+                        <input class="input" type="text" name="last_name" id="last_name" required>
+                    </div>
+                    <div class="inputfield">
+                        <label>Username</label>
+                        <input type="text" class="input" name="username" id="username" required>
+                    </div>
+                    <div class="inputfield">
+                        <label>Email Address</label>
+                        <input class="input" type="email" name="email_address" id="email_address" required>
+                    </div>
+                    <div class="inputfield">
+                        <label>Phone Number</label>
+                        <input type="tel" class="input" name="phone_number" id="phone_number" pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$" required>
+                    </div>
+                    <div class="inputfield">
+                        <label>Password</label>
+                        <input type="password" class="input" name="password" id="password" required>
+                    </div>
+                    <div class="inputfield">
+                        <label>Confirm Password</label>
+                        <input type="password" class="input" name="password_re_enter" id="password_re_enter" required>
+                    </div>
+                    <div class="inputfield">
+                        <button id="cancel-btn">Cancel</button>
+                        <input type="submit" value="Add User" class="btn">
+                    </div>
+                </form>
+                </div>
+            </div>
         </dir>
     </section>
     <script>

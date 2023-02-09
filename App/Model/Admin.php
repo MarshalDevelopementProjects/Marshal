@@ -149,7 +149,9 @@ class Admin implements Model
     // read all the users in the system 
     public function readAllUsers()
     {
-        $sql_string = "SELECT `username`, `email_address`, 'access' FROM `user`";
+        // $sql_string = "SELECT `id`, `username`, `email_address` FROM `user`";
+        $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture`,`user_state` FROM `user`";
+
         try {
             $result = $this->crud_util->execute($sql_string);
             if ($result->getCount() > 0) {
@@ -172,7 +174,7 @@ class Admin implements Model
 
     public function getActiveUsers()
     {
-        $sql_string = "SELECT `id`, `username`, `email_address` FROM `user` WHERE `user_state` = 'ONLINE'";
+        $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture`,`user_state` FROM `user` WHERE `user_state` = 'ONLINE'";
         try {
             $result = $this->crud_util->execute($sql_string);
             if ($result->getCount() > 0) {
@@ -188,7 +190,7 @@ class Admin implements Model
 
     public function getBlockedUsers()
     {
-        $sql_string = "SELECT `id`, `username`, `email_address` FROM `user` WHERE `access` = 'DISABLED'";
+        $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture` FROM `user` WHERE `access` = 'DISABLED'";
         try {
             $result = $this->crud_util->execute($sql_string);
             if ($result->getCount() > 0) {

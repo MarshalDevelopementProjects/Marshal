@@ -50,7 +50,7 @@ class Task implements Model
         }
     }
 
-    public function getAllTasks(array $args = array()): object|bool
+    public function getAllTasks(array $args = array()): object|bool|array
     {
         if ($args['task_type'] === 'group') {
             $sql_string = "SELECT * FROM task WHERE task_id IN(SELECT task_id FROM group_task WHERE group_id = :group_id) AND project_id = :project_id AND task_type = :task_type";
@@ -66,7 +66,7 @@ class Task implements Model
         }
     }
 
-    public function getTask(array $args, array $keys): object|bool
+    public function getTask(array $args, array $keys): object|bool|array
     {
         $keyCount = count($keys);
 
@@ -92,7 +92,7 @@ class Task implements Model
         }
     }
 
-    public function updateTask(array $args, array $updates, array $conditions)
+    public function updateTask(array $args, array $updates, array $conditions): object|bool|array
     {
         $updateFieldsCount = count($updates);
         $conditionFieldsCount = count($conditions);
@@ -138,7 +138,7 @@ class Task implements Model
         }
     }
 
-    public function getTaskCompletedDetails(array $args = array()): object|bool
+    public function getTaskCompletedDetails(array $args = array()): object|bool|array
     {
         $sql_string = "SELECT * FROM completedtask WHERE taskId = :taskId";
 

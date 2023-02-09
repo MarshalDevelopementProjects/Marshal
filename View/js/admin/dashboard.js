@@ -1,14 +1,58 @@
 console.log(jsonData);
 
 const LogOutButton = document.getElementById("log-out-btn");
+const countBlockUser = document.getElementById("numOfBlock");
+const countActiveUser = document.getElementById("numOfActive");
+const countAllUser = document.getElementById("numOfAll");
+const adminName = document.getElementById("admin-user-name");
+
+countBlockUser.innerText = `${jsonData.block_user_count}`;
+countActiveUser.innerText = `${jsonData.active_user_count}`;
+countAllUser.innerText = `${jsonData.all_user_count}`;
+adminName.innerText = `${jsonData.admin_data.username}`;
+
+tableRows = document.querySelector('.table-row');
+
+function onLoad(){
+    tableRowCode = ""
+    jsonData.user_details.forEach(tableRow => {
+        tableRowCode += `<tr>
+                        <td class="people">
+                            <img src="${tableRow['profile_picture']}" alt="">
+                            <div class="people-de">
+                                <h5>${tableRow['username']}</h5>
+                            </div>
+                        </td>
+                        <td class="people-email">
+                            <h5>${tableRow['email_address']}</h5>
+                        </td>
+                        <td class="joined_datetime">
+                            <p>${tableRow['joined_datetime']}</p>
+                        </td>
+                        <td class="access">
+                            <p>${tableRow['access']}</p>
+                        </td>
+                        <td class="status">`;
+                        if (tableRow['user_state'] === "ONLINE") {
+                          tableRowCode += `<i class="fa fa-circle green"></i>`;
+                        } else {
+                          tableRowCode += `<i class="fa fa-circle red"></i>`;
+                        }
+                        tableRowCode += `</td>
+                                    </tr>`;
+    })
+    tableRows.innerHTML = tableRowCode
+    AllUsersDiv.classList.add('active');
+    allUserBtn.classList.add('active');
+}
 
 LogOutButton.addEventListener("click", () => {
     fetch("http://localhost/public/admin/logout", {
-            withCredentials: true,
-            credentials: "include",
-            mode: "cors",
-            method: "POST",
-        })
+        withCredentials: true,
+        credentials: "include",
+        mode: "cors",
+        method: "POST",
+    })
         .then((response) => {
             if (response.ok) {
                 window.location.replace("http://localhost/public/admin/login");
@@ -26,4 +70,268 @@ LogOutButton.addEventListener("click", () => {
             }
         })
         .catch((error) => console.error(error));
+});
+
+const ActiveUsersDiv = document.getElementById("active-users-div");
+
+ActiveUsersDiv.addEventListener('click', async (event) => {
+    let response = await fetch("http://localhost/public/admin/users/active", {
+        withCredentials: true,
+        credentials: "include",
+        mode: "cors",
+        method: "GET"
+    });
+
+    let data =  await response.json();
+    if(response.ok) {
+        tableRows.innerHTML = ''
+        console.log(data);
+        tableRowCode = ""
+        data.active_users.forEach(tableRow => {
+        tableRowCode += `<tr>
+                        <td class="people">
+                            <img src="${tableRow['profile_picture']}" alt="">
+                            <div class="people-de">
+                                <h5>${tableRow['username']}</h5>
+                            </div>
+                        </td>
+                        <td class="people-email">
+                            <h5>${tableRow['email_address']}</h5>
+                        </td>
+                        <td class="joined_datetime">
+                            <p>${tableRow['joined_datetime']}</p>
+                        </td>
+                        <td class="access">
+                            <p>${tableRow['access']}</p>
+                        </td>
+                        <td class="status">`;
+                        if (tableRow['user_state'] === "ONLINE") {
+                          tableRowCode += `<i class="fa fa-circle green"></i>`;
+                        } else {
+                          tableRowCode += `<i class="fa fa-circle red"></i>`;
+                        }
+                        tableRowCode += `</td>
+                                    </tr>`;
+    })
+    tableRows.innerHTML = tableRowCode
+    ActiveUsersDiv.classList.add('active');
+    BlockedUsersDiv.classList.remove('active');
+    AllUsersDiv.classList.remove('active');
+    wrapper.classList.remove('active');
+    userTable.classList.remove('active');
+    addNewUserBtn.classList.remove('active');
+    allUserBtn.classList.add('active');
+    }
+    // alert(data.message);
+});
+
+const BlockedUsersDiv = document.getElementById("blocked-users-div");
+
+BlockedUsersDiv.addEventListener('click', async (event) => {
+    let response = await fetch("http://localhost/public/admin/users/blocked", {
+        withCredentials: true,
+        credentials: "include",
+        mode: "cors",
+        method: "GET"
+    });
+
+    let data =  await response.json();
+    if(response.ok) {
+        tableRows.innerHTML = ''
+        console.log(data);
+        tableRowCode = ""
+        data.blocked_users.forEach(tableRow => {
+        tableRowCode += `<tr>
+                        <td class="people">
+                            <img src="${tableRow['profile_picture']}" alt="">
+                            <div class="people-de">
+                                <h5>${tableRow['username']}</h5>
+                            </div>
+                        </td>
+                        <td class="people-email">
+                            <h5>${tableRow['email_address']}</h5>
+                        </td>
+                        <td class="joined_datetime">
+                            <p>${tableRow['joined_datetime']}</p>
+                        </td>
+                        <td class="access">
+                            <p>${tableRow['access']}</p>
+                        </td>
+                        <td class="status">`;
+                        if (tableRow['user_state'] === "ONLINE") {
+                          tableRowCode += `<i class="fa fa-circle green"></i>`;
+                        } else {
+                          tableRowCode += `<i class="fa fa-circle red"></i>`;
+                        }
+                        tableRowCode += `</td>
+                                    </tr>`;
+    })
+    tableRows.innerHTML = tableRowCode
+    BlockedUsersDiv.classList.add('active');
+    AllUsersDiv.classList.remove('active');
+    ActiveUsersDiv.classList.remove('active');
+    wrapper.classList.remove('active');
+    userTable.classList.remove('active');
+    addNewUserBtn.classList.remove('active');
+    allUserBtn.classList.add('active');
+    }
+});
+
+
+const AllUsersDiv = document.getElementById("all-users-div");
+
+AllUsersDiv.addEventListener('click', async (event) => {
+    let response = await fetch("http://localhost/public/admin/users/all", {
+        withCredentials: true,
+        credentials: "include",
+        mode: "cors",
+        method: "GET"
+    });
+
+    let data =  await response.json();
+    if(response.ok) {
+        tableRows.innerHTML = ''
+        console.log(data.user_details);
+        tableRowCode = ""
+        data.user_details.forEach(tableRow => {
+        tableRowCode += `<tr>
+                        <td class="people">
+                            <img src="${tableRow['profile_picture']}" alt="">
+                            <div class="people-de">
+                                <h5>${tableRow['username']}</h5>
+                            </div>
+                        </td>
+                        <td class="people-email">
+                            <h5>${tableRow['email_address']}</h5>
+                        </td>
+                        <td class="joined_datetime">
+                            <p>${tableRow['joined_datetime']}</p>
+                        </td>
+                        <td class="access">
+                            <p>${tableRow['access']}</p>
+                        </td>
+                        <td class="status">`;
+                        if (tableRow['user_state'] === "ONLINE") {
+                          tableRowCode += `<i class="fa fa-circle green"></i>`;
+                        } else {
+                          tableRowCode += `<i class="fa fa-circle red"></i>`;
+                        }
+                        tableRowCode += `</td>
+                                    </tr>`;
+    })
+    tableRows.innerHTML = tableRowCode
+    AllUsersDiv.classList.add('active');
+    BlockedUsersDiv.classList.remove('active');
+    ActiveUsersDiv.classList.remove('active');
+    wrapper.classList.remove('active');
+    userTable.classList.remove('active');
+    addNewUserBtn.classList.remove('active');
+    allUserBtn.classList.add('active');
+    }
+});
+
+const addNewUserBtn = document.querySelector("#add-New-User");
+const allUserBtn = document.querySelector("#all-Users");
+const userTable = document.getElementById("user-table");
+const wrapper = document.querySelector(".wrapper");
+
+addNewUserBtn.addEventListener('click', ()=>{
+    userTable.classList.add('active');
+    wrapper.classList.add('active');
+    addNewUserBtn.classList.add('active');
+    allUserBtn.classList.remove('active');
+    AllUsersDiv.classList.remove('active');
+    
+});
+
+allUserBtn.addEventListener('click', async (event) => {
+    let response = await fetch("http://localhost/public/admin/users/all", {
+        withCredentials: true,
+        credentials: "include",
+        mode: "cors",
+        method: "GET"
+    });
+
+    let data =  await response.json();
+    if(response.ok) {
+        tableRows.innerHTML = ''
+        console.log(data.user_details);
+        tableRowCode = ""
+        data.user_details.forEach(tableRow => {
+        tableRowCode += `<tr>
+                        <td class="people">
+                            <img src="${tableRow['profile_picture']}" alt="">
+                            <div class="people-de">
+                                <h5>${tableRow['username']}</h5>
+                            </div>
+                        </td>
+                        <td class="people-email">
+                            <h5>${tableRow['email_address']}</h5>
+                        </td>
+                        <td class="joined_datetime">
+                            <p>${tableRow['joined_datetime']}</p>
+                        </td>
+                        <td class="access">
+                            <p>${tableRow['access']}</p>
+                        </td>
+                        <td class="status">`;
+                        if (tableRow['user_state'] === "ONLINE") {
+                          tableRowCode += `<i class="fa fa-circle green"></i>`;
+                        } else {
+                          tableRowCode += `<i class="fa fa-circle red"></i>`;
+                        }
+                        tableRowCode += `</td>
+                                    </tr>`;
+    })
+    tableRows.innerHTML = tableRowCode
+    AllUsersDiv.classList.add('active');
+    allUserBtn.classList.add('active');
+    BlockedUsersDiv.classList.remove('active');
+    ActiveUsersDiv.classList.remove('active');
+    wrapper.classList.remove('active');
+    userTable.classList.remove('active');
+    addNewUserBtn.classList.remove('active');
+    }
+});
+
+const AddNewUserFrom = document.getElementById("add-New-User-Form");
+
+AddNewUserFrom.addEventListener('submit', async function(event) {
+    event.preventDefault();
+    let formData = new FormData(AddNewUserFrom);
+    let jsonFormData = JSON.stringify(Object.fromEntries(formData));
+    console.log(jsonFormData);
+    try {
+        let response = await fetch("http://localhost/public/admin/users/addnewuser", {
+            withCredentials: true,
+            credentials: "include",
+            mode: "cors",
+            method: "POST",
+            body: formData
+        });
+
+        let returnData = await response.json();
+        console.log(returnData);
+        if (response.ok) {
+            alert(returnData.message);
+            for (let i = 0; i < AddNewUserFrom.elements.length; i++) {
+                AddNewUserFrom.elements[i].value = "";
+            }
+            jsonData.user_info = returnData.user_info;
+            location.reload();
+            
+        }
+        alert(returnData.message);
+    } catch (error) {
+        // alert(error.message);
+        console.log(error);
+    }
+});
+
+const FormCancelBtn = document.getElementById("cancel-btn");
+FormCancelBtn.addEventListener('click',()=>{
+    for (let i = 0; i < AddNewUserFrom.elements.length; i++) {
+        AddNewUserFrom.elements[i].value = "";
+    }
+    location.reload();
 });

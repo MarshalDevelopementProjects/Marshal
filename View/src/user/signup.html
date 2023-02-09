@@ -1,16 +1,16 @@
-
-
-
-
-
-
 <!DOCTYPE html>
+
+
+
+
+
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!--Iconscout CSS-->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
@@ -19,6 +19,7 @@
     <title>Marshal-signup</title>
 
 </head>
+
 <body>
     <div class="container">
 
@@ -26,46 +27,46 @@
             <span class="title">SignUp</span>
 
             <form class="signup-form" action='http://localhost/public/user/signup' method="post">
-                
+
                 <p id="success"></p>
                 <p id="error-message"></p>
-                
+
                 <div class="input-field" id="full-name">
 
                     <div class="first-name">
                         <label for="first_name" hidden></label>
-                        <input type="text" value="" id="first_name" name="first_name" placeholder="First name" >
+                        <input type="text" value="" id="first_name" name="first_name" placeholder="First name">
                         <i class="uil uil-user"></i>
                     </div>
                     <div class="last-name">
                         <label for="last_name" hidden></label>
-                        <input type="text" value="" name="last_name" id="last_name" placeholder="Last name" >
+                        <input type="text" value="" name="last_name" id="last_name" placeholder="Last name">
                         <i class="uil uil-user"></i>
                     </div>
 
                 </div>
                 <div class="input-field">
                     <label for="email_address" hidden></label>
-                    <input type="email" value="" name="email_address" id="email_address" placeholder="Enter your email" >
+                    <input type="email" value="" name="email_address" id="email_address" placeholder="Enter your email">
                     <i class="uil uil-envelope icon"></i>
 
                 </div>
                 <div class="input-field">
                     <label for="username" hidden></label>
-                    <input type="text" value="" name="username" id="username" placeholder="Enter username" >
+                    <input type="text" value="" name="username" id="username" placeholder="Enter username">
                     <i class="uil uil-envelope icon"></i>
 
                 </div>
                 <div class="input-field">
                     <label for="password" hidden></label>
-                    <input type="password" name="password" id="password" class="password" placeholder="Create a password" >
+                    <input type="password" name="password" id="password" class="password" placeholder="Create a password">
                     <i class="uil uil-lock icon"></i>
                     <i class="uil uil-eye-slash showHidePw"></i>
 
                 </div>
                 <div class="input-field">
                     <label for="password_re_enter"></label>
-                    <input type="password" name="password_re_enter" id="password_re_enter" class="password" placeholder="Confirm the password" >
+                    <input type="password" name="password_re_enter" id="password_re_enter" class="password" placeholder="Confirm the password">
                     <i class="uil uil-lock icon"></i>
                     <i class="uil uil-eye-slash showHidePw"></i>
 
@@ -79,7 +80,7 @@
                 </div>
 
                 <div class="input-field button">
-                    <button type="submit" class="signupbtn">SignUp</button>  
+                    <button type="submit" class="signupbtn">SignUp</button>
                 </div>
             </form>
 
@@ -89,10 +90,14 @@
                 </span>
             </div>
         </div>
-    </div>
-    <script>
-        var jsonData = JSON.parse('<?= $data; ?>');
-    </script>
-    <script src="/View/js/user/signup.js"></script>
+        <div class="image-container">
+            <img src="/View/images/user/user_signup.svg" alt="user signup">
+        </div>
+        </header>
+        <script>
+            var jsonData = JSON.parse('<?= $data; ?>');
+        </script>
+        <script src="/View/js/user/signup.js"></script>
 </body>
+
 </html>
