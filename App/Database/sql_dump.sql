@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2023 at 01:09 AM
+-- Generation Time: Feb 09, 2023 at 02:10 PM
 -- Server version: 10.4.27-MariaDB
--- PHP Version: 8.1.12
+-- PHP Version: 8.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -369,7 +369,8 @@ CREATE TABLE `project` (
 
 INSERT INTO `project` (`id`, `created_by`, `project_name`, `description`, `field`, `start_on`, `end_on`, `created_on`) VALUES
 (1, 1, 'mHealth App development', 'mHealth apps facilitate engagement through effective patient-focused care, personalized experiences & knowledge sharing between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of thei', 'web', '2023-01-22 01:49:25', '2023-05-30 01:49:25', '2023-01-22 01:49:25'),
-(2, 1, 'project 2', 'sd', 'web', '2023-01-22 03:30:04', '2023-02-16 03:29:39', '2023-01-22 03:30:04');
+(2, 1, 'project 2', 'sd', 'web', '2023-01-22 03:30:04', '2023-02-16 03:29:39', '2023-01-22 03:30:04'),
+(3, 1, 'sdadasd', 'sdfasasgdfhdhfrghs', 'asdasfsdf', '2023-02-09 13:06:38', '2023-02-09 13:06:38', '2023-02-09 13:06:38');
 
 --
 -- Triggers `project`
@@ -403,7 +404,8 @@ INSERT INTO `project_join` (`project_id`, `member_id`, `role`, `joined`) VALUES
 (1, 3, 'MEMBER', '2023-01-24 14:51:36'),
 (1, 4, 'MEMBER', '2023-01-28 15:22:46'),
 (1, 5, 'MEMBER', '2023-01-30 07:48:48'),
-(2, 1, 'LEADER', '2023-01-22 09:00:04');
+(2, 1, 'LEADER', '2023-01-22 09:00:04'),
+(3, 1, 'LEADER', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -466,33 +468,18 @@ CREATE TABLE `user` (
   `user_state` enum('OFFLINE','ONLINE') NOT NULL DEFAULT 'OFFLINE',
   `joined_datetime` timestamp NOT NULL DEFAULT current_timestamp(),
   `profile_picture` varchar(255) NOT NULL DEFAULT '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg',
-  `access` enum('ENABLED','DISABLED') NOT NULL
+  `access` enum('ENABLED','DISABLED') NOT NULL,
+  `verified` enum('TRUE','FALSE') NOT NULL DEFAULT 'FALSE',
+  `verification_code` varchar(100) NOT NULL DEFAULT '_'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `email_address`, `first_name`, `last_name`, `password`, `user_status`, `phone_number`, `position`, `bio`, `user_state`, `joined_datetime`, `profile_picture`, `access`) VALUES
-(1, 'kylo_renee', 'kylo_ren@gmail.com', 'Kylo', 'Solo', '$argon2id$v=19$m=65536,t=4,p=1$T29TaEFWUmxMNFcwdk5xRw$fGa/V3uIzKUPWqvjhGgf0b8JH0seEruV8URDiLgwBBA', 'Busy', '0789902124', 'System architect', 'I am Kylo Ren, I work at Amazon and I am system architect there. Interested in creating well documented secure systems. And believe it or not I love Rust and Haskell.', 'ONLINE', '2023-01-24 13:09:21', '/App/Database/Uploads/ProfilePictures/dp.jpeg', 'ENABLED'),
-(2, 'ed_north', 'ed_north@gmail.com', 'Edward', 'North', '$argon2id$v=19$m=65536,t=4,p=1$RTE0aEVKUjdGb3JoSHpYTA$mMVMajgYnmFXgf6a1ET+GnUX7KNsblCLlqiwnSPPm0M', 'Idle', '0789905105', 'System Architect', 'I am Edward North, I work at Amazon and I am devops engineer there.\r\n                  Interested in creating well documented secure systems.\r\n                  And believe it or not I love Rust and Haskell', 'ONLINE', '2023-01-24 13:09:35', '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg', 'ENABLED'),
-(6, 'chathuraharsha09@gmail.com', 'chathuraharsha09@gmail.com', 'Lahiru', 'Lakmal', '$argon2id$v=19$m=65536,t=4,p=1$YnhYalVQZC9IT3M4dHY1bg$tWBPP6zytAGoeMmaCa7ZiHJBS/krb1fTSfCgXtodNVw', 'Available', '', 'position(s) that you hold', '', 'OFFLINE', '2023-02-03 13:22:54', '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg', 'ENABLED'),
-(4, '2020CS066', 'mrgunawardane@gmail.com', 'Harsha', 'gunawardane', '$argon2id$v=19$m=65536,t=4,p=1$Z2lzQ0NUNEt3ZDJwOVQvQQ$U/vp/NRtESCDM0Y4KkHjKY3m8sMhqSXOcTKLt/HvgNo', 'Available', '0789902124', 'position(s) that you hold', '', 'OFFLINE', '2023-01-28 14:21:43', '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg', 'ENABLED'),
-(5, 'Hara9914', 'chathuraharsha@gmail.com', 'Chathura', 'Solo', '$argon2id$v=19$m=65536,t=4,p=1$aTBmdGZhd2NmcHNLeEIxLw$IUM/m++xY3N7xYAP+KeacaEyFzyrIreKqKgky6N5b/w', 'Available', '0789902128', 'position(s) that you hold', '', 'OFFLINE', '2023-01-30 06:47:32', '/App/Database/Uploads/ProfilePictures/Picture3.png', 'ENABLED'),
-(7, 'mrgunawardane99@gmail.com', 'mrgunawardane99@gmail.com', 'Lahiru', 'Lakmal', '$argon2id$v=19$m=65536,t=4,p=1$NGNPNmhZVHpTd3AvMkUyYQ$55YSD097QxNg3CASrjwrfCgHEmBwPbujYQ+7PR05NWE', 'Available', '', 'position(s) that you hold', '', 'OFFLINE', '2023-02-03 13:24:08', '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg', 'ENABLED'),
-(8, 'mrgunawardane9999@gmail.com', 'mrgunawardane9999@gmail.com', 'Chathura', 'gunawardane', '$argon2id$v=19$m=65536,t=4,p=1$bS5CQ2hjS2V0LlNjLkloZQ$zM5iy3ws7xY6ounD/tQuAXuqGt2nH6n4i30E0uSZIkY', 'Available', '', 'position(s) that you hold', '', 'OFFLINE', '2023-02-03 13:26:15', '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg', 'ENABLED');
-
---
--- Triggers `user`
---
-DELIMITER $$
-CREATE TRIGGER `add_default_value_to_bio_if_null` BEFORE INSERT ON `user` FOR EACH ROW BEGIN
-  IF NEW.`bio` IS NULL THEN
-    SET NEW.`bio` = 'Introduce yourself to the others.';
-  END IF;
-END
-$$
-DELIMITER ;
+INSERT INTO `user` (`id`, `username`, `email_address`, `first_name`, `last_name`, `password`, `user_status`, `phone_number`, `position`, `bio`, `user_state`, `joined_datetime`, `profile_picture`, `access`, `verified`, `verification_code`) VALUES
+(1, 'kylo_ren', 'kylo_ren@gmail.com', 'Kylo', 'Solo', '$argon2id$v=19$m=65536,t=4,p=1$T29TaEFWUmxMNFcwdk5xRw$fGa/V3uIzKUPWqvjhGgf0b8JH0seEruV8URDiLgwBBA', 'Busy', '0789902124', 'System architect', 'I am Kylo Ren, I work at Amazon and I am system architect there. Interested in creating well documented secure systems. And believe it or not I love Rust and Haskell.', 'OFFLINE', '2023-01-24 07:39:21', '/App/Database/Uploads/ProfilePictures/unvicio_Ugly_chicken_squab_sun_glasses_aviator_under_a_shower_o_14945a3b-b486-4ec4-aa9f-a34ea5e6ae6c.png', 'ENABLED', 'TRUE', '_'),
+(2, 'ed_north', 'ed_north@gmail.com', 'Edward', 'North', '$argon2id$v=19$m=65536,t=4,p=1$RTE0aEVKUjdGb3JoSHpYTA$mMVMajgYnmFXgf6a1ET+GnUX7KNsblCLlqiwnSPPm0M', 'Idle', '0789905105', 'System Architect', 'I am Edward North, I work at Amazon and I am devops engineer there.\r\n                  Interested in creating well documented secure systems.\r\n                  And believe it or not I love Rust and Haskell', 'ONLINE', '2023-01-24 07:39:35', '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg', 'DISABLED', 'TRUE', '_');
 
 --
 -- Indexes for dumped tables
@@ -571,19 +558,6 @@ ALTER TABLE `task`
   ADD PRIMARY KEY (`task_id`);
 
 --
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email_address` (`email_address`),
-  ADD KEY `user_id` (`id`),
-  ADD KEY `user_email` (`email_address`),
-  ADD KEY `user_phone_number` (`phone_number`),
-  ADD KEY `user_position` (`position`),
-  ADD KEY `user_username` (`username`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -615,19 +589,13 @@ ALTER TABLE `notification_recievers`
 -- AUTO_INCREMENT for table `project`
 --
 ALTER TABLE `project`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `task`
 --
 ALTER TABLE `task`
   MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
