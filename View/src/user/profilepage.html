@@ -37,23 +37,23 @@
         <form id="edit-profile-form">
             <br>
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" disabled>
+            <input type="text" id="username" name="username" disabled required>
 
             <br>
             <label for="email_address">Email Address</label>
-            <input type="email" id="email_address" name="email_address" disabled>
+            <input type="email" id="email_address" name="email_address" disabled required>
 
             <br>
             <label for="first_name">First name</label>
-            <input type="text" id="first_name" name="first_name" disabled>
+            <input type="text" id="first_name" name="first_name" disabled required>
 
             <br>
             <label for="last_name">Last name</label>
-            <input type="text" id="last_name" name="last_name" disabled>
+            <input type="text" id="last_name" name="last_name" disabled required>
 
             <br>
             <label for="phone_number">Phone Number</label>
-            <input type="tel" id="phone_number" name="phone_number" disabled>
+            <input type="tel" id="phone_number" name="phone_number" disabled required>
 
             <br>
             <label for="Position">Position</label>
@@ -61,7 +61,7 @@
 
             <br>
             <label for="status">Status</label>
-            <input type="text" id="status" name="user_status" disabled>
+            <input type="text" id="status" name="user_status" disabled required>
 
             <br>
             <label for="bio">Bio</label>
@@ -72,11 +72,40 @@
         </form>
     </div>
 
+    <br>
+    <br>
+
     <form id="edit-profile-picture-form" enctype="multipart/form-data">
         <label for="profile-picture">Upload a profile picture here</label>
         <input type="file" name="profile_picture" id="profile-picture">
         <button type="submit">Upload</button>
     </form>
+
+    <br>
+    <br>
+
+    <button id="change-password-btn" style="width: 200px;">Change the password</button>
+
+    <div id="verify-password-form-div" style="display: none;">
+        <form id="verify-password-form">
+            <label for="old_password">Enter you current password</label>
+            <input type="password" id="old_password" name="old_password" placeholder="Enter your current password" required>
+            <button type="submit">Verify</button>
+        </form>
+    </div>
+
+    <br>
+    <br>
+
+    <div id="update-password-form-div" style="display: none;">
+        <form id="update-password-form">
+            <label for="new_password"></label>
+            <input type="password" id="new_password" name="new_password" placeholder="Enter the new password" required>
+            <label for="re_entered_new_password"></label>
+            <input type="password" id="re_entered_new_password" name="re_entered_new_password" placeholder="Re-enter the new password" required>
+            <button type="submit">Update</button>
+        </form>
+    </div>
 
     <script>
         var jsonData = JSON.parse('<?= $data; ?>');

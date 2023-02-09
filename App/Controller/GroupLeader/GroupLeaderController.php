@@ -28,26 +28,27 @@ class GroupLeaderController extends ProjectMemberController
     {
     }
 
-    public function auth()
+    public function auth(): bool
     {
         return parent::auth();
     }
 
-    public function createTask($args){
-        if($args['taskname'] && $args['taskdescription']){
+    public function createTask($args)
+    {
+        if ($args['taskname'] && $args['taskdescription']) {
             $status = "TO-DO";
-            if($args['assignedMember']){
+            if ($args['assignedMember']) {
                 $user = new User();
                 $user->readUser("username", $args['assignedMember']);
                 $receivedUser = $user->getUserData();
 
-                if($receivedUser){
+                if ($receivedUser) {
                     $conditions = array(
                         "project_id" => $_SESSION['project_id'],
                         "member_id" => $receivedUser->id
                     );
-                    
-                    if($user->isUserJoinedToProject($conditions)){
+
+                    if ($user->isUserJoinedToProject($conditions)) {
                         $status = "ONGOING";
 
                         // get leader id
@@ -58,7 +59,7 @@ class GroupLeaderController extends ProjectMemberController
                         // now we have to send a notification as well 
                         $notificationArgs = array(
                             "projectId" => $_SESSION['project_id'],
-                            "message" => "You are assigned to ".$args['taskname']. " by project leader",
+                            "message" => "You are assigned to " . $args['taskname'] . " by project leader",
                             "type" => "notification",
                             "senderId" => $user_id,
                             "sendTime" => $date
@@ -94,21 +95,22 @@ class GroupLeaderController extends ProjectMemberController
             );
 
             $task = new Task();
-            if($task->createTask($data, array("project_id", "description", "deadline", "task_name", "priority", "status", "task_type"))){
+            if ($task->createTask($data, array("project_id", "description", "deadline", "task_name", "priority", "status", "task_type"))) {
 
                 $newTask = $task->getTask(array("project_id" => $_SESSION['project_id'], "task_name" => $args['taskname']), array("project_id", "task_name"));
                 $task->addGroupToTask(array("task_id" => $newTask->task_id, "group_id" => $_SESSION['group_id']));
-                
-                header("Location: http://localhost/public/projectmember/group?id=".$_SESSION['group_id']);
-            }else{
+
+                header("Location: http://localhost/public/projectmember/group?id=" . $_SESSION['group_id']);
+            } else {
                 echo "Fail";
             }
-        }else{
-            header("Location: http://localhost/public/projectmember/group?id=".$_SESSION['group_id']);
+        } else {
+            header("Location: http://localhost/public/projectmember/group?id=" . $_SESSION['group_id']);
         }
     }
 
-    public function getGroupInfo(){
+    public function getGroupInfo()
+    {
         $this->sendResponse(
             view: "/group_leader/groupInfo.html",
             status: "success",

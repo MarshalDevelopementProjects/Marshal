@@ -7,6 +7,8 @@ header("Access-Control-Allow-Credentials: true");
 header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Authorization, Origin, IMAGE_TYPE, IMAGE_NAME');
 header('Access-Control-Allow-Methods:  POST, PUT, GET, DELETE');
 
+use Core\Request;
+use Core\Router;
 use App\Controller\Index\IndexController;
 use App\Controller\User\UserController;
 use App\Controller\Administrator\AdminController;
@@ -14,11 +16,9 @@ use App\Controller\Authenticate\AdminAuthController;
 use App\Controller\Authenticate\UserAuthController;
 use App\Controller\Client\ClientController;
 use App\Controller\GroupLeader\GroupLeaderController;
-use App\Controller\GroupLeader\GroupMemberController;
+use App\Controller\GroupMember\GroupMemberController;
 use App\Controller\ProjectLeader\ProjectLeaderController;
 use App\Controller\ProjectMember\ProjectMemberController;
-use Core\Request;
-use Core\Router;
 
 // register custom error and exception handlers
 // error_reporting(E_ALL);
@@ -80,6 +80,16 @@ $router->get('/user/profile', UserController::class . '::viewProfile');
 $router->put('/user/profile/edit', UserController::class . '::editProfile');
 $router->post('/user/profile/edit/picture', UserController::class . '::uploadProfilePicture');
 
+$router->get('/user/signup/email/verification', UserAuthController::class . '::verifyUserEmailOnSignUp');
+$router->post('/user/edit/password', UserController::class . '::changePassword');
+$router->put('/user/edit/password', UserController::class . '::changePassword');
+
+
+$router->get('/user/forgot/password', UserAuthController::class . '::forgotPasswordServePage');
+$router->post('/user/forgot/password/verification', UserAuthController::class . '::sendVerificationOnForgotPassword');
+$router->post('/user/forgot/password/verify', UserAuthController::class . '::verifyCodeOnForgotPassword');
+$router->put('/user/forgot/password/update', UserAuthController::class . '::updateUserPasswordOnForgotPassword');
+
 // sanitize the uri
 $uri = htmlspecialchars(
     trim(array_key_exists("REDIRECT_URL", $_SERVER) ? $_SERVER["REDIRECT_URL"] : $_SERVER["REQUEST_URI"]),
@@ -89,4 +99,7 @@ $uri = htmlspecialchars(
 
 $data = Request::getData(file_get_contents('php://input'));
 
-$router->dispatch($uri, $data);
+try {
+    $router->dispatch($uri, $data);
+} catch (Exception $exception) {
+}

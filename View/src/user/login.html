@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,52 +9,53 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="/View/styles/user/login.css">
 </head>
-    <body>
-        <div class="container">
-    
-            <div class="form login">
-    
-                <span class="title">Login</span>
 
-                <form action="http://localhost/public/user/login" method="post">
-                    <p id="error-message"></p>
-                    <div class="input-field">
-                        <label for="username" hidden></label>
-                        <input type="text" name="username" id="username" value="" placeholder="Enter username" required>
-                        <i class="uil uil-envelope icon"></i>
+<body>
+    <div class="container">
+
+        <div class="form login">
+
+            <span class="title">Login</span>
+
+            <form action="http://localhost/public/user/login" method="post">
+                <p id="error-message"></p>
+                <div class="input-field">
+                    <label for="username" hidden></label>
+                    <input type="text" name="username" id="username" value="" placeholder="Enter username" required>
+                    <i class="uil uil-envelope icon"></i>
+                </div>
+                <div class="input-field">
+                    <label for="password" hidden></label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required>
+                    <i class="uil uil-lock icon"></i>
+                    <i class="uil uil-eye-slash showHidePw"></i>
+                </div>
+
+                <div class="checkbox-text">
+                    <div class="checkbox-content">
+                        <input type="checkbox" id="remember_me" id="remember_me">
+                        <label for="remember_me" class="text">Remember me</label>
                     </div>
-                    <div class="input-field">
-                        <label for="password" hidden></label>
-                        <input type="password" id="password" name="password" placeholder="Enter password" required>
-                        <i class="uil uil-lock icon"></i>
-                        <i class="uil uil-eye-slash showHidePw"></i>
-                    </div>
-    
-                    <div class="checkbox-text">
-                        <div class="checkbox-content">
-                            <input type="checkbox" id="remember_me" id="remember_me">
-                            <label for="remember_me" class="text">Remember me</label>
-                        </div>
-                        
-                        <a href="#" class="text">Forgot password?</a>
-                    </div>
-    
-                    <div class="input-field button">
-                        <button type="submit">Login</button>
-                    </div>
-                </form>
-    
-                <div class="login-signup">
-                    <span class="text">Not a member?
+
+                    <a href="#" class="text">Forgot password?</a>
+                </div>
+
+                <div class="input-field button">
+                    <button type="submit">Login</button>
+                </div>
+            </form>
+
+            <div class="login-signup">
+                <span class="text">Not a member?
                         <a href="./signup" class="text signup-link">Signup Now</a>
                     </span>
-                </div>
             </div>
         </div>
-        <script>
-            var jsonData = JSON.parse('<?= $data; ?>');
-        </script>
-        <script src="/View/js/user/login.js"></script>
-    </body>
+    </div>
+    <script>
+        var jsonData = JSON.parse('<?= $data; ?>');
+    </script>
+    <script src="/View/js/user/login.js"></script>
+</body>
+
 </html>
-    

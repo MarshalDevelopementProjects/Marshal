@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,9 +11,9 @@
 </head>
 
 <body onload="onLoad()">
-    
+
     <div class="container">
-        
+
         <div class="navbar">
             <div class="left-logo-area">
                 <img src="/View/images/logo.png" alt="logo" class="logo">
@@ -32,9 +32,13 @@
                     <ul>
                         <li class="dashboard active">Dashboard</li>
                         <li class="new-project">New project</li>
-                        <a href="http://localhost/public/user/profile"><li class="profile">Profile</li></a>
+                        <a href="http://localhost/public/user/profile">
+                            <li class="profile">Profile</li>
+                        </a>
                         <li class="settings">Settings</li>
-                        <a href="http://localhost/public/user/sketch"><li class="sketch-idea">Sketch idea</li></a>
+                        <a href="http://localhost/public/user/sketch">
+                            <li class="sketch-idea">Sketch idea</li>
+                        </a>
                     </ul>
                 </div>
                 <div class="middle-icon">
@@ -57,7 +61,7 @@
                         <p>Sun</p>
                     </div>
                     <div class="days">
-                        
+
                     </div>
                 </div>
             </div>
@@ -92,33 +96,33 @@
                     <div class="project-card">
                         <a href="./index.html" class="clickable-project">
                             <p class="project-field "></p>
-                        <h3 class="project-name"></h3>
+                            <h3 class="project-name"></h3>
 
-                        <div class="tasks">
-                            <p>Ongoing Work</p>
-                            <ul class="task-list">
-                                <li>Design UI for login page</li>
-                                <li>Fixing #15 bug</li>
-                                <li>Develop API</li>
-                                <li>Create reports for #3 week</li>
-                            </ul>
-                        </div>
-                        <p class="team">Team</p>
-                        <div class="card-bottom">
-                            <div class="member-images">
-                                <img class="image first" src="/View/images/Picture1.png" alt="Picture1">
-                                <img class="image rest1" src="/View/images/Picture2.png" alt="Picture2">
-                                <img class="image rest2"src="/View/images/Picture3.png" alt="Picture3">
-                                <img class="image rest3"src="/View/images/Picture4.png" alt="Picture4">
-                                <img class="image rest4"src="/View/images/Picture5.png" alt="Picture5">
+                            <div class="tasks">
+                                <p>Ongoing Work</p>
+                                <ul class="task-list">
+                                    <li>Design UI for login page</li>
+                                    <li>Fixing #15 bug</li>
+                                    <li>Develop API</li>
+                                    <li>Create reports for #3 week</li>
+                                </ul>
                             </div>
-                            <!-- <button type="submit">Get Info</button> -->
-                            
-                        </div>
+                            <p class="team">Team</p>
+                            <div class="card-bottom">
+                                <div class="member-images">
+                                    <img class="image first" src="/View/images/Picture1.png" alt="Picture1">
+                                    <img class="image rest1" src="/View/images/Picture2.png" alt="Picture2">
+                                    <img class="image rest2" src="/View/images/Picture3.png" alt="Picture3">
+                                    <img class="image rest3" src="/View/images/Picture4.png" alt="Picture4">
+                                    <img class="image rest4" src="/View/images/Picture5.png" alt="Picture5">
+                                </div>
+                                <!-- <button type="submit">Get Info</button> -->
+
+                            </div>
                         </a>
                     </div>
-                    
-                    
+
+
                 </div>
             </div>
         </div>
@@ -129,7 +133,7 @@
                     <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
                 </div>
                 <div class="notifications">
-                    
+
                 </div>
             </div>
         </div>
@@ -151,18 +155,22 @@
                             <input type="text" name="projec_name" placeholder="Enter project name ...">
                             <br>
                             <p>Your business, group, or organization's name is here.</p>
-    
-                            <label for="field">Project Type</label>
-                            <br>
-                            <input type="text" name="field" placeholder="Enter project type ...">
-    
-                            <br>
-                            <label for="description">Project Description</label>
-                            <br>
-                            <input type="text" id="description" name="description" placeholder="Please enter something on your project ... ">
-    
-                            <br>
-                            <button type="submit">CREATE</button>
+                            <<<<<<< HEAD <label for="field">Project Type</label>
+                                <br>
+                                <input type="text" name="field" placeholder="Enter project type ..."> =======
+
+                                <label for="projectType">Project Type</label>
+                                <br>
+                                <input type="text" name="projectType" placeholder="Enter project type ..."> >>>>>>> main
+                                <br>
+                                <label for="description">Project Description</label>
+                                <br>
+                                <<<<<<< HEAD <input type="text" id="description" name="description" placeholder="Please enter something on your project ... ">
+
+                                    =======
+                                    <input type="text" id="projectDescription" name="projectDescription" placeholder="Please enter something on your project ... "> >>>>>>> main
+                                    <br>
+                                    <button type="submit">CREATE</button>
                         </form>
                     </div>
                     <img src="/View/images/project_create.png" alt="project_create">
@@ -170,14 +178,15 @@
             </div>
         </div>
 
-        
+
     </div>
-    
+
     <script>
         var jsonData = JSON.parse('<?= $data; ?>');
     </script>
     <script src="/View/js/user/dashboard.js"></script>
 </body>
+
 </html>
 
 
@@ -188,5 +197,3 @@
         </div>
     </div>
 </div> -->
-
-

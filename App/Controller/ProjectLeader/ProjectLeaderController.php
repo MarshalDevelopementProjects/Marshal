@@ -31,11 +31,12 @@ class ProjectLeaderController extends ProjectMemberController
     }
 
     // in here check the user role whether it is project leader regarding the project
-    public function auth()
+    public function auth(): bool
     {
         return parent::auth();
     }
-    public function getProjectInfo(){
+    public function getProjectInfo()
+    {
         // print_r($_SESSION);
         $payload = $this->userAuth->getCredentials();
         $project_id = $_SESSION["project_id"];
@@ -55,7 +56,7 @@ class ProjectLeaderController extends ProjectMemberController
         $groupLeaderCondition = "WHERE id IN (SELECT DISTINCT leader_id FROM groups WHERE project_id = :project_id)";
 
         $data['projectLeader'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "LEADER"), $projectMemberCondition);
-        $data['projectMembers'] = $user->getAllUsers(array("project_id"=> $project_id, "role" => "MEMBER"), $projectMemberCondition);
+        $data['projectMembers'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "MEMBER"), $projectMemberCondition);
         $data['groupLeaders'] = $user->getAllUsers(array("project_id" => $project_id), $groupLeaderCondition);
 
         $this->sendResponse(
@@ -65,7 +66,8 @@ class ProjectLeaderController extends ProjectMemberController
         );
     }
 
-    public function sendProjectInvitation(){
+    public function sendProjectInvitation()
+    {
         try {
             // get receiver user name
             $data = file_get_contents('php://input');
@@ -76,7 +78,7 @@ class ProjectLeaderController extends ProjectMemberController
             $user->readUser("username", $data);
             $receivedUser = $user->getUserData();
 
-            if($receivedUser){
+            if ($receivedUser) {
                 $payload = $this->userAuth->getCredentials();
                 $project_id = $_SESSION["project_id"];
                 $user_id = $payload->id;
@@ -113,28 +115,28 @@ class ProjectLeaderController extends ProjectMemberController
             $notification->setNotifiedMembers($arguments);
 
             echo (json_encode(array("message" => "Success")));
-
         } catch (\Throwable $th) {
             echo (json_encode(array("message" => $th)));
         }
     }
 
-    public function createTask($args){
+    public function createTask($args)
+    {
 
-        if($args['taskname'] && $args['taskdescription']){
+        if ($args['taskname'] && $args['taskdescription']) {
             $status = "TO-DO";
-            if($args['assignedMember']){
+            if ($args['assignedMember']) {
                 $user = new User();
                 $user->readUser("username", $args['assignedMember']);
                 $receivedUser = $user->getUserData();
 
-                if($receivedUser){
+                if ($receivedUser) {
                     $conditions = array(
                         "project_id" => $_SESSION['project_id'],
                         "member_id" => $receivedUser->id
                     );
-                    
-                    if($user->isUserJoinedToProject($conditions)){
+
+                    if ($user->isUserJoinedToProject($conditions)) {
                         $status = "ONGOING";
 
                         // get leader id
@@ -145,7 +147,7 @@ class ProjectLeaderController extends ProjectMemberController
                         // now we have to send a notification as well 
                         $notificationArgs = array(
                             "projectId" => $_SESSION['project_id'],
-                            "message" => "You are assigned to ".$args['taskname']. " by project leader",
+                            "message" => "You are assigned to " . $args['taskname'] . " by project leader",
                             "type" => "notification",
                             "senderId" => $user_id,
                             "sendTime" => $date
@@ -180,17 +182,18 @@ class ProjectLeaderController extends ProjectMemberController
             );
 
             $task = new Task();
-            if($task->createTask($data, array("project_id", "description", "deadline", "task_name", "priority", "status"))){
-                header("Location: http://localhost/public/user/project?id=".$_SESSION['project_id']);
-            }else{
+            if ($task->createTask($data, array("project_id", "description", "deadline", "task_name", "priority", "status"))) {
+                header("Location: http://localhost/public/user/project?id=" . $_SESSION['project_id']);
+            } else {
                 echo "Fail";
             }
-        }else{
-            header("Location: http://localhost/public/user/project?id=".$_SESSION['project_id']);
+        } else {
+            header("Location: http://localhost/public/user/project?id=" . $_SESSION['project_id']);
         }
     }
 
-    public function rearangeTask(){
+    public function rearangeTask()
+    {
         $data = json_decode(file_get_contents('php://input'));
         $project_id = $_SESSION["project_id"];
 
@@ -205,7 +208,7 @@ class ProjectLeaderController extends ProjectMemberController
         $task = new Task();
         $message = "";
 
-        if($data->new_board === "TO-DO"){
+        if ($data->new_board === "TO-DO") {
             $args['memberId'] = NULL;
             $updates[] = "memberId";
         }
@@ -223,7 +226,8 @@ class ProjectLeaderController extends ProjectMemberController
         );
     }
 
-    public function assignTask(){
+    public function assignTask()
+    {
         $data = json_decode(file_get_contents('php://input'));
 
         $user = new User();
@@ -234,7 +238,7 @@ class ProjectLeaderController extends ProjectMemberController
         $project_id = $_SESSION["project_id"];
         $user_id = $payload->id;
 
-        if($receivedUser){
+        if ($receivedUser) {
             $args = array(
                 "status" => "ONGOING",
                 "memberId" => $receivedUser->id,
@@ -246,7 +250,7 @@ class ProjectLeaderController extends ProjectMemberController
             $message = "";
 
             try {
-                $task->pickupTask($args);
+                // $task->pickupTask($args);
                 $message = "Successfully picked";
 
                 // send notification to leader
@@ -262,7 +266,7 @@ class ProjectLeaderController extends ProjectMemberController
                 );
                 $notification = new Notification();
                 $notification->createNotification($notificationArgs);
-                
+
                 $notifyConditions = array(
                     "projectId" => $project_id,
                     "senderId" => $user_id,
@@ -276,7 +280,6 @@ class ProjectLeaderController extends ProjectMemberController
                     "memberId" => $receivedUser->id
                 );
                 $notification->setNotifiedMembers($notifyMemberArgs);
-
             } catch (\Throwable $th) {
                 $message = "Failed to pick up";
             }
@@ -289,7 +292,8 @@ class ProjectLeaderController extends ProjectMemberController
             );
         }
     }
-    public function createGroup(){
+    public function createGroup()
+    {
         $data = $_POST;
         var_dump($data);
         $project_id = $_SESSION['project_id'];
@@ -326,7 +330,7 @@ class ProjectLeaderController extends ProjectMemberController
             $task->createTask($taskArgs, array("project_id", "description", "task_name", "priority", "status", "assign_type", "memberId"));
 
             // until project leader add a new group leader, he or she will be the group leader
-            $newGroup = $group->getGroup(array("group_name" => $data['group_name'],"project_id" => $project_id,), array("group_name", "project_id"));
+            $newGroup = $group->getGroup(array("group_name" => $data['group_name'], "project_id" => $project_id,), array("group_name", "project_id"));
             $addMemberArgs = array(
                 "group_id" => $newGroup->id,
                 "member_id" => $user_id,
@@ -348,4 +352,3 @@ class ProjectLeaderController extends ProjectMemberController
         );
     }
 }
-

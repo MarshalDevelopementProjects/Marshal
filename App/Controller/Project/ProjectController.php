@@ -12,28 +12,31 @@ use App\Model\User;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
-class ProjectController{
+class ProjectController
+{
 
-    public function __construct(){
+    public function __construct()
+    {
     }
     public function defaultAction(Object|array|string|int $optional = null)
     {
     }
 
-    public function getProjectTasks(array $args = array(), $user_id = null){
+    public function getProjectTasks(array $args = array(), $user_id = null)
+    {
         $newTask = new Task();
         $user = new User();
         // get all tasks related to this project
         $tasks = $newTask->getAllTasks($args);
 
-        if($tasks){
+        if ($tasks) {
             // divide the tasks by status
             $todoTasks = array();
             $ongoingTasks = array();
             $reviewTasks = array();
             $doneTasks = array();
 
-            foreach($tasks as $task){
+            foreach ($tasks as $task) {
 
                 switch ($task->status) {
                     case 'TO-DO':
@@ -86,9 +89,8 @@ class ProjectController{
                 "doneTasks" => $doneTasks
             );
             return $projectTasks;
-        }else{
+        } else {
             return array();
         }
-        
     }
 }
