@@ -71,24 +71,6 @@ class Project implements Model
         }
     }
 
-    public function readProjectData(string|int $project_id)
-    {
-        try {
-            $sql_string = "SELECT * FROM `project` WHERE `id` = :id";
-            $args = array("project_id" => $project_id);
-            // execute the query
-            $result = $this->crud_util->execute($sql_string, $args);
-            if ($result->getCount() > 0) {
-                $this->project_data = $result->getResults(); // get all the results or just one result this is an array of objects
-                return true;
-            } else {
-                return false;
-            }
-        } catch (\Exception $exception) {
-            throw $exception;
-        }
-    }
-
     public function readUserRole(string|int $member_id, string|int $project_id): bool
     {
         try {
@@ -149,7 +131,7 @@ class Project implements Model
         }
     }
 
-    public function readProjectData(string|int $project_id)
+    public function readProjectData(string|int $project_id): bool
     {
         try {
             $sql_string = "SELECT * FROM `project` WHERE `id` = :id";
