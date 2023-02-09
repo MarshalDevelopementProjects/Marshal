@@ -246,6 +246,12 @@ table{
 tr{
     border-bottom: 1px solid #eef0f3;
 }
+.row:hover{
+    cursor: pointer;
+    background-color: #7e7e81;
+    color:#fff;
+    transition: all 0.4s ease-in-out;
+}
 thead td{
     font-size: 14px;
     text-transform: uppercase;
