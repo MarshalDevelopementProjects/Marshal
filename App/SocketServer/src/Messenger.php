@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Controller\SocketServer\src;
+namespace App\SocketServer\src;
 
-require __DIR__ . '/../../../../vendor/autoload.php';
+require __DIR__ . '/../../../vendor/autoload.php';
 
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 
-class MessageController implements MessageComponentInterface
+class Messenger implements MessageComponentInterface
 {
     private array $channels;
 
