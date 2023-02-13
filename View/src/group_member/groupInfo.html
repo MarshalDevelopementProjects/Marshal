@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects | Dashboard</title>
-    <link rel="stylesheet" href="/View/styles/group_leader/groupInfo.css">
+    <link rel="stylesheet" href="/View/styles/group_member/groupInfo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -17,7 +17,7 @@
                 <img src="/View/images/logo.png" alt="logo" class="logo">
             </div>
             <div class="right-profile-area">
-                <button type="submit" class="navbar-new-project">+ New Project</button>
+                <button type="submit" class="navbar-new-project">+generate report</button>
                 <i class="fa fa-bell-o  notification-bell-btn" aria-hidden="true"></i>
                 <i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i>
                 <img src="/View/images/dp.png" alt="profile picture" class="profile-image">
@@ -64,7 +64,7 @@
                 <div class="project-info">
                     <div class="project-info-top">
                         <h2><span id="groupIdentifier">#</span> Medicare App Development <span>Web App development</span></h2>
-                        <p id="invite-member-btn"><i class="fa fa-user-plus" aria-hidden="true"></i> Invite member</p>
+                        
                     </div>
                     <p>mHealth apps  between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals.
                         <br> convenience of their own homes without visiting hospitals.</p>
@@ -347,22 +347,10 @@
             </div>
         </div>
 
-
-        <div class="invite-popup">
-            <h3>Invite group member</h3>
-            <label for="username">Username</label>
-            <br>
-            <input type="text" name="username" placeholder="Enter username">
-            <div class="buttons">
-                <button type="submit" id="inviteBtn">Send</button>
-                <button type="submit" id="closeBtn">Close</button>
-            </div>
-        </div>
-
         
     </div>
 
-    <script src="/View/js/group_leader/groupInfo.js"></script>
+    <script src="/View/js/group_member/groupInfo.js"></script>
 </body>
 </html>
 

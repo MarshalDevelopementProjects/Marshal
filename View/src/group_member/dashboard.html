@@ -1,30 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/View/styles/styles_less.css" />
-    <link rel="stylesheet" href="/View/styles/landing.css" />
-    <title>Marshal</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task board</title>
+    <link rel="stylesheet" href="/View/styles/group_member/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
-
 <body>
-    <nav class="navbar">
-        <!-- LOGO -->
-        <div class="logo">MARSHAL</div>
-        <!-- NAVIGATION MENU -->
-        <ul class="nav-links" list-style-type="none">
-            <div class="menu">
-                <button id="create-project-btn">Create new project</button>
-                <button id="log-out-btn">Log Out</button>
-            </div>
-        </ul>
-    </nav>
+    <div class="container">
 
-    <p>This is the project landing page of a group member</p>
+        <div class="navbar">
+            <div class="left-logo-area">
+                <img src="/View/images/logo.png" alt="logo" class="logo">
+            </div>
+            <div class="right-profile-area">
+                <button type="submit" class="navbar-new-project">+ New Project</button>
+                <i class="fa fa-bell-o  notification-bell-btn" aria-hidden="true"></i>
+                <i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i>
+                <img src="/View/images/dp.png" alt="profile picture" class="profile-image">
+            </div>
+        </div>
+
+        <div class="task-boards-container">
+
+            <div class="left-panel">
+                <div class="top-menus">
+                    <ul>
+                        <!-- <li class="dashboard active">Dashboard</li>
+                        <li class="new-project">New project</li>
+                        <li class="profile">Profile</li>
+                        <li class="settings">Settings</li>
+                        <li class="sketch-idea">Sketch idea</li> -->
+                        <a href="http://localhost/public/user/dashboard" style="text-decoration: none;  color: #333;">
+                            <li class="dashboard active">Dashboard</li>
+                        </a>
+                        <li class="new-project">New project</li>
+                        <a href="http://localhost/public/user/profile" style="text-decoration: none;  color: #333;">
+                            <li class="profile">Profile</li>
+                        </a>
+                        <a href="http://localhost/public/projectmember/forum" style="text-decoration: none;  color: #333;">
+                            <li class="settings">Forum</li>
+                        </a>
+                        <a href="http://localhost/public/user/sketch" style="text-decoration: none;  color: #333;">
+                            <li class="sketch-idea">Sketch idea</li>
+                        </a>
+                    </ul>
+                </div>
+                <div class="middle-icon">
+                    <i class="fa fa-caret-left" aria-hidden="true"></i>
+                </div>
+
+                <div class="bottom-calender">
+                    <div class="top-month">
+                        <button type="submit" class="previous-month-btn"><i class="fa fa-caret-left" aria-hidden="true"></i></button>
+                        <p><span class="month"></span> <span class="year"></span></p>
+                        <button type="submit" class="next-month-btn"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="day-names">
+                        <p>Mon</p>
+                        <p>Tue</p>
+                        <p>Wed</p>
+                        <p>Thu</p>
+                        <p>Fri</p>
+                        <p>Sat</p>
+                        <p>Sun</p>
+                    </div>
+                    <div class="days">
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="search-bar">
+
+                    <div class="search-box">
+                        <input type="text" placeholder="Search your project tasks ...">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                    </div>
+                    <a href="http://localhost/public/projectleader/getinfo"><p>Mentcare Web App</p></a>
+                </div>
+
+                <div class="TO-DO-task-details">
+                    <div class="top-bar">
+                        <h3>Design UI for login page</h3>
+                        <p class="High">High</p>
+                    </div>
+                    <p class="task-details-description">Gathering and evaluating user requirements, in collaboration with product managers and engineers. 
+
+                        Illustrating design ideas using storyboards, process flows and sitemaps. Designing graphic user interface elements, like menus, tabs and widgets.</p>
+                    <p class="task-details-deadline">Deadline : 10-01-2023</p>
+
+                    <div class="task-feedbacks">
+                        <p class="incomming-feedbacks"></p>
+                        <p class="outgoing-feedbacks"></p>
+                        <form action="#" method="post">
+                            <label for="feedbackMessage"></label>
+                            <input type="text" name="feedbackMessage" placeholder="Send something ..." disabled>
+                            <button disabled type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                        </form>
+                    </div>
+                    <div class="buttons">
+                        <a id="cancel-task-details" href="#">Cancel</a>
+                        <a href="#">PickUp</a>
+                    </div>
+                </div>
+                
+                <div class="group-details">
+                    <div class="progress">
+                        <div class="cuircular-progress">
+                            <div class="progress-value">0%</div>
+                        </div>
+                    </div>
+                    <div class="group-info">
+                        <a href="http://localhost/public/groupmember/group"><h3>UI/UX Component devlopment</h3></a>
+                        <p>mHealth apps facilitate engagement through effective patient-focused care, personalized experiences & knowledge sharing between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals.</p>
+                    
+                        <h6>Start date : 2022-10-12 <span>Deadline : 2023-02-10</span></h6>
+                    </div>
+                </div>
+
+                <div class="task-boards">
+                    <div class="todo board">
+
+                        <div class="board-top">
+                            <h3>TO DO</h3>
+                            
+                        </div>
+
+                    
+                        
+                        <div class="tasks">
+                            
+                            
+                            <div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>Develop API 1</h4>
+                                    <p class="priority-high">High</p>
+                                </div>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <div class="bottom-task" style="display:flex">
+                                    <p class="deadline">2023-01-10</p>
+                                </div>
+                            </div>
+                            <div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>Develop API 1</h4>
+                                    <p class="priority-high">High</p>
+                                </div>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <div class="bottom-task" style="display:flex">
+                                    <p class="deadline">2023-01-10</p>
+                                </div>
+                            </div>
+                            <div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>Develop API 1</h4>
+                                    <p class="priority-high">High</p>
+                                </div>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <div class="bottom-task" style="display:flex">
+                                    <p class="deadline">2023-01-10</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ongoing board">
+                        <h3>ON GOING</h3>
+                        <div class="tasks">
+                            
+                            <div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>Develop API 6</h4>
+                                    <p class="priority-high">High</p>
+                                </div>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <div class="bottom-task" style="display:flex">
+                                    <p class="deadline">2023-01-10</p>
+                                    <img id="member-profile" src="/View/images/dp.png" alt="">
+                                </div>
+                            </div>
+                            <div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>Develop API 6</h4>
+                                    <p class="priority-high">High</p>
+                                </div>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <div class="bottom-task" style="display:flex">
+                                    <p class="deadline">2023-01-10</p>
+                                    <img id="member-profile" src="/View/images/dp.png" alt="">
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="review board">
+                        <h3>REVIEW</h3>
+                        <div class="tasks">
+                            <div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>Develop API 6</h4>
+                                    <p class="priority-high">High</p>
+                                </div>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <div class="bottom-task" style="display:flex">
+                                    <p class="deadline">2023-01-10</p>
+                                    <img id="member-profile" src="/View/images/dp.png" alt="">
+                                </div>
+                            </div>
+                            <div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>Develop API 6</h4>
+                                    <p class="priority-high">High</p>
+                                </div>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <div class="bottom-task" style="display:flex">
+                                    <p class="deadline">2023-01-10</p>
+                                    <img id="member-profile" src="/View/images/dp.png" alt="">
+                                </div>
+                            </div>
+                            <div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>Develop API 6</h4>
+                                    <p class="priority-high">High</p>
+                                </div>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <div class="bottom-task" style="display:flex">
+                                    <p class="deadline">2023-01-10</p>
+                                    <img id="member-profile" src="/View/images/dp.png" alt="">
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="done board">
+                        <h3>DONE</h3>
+                        <div class="tasks">
+                            <div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>Develop API 1</h4>
+                                    <p class="priority-high">High</p>
+                                </div>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <div class="bottom-task" style="display:flex">
+                                    <p class="deadline">2023-01-10</p>
+                                </div>
+                            </div>
+                            <div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>Develop API 1</h4>
+                                    <p class="priority-high">High</p>
+                                </div>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <div class="bottom-task" style="display:flex">
+                                    <p class="deadline">2023-01-10</p>
+                                </div>
+                            </div>
+                            <div class="task" draggable="true">
+                                <div class="top-task">
+                                    <h4>Develop API 1</h4>
+                                    <p class="priority-high">High</p>
+                                </div>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <div class="bottom-task" style="display:flex">
+                                    <p class="deadline">2023-01-10</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        var jsonData = JSON.parse('<?= $data; ?>');
+    </script>
     <script src="/View/js/group_member/dashboard.js"></script>
 </body>
-
 </html>

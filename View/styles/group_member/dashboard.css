@@ -108,6 +108,7 @@ body{
 }
 .top-menus ul li a{
     text-decoration: none;
+    color: #333;
 }
 .top-menus ul li:hover{
     background-color: #dbd7d7;
@@ -216,7 +217,6 @@ body{
     cursor: pointer;
 }
 
-
 .right-panel{
     /* position: fixed; */
     margin: 60px 0 0 250px;
@@ -280,13 +280,13 @@ body{
 
 .task-boards .board{
     height: fit-content;
-    max-height: 585px;
+    max-height: 435px;
     overflow-y: scroll;
     width: 280px;
     margin: 10px 15px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     border-radius: 10px;
-    padding: 15px 10px 10px 10px;
+    padding: 10px 10px 10px 10px;
     background-color: #fff;
     /* border: 1px solid black; */
 }
@@ -309,7 +309,7 @@ body{
 }
 .create-task-popup.active{
     height: 285px;
-    margin-bottom: 15px;
+    margin-bottom: 27px;
     padding: 10px 0px 10px 10px;
 }
 
@@ -443,18 +443,18 @@ body{
 .board h3{
     width: fit-content;
     color: #444;
-    margin: 5px 0 15px 15px;
+    margin: 0px 0 15px 15px;
 }
 .board .tasks{
     /* border: 1px solid black; */
     height: fit-content;
-    max-height: 550px;
+    max-height: 450px;
     min-height: 15px;
     overflow-y: scroll;
     overflow-x: hidden;
 }
 .board .task{
-    height: 100px;
+    height: 90px;
     margin: 0 5px 15px 5px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 10px;
@@ -509,12 +509,13 @@ body{
     border-radius: 4px;
 }
 .task .task-description{
-    font-size: 12px;
-    margin: 3px 25px;
-    height: 30px;
+    font-size: 11px;
+    margin: 1px 25px;
+    height: 25px;
     width: 190px;
     overflow-x: hidden;
     overflow-y: hidden;
+    /* border: 1px solid black; */
 }
 
 .task .bottom-task{
@@ -528,15 +529,6 @@ body{
     margin-left: 15px;
     color: #FB160D;
     margin-top: 5px;
-}
-#Pending{
-    width: fit-content;
-    font-size: 11px;
-    margin-left: 15px;
-    color: #031738;
-    margin-top: 5px;
-    font-style: italic;
-    font-weight: 550;
 }
 #member-profile{
     width: 25px;
@@ -611,10 +603,6 @@ body{
     margin-left: 20px;
     margin-top: 20px;
 }
-.task-details-deadline span{
-    color: #20B289;
-    margin-left: 75px;
-}
 .TO-DO-task-details .task-feedbacks{
     border: 1px solid #eee;
     border-radius: 12px;
@@ -681,142 +669,76 @@ body{
     background-color: #F83B3B;
 }
 
-.TO-DO-task-details .buttons{
-    display: flex;
+.group-details{
     /* border: 1px solid black; */
-    width: 220px;
-    margin-left: 350px;
-}
-.buttons a{
-    margin:  0 10px 0 10px;
-    padding: 7px 18px;
-    border-radius: 5px;
-    background-color: #20B289;
-    color: #fff;
-    font-weight: 550;
-    text-decoration: none;
-    cursor: pointer;
-}
-.buttons p[id="continueBtn"]{
-    margin:  0 10px 0 10px;
-    padding: 7px 18px;
-    border-radius: 5px;
-    background-color: #20B289;
-    color: #fff;
-    font-weight: 550;
-    text-decoration: none;
-    cursor: pointer;
-}
-#finishTaskBtn{
-    margin:  0 10px 0 10px;
-    padding: 7px 18px;
-    border-radius: 5px;
-    background-color: #20B289;
-    color: #fff;
-    font-weight: 550;
-    text-decoration: none;
-    cursor: pointer;
-}
-#cancel-task-details{
-    background-color: #F83B3B;
-}
-
-#completedMessage{
-    margin-left: -320px;
-    font-size: 13px;
-    overflow: hidden;
-    /* border: 1px solid black; */
-    width: 600px;
-    height: 20px;
-    color: #031738;
-    font-weight: 550;
-}
-#confirmationMessage span{
-    color: #333;
-}
-
-
-
-
-
-
-
-
-
-.right-panel .confirmation-popup{
-    display: none;
-    position: absolute;
-    width: 400px;
-    height: 180px;
-    padding: 10px;
-    margin: -400px 0 0 275px;
-    border: 1px solid #dbd7d7;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
-    background-color: #fff;
+    height: 140px;
+    margin: 10px 5% 0 5%;
+    width: 90%;
+    background-color: #EECACA;
     border-radius: 10px;
-    transition: all 1s ease;
-}
-.confirmation-popup.active{
-    display: block;
-}
-.close-area i{
-    margin-left: 360px;
-    color: #333;
-    cursor: pointer;
-}
-.confirmation-popup .message-area{
-    height: 120px;
+    padding: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     display: flex;
-    flex-direction: column-reverse;
-    padding-bottom: 5px;
 }
-.message-area p{
-    border: 1px solid #d1d1d1;
-    width: fit-content;
-    max-width: 280px;
-    max-height: 100px;
-    overflow: hidden;
-    padding: 8px;
-    font-size: 13px;
-    margin-left: auto;
-    margin-right: 8px;
-    background-color: #f5f5f5;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-top-right-radius: 10px;
-    display: none;
-}
-.message-area p.active{
-    display: block;
-}
-.confirmation-popup .input-area{
+.group-details .progress{
+    margin: 5px 5px 10px 20px;
+    height: 120px;
+    width: 120px;
     /* border: 1px solid black; */
-    height: 25px;
+    display: grid;
+    place-items: center;
 }
-.input-area input{
-    height: 24px;
+.group-details .group-info{
+    width: 720px;
+    /* border: 1px solid black; */
+    text-decoration: none;
 }
-.input-area input[type="text"]{
-    padding-left: 10px;
-    border: 1px solid #f1f1f1;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    width: 330px;
+.group-info a{
+    text-decoration: none;
+    /* background-color: #20B289; */
+}
+.group-info h3{
+    font-size: 18px;
+    margin: 10px 0 5px 25px;
+    color: #031738;
+    text-decoration: none;
+}
+.group-info p{
+    font-size: 13px;
+    margin-left: 25px;
+    color: #222;
+    overflow: hidden;
+    height: 60px;
+}
+.group-info h6{
+    font-size: 15px;
+    /* border: 1px solid black; */
+    margin-left: 60px;
+    color: #333;
+}
+.group-info h6 span{
+    margin-left: 180px;
+    color: #b82222;
 }
 
-.input-area label{
-    border: 1px solid #f1f1f1;
-    color: #555;
-    background-color: #f9f9f9;
-    cursor: pointer;
+.progress .cuircular-progress{
+    /* position: relative; */
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #be9191;
+    display: grid;
+    place-items: center;
 }
-.input-area button{
-    height: 22px;
-    width: 22px;
-    font-size: 15px;
-    background-color: #fff;
-    border: none;
-    outline: none;
-    color: #20B289;
-    cursor: pointer;
+.cuircular-progress:before{
+    content: "";
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #EECACA;
+    position: absolute;
+}
+.cuircular-progress .progress-value{
+    position: relative;
+    font-weight: 550;
 }

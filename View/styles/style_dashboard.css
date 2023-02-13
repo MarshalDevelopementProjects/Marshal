@@ -83,7 +83,7 @@ body{
     /* border: 1px solid black; */
     margin: 75px 0 0 3px;
     width: 240px;
-    height: 550px;
+    height: 630px;
     border-radius: 12px;
     padding: 10px;
     background-color: #fff;
@@ -125,7 +125,7 @@ body{
     width: 15px;
     height: 36px;
     border-radius: 4px;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     margin: 10px 0px 0 auto; /*60*/
@@ -134,7 +134,7 @@ body{
     cursor: pointer;
 }
 .bottom-calender{
-    margin-top: 10px;
+    margin-top: 125px;
     /* border: 1px solid black; */
     height: 250px;
 }
@@ -306,9 +306,10 @@ body{
     margin-top: 10px;
     font-size: 18px;
     color: #2F2E41;
+    /* border: 1px solid black; */
+    height: 43px;
 }
 .project-card .tasks{
-    /* border: 1px solid black; */
     width: 180px;
     height: 90px;
 }
@@ -527,7 +528,7 @@ div::-webkit-scrollbar {
     overflow-y: scroll;
     position: fixed;
     background-color: #fff;
-    margin: 65px 10px 0 1020px;
+    margin: 65px 10px 0 1175px;
     border-radius: 15px;
     padding: 10px;
     padding-bottom: 25px;
@@ -678,7 +679,7 @@ div::-webkit-scrollbar {
     background-color: rgba(0, 0, 0, 0);
     transition: all 2s ease;
     /* display: flex; */
-    margin: 75px 0 0 230px;
+    margin: 115px 0 0 300px;
     transition: all 2s ease;
 }
 .create-project-container.active{
@@ -749,7 +750,7 @@ div::-webkit-scrollbar {
     color: #555;
     margin-bottom: 10px;
 }
-#projectDescription{
+#description{
     height: 100px;
 }
 .create-project-form form button{

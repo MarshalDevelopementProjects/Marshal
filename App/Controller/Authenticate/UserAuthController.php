@@ -188,6 +188,7 @@ class UserAuthController extends Token
                         // please make this link look like a button
                         body: "Dear $recipient_name,\n\nWelcome to Marshal, the project management platform that makes it easy to collaborate and stay on top of your projects.We're excited to have you on board, but we need to verify that the email address you provided is correct.\n\nTo verify your email address and start using Marshal, please click the following verification link:\n\nVerification Link: http://localhost/public/user/signup/email/verification?email_address=$recipient_email_address&verification_code=$verification_code\n\n\nIf you did not sign up for Marshal, please ignore this email.\n\nThank you for choosing Marshal and we look forward to helping you manage your projects more effectively.\n\nBest regards,\nThe Marshal Team"
                     );
+
                     if ($mail_sent) {
                         // add the user to the user table
                         $params["verification_code"] = $verification_code;

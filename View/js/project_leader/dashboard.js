@@ -328,7 +328,7 @@ tasks.forEach(task => {
                                 </form>
                             </div>
                             <div class="bottom">
-                                <input type="text" name="assignedMember" placeholder="Assign member ...">
+                            <input type="text" name="assignedMember" placeholder="Assign member ...">
                                 <div class="buttons">
                                     <a id="cancel-task-details" href="#">Cancel</a>
                                     <a id="pickup-task-btn" href="#">PickUp</a>

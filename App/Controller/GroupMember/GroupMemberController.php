@@ -30,4 +30,11 @@ class GroupMemberController extends ProjectMemberController
     {
         return parent::auth();
     }
+    public function getGroupInfo()
+    {
+        $this->sendResponse(
+            view: "/group_member/groupInfo.html",
+            status: "success",
+        );
+    }
 }

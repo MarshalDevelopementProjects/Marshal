@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects | Dashboard</title>
-    <link rel="stylesheet" href="/View/styles/group_leader/groupInfo.css">
+    <link rel="stylesheet" href="/View/styles/project_member/forum.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -28,11 +28,24 @@
             <div class="left-panel">
                 <div class="top-menus">
                     <ul>
-                        <li class="dashboard active">Dashboard</li>
+                        <!-- <li class="dashboard active">Dashboard</li>
                         <li class="new-project">New project</li>
                         <li class="profile">Profile</li>
                         <li class="settings">Settings</li>
-                        <li class="sketch-idea">Sketch idea</li>
+                        <li class="sketch-idea">Sketch idea</li> -->
+                        <a href="http://localhost/public/user/dashboard">
+                            <li class="dashboard active">Dashboard</li>
+                        </a>
+                        <li class="new-project">New project</li>
+                        <a href="http://localhost/public/user/profile">
+                            <li class="profile">Profile</li>
+                        </a>
+                        <a href="http://localhost/public/projectmember/forum">
+                            <li class="settings">Forum</li>
+                        </a>
+                        <a href="http://localhost/public/user/sketch">
+                            <li class="sketch-idea">Sketch idea</li>
+                        </a>
                     </ul>
                 </div>
                 <div class="middle-icon">
@@ -61,43 +74,45 @@
             </div>
             <div class="right-panel">
 
-                <div class="project-info">
-                    <div class="project-info-top">
-                        <h2><span id="groupIdentifier">#</span> Medicare App Development <span>Web App development</span></h2>
-                        <p id="invite-member-btn"><i class="fa fa-user-plus" aria-hidden="true"></i> Invite member</p>
-                    </div>
-                    <p>mHealth apps  between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals.
-                        <br> convenience of their own homes without visiting hospitals.</p>
-
-                    <div class="progress-bar">
-                        <p id="start-date">25-10-22</p>
-                        <div class="bar"><div class="progress"></div></div>
-                        <p id="end-date">10-02-2023</p>
-                    </div>
-
-                    <div class="feedbacks-and-groups">
-                        <div class="feedbacks">
-                            <h3>Feedback Form</h3>
-                            <div class="feedback-form">
-                                <p class="outgoing-feedback">How is Going</p>
-                                <p class="outgoing-feedback">Yes, you have written the first thing first, but after that it becomes muddled. Your next step is to go back to your plan and check your numbering of the order of the events as they happened.</p>
-
-                                <p class="incoming-feedback">Yes, you have written the first thing first, but after that it becomes muddled. Your next step is to go back to your plan and check your numbering of the order of the events as they happened.</p>
+                <div class="messaging-area">
+                    <h3>Message Forum</h3>
+                    <div class="chatting-area">
+                        <div class="incoming-message">
+                            <div class="sender-details">
+                                <img src="/View/images/dp.png" alt="">
+                                <h5>Harsha Gunawardane</h5>
+                                <p>2023-02-10 on 12:05</p>
                             </div>
-                            <form action="#" method="post">
-                                <label for="feedback"></label>
-                                <input type="text" name="feedback" id="feedback" placeholder="Type feedback ...">
-                                
-                                <button type="submit"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
-                            </form>
+                            <p class="message-content">
+                                @Merideth_Palmer Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis condimentum lobortis.
+                            </p>
                         </div>
-                        
+                        <div class="incoming-message">
+                            <div class="sender-details">
+                                <img src="/View/images/dp.png" alt="">
+                                <h5>Harsha Gunawardane</h5>
+                                <p>2023-02-10 on 12:05</p>
+                            </div>
+                            <p class="message-content">
+                                @Meridetociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis condimentum lobortis.
+                            </p>
+                        </div>
+
+                        <div class="outgoing-message">
+                            <p class="message-content">
+                                @Meridetociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis condimentum lobortis.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="send-area">
+                        <input type="text" placeholder="Type your message...">
+                        <i class="fa fa-caret-right" aria-hidden="true"></i>
                     </div>
                 </div>
 
                 <div class="member-list">
-                    <h3>Group Leader</h3>
-                    <div class="member-card">
+                    <h3>Project Leader</h3>
+                    <div id="projectLeaderCard" class="member-card">
                         <div class="profile-image">
                             <img src="/View/images/dp.png" alt="">
                             <i class="fa fa-circle" aria-hidden="true"></i>
@@ -107,7 +122,7 @@
                             <p>Frontend Developer</p>
                         </div>
                     </div>
-                    <h3>Group Members</h3>
+                    <h3>Group Leaders</h3>
                     <div class="group-leaders">
                         <div class="member-card">
                             <div class="profile-image">
@@ -139,7 +154,49 @@
                                 <p>Frontend Developer</p>
                             </div>
                         </div>
-                        
+                    </div>
+                    <h3>Project Members</h3>
+                    <div class="project-members">
+                        <div class="member-card">
+                            <div class="profile-image">
+                                <img src="/View/images/dp.png" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>Harsha Gunawardane</h6>
+                                <p>Frontend Developer</p>
+                            </div>
+                        </div>
+                        <div class="member-card">
+                            <div class="profile-image">
+                                <img src="/View/images/dp.png" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>Harsha Gunawardane</h6>
+                                <p>Frontend Developer</p>
+                            </div>
+                        </div>
+                        <div class="member-card">
+                            <div class="profile-image">
+                                <img src="/View/images/dp.png" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>Harsha Gunawardane</h6>
+                                <p>Frontend Developer</p>
+                            </div>
+                        </div>
+                        <div class="member-card">
+                            <div class="profile-image">
+                                <img src="/View/images/dp.png" alt="">
+                                <i class="fa fa-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="member-info">
+                                <h6>Harsha Gunawardane</h6>
+                                <p>Frontend Developer</p>
+                            </div>
+                        </div>
                         <div class="member-card">
                             <div class="profile-image">
                                 <img src="/View/images/dp.png" alt="">
@@ -152,10 +209,8 @@
                         </div>
                     </div>
 
-                    <div class="chart">
-                        <img src="/View/images/chart.png" alt="">
-                    </div>
                 </div>
+                
 
                     
                 </div>
@@ -310,59 +365,10 @@
 
             </div>
         </div>
-
-        <div class="create-project-container">
-            <div class="create-project-popup">
-                <div class="create-project-top">
-                    <div class="create-project-header">
-                        <h3>Let's create a workspace.</h3>
-                        <p>Make it simpler for everyone to access boards in one place to increase productivity.</p>
-                    </div>
-                    <i class="fa fa-times create-project-popup-close" aria-hidden="true"></i>
-                </div>
-                <div class="create-project-details">
-                    <div class="create-project-form">
-                        <form action="#" method="post">
-                            <label for="projectName">Project Name</label>
-                            <br>
-                            <input type="text" name="projectName" placeholder="Enter project name ...">
-                            <br>
-                            <p>Your business, group, or organization's name is here.</p>
-    
-                            <label for="projectType">Project Type</label>
-                            <br>
-                            <input type="text" name="projectType" placeholder="Enter project type ...">
-    
-                            <br>
-                            <label for="projectDescription">Project Description</label>
-                            <br>
-                            <input type="text" id="projectDescription" name="projectDescription" placeholder="Please enter something on your project ... ">
-    
-                            <br>
-                            <button type="submit">CREATE</button>
-                        </form>
-                    </div>
-                    <img src="/View/images/project_create.png" alt="project_create">
-                </div>
-            </div>
-        </div>
-
-
-        <div class="invite-popup">
-            <h3>Invite group member</h3>
-            <label for="username">Username</label>
-            <br>
-            <input type="text" name="username" placeholder="Enter username">
-            <div class="buttons">
-                <button type="submit" id="inviteBtn">Send</button>
-                <button type="submit" id="closeBtn">Close</button>
-            </div>
-        </div>
-
         
     </div>
 
-    <script src="/View/js/group_leader/groupInfo.js"></script>
+    <script src="/View/js/project_member/forum.js"></script>
 </body>
 </html>
 

@@ -95,7 +95,14 @@ class UserController extends Controller
             foreach ($results as $result) {
                 unset($result->created_by); // remove the project id from the data sent back need the project id
             }
-            $this->sendJsonResponse("success", array("message" => "Project successfully created", "projects" => $results));
+            // $this->sendJsonResponse("success", array("message" => "Project successfully created", "projects" => $results));
+            // $this->sendResponse(
+            //     view: "/user/dashboard.html",
+            //     status: "success"
+            //     // content: array("message" => "User cannot access this project")
+            // );
+            $this->defaultAction();
+            
         } catch (Exception $exception) {
             throw $exception;
         }

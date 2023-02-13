@@ -10,6 +10,7 @@ use App\Model\Notification;
 use App\Model\Task;
 use App\Model\Project;
 use App\Model\Group;
+use App\Model\User;
 use Core\Validator\Validator;
 
 require __DIR__ . '/../../../vendor/autoload.php';
@@ -213,5 +214,45 @@ class ProjectMemberController extends UserController
             $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
         }
     }
+
+    public function getForum(){
+        $this->sendResponse(
+            view: "/project_member/forum.html",
+            status: "success"
+            // content: $project->readProjectsOfUser($user_id, $project_id) ? $data : array()
+        );
+    }
+
+    public function getProjectInfo()
+    {
+        // print_r($_SESSION);
+        $payload = $this->userAuth->getCredentials();
+        $project_id = $_SESSION["project_id"];
+        $user_id = $payload->id;
+        $project = new Project($payload->id);
+
+        // get all data related to the project
+
+        $group = new Group();
+        $groups = $group->getAllGroups(array("project_id" => $project_id), array("project_id"));
+
+        $user = new User();
+        $data = array("groups" => $groups, "projectData" => $project->getProject(array("id" => $project_id)));
+
+        // get project members' details
+        $projectMemberCondition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id AND role = :role)";
+        $groupLeaderCondition = "WHERE id IN (SELECT DISTINCT leader_id FROM groups WHERE project_id = :project_id)";
+
+        $data['projectLeader'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "LEADER"), $projectMemberCondition);
+        $data['projectMembers'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "MEMBER"), $projectMemberCondition);
+        $data['groupLeaders'] = $user->getAllUsers(array("project_id" => $project_id), $groupLeaderCondition);
+
+        $this->sendResponse(
+            view: "/project_member/getProjectInfo.html",
+            status: "success",
+            content: $project->readProjectsOfUser($user_id, $project_id) ? $data : array()
+        );
+    }
+
     
 }

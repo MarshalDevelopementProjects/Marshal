@@ -49,10 +49,12 @@ $router->get('/projectmember/dashboard', ProjectMemberController::class . '::def
 $router->get('/groupleader/dashboard', GroupLeaderController::class . '::defaultAction');
 $router->post('/groupleader/task', GroupLeaderController::class . '::createTask');
 $router->get('/groupleader/group', GroupLeaderController::class. '::getGroupInfo');
+$router->get('/groupmember/group', GroupMemberController::class . '::getGroupInfo');
 
 $router->get('/groupmember/dashboard', GroupMemberController::class . '::defaultAction');
 
 $router->get('/projectmember/group', ProjectMemberController::class . '::goToGroup');
+$router->get('/projectmember/forum', ProjectMemberController::class . '::getForum');
 
 $router->post('/projectmember/pickuptask', ProjectMemberController::class . '::pickupTask');
 $router->post('/projectmember/sendconfirmation', ProjectMemberController::class . '::sendConfirmation');
@@ -76,6 +78,7 @@ $router->get('/user/clicknotification', UserController::class . '::clickOnNotifi
 $router->get('/user/sketch', UserController::class . '::sketch');
 
 $router->get('/projectleader/getinfo', ProjectLeaderController::class . '::getProjectInfo');
+$router->get('/projectmember/getinfo', ProjectMemberController::class . '::getProjectInfo');
 $router->post('/projectleader/invite', ProjectLeaderController::class . '::sendProjectInvitation');
 $router->post('/projectleader/createtask', ProjectLeaderController::class . '::createTask');
 $router->post('/projectleader/group', ProjectLeaderController::class . '::createGroup');
