@@ -150,7 +150,7 @@ class Admin implements Model
     public function readAllUsers()
     {
         // $sql_string = "SELECT `id`, `username`, `email_address` FROM `user`";
-        $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture`,`user_state` FROM `user`";
+        $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture`,`user_state`,`phone_number`,`position`,`first_name`,`last_name` FROM `user`";
 
         try {
             $result = $this->crud_util->execute($sql_string);
