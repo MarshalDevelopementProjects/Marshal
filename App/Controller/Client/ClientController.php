@@ -25,8 +25,11 @@ class ClientController extends UserController
     {
     }
 
-    public function auth()
+    public function auth(): bool
     {
         return parent::auth();
     }
+
+
+    public function sendFeedback() {}
 }

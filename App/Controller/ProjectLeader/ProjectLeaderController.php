@@ -175,4 +175,7 @@ class ProjectLeaderController extends UserController
             header("Location: http://localhost/public/user/project?id=" . $_SESSION['project_id']);
         }
     }
+
+    public function sendMessage(){
+    }
 }

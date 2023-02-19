@@ -8,4 +8,12 @@ use App\CrudUtil\CrudUtil;
 
 class ProjectMember implements Model
 {
+
+    public function __construct()
+    {
+    }
+
+    public function saveMessage()
+    {
+    }
 }

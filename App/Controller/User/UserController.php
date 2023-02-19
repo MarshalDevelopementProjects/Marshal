@@ -142,7 +142,7 @@ class UserController extends Controller
                         $this->sendResponse(
                             view: "/project_leader/dashboard.html",
                             status: "success",
-                            content: $projectController->getProjectTasks($args)
+                            content: array_merge(array("project_id" => $data["id"]), $projectController->getProjectTasks($args))
                             // content: $project->readProjectsOfUser(
                             //     member_id: $payload->id,
                             //     project_id: $data["id"]
@@ -156,7 +156,7 @@ class UserController extends Controller
                             content: $project->readProjectsOfUser(
                                 member_id: $payload->id,
                                 project_id: $data["id"]
-                            ) ? $project->getProjectData() : array()
+                            ) ? array_merge(array("project_id" => $data["id"]), $project->getProjectData()) : array()
                         );
                         break;
                     case 'MEMBER':
@@ -166,7 +166,7 @@ class UserController extends Controller
                             content: $project->readProjectsOfUser(
                                 member_id: $payload->id,
                                 project_id: $data["id"]
-                            ) ? $project->getProjectData() : array()
+                            ) ? array_merge(array("project_id" => $data["id"]), $project->getProjectData()) : array()
                         );
                         break;
                     default: {
@@ -554,6 +554,85 @@ class UserController extends Controller
                 status: "error",
                 content: array("message" => "Bad request")
             );
+        }
+    }
+
+    public function goToForum($data)
+    {
+        try {
+            $payload = $this->userAuth->getCredentials(); // get the payload content
+            $project = new Project($payload->id);
+
+            if ($project->readUserRole(member_id: $payload->id, project_id: $data["id"])) {
+                // check the user role in the project and redirect him/her to the correct project page
+                $_SESSION["project_id"] = $data["id"];
+                switch ($project->getProjectData()[0]->role) {
+                    case 'LEADER':
+                        $args = array(
+                            "project_id" => $_SESSION['project_id']
+                        );
+
+                        // replace this with the forum controller
+                        // to get the data related to the forum
+                        $projectController = new ProjectController();
+
+                        $this->sendResponse(
+                            view: "/project_leader/feedback.html",
+                            status: "success",
+                            content: array_merge(
+                                array("project_id" => $data["id"]),
+                                $projectController->getProjectTasks($args)
+                            )
+                            // content: $project->readProjectsOfUser(
+                            //     member_id: $payload->id,
+                            //     project_id: $data["id"]
+                            // ) ? $project->getProjectData() : array()
+                        );
+                        break;
+                    case 'CLIENT':
+                        $this->sendResponse(
+                            view: "/client/feedback.html",
+                            status: "success",
+                            content: $project->readProjectsOfUser(
+                                member_id: $payload->id,
+                                project_id: $data["id"]
+                            ) ? array_merge(
+                                array("project_id" => $data["id"]),
+                                $project->getProjectData()) : array()
+                        );
+                        break;
+                    case 'MEMBER':
+                        $this->sendResponse(
+                            view: "/project_member/feedback.html",
+                            status: "success",
+                            content: $project->readProjectsOfUser(
+                                member_id: $payload->id,
+                                project_id: $data["id"]
+                            ) ? array_merge(
+                                array("project_id" => $data["id"]),
+                                $project->getProjectData()) : array()
+                        );
+                        break;
+                    default: {
+                            unset($_SESSION["project_id"]);
+                            $this->sendResponse(
+                                view: "/errors/403.html",
+                                status: "unauthorized",
+                                content: array("message" => "User cannot access this project")
+                            );
+                        }
+                }
+            } else {
+                $this->sendResponse(
+                    view: "/errors/404.html",
+                    status: "error",
+                    content: array("message" => "User cannot access this project")
+                );
+            }
+            exit;
+        } catch (Exception $exception) {
+            // throw $exception; // comment this out later
+            $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
         }
     }
 }

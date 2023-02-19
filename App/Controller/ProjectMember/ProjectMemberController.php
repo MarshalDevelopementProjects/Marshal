@@ -31,4 +31,6 @@ class ProjectMemberController extends UserController
     {
         return parent::auth();
     }
+
+    public function sendMessage() {}
 }

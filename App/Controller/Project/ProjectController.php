@@ -3,7 +3,7 @@
 namespace App\Controller\Project;
 
 // use App\Controller\Authenticate\UserAuthController;
-use App\Controller\User\UserController;
+use App\Controller\Controller;
 // use App\Model\Project;
 use App\Model\Task;
 // use Core\Validator\Validator;
@@ -11,11 +11,12 @@ use App\Model\Task;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
-class ProjectController extends UserController
+class ProjectController extends Controller
 {
 
     public function __construct()
     {
+        //parent::__contruct();
     }
 
     public function getProjectTasks(array $args = array())
@@ -61,5 +62,10 @@ class ProjectController extends UserController
         } else {
             return array();
         }
+    }
+
+    public function defaultAction(object|int|array|string $optional = null)
+    {
+        // TODO: Implement defaultAction() method.
     }
 }

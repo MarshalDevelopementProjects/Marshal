@@ -8,7 +8,7 @@ use App\CrudUtil\CrudUtil;
 
 class User implements Model
 {
-    private $crud_util = null, $user_data = null;
+    protected $crud_util = null, $user_data = null;
 
     public function __construct(string|int $id = null)
     {

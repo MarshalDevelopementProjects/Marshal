@@ -509,7 +509,7 @@ LogOutButton.addEventListener("click", () => {
             }
         })
         .then((data) => {
-            if (data.message != undefined && data.message != undefined) {
+            if (data.message !== undefined) {
                 alert(data.message);
             } else {
                 alert(data.message);

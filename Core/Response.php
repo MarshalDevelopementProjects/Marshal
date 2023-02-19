@@ -12,7 +12,7 @@ use Core\View;
  * Class encapsulates the actions needed to send JSON responses to requesting clients
  * in a specific format
  * 
- * @method static void sendResponse() - sends a JSON encoded response to the client
+ * static void sendResponse() - sends a JSON encoded response to the client
  *                                the format is as follows,
  *                                {
  *                                    "message": "message body",

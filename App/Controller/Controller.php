@@ -4,7 +4,6 @@ namespace App\Controller;
 
 require __DIR__ . "/../../vendor/autoload.php";
 
-use App\Controller\Authenticate\AuthenticateController;
 use Core\Response;
 
 /*

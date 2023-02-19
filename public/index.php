@@ -72,11 +72,13 @@ $router->get('/user/signup/email/verification', UserAuthController::class . '::v
 $router->post('/user/edit/password', UserController::class . '::changePassword');
 $router->put('/user/edit/password', UserController::class . '::changePassword');
 
-
 $router->get('/user/forgot/password', UserAuthController::class . '::forgotPasswordServePage');
 $router->post('/user/forgot/password/verification', UserAuthController::class . '::sendVerificationOnForgotPassword');
 $router->post('/user/forgot/password/verify', UserAuthController::class . '::verifyCodeOnForgotPassword');
 $router->put('/user/forgot/password/update', UserAuthController::class . '::updateUserPasswordOnForgotPassword');
+
+$router->get('/project/forum', UserController::class . "::gotoForum"); // check the user role and give the correct page
+// $router->post('/project/forum', UserController::class . "::"); // for the post request to add the message to the database
 
 // sanitize the uri
 $uri = htmlspecialchars(

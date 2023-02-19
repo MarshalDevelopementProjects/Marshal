@@ -8,4 +8,5 @@ use App\CrudUtil\CrudUtil;
 
 class GroupMember implements Model
 {
+    public function saveMessage() {}
 }

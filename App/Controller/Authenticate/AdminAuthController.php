@@ -99,7 +99,7 @@ class AdminAuthController extends Token
         }
     }
 
-    public function adminLogin(array $credentials = array())
+    public function adminLogin(array $credentials = array()): bool
     {
         if (!empty($credentials)) {
             try {

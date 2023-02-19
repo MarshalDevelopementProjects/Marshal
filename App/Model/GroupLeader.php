@@ -8,4 +8,5 @@ use App\CrudUtil\CrudUtil;
 
 class GroupLeader implements Model
 {
+    public function saveMessage() {}
 }

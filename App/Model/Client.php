@@ -8,4 +8,6 @@ use App\CrudUtil\CrudUtil;
 
 class Client implements Model
 {
+
+    public function saveFeedback() {}
 }

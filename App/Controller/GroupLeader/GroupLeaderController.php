@@ -29,4 +29,6 @@ class GroupLeaderController extends ProjectMemberController
     {
         return parent::auth();
     }
+
+    public function sendMessage(){}
 }

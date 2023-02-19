@@ -5,6 +5,13 @@
     padding: 20px;
 }
 
+.forum {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 20px;
+}
+
 .profile-picture {
     width: 150px;
     height: 150px;

@@ -280,7 +280,7 @@ class AdminController extends Controller
     }
 
     // after notification is fixed
-    public function unicastMessages(array $args)
+    public function uniCastMessages(array $args)
     {
         // this args array should contain the following
         // $args["id"] => "user_id_of_the_receiver"
