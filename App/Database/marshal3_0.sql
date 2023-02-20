@@ -211,3 +211,13 @@ CREATE TABLE `group_message`(
 	FOREIGN KEY (`group_id`) REFERENCES `groups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY (`message_id`)
 );
+
+CREATE TABLE `group_feedback_message`(
+	`message_id` INT NOT NULL,
+	`group_id` INT NOT NULL,
+	`group_leader_id` INT NOT NULL,
+	FOREIGN KEY (`message_id`) REFERENCES `message`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (`group_id`) REFERENCES `groups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (`group_leader_id`) REFERENCES `groups`(`leader_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	PRIMARY KEY (`message_id`)
+);
