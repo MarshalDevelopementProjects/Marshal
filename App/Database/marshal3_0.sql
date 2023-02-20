@@ -178,22 +178,10 @@ CREATE TABLE `message`(
 	`id` INT AUTO_INCREMENT,
 	`sender_id` INT NOT NULL,
 	`stamp` DATETIME NOT NULL,
-	`message_type` ENUM("CLIENT_P_LEADER_M", "PROJECT_MESSAGE", "GROUP_MESSAGE") NOT NULL,
+	`message_type` ENUM("PROJECT_MESSAGE", "PROJECT_FEEDBACK_MESSAGE", "GROUP_MESSAGE", "GROUP_FEEDBACK_MESSAGE") NOT NULL,
 	`msg` TEXT NOT NULL,
 	FOREIGN KEY (`sender_id`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY (`id`)
-);
-
--- this is a one to one 
--- make join instead of a nested query
-CREATE TABLE `client_project_message`(
-	`message_id` INT NOT NULL,
-	`project_id` INT NOT NULL,
-	`project_leader_id` INT NOT NULL,
-	FOREIGN KEY (`message_id`) REFERENCES `message`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (`project_leader_id`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	PRIMARY KEY (`message_id`)
 );
 
 CREATE TABLE `project_message`(
@@ -204,20 +192,32 @@ CREATE TABLE `project_message`(
 	PRIMARY KEY (`message_id`)
 );
 
+-- this is a one to one 
+-- make join instead of a nested query
+CREATE TABLE `project_feedback_message`(
+	`message_id` INT NOT NULL,
+	`project_id` INT NOT NULL,
+	FOREIGN KEY (`message_id`) REFERENCES `message`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	PRIMARY KEY (`message_id`)
+);
+
 CREATE TABLE `group_message`(
 	`message_id` INT NOT NULL,
+	`project_id` INT NOT NULL,
 	`group_id` INT NOT NULL,
 	FOREIGN KEY (`message_id`) REFERENCES `message`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (`group_id`) REFERENCES `groups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY (`message_id`)
 );
 
 CREATE TABLE `group_feedback_message`(
 	`message_id` INT NOT NULL,
+	`project_id` INT NOT NULL,
 	`group_id` INT NOT NULL,
-	`group_leader_id` INT NOT NULL,
 	FOREIGN KEY (`message_id`) REFERENCES `message`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (`group_id`) REFERENCES `groups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (`group_leader_id`) REFERENCES `groups`(`leader_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY (`message_id`)
 );
