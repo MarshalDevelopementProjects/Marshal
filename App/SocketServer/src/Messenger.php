@@ -16,16 +16,23 @@ class Messenger implements MessageComponentInterface
         $this->channels = array(
             "clients" => array(),
             "projects" => array(),
+
+            // revise these three
             "groups" =>  array(),
-            "feedback" => array(),
+            "group_feedback" => array(), // this will be used to keep track of the group feedback forums
+            "project_feedback" => array(), // this will be used to keep track of the project feedback forums
         );
     }
 
     function onOpen(ConnectionInterface $conn)
     {
         // ws://localhost:8080/projects?route=projectId&ws_token=token
-        // ws://localhost:8080/groups?route=projectId&ws_token=token
-        // ws://localhost:8080/feedback?route=projectId&ws_token=token
+        // ws://localhost:8080/groups?route=projectId&group=groupId&ws_token=token
+
+        // ws://localhost:8080/groups?route=projectId&group=groupId&ws_token=token
+        // ws://localhost:8080/group_feedback?route=projectId&group=groupId&ws_token=token
+
+        // ws://localhost:8080/project_feedback?route=projectId&ws_token=token
 
         // var_dump($conn->httpRequest->getUri()->getPath()); // if you used the above url they will get "/projects" as the output
         // var_dump($conn->httpRequest->getUri()->getQuery()); // if you used this then you will get "route=projectId" as the output
