@@ -72,6 +72,10 @@ CREATE TABLE `project`(
 	PRIMARY KEY(`id`)
 );
 
+INSERT INTO `project` (`id`, `created_by`, `project_name`, `description`, `field`, `start_on`, `end_on`, `created_on`) VALUES
+(1, 1, 'mHealth App development', 'mHealth apps facilitate engagement through effective patient-focused care, personalized experiences & knowledge sharing between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of thei', 'web', '2023-01-22 01:49:25', '2023-05-30 01:49:25', '2023-01-22 01:49:25'),
+(2, 2, 'project 2', 'sd', 'web', '2023-01-22 03:30:04', '2023-02-16 03:29:39', '2023-01-22 03:30:04');
+
 CREATE TABLE `project_join`(
 	`project_id` INT,
 	`member_id` INT,
@@ -92,6 +96,10 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+INSERT INTO `project_join` (`project_id`, `member_id`, `role`, `joined`) VALUES
+(1, 2, 'MEMBER', '2023-01-24 14:51:36'),
+(2, 1, 'MEMBER', '2023-01-28 15:22:46');
 
 CREATE TABLE `task`(
 	`task_id` INT AUTO_INCREMENT,
@@ -114,9 +122,12 @@ CREATE TABLE `completedtask`(
 	`task_id` INT,
 	`confirmation_type` ENUM("message", "file") NOT NULL DEFAULT "message",
 	`confirmation_message` TEXT NOT NULL,
-	FOREIGN KEY (`task_id`) REFERENCES `task`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+	FOREIGN KEY (`task_id`) REFERENCES `task`(`task_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
 	PRIMARY KEY (`task_id`)
 );
+
+
+-- FOREIGN KEY (`task_name`) REFERENCES `task`(`task_name`) ON DELETE RESTRICT ON UPDATE CASCADE,
 
 -- group_name unique?
 CREATE TABLE `groups`(
@@ -126,7 +137,6 @@ CREATE TABLE `groups`(
 	`description` TEXT NOT NULL,
 	`project_id` INT NOT NULL,
 	`leader_id` INT NOT NULL,
-	FOREIGN KEY (`task_name`) REFERENCES `task`(`task_name`) ON DELETE RESTRICT ON UPDATE CASCADE,
 	FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
 	FOREIGN KEY (`leader_id`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
 	PRIMARY KEY(`id`)
@@ -154,7 +164,6 @@ CREATE TABLE `notification`(
 	`id` INT AUTO_INCREMENT,
 	`projectId` INT NOT NULL,
 	`message` TEXT NOT NULL,
-	`sendTime` DATETIME,
 	`senderId` INT NOT NULL,
 	`type` ENUM("request", "notification"),
 	`sendTime` DATETIME NOT NULL,

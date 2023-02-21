@@ -96,10 +96,8 @@ CREATE TABLE `groups` (
 
 INSERT INTO `groups` (`id`, `group_name`, `task_name`, `description`, `project_id`, `leader_id`) VALUES
 (1, 'group_description', 'group_description', 'group_description', 1, 1),
-(2, '', '', '', 1, 1),
-(3, '', '', '', 1, 1),
-(4, 'Develop report generator', 'build report generator', 'Develop report generator using mPDF library', 1, 1),
-(5, 'Draw sketch for 3d design', 'Design 3d art', 'Design 3d art as rotating', 1, 1);
+(2, 'Develop report generator', 'build report generator', 'Develop report generator using mPDF library', 1, 1),
+(3, 'Draw sketch for 3d design', 'Design 3d art', 'Design 3d art as rotating', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -369,8 +367,7 @@ CREATE TABLE `project` (
 
 INSERT INTO `project` (`id`, `created_by`, `project_name`, `description`, `field`, `start_on`, `end_on`, `created_on`) VALUES
 (1, 1, 'mHealth App development', 'mHealth apps facilitate engagement through effective patient-focused care, personalized experiences & knowledge sharing between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of thei', 'web', '2023-01-22 01:49:25', '2023-05-30 01:49:25', '2023-01-22 01:49:25'),
-(2, 1, 'project 2', 'sd', 'web', '2023-01-22 03:30:04', '2023-02-16 03:29:39', '2023-01-22 03:30:04'),
-(3, 1, 'sdadasd', 'sdfasasgdfhdhfrghs', 'asdasfsdf', '2023-02-09 13:06:38', '2023-02-09 13:06:38', '2023-02-09 13:06:38');
+(2, 2, 'project 2', 'sd', 'web', '2023-01-22 03:30:04', '2023-02-16 03:29:39', '2023-01-22 03:30:04'),
 
 --
 -- Triggers `project`
