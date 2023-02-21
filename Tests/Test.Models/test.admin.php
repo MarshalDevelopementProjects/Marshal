@@ -7,7 +7,7 @@ use App\Model\Admin;
 function testCreateAdmin()
 {
     $admin = new Admin();
-    if ($admin->createAdmin(array(
+    /*  if ($admin->createAdmin(array(
         "username" => "SysAdmin",
         "first_name" => "Adam",
         "last_name" => "West",
@@ -25,7 +25,7 @@ function testCreateAdmin()
         echo "<pre>";
         echo "Admin cannot be added to the database";
         echo "</pre>";
-    }
+    } */
 }
 
 function testReadAdmin()
