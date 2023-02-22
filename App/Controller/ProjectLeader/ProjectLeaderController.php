@@ -52,13 +52,21 @@ class ProjectLeaderController extends ProjectMemberController
         $data = array("groups" => $groups, "projectData" => $project->getProject(array("id" => $project_id)));
 
         // get project members' details
-        $projectMemberCondition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id AND role = :role)";
+        $projectLeaderCondition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id AND role = :role)";
+        $projectMemberCondition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id AND ( role = :role OR role = :role2))";
         $groupLeaderCondition = "WHERE id IN (SELECT DISTINCT leader_id FROM groups WHERE project_id = :project_id)";
 
-        $data['projectLeader'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "LEADER"), $projectMemberCondition);
-        $data['projectMembers'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "MEMBER"), $projectMemberCondition);
+        $data['projectLeader'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "LEADER"), $projectLeaderCondition);
+        $data['projectMembers'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "MEMBER", "role2" => "LEADER"), $projectMemberCondition);
         $data['groupLeaders'] = $user->getAllUsers(array("project_id" => $project_id), $groupLeaderCondition);
 
+        // get user profile
+        $user = new User();
+
+        if($user->readUser("id", $payload->id)){
+            $data += array("profile" => $user->getUserData()->profile_picture);
+        }
+        
         $this->sendResponse(
             view: "/project_leader/getProjectInfo.html",
             status: "success",
@@ -301,12 +309,17 @@ class ProjectLeaderController extends ProjectMemberController
         $payload = $this->userAuth->getCredentials();
         $user_id = $payload->id;
 
+        $leaderId = $user_id;
+        if($data['assignMember']){
+            $leaderId = $data['assignMember'];
+        }
+
         $args = array(
             "group_name" => $data['group_name'],
             "task_name" => $data['task_name'],
             "description" => $data['group_description'],
             "project_id" => $project_id,
-            "leader_id" => $user_id
+            "leader_id" => $leaderId
         );
         $keys = array("group_name", "task_name", "description", "project_id", "leader_id");
 
