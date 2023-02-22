@@ -65,6 +65,31 @@ class Task implements Model
             return false;
         }
     }
+    public function getTasks(array $args, array $keys){
+        $keyCount = count($keys);
+
+        $sql = "SELECT task_name FROM task WHERE ";
+        for ($i = 0; $i < $keyCount; $i++) {
+            $key = $keys[$i];
+            $sql .= $key . " = :" . $key;
+
+            if ($i != $keyCount - 1) {
+                $sql .= " AND ";
+            }
+        }
+        $sql .= " LIMIT 4";
+
+        try {
+            $result = $this->crud_util->execute($sql, $args);
+            if ($result->getCount() > 0) {
+                return $result->getResults();
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
 
     public function getTask(array $args, array $keys): object|bool|array
     {
