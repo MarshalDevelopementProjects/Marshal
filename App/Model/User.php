@@ -103,7 +103,22 @@ class User implements Model
             if ($result->getCount() > 0) {
                 return $result->getResults();
             } else {
-                return false;
+                return array();
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function getUserProfiles(array $args, string $condition){
+
+        $sql_string = "SELECT profile_picture FROM user " . $condition;
+
+        try {
+            $result = $this->crud_util->execute($sql_string, $args);
+            if ($result->getCount() > 0) {
+                return $result->getResults();
+            } else {
+                return array();
             }
         } catch (\Throwable $th) {
             throw $th;
