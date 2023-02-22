@@ -253,6 +253,5 @@ class ProjectMemberController extends UserController
             content: $project->readProjectsOfUser($user_id, $project_id) ? $data : array()
         );
     }
-
     
 }
