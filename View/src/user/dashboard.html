@@ -16,7 +16,10 @@
 
         <div class="navbar">
             <div class="left-logo-area">
-                <img src="/View/images/logo.png" alt="logo" class="logo">
+                <a href="http://localhost/public/user/dashboard" style="text-decoration: none;">
+                    <img src="/View/images/logo.png" alt="logo" class="logo">
+                </a>
+                
             </div>
             <div class="right-profile-area">
                 <button type="submit" class="navbar-new-project">+ New Project</button>
@@ -30,15 +33,7 @@
             <div class="left-panel">
                 <div class="top-menus">
                     <ul>
-                        <!-- <li class="dashboard active">Dashboard</li>
-                        <li class="new-project">New project</li>
-                        <a href="http://localhost/public/user/profile">
-                            <li class="profile">Profile</li>
-                        </a>
-                        <li class="settings">Settings</li>
-                        <a href="http://localhost/public/user/sketch">
-                            <li class="sketch-idea">Sketch idea</li>
-                        </a> -->
+                    
                         <a href="http://localhost/public/user/dashboard" style="text-decoration: none;">
                             <li class="dashboard active">Dashboard</li>
                         </a>
@@ -83,7 +78,7 @@
 
                     <div class="search-box">
                         <input type="text" placeholder="Search your project ...">
-                        <i class="fa fa-filter" aria-hidden="true"></i>
+                        <!-- <i class="fa fa-filter" aria-hidden="true"></i> -->
                     </div>
 
                     <div class="toast-notification ">
@@ -105,36 +100,6 @@
 
                 </div>
                 <div class="projects">
-
-                    <div class="project-card">
-                        <a href="./index.html" class="clickable-project">
-                            <p class="project-field "></p>
-                            <h3 class="project-name"></h3>
-
-                            <div class="tasks">
-                                <p>Ongoing Work</p>
-                                <ul class="task-list">
-                                    <li>Design UI for login page</li>
-                                    <li>Fixing #15 bug</li>
-                                    <li>Develop API</li>
-                                    <li>Create reports for #3 week</li>
-                                </ul>
-                            </div>
-                            <p class="team">Team</p>
-                            <div class="card-bottom">
-                                <div class="member-images">
-                                    <img class="image first" src="/View/images/Picture1.png" alt="Picture1">
-                                    <img class="image rest1" src="/View/images/Picture2.png" alt="Picture2">
-                                    <img class="image rest2" src="/View/images/Picture3.png" alt="Picture3">
-                                    <img class="image rest3" src="/View/images/Picture4.png" alt="Picture4">
-                                    <img class="image rest4" src="/View/images/Picture5.png" alt="Picture5">
-                                </div>
-                                <!-- <button type="submit">Get Info</button> -->
-
-                            </div>
-                        </a>
-                    </div>
-
 
                 </div>
             </div>
@@ -196,6 +161,8 @@
     <script src="/View/js/user/dashboard.js"></script>
     <script src="/View/js/user/logout.js"></script>
     <script src="/View/js/user/calendar.js"></script>
+    <script src="/View/js/user/createProject.js"></script>
+    <script src="/View/js/user/sidebar.js"></script>
 </body>
 
 </html>

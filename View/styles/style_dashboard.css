@@ -45,6 +45,8 @@ body{
     height: 50px;
     margin: 5px 25px 0 0;
     cursor: pointer;
+    border-radius: 50%;
+    border: 3px solid #e7e7e7;
 }
 
 .right-profile-area i{
@@ -228,6 +230,7 @@ body{
 }
 
 .search-bar{
+    /* border: 1px solid black; */
     /* position: fixed; */
     height: 60x;
     display: flex;
@@ -287,14 +290,15 @@ body{
 }
 .project-card .project-field{
     /* border: 1px solid black; */
-    width: 120px;
+    max-width: 120px;
+    width: fit-content;
     height: 22px;
-    margin-left: 10px;
-    font-size: 10.5px;
+    margin-left: 5px;
+    font-size: 12px;
     background-color: #F83B3B;
     color: #fff;
     display: flex;
-    justify-content: center;
+    padding: 0 20px;
     align-items: center;
     border: none;
     border-radius: 5px;
@@ -303,11 +307,12 @@ body{
     background-color: #20B289;
 }
 .project-card h3{
-    margin-top: 10px;
-    font-size: 18px;
-    color: #2F2E41;
-    /* border: 1px solid black; */
+    margin-top: 5px;
+    font-size: 20px;
+    color: #031738;
+    font-weight: 700;
     height: 43px;
+    margin-left: 5px;
 }
 .project-card .tasks{
     width: 180px;
@@ -315,76 +320,36 @@ body{
 }
 .project-card p{
     color: #333;
+    font-weight: 550;
 }
 .tasks p{
-    font-size: 14px;
-    margin: 8px 0 0 12px;
-    color: #555;
+    font-size: 15px;
+    margin: 10px 0 0 8px;
+    color: #444;
     font-weight: 550;
 }
 .tasks ul{
     list-style: none;
-    margin: 6px 0 0 22px;
+    margin: 10px 0 0 25px;
+    /* border: 1px solid black; */
+    height: 60px;
 }
 .tasks ul li{
     font-size: 12px;
     color: #222;
 }
 .project-card .team{
-    font-size: 12px;
-    font-weight: 550;
+    font-size: 13px;
+    font-weight: 600;
 }
 .project-card .card-bottom{
     display: flex;
     justify-content: space-between;
     /* border: 1px solid black; */
     height: 45px;
-    margin-top: 6px;
+    margin-top: 5px;
 }
-.card-bottom .progress{
-    width: 60px;
-    height: 60px;
-    margin-top: -20px;
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
-}
-.progress .outer{
-    /* position: relative; */
-    width: 60px;
-    height: 60px;
-    /* border: 1px solid black; */
-    border-radius: 50%;
-    /* box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; */
-    padding: 8px;
-    background-color: conic-gradient(#283A5A 3.6deg, #fff, 0deg);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.outer::before{
-    content: "";
-    background-color: #fff;
-    position: absolute;
-    height: 44px;
-    width: 44px;
-    border-radius: 50%;
-}
-.outer.inner{
-    /* position: fixed; */
-    width: 46px;
-    height: 46px;
-    background-color: #fff;
-    border: 1px solid black;
-    /* box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset; */
-    border-radius: 50%;
-}
-.inner p{
-    position: relative;
-    font-size: 14px;
-    font-weight: 550;
-    color: #333;
-}
+
 .card-bottom .member-images{
     display: flex;
     width: 120px;
@@ -392,26 +357,27 @@ body{
     /* border: 1px solid black; */
 }
 .member-images .image{
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 .image.first{
     position: absolute;
 }
 .image.rest1{
-    margin-left: 15px;
+    margin-left: 20px;
     position: absolute;
 }
 .image.rest2{
-    margin-left: 30px;
+    margin-left: 40px;
     position: absolute;
 }
 .image.rest3{
-    margin-left: 45px;
+    margin-left: 60px;
     position: absolute;
 }
 .image.rest4{
-    margin-left: 60px;
+    margin-left: 80px;
     position: absolute;
 }
 
@@ -440,11 +406,12 @@ div::-webkit-scrollbar {
     overflow-x: hidden;
     overflow-y: hidden;
     height: 60px;
-    margin: 10px 10px 10px auto;
+    margin: 5px 10px 5px auto;
     display: flex;
     border-radius: 10px;
     background-color: #e5e5e5;
     transition: all 1.5s ease;
+    /* border: 1px solid black; */
 }
 .toast-notification.active{
     border: 1px solid rgb(187, 183, 183);

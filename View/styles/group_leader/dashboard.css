@@ -230,7 +230,7 @@ body{
 
 .search-box{
     /* border: 1px solid black; */
-    margin: 15px 0px 0 0;
+    margin: 10px 0px 5px 0;
     width: 750px;
     /* position: absolute; */
     display: flex;
@@ -238,8 +238,8 @@ body{
 
 .search-bar a{
     /* border: 1px solid black; */
-    width: 300px;
-    font-size: 20px;
+    width: 400px;
+    font-size: 24px;
     font-weight: 650;
     display: flex;
     align-items: center;

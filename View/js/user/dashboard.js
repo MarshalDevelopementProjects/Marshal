@@ -1,4 +1,4 @@
-console.log(jsonData[0])
+console.log(jsonData)
 
 const toastContainer = document.querySelector('.toast-notification');
 const notificationCloseBtn = document.querySelector('.close-btn');
@@ -27,12 +27,6 @@ notificationPopupCloseBtn.addEventListener('click', () => notificationPopup.clas
 // notificationPopup.addEventListener('click', () => notificationPopup.classList.remove('active'))
 
 
-const navbarNewProjectBtn = document.querySelector('.navbar-new-project');
-const createProjectPopup = document.querySelector('.create-project-container');
-const createProjectCloseBtn = document.querySelector('.create-project-popup-close');
-
-navbarNewProjectBtn.addEventListener('click', () => createProjectPopup.classList.add('active'));
-createProjectCloseBtn.addEventListener('click', () => createProjectPopup.classList.remove('active'));
 
 $notifications = [];
 
@@ -136,8 +130,45 @@ function onLoad(){
     })
 
     // load project data
+
+    // get ongoing tasks to an array 
+    var ongoingTasks = {};
+    var members = {};
+
+    jsonData['projects'].forEach(project => {
+        ongoingTasks[project['id']] = [];
+        members[project['id']] = [];
+
+        // get tasks
+        if(project.tasks.length){
+            for(let i = 0; i<4; i++){
+                if(project.tasks[i] == undefined){
+                    ongoingTasks[project['id']].push(" ");
+                }else{
+                    ongoingTasks[project['id']].push(project.tasks[i]['task_name']);
+                }
+            }
+        }else{
+            ongoingTasks[project['id']].push("There is nothing onging. Create and pickup new one.");
+            for(let i = 1; i<4; i++){
+                ongoingTasks[project['id']].push(" ");
+            }
+        }
+
+        // get member profile details
+        for(let i = 0; i <5; i++){
+            if(project.memberProfiles[i] == undefined){
+                members[project['id']].push('src="/View/images/Picture1.png" style="display: none;"');
+            }else{
+                members[project['id']].push('src=' + project.memberProfiles[i]['profile_picture']);
+            }
+        }
+    })
+
+    // console.log(typeof(jsonData['projects'][0]['memberProfiles'][0]['profile_picture']))
+
     projectCardsCode = ""
-    jsonData.forEach(project => {
+    jsonData['projects'].forEach(project => {
         projectCardsCode += `<div class="project-card">
                                 <a href="http://localhost/public/user/project?id=${project['id']}" class="clickable-project">
                                     <p class="project-field ">${project['field']}</p>
@@ -146,20 +177,21 @@ function onLoad(){
                                 <div class="tasks">
                                     <p>Ongoing Work</p>
                                     <ul class="task-list">
-                                        <li>Design UI for login page</li>
-                                        <li>Fixing #15 bug</li>
-                                        <li>Develop API</li>
-                                        <li>Create reports for #3 week</li>
+                                        <li>${ongoingTasks[project['id']][0]}</li>
+                                        <li>${ongoingTasks[project['id']][1]}</li>
+                                        <li>${ongoingTasks[project['id']][2]}</li>
+                                        <li>${ongoingTasks[project['id']][3]}</li>
+                                        
                                     </ul>
                                 </div>
                                 <p class="team">Team</p>
                                 <div class="card-bottom">
                                     <div class="member-images">
-                                        <img class="image first" src="/View/images/Picture1.png" alt="Picture1">
-                                        <img class="image rest1" src="/View/images/Picture2.png" alt="Picture2">
-                                        <img class="image rest2"src="/View/images/Picture3.png" alt="Picture3">
-                                        <img class="image rest3"src="/View/images/Picture4.png" alt="Picture4">
-                                        <img class="image rest4"src="/View/images/Picture5.png" alt="Picture5">
+                                        <img class="image first" ${members[project['id']][0]} alt="Picture1">
+                                        <img class="image rest1" ${members[project['id']][1]} alt="Picture2">
+                                        <img class="image rest2" ${members[project['id']][2]} alt="Picture3">
+                                        <img class="image rest3" ${members[project['id']][3]} alt="Picture4">
+                                        <img class="image rest4" ${members[project['id']][4]} alt="Picture5">
                                     </div>
                                     <!-- <button type="submit">Get Info</button> -->
                                     
@@ -169,64 +201,10 @@ function onLoad(){
     })
 
     projects.innerHTML = projectCardsCode
+
 }
 
-
-
-
-const dashboard = document.querySelector('.dashboard');
-const newProject = document.querySelector('.new-project');
-const profile = document.querySelector('.profile');
-const settings = document.querySelector('.settings');
-const sketchIdea = document.querySelector('.sketch-idea');
-
-dashboard.addEventListener('click', function(){
-    dashboard.classList.add('active');
-    profile.classList.remove('active');
-    newProject.classList.remove('active');
-    settings.classList.remove('active');
-    sketchIdea.classList.remove('active');
-
-})
-newProject.addEventListener('click', function(){
-    dashboard.classList.remove('active');
-    profile.classList.remove('active');
-    newProject.classList.add('active');
-    settings.classList.remove('active');
-    sketchIdea.classList.remove('active');
-
-    createProjectPopup.classList.add('active');
-
-})
-profile.addEventListener('click', function(){
-    dashboard.classList.remove('active');
-    profile.classList.add('active');
-    newProject.classList.remove('active');
-    settings.classList.remove('active');
-    sketchIdea.classList.remove('active');
-
-
-})
-settings.addEventListener('click', function(){
-    dashboard.classList.remove('active');
-    profile.classList.remove('active');
-    newProject.classList.remove('active');
-    settings.classList.add('active');
-    sketchIdea.classList.remove('active');
-
-})
-
-sketchIdea.addEventListener('click', function(){
-    dashboard.classList.remove('active');
-    profile.classList.remove('active');
-    newProject.classList.remove('active');
-    settings.classList.remove('active');
-    sketchIdea.classList.add('active');
-
-    window.location.href = "./index.html";
-})
-
-
-
-// Send form data for creating a new project
+// Add profile picture
+const profilePicture = document.querySelector('.profile-image');
+profilePicture.src = jsonData['profile'];
 

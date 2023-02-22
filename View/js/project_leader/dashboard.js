@@ -1,15 +1,15 @@
 // set tasks of the project
-
+console.log(jsonData)
 
 todoBoard = document.querySelector('.todo .tasks'),
 ongoingBoard = document.querySelector('.ongoing .tasks'),
 reviewBoard = document.querySelector('.review .tasks'),
 doneBoard = document.querySelector('.done .tasks');
 
-var todoTasks = jsonData['todoTasks'];
-var ongoingTasks = jsonData['ongoingTasks'];
-var reviewTasks = jsonData['reviewTasks'];
-var doneTasks = jsonData['doneTasks'];
+var todoTasks = jsonData['tasks']['todoTasks'];
+var ongoingTasks = jsonData['tasks']['ongoingTasks'];
+var reviewTasks = jsonData['tasks']['reviewTasks'];
+var doneTasks = jsonData['tasks']['doneTasks'];
 
 
 let priorities = { "high": 3, "medium": 2, "low": 1 };
@@ -328,7 +328,7 @@ tasks.forEach(task => {
                                 </form>
                             </div>
                             <div class="bottom">
-                            <input type="text" name="assignedMember" placeholder="Assign member ...">
+                            <input type="text" name="assignedMember" class="assign-member-for-task" placeholder="Assign member ...">
                                 <div class="buttons">
                                     <a id="cancel-task-details" href="#">Cancel</a>
                                     <a id="pickup-task-btn" href="#">PickUp</a>
@@ -528,12 +528,15 @@ cancelBtn.addEventListener('click', () => {
     addTaskPopup.classList.remove('active')
 })
 
+// set the project name
 
-// console.log(jsonData)
+const projectName = document.querySelector('#project-name');
+projectName.innerText = jsonData['projectName']
 
+// set profile picture
 
-
-
+const profilePicture = document.querySelector('.profile-image');
+profilePicture.src = jsonData['profile']
 
 
 

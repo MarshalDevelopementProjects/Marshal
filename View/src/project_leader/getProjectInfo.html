@@ -14,13 +14,15 @@
         
         <div class="navbar">
             <div class="left-logo-area">
-                <img src="/View/images/logo.png" alt="logo" class="logo">
+                <a href="http://localhost/public/user/dashboard" style="text-decoration: none;">
+                    <img src="/View/images/logo.png" alt="logo" class="logo">
+                </a>
             </div>
             <div class="right-profile-area">
                 <button type="submit" class="navbar-new-project">+ New Project</button>
                 <i class="fa fa-bell-o  notification-bell-btn" aria-hidden="true"></i>
                 <i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i>
-                <img src="/View/images/dp.png" alt="profile picture" class="profile-image">
+                <a href="http://localhost/public/user/profile"><img src="/View/images/dp.png" alt="profile picture" class="profile-image"></a>
             </div>
         </div>
 
@@ -413,6 +415,10 @@
                 <input type="text" name="task_name" id="task_name" placeholder="Enter task name" required>
 
                 <br>
+                <label for="assignMember">Assigned member</label>
+                <br>
+                <input type="text" name="assignMember" id="assignMember" placeholder="Enter member username">
+                <br>
                 <label for="group-description">Group Description</label>
                 <br>
                 <input type="text" id="group-description" name="group_description" required placeholder="Enter group description">
@@ -445,6 +451,8 @@
     <script src="/View/js/project_leader/getProjectInfo.js"></script>
     <script src="/View/js/user/logout.js"></script>
     <script src="/View/js/user/calendar.js"></script>
+    <script src="/View/js/user/createProject.js"></script>
+    <script src="/View/js/user/sidebar.js"></script>
 </body>
 </html>
 

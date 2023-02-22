@@ -45,6 +45,8 @@ body{
     height: 50px;
     margin: 5px 25px 0 0;
     cursor: pointer;
+    border-radius: 50%;
+    border: 3px solid #e7e7e7;
 }
 
 .right-profile-area i{
@@ -239,8 +241,8 @@ body{
 
 .search-bar a{
     /* border: 1px solid black; */
-    width: 300px;
-    font-size: 20px;
+    width: 400px;
+    font-size: 24px;
     font-weight: 650;
     display: flex;
     align-items: center;
@@ -471,9 +473,10 @@ body{
 .top-task h4{
     color: #222;
     font-size: 15px;
-    margin: 8px 12px;
-    max-height: 20px;
+    margin: 10px 12px 5px 12px;
+    max-height: 19px;
     overflow: hidden;
+
 }
 .top-task .priority-high{
     color: #fff;
@@ -509,7 +512,9 @@ body{
     border-radius: 4px;
 }
 .task .task-description{
-    font-size: 12px;
+    font-size: 13px;
+    color: #111;
+    font-weight: 400;
     margin: 3px 25px;
     height: 30px;
     width: 190px;
@@ -524,18 +529,19 @@ body{
 }
 .bottom-task p{
     width: fit-content;
-    font-size: 11px;
+    font-size: 12.5px;
+    font-weight: 550;
     margin-left: 15px;
     color: #FB160D;
     margin-top: 5px;
 }
 #Pending{
     width: fit-content;
-    font-size: 11px;
-    margin-left: 15px;
+    font-size: 12.5px;
+    margin-left: 25px;
     color: #031738;
     margin-top: 5px;
-    font-style: italic;
+    /* font-style: italic; */
     font-weight: 550;
 }
 #member-profile{
@@ -652,20 +658,22 @@ body{
 
 .TO-DO-task-details .bottom{
     display: flex;
-    justify-content: space-between;
-    /* border: 1px solid black; */
+    /* justify-content: space-between; */
     /* width: 420px; */
     /* margin-left: 350px; */
 }
 .bottom input{
     height: 25px;
-    margin: 0 0 5px 20px;
+    margin: 10px 0 5px 20px;
     border: 1px solid #dbd7d7;
     padding-left: 10px;
     border-radius: 5px;
+    /* border: 1px solid black; */
 }
 .bottom .buttons{
     margin-top: 5px;
+    /* border: 1px solid black; */
+
 }
 .buttons a{
     margin:  0 10px 0 10px;
@@ -685,7 +693,7 @@ body{
     display: flex;
     /* border: 1px solid black; */
     width: 220px;
-    margin-left: 350px;
+    margin-left: auto;
 }
 .buttons a{
     margin:  0 10px 0 10px;
