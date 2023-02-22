@@ -6,6 +6,7 @@ require __DIR__ . "/../../../vendor/autoload.php";
 
 use App\Controller\Authenticate\UserAuthController;
 use App\Model\User;
+use App\Model\Task;
 use App\Controller\Controller;
 use App\Controller\Project\ProjectController;
 use App\Model\Project;
@@ -58,22 +59,47 @@ class UserController extends Controller
      */
     public function defaultAction(Object|array|string|int $optional = null)
     {
+        $data = array();
         // get relevant projects
         $payload = $this->userAuth->getCredentials(); // get the payload content
         $project = new Project($payload->id);
+        $task = new Task();
+        $user = new User();
 
         $Projects = array();
         if ($project->readProjectsOfUser($payload->id)) {
             $Projects = $project->getProjectData();
+
+            foreach($Projects as $projectData) {
+                // get ongoing tasks
+                $ongoingTasks = $task->getTasks(array("project_id" => $projectData->id, "status" => "ONGOING"), array("project_id", "status"));
+                
+                if($ongoingTasks){
+                    $projectData->tasks = $ongoingTasks;
+                }else{
+                    $projectData->tasks = array();
+                }
+                
+                // get project member profiles
+                $condition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id AND ( role = :role OR role = :role2))";
+                $projectData->memberProfiles = $user->getUserProfiles(array("project_id" => $projectData->id, "role" => "MEMBER", "role2" => "LEADER"), $condition);
+
+            }
+            
         }
-        // if ($Projects == null) {
-        //     $Projects = array();
-        // }
+        $data += array("projects" => $Projects);
+
+        $userData = array();
+        if($user->readUser("id", $payload->id)){
+            $userData = $user->getUserData();
+        }
+        $profile = $userData->profile_picture;
+        $data += array("profile" => $profile);
 
         $this->sendResponse(
             view: "/user/dashboard.html",
             status: "success",
-            content: $Projects
+            content: $data
         );
     }
 
@@ -146,11 +172,28 @@ class UserController extends Controller
                             "task_type" => "project"
                         );
                         $projectController = new ProjectController();
+                        
+                        $data = array();
+                        $data['tasks'] = $projectController->getProjectTasks($args, $payload->id);
+
+                        // get project details as well
+                        $projectData = array();
+                        if($project->readProjectData($_SESSION['project_id'])){
+                            $projectData = $project->getProjectData();
+                        }
+                        $data['projectName'] = $projectData[0]->project_name;
+
+                        // get user profile
+                        $user = new User();
+
+                        if($user->readUser("id", $payload->id)){
+                            $data += array("profile" => $user->getUserData()->profile_picture);
+                        }
 
                         $this->sendResponse(
                             view: "/project_leader/dashboard.html",
                             status: "success",
-                            content: $projectController->getProjectTasks($args, $payload->id)
+                            content: $data
                         );
                         break;
                     case 'CLIENT':
