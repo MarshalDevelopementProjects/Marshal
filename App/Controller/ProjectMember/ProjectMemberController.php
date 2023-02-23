@@ -5,12 +5,14 @@ namespace App\Controller\ProjectMember;
 use App\Controller\Authenticate\UserAuthController;
 use App\Controller\User\UserController;
 use App\Controller\Group\GroupController;
+use App\Controller\Message\MessageController;
 use App\Model\ProjectMember;
 use App\Model\Notification;
 use App\Model\Task;
 use App\Model\Project;
 use App\Model\Group;
 use App\Model\User;
+use App\Model\Message;
 use Core\Validator\Validator;
 
 require __DIR__ . '/../../../vendor/autoload.php';
@@ -150,6 +152,7 @@ class ProjectMemberController extends UserController
             $payload = $this->userAuth->getCredentials(); // get the payload content
             $project = new Project($payload->id);
             $group = new Group();
+            $task = new Task();
 
             if ($project->readUserRole(member_id: $payload->id, project_id: $_SESSION['project_id'])) {
 
@@ -170,10 +173,36 @@ class ProjectMemberController extends UserController
                         // $projectController = new ProjectController();
                         $groupController = new GroupController();
 
+                        $groupData = array();
+                        $groupData['groupTasks'] = $groupController->getGroupTasks($args, $payload->id);
+
+                        // get group details
+                        $groupinfo = $group->getGroup(array("id" => $data['id']), array("id"));
+                        $projectinfo = $project->getProject(array("id" => $_SESSION['project_id']));
+                        $taskinfo = $task->getTask(array("task_name" => $groupinfo->task_name, "project_id" => $_SESSION['project_id']), array("task_name", "project_id"));
+
+                        $groupData['groupDetails'] = array(
+                            "name" => $groupinfo->group_name, 
+                            "description" => $groupinfo->description, 
+                            "start_date" => explode(" ", $groupinfo->start_date)[0],
+                            "end_date" => explode(" ", $taskinfo->deadline)[0],
+                            "project_name" => $projectinfo->project_name
+                        );
+
+                        // get user details
+                        $user = new User();
+
+                        $userData = array();
+                        if($user->readUser("id", $payload->id)){
+                            $userData = $user->getUserData();
+                        }
+                        $groupData['userDetails'] = $userData->profile_picture;
+                        $groupData['projectDetails'] = $project->getProject(array("id" => $_SESSION['project_id']))->project_name;
+
                         $this->sendResponse(
                             view: "/group_leader/dashboard.html",
                             status: "success",
-                            content: $groupController->getGroupTasks($args, $payload->id)
+                            content: $groupData
                         );
                         break;
 
@@ -253,5 +282,34 @@ class ProjectMemberController extends UserController
             content: $project->readProjectsOfUser($user_id, $project_id) ? $data : array()
         );
     }
-    
+
+    public function sendTaskFeedback(){
+        $data = json_decode(file_get_contents('php://input'));
+        $payload = $this->userAuth->getCredentials();
+        $messageController = new MessageController();
+        $message = new Message();
+
+        $date = date('Y-m-d H:i:s');
+        $args = array(
+            "sender_id" => $payload->id,
+            "stamp" => $date,
+            "message_type" => "PROJECT_TASK_FEEDBACK_MESSAGE",
+            "msg" => $data['message']
+        );
+        try {
+            $messageController->send($args, array("sender_id", "stamp", "message_type", "msg"));
+
+            $newMessage = $message->getMessage(array("sender_id" => $payload->id, "stamp" => $date, "message_type" => "PROJECT_TASK_FEEDBACK_MESSAGE"), array("sender_id", "stamp", "message_type"));
+            $messageTypeArgs = array(
+                "message_id" => $newMessage->id,
+                "project_id" => $_SESSION['project_id'],
+                "task_id" => $data['task_id']
+            );
+
+            $message->setMessageType($messageTypeArgs, array("message_id", "project_id", "task_id"), "project_task_feedback_message");
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }
+    }
 }

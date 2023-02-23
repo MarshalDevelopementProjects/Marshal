@@ -110,10 +110,10 @@ class Task implements Model
             if ($result->getCount() > 0) {
                 return $result->getFirstResult();
             } else {
-                return false;
+                return array();
             }
         } catch (\Exception $exception) {
-            return false;
+            return array();
         }
     }
 

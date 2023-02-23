@@ -8,10 +8,10 @@ ongoingBoard = document.querySelector('.ongoing .tasks'),
 reviewBoard = document.querySelector('.review .tasks'),
 doneBoard = document.querySelector('.done .tasks');
 
-var todoTasks = jsonData['todoTasks'];
-var ongoingTasks = jsonData['ongoingTasks'];
-var reviewTasks = jsonData['reviewTasks'];
-var doneTasks = jsonData['doneTasks'];
+var todoTasks = jsonData['groupTasks']['todoTasks'];
+var ongoingTasks = jsonData['groupTasks']['ongoingTasks'];
+var reviewTasks = jsonData['groupTasks']['reviewTasks'];
+var doneTasks = jsonData['groupTasks']['doneTasks'];
 
 
 let priorities = { "high": 3, "medium": 2, "low": 1 };
@@ -86,7 +86,8 @@ if(reviewTasks){
                                 </div>
                                 <p class="task-description">${task['description']}</p>
                                 <div class="bottom-task style="display:flex">
-                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
+                                    <p id="Pending">Pending...</p>
+                                    <img id="member-profile" src="${task['profile']}" alt="">
                                 </div>
                             </div>`
     })
@@ -97,16 +98,17 @@ var doneTasksCode = "";
 
 if(doneTasks){
     doneTasks.forEach(task => {
-        doneTasksCode += `<div class="task" draggable="true">
-                                <div class="top-task">
-                                    <h4>${task['task_name']}</h4>
-                                    <p class="priority">${task['priority']}</p>
-                                </div>
-                                <p class="task-description">${task['description']}</p>
-                                <div class="bottom-task style="display:flex">
-                                    <p class="deadline">${task['deadline'].split(' ')[0]}</p>
-                                </div>
-                            </div>`
+        doneTasksCode += `<div class="task" draggable="true" style="pointer-events: none">
+                            <div class="top-task">
+                                <h4>${task['task_name']}</h4>
+                                <p class="priority-${task['priority']}">${task['priority']}</p>
+                            </div>
+                            <p class="task-description">${task['description']}</p>
+                            <div class="bottom-task style="display:flex">
+                                <p id="Pending">Done</p>
+                                <img id="member-profile" src="${task['profile']}" alt="">
+                            </div>
+                        </div>`
     })
 }
 doneBoard.innerHTML = doneTasksCode;
@@ -139,7 +141,50 @@ let progress = setInterval(() => {
 
 
 
+const sendConfirmationFunction = (taskName, message, date, time) => {
+    fetch("http://localhost/public/projectmember/sendconfirmation", {
+        withCredentials: true,
+        credentials: "include",
+        mode: "cors",
+        method: "POST",
+        body: JSON.stringify({
+            "task_name" : taskName.toString(),
+            "confirmation_message" : message,
+            "confirmation_type" : message ? "message" : "file",
+            "date" : date,
+            "time" : time
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        location.reload();
+    })
+    .catch((error) => {
+        console.error(error)
+    });
+}
 
+const rearangetask = function (taskName, newBoard){
+    fetch("http://localhost/public/projectleader/rearangetask", {
+                    withCredentials: true,
+                    credentials: "include",
+                    mode: "cors",
+                    method: "POST",
+                    body: JSON.stringify({
+                        "task_name" : taskName,
+                        "new_board" : newBoard
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    location.reload();
+                })
+                .catch((error) => {
+                    console.error(error)
+                });
+}
 
 
 
@@ -185,27 +230,56 @@ tasks.forEach(task => {
                 .catch((error) => {
                     console.error(error)
                 });
-            }
-            if(event.clientX - startX < 0){
-                fetch("http://localhost/public/projectleader/rearangetask", {
-                    withCredentials: true,
-                    credentials: "include",
-                    mode: "cors",
-                    method: "POST",
-                    body: JSON.stringify({
-                        "task_name" : draggedTaskName.toString(),
-                        "new_board" : newBoard
-                    })
+            }else if(newBoard === "REVIEW" && oldBoard === "ONGOING"){
+                const confirmationPopup = document.querySelector('.confirmation-popup')
+                const confirmationPopupCloseBtn = document.querySelector('.confirmation-popup .close-area i')
+    
+                const sendConfirmation = document.querySelector('.confirmation-popup .input-area button')
+                const confirmationMessage = document.getElementById('confirmationMessage')
+    
+                let draggedTaskName = task.firstElementChild.firstElementChild.textContent;
+                var message = ""
+    
+                /**
+                 * get current date and time
+                 */            
+                var date = new Date();
+                var year = date.getFullYear();
+                var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                var day = date.getDate().toString().padStart(2, '0');
+                var formattedDate = year + '-' + month + '-' + day;
+    
+                var time = date.toLocaleTimeString();
+    
+                confirmationMessage.addEventListener('input', () => {
+                    message = confirmationMessage.value
                 })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
+    
+    
+                sendConfirmation.addEventListener('click', () => {
+                    sendConfirmationFunction(draggedTaskName, message, formattedDate, time)
+                })
+                confirmationMessage.addEventListener('keyup', (event) =>{
+                    if(event.keyCode === 13){
+                        sendConfirmationFunction(draggedTaskName, message, formattedDate, time)
+                    }
+                })
+    
+    
+                confirmationPopup.classList.add('active')
+                confirmationPopupCloseBtn.addEventListener('click', () => {
+                    confirmationPopup.classList.remove('active')
                     location.reload();
                 })
-                .catch((error) => {
-                    console.error(error)
-                });
+                
+            }else if(newBoard == "DONE" && oldBoard == "REVIEW"){
+
+                rearangetask(draggedTaskName.toString(), newBoard) 
             }
+            if(event.clientX - startX < 0){
+                rearangetask(draggedTaskName.toString(), newBoard) 
+            }
+            
         }
     })
 })
@@ -460,3 +534,22 @@ cancelBtn.addEventListener('click', () => {
     addTaskPopup.classList.remove('active')
 })
 
+
+// set group details
+const groupName = document.getElementById('groupName');
+const groupDescription = document.getElementById('groupDescription');
+const groupStart = document.getElementById('groupStart');
+const groupEnd = document.getElementById('groupEnd');
+
+groupName.innerText = jsonData['groupDetails']['name']
+groupDescription.innerText = jsonData['groupDetails']['description']
+groupStart.innerHTML = "Start date : " + jsonData['groupDetails']['start_date'] + '<span>Deadline : ' + jsonData['groupDetails']['end_date'] + '</span>'
+
+
+// set user profile
+const profileImage = document.querySelector('.profile-image');
+profileImage.src = jsonData['userDetails']
+
+// set project name
+const projectName = document.getElementById('projectName');
+projectName.innerText = jsonData['projectDetails']
