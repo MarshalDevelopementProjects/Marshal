@@ -25,7 +25,7 @@ class Client implements Model
         }
     }
 
-    public function saveProjectFeedbackMessage(string|int $id, string|int $project_id, string $msg)
+    public function saveProjectFeedbackMessage(string|int $id, string $msg)
     {
         // add the message to the project feedback table as well as the messages table
         try {
@@ -41,7 +41,7 @@ class Client implements Model
                         $message_id = $this->crud_util->getFirstResult()["id"];
                         $sql_string = "INSERT INTO `project_feedback_message`(`message_id`, `project_id`) VALUES (:message_id, :project_id)";
                         $this->crud_util->execute($sql_string, array(
-                            "message_id" => $message_id, "project_id" => $project_id
+                            "message_id" => $message_id, "project_id" => $this->project_data->id
                         ));
                         if (!$this->crud_util->hasErrors()) {
                             return true;
@@ -63,7 +63,7 @@ class Client implements Model
         }
     }
 
-    public function getProjectFeedbackMessages(string|int $project_id)
+    public function getProjectFeedbackMessages()
     {
         // get all the messages in the project feedback 
         // get all the messages in a project forum
@@ -71,7 +71,7 @@ class Client implements Model
             // use a join between the messages table and the project table where ids are equal
             try {
                 $sql_string = "SELECT * FROM `message` WHERE `id` in (SELECT `message_id` FROM `project_feedback_message` WHERE `project_id` = :project_id)";
-                $this->crud_util->execute($sql_string, array("project_id" => $project_id));
+                $this->crud_util->execute($sql_string, array("project_id" => $this->project_data->id));
                 if (!$this->crud_util->hasErrors()) {
                     $this->message_data = $this->crud_util->getResults();
                     return true;
@@ -86,7 +86,7 @@ class Client implements Model
         }
     }
 
-    public function getReportData(string|int $project_id)
+    public function getReportData()
     {
         try {
             throw new \Exception("Not implemented yet");
@@ -103,7 +103,7 @@ class Client implements Model
             // execute the query
             $result = $this->crud_util->execute($sql_string, $args);
             if ($result->getCount() > 0) {
-                $this->project_data = $result->getResults(); // get all the results or just one result this is an array of objects
+                $this->project_data = $result->getFirstResult(); // get all the results or just one result this is an array of objects
                 return true;
             } else {
                 return false;
