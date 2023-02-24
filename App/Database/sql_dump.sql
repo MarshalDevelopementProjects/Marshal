@@ -468,7 +468,7 @@ CREATE TABLE `user` (
   `access` enum('ENABLED','DISABLED') NOT NULL,
   `verified` enum('TRUE','FALSE') NOT NULL DEFAULT 'FALSE',
   `verification_code` varchar(100) NOT NULL DEFAULT '_'
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
