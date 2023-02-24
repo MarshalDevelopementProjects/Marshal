@@ -10,6 +10,7 @@ class GroupLeader implements Model
 {
     private CrudUtil $crud_util;
     private object|array $group_data;
+    private object|array $message_data;
 
     public function __construct(string|int $project_id, string|int $group_id)
     {
@@ -24,7 +25,7 @@ class GroupLeader implements Model
         }
     }
 
-    public function saveGroupMessage(string|int $id, string|int $project_id, string|int $group_id, string $msg)
+    public function saveGroupMessage(string|int $id, string|int $project_id, string $msg)
     {
         try {
             // add the message to the message table first
@@ -36,9 +37,9 @@ class GroupLeader implements Model
                     $sql_string = "SELECT `id` FROM `message` WHERE `sender_id` = :sender_id AND `stamp` = :stamp";
                     $this->crud_util->execute($sql_string, array("sender_id" => $id, "stamp" => $date_time));
                     if (!$this->crud_util->hasErrors()) {
-                        $message_id = $this->crud_util->getFirstResult()["id"];
+                        $message = $this->crud_util->getFirstResult();
                         $sql_string = "INSERT INTO `group_message`(`message_id`, `project_id` , `group_id`) VALUES (:message_id, :project_id, :group_id)";
-                        $this->crud_util->execute($sql_string, array("message_id" => $message_id, "project_id" => $project_id, "group_id" => $group_id));
+                        $this->crud_util->execute($sql_string, array("message_id" => $message->id, "project_id" => $project_id, "group_id" => $this->group_data->id));
                         if (!$this->crud_util->hasErrors()) {
                             return true;
                         } else {
@@ -59,7 +60,7 @@ class GroupLeader implements Model
         }
     }
 
-    public function saveGroupFeedbackMessage(string|int $id, string|int $project_id, string|int $group_id, string $msg)
+    public function saveGroupFeedbackMessage(string|int $id, string|int $project_id, string $msg)
     {
         try {
             // add the message to the message table first
@@ -71,9 +72,9 @@ class GroupLeader implements Model
                     $sql_string = "SELECT `id` FROM `message` WHERE `sender_id` = :sender_id AND `stamp` = :stamp";
                     $this->crud_util->execute($sql_string, array("sender_id" => $id, "stamp" => $date_time));
                     if (!$this->crud_util->hasErrors()) {
-                        $message_id = $this->crud_util->getFirstResult()["id"];
+                        $message = $this->crud_util->getFirstResult();
                         $sql_string = "INSERT INTO `group_feedback_message`(`message_id`, `project_id` , `group_id`) VALUES (:message_id, :project_id, :group_id)";
-                        $this->crud_util->execute($sql_string, array("message_id" => $message_id, "project_id" => $project_id, "group_id" => $group_id));
+                        $this->crud_util->execute($sql_string, array("message_id" => $message->id, "project_id" => $project_id, "group_id" => $this->group_data->id));
                         if (!$this->crud_util->hasErrors()) {
                             return true;
                         } else {
@@ -94,15 +95,37 @@ class GroupLeader implements Model
         }
     }
 
-    public function getGroupMessages(string|int $project_id, string|int $group_id)
+    public function getGroupFeedbackMessages(string|int $project_id)
+    {
+        // get all the messages in a project forum
+        try {
+            // use a join between the messages table and the project table where ids are equal
+            try {
+                $sql_string = "SELECT * FROM `message` WHERE `id` in (SELECT `message_id` FROM `group_feedback_message` WHERE `project_id` = :project_id AND `group_id` = :group_id)";
+                $this->crud_util->execute($sql_string, array("project_id" => $project_id, "group_id" => $this->group_data->id));
+                if (!$this->crud_util->hasErrors()) {
+                    $this->message_data = $this->crud_util->getResults();
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (\Exception $exception) {
+                throw $exception;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function getGroupMessages(string|int $project_id)
     {
         try {
-            $sql_string = "SELECT * FROM `message` WHERE `id` IN (SELECT * FROM `group_message` WHERE `project_id` = :project_id AND `group_id` = :group_id)";
-            $args = array("project_id" => $project_id, "group_id" => $group_id);
+            $sql_string = "SELECT * FROM `message` WHERE `id` IN (SELECT `message_id` FROM `group_message` WHERE `project_id` = :project_id AND `group_id` = :group_id)";
+            $args = array("project_id" => $project_id, "group_id" => $this->group_data->id);
             // execute the query
             $result = $this->crud_util->execute($sql_string, $args);
             if ($result->getCount() > 0) {
-                $this->group_data = $result->getResults(); // get all the results or just one result this is an array of objects
+                $this->message_data = $result->getResults(); // get all the results or just one result this is an array of objects
                 return true;
             } else {
                 return false;
@@ -120,7 +143,7 @@ class GroupLeader implements Model
             // execute the query
             $result = $this->crud_util->execute($sql_string, $args);
             if ($result->getCount() > 0) {
-                $this->group_data = $result->getResults(); // get all the results or just one result this is an array of objects
+                $this->group_data = $result->getFirstResult(); // get all the results or just one result this is an array of objects
                 return true;
             } else {
                 return false;
@@ -133,5 +156,9 @@ class GroupLeader implements Model
     public function getGroupData()
     {
         return $this->group_data;
+    }
+
+    public function getMessageData() {
+        return $this->message_data;
     }
 }
