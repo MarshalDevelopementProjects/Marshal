@@ -142,7 +142,7 @@ class CrudUtil
      * @return int
      * 
      */
-    public function getFirstResult()
+    public function getFirstResult(): object|null|int|false|array
     {
         return $this->results[0];
     }
