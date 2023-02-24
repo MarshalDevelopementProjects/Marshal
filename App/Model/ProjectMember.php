@@ -25,7 +25,7 @@ class ProjectMember implements Model
         }
     }
 
-    public function saveForumMessage(string|int $id, string|int $project_id, string $msg): bool
+    public function saveForumMessage(string|int $id, string $msg): bool
     {
         try {
             // add the message to the message table first
@@ -34,12 +34,12 @@ class ProjectMember implements Model
                 $date_time = date('Y-m-d H:i:s');
                 $this->crud_util->execute($sql_string, array("sender_id" => $id, "stamp" => $date_time, "message_type" => "PROJECT_MESSAGE", "msg" => $msg));
                 if (!$this->crud_util->hasErrors()) {
-                    $sql_string = "SELECT `id` FROM `message` WHERE `sender_id` = :sender_id AND `stamp` = :stamp";
+                    $sql_string = "SELECT `id` FROM `message` WHERE `sender_id` = :sender_id AND `stamp` = :stamp AND `message_type` = 'PROJECT_MESSAGE'";
                     $this->crud_util->execute($sql_string, array("sender_id" => $id, "stamp" => $date_time));
                     if (!$this->crud_util->hasErrors()) {
-                        $message_id = $this->crud_util->getFirstResult()["id"];
+                        $message = $this->crud_util->getFirstResult();
                         $sql_string = "INSERT INTO `project_message`(`message_id`, `project_id`) VALUES (:message_id, :project_id)";
-                        $this->crud_util->execute($sql_string, array("message_id" => $message_id, "project_id" => $project_id));
+                        $this->crud_util->execute($sql_string, array("message_id" => $message->id, "project_id" => $this->project_data->id));
                         if (!$this->crud_util->hasErrors()) {
                             return true;
                         } else {
@@ -60,14 +60,14 @@ class ProjectMember implements Model
         }
     }
 
-    public function getForumMessages(string|int $project_id): bool
+    public function getForumMessages(): bool
     {
         // get all the messages in a project forum
         try {
             // use a join between the messages table and the project table where ids are equal
             try {
                 $sql_string = "SELECT * FROM `message` WHERE `id` in (SELECT `message_id` FROM `project_message` WHERE `project_id` = :project_id)";
-                $this->crud_util->execute($sql_string, array("project_id" => $project_id));
+                $this->crud_util->execute($sql_string, array("project_id" => $this->project_data->id));
                 if (!$this->crud_util->hasErrors()) {
                     $this->message_data = $this->crud_util->getResults();
                     return true;
@@ -82,7 +82,7 @@ class ProjectMember implements Model
         }
     }
 
-    public function getReportData(string|int $project_id)
+    public function getReportData()
     {
         // get the data relevant to the report from the database
         try {
@@ -96,11 +96,11 @@ class ProjectMember implements Model
     {
         try {
             $sql_string = "SELECT * FROM `project` WHERE `id` = :id";
-            $args = array("project_id" => $project_id);
+            $args = array("id" => $project_id);
             // execute the query
             $result = $this->crud_util->execute($sql_string, $args);
             if ($result->getCount() > 0) {
-                $this->project_data = $result->getResults(); // get all the results or just one result this is an array of objects
+                $this->project_data = $result->getFirstResult(); // get all the results or just one result this is an array of objects
                 return true;
             } else {
                 return false;
