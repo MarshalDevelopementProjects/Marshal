@@ -4,12 +4,14 @@ namespace App\Controller\ProjectMember;
 
 use App\Controller\User\UserController;
 use App\Controller\Group\GroupController;
+use App\Controller\Message\MessageController;
 use App\Model\ProjectMember;
 use App\Model\Notification;
 use App\Model\Task;
 use App\Model\Project;
 use App\Model\Group;
 use App\Model\User;
+use App\Model\Message;
 use Core\Validator\Validator;
 use Exception;
 
@@ -23,7 +25,7 @@ class ProjectMemberController extends UserController
     {
         try {
             parent::__construct();
-            if(array_key_exists("project_id", $_SESSION)) {
+            if (array_key_exists("project_id", $_SESSION)) {
                 $this->projectMember = new ProjectMember($_SESSION["project_id"]);
             } else {
                 throw new Exception("Bad request missing arguments");
@@ -42,7 +44,8 @@ class ProjectMemberController extends UserController
         return parent::auth();
     }
 
-    public function pickupTask(){
+    public function pickupTask()
+    {
 
         $data = json_decode(file_get_contents('php://input'));
         $payload = $this->userAuth->getCredentials();
@@ -71,14 +74,14 @@ class ProjectMemberController extends UserController
             // now we have to send a notification as well 
             $notificationArgs = array(
                 "projectId" => $project_id,
-                "message" => "I pickup ". $data->task_name . ".",
+                "message" => "I pickup " . $data->task_name . ".",
                 "type" => "notification",
                 "senderId" => $user_id,
                 "sendTime" => $date
             );
             $notification = new Notification();
             $notification->createNotification($notificationArgs);
-            
+
             $notifyConditions = array(
                 "projectId" => $project_id,
                 "senderId" => $user_id,
@@ -92,7 +95,6 @@ class ProjectMemberController extends UserController
                 "memberId" => 1
             );
             $notification->setNotifiedMembers($notifyMemberArgs);
-
         } catch (\Throwable $th) {
             $message = "Failed to pick up";
         }
@@ -105,7 +107,8 @@ class ProjectMemberController extends UserController
         );
     }
 
-    public function sendConfirmation() {
+    public function sendConfirmation()
+    {
         $data = json_decode(file_get_contents('php://input'));
 
         $projectId = $_SESSION['project_id'];
@@ -117,7 +120,7 @@ class ProjectMemberController extends UserController
         $taskData = $task->getTask($taskArgs, array("project_id", "task_name"));
         // $taskData = $task->getTask($taskArgs);
 
-        if($taskData){
+        if ($taskData) {
             $taskId = $taskData->task_id;
         }
 
@@ -139,22 +142,23 @@ class ProjectMemberController extends UserController
         $task->updateTask($args, array("status"), array("project_id", "task_name"));
 
         // send notification to infor the project leader 
-        
+
         $this->sendJsonResponse(
             status: "success",
             content: [
                 "message" => "OK!"
             ]
         );
-        
     }
 
-    public function goToGroup(array $data){
-        
+    public function goToGroup(array $data)
+    {
+
         try {
             $payload = $this->userAuth->getCredentials(); // get the payload content
             $project = new Project($payload->id);
             $group = new Group();
+            $task = new Task();
 
             if ($project->readUserRole(member_id: $payload->id, project_id: $_SESSION['project_id'])) {
 
@@ -175,10 +179,36 @@ class ProjectMemberController extends UserController
                         // $projectController = new ProjectController();
                         $groupController = new GroupController();
 
+                        $groupData = array();
+                        $groupData['groupTasks'] = $groupController->getGroupTasks($args, $payload->id);
+
+                        // get group details
+                        $groupinfo = $group->getGroup(array("id" => $data['id']), array("id"));
+                        $projectinfo = $project->getProject(array("id" => $_SESSION['project_id']));
+                        $taskinfo = $task->getTask(array("task_name" => $groupinfo->task_name, "project_id" => $_SESSION['project_id']), array("task_name", "project_id"));
+
+                        $groupData['groupDetails'] = array(
+                            "name" => $groupinfo->group_name,
+                            "description" => $groupinfo->description,
+                            "start_date" => explode(" ", $groupinfo->start_date)[0],
+                            "end_date" => explode(" ", $taskinfo->deadline)[0],
+                            "project_name" => $projectinfo->project_name
+                        );
+
+                        // get user details
+                        $user = new User();
+
+                        $userData = array();
+                        if ($user->readUser("id", $payload->id)) {
+                            $userData = $user->getUserData();
+                        }
+                        $groupData['userDetails'] = $userData->profile_picture;
+                        $groupData['projectDetails'] = $project->getProject(array("id" => $_SESSION['project_id']))->project_name;
+
                         $this->sendResponse(
                             view: "/group_leader/dashboard.html",
                             status: "success",
-                            content: $groupController->getGroupTasks($args, $payload->id)
+                            content: $groupData
                         );
                         break;
 
@@ -191,7 +221,7 @@ class ProjectMemberController extends UserController
                         );
                         // $projectController = new ProjectController();
                         $groupController = new GroupController();
-                        
+
                         $this->sendResponse(
                             view: "/group_member/dashboard.html",
                             status: "success",
@@ -220,7 +250,8 @@ class ProjectMemberController extends UserController
         }
     }
 
-    public function getForum(){
+    public function getForum()
+    {
         $this->sendResponse(
             view: "/project_member/forum.html",
             status: "success"
@@ -263,18 +294,19 @@ class ProjectMemberController extends UserController
 
     // save the message to the project table
     // $args format {"message" => "message string"}
-    public function postMessageToProjectForum(array|object $args) {
+    public function postMessageToProjectForum(array|object $args)
+    {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         // get the user id
         if (!empty($args) && array_key_exists("message", $args)) {
             if (!empty($args["message"])) {
                 try {
-                    if($this->projectMember->saveForumMessage(id: $this->user->getUserData()->id, msg: $args["message"])) {
+                    if ($this->projectMember->saveForumMessage(id: $this->user->getUserData()->id, msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
                     }
-                } catch(Exception $exception) {
+                } catch (Exception $exception) {
                     throw $exception;
                 }
             } else {
@@ -289,14 +321,45 @@ class ProjectMemberController extends UserController
     public function getProjectForumMessages()
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
-        try{
-            if($this->projectMember->getForumMessages()) {
+        try {
+            if ($this->projectMember->getForumMessages()) {
                 $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectMember->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => "Some error occurred"]);
             }
-        } catch(Exception $exception) {
+        } catch (Exception $exception) {
             throw $exception;
+        }
+    }
+
+    public function sendTaskFeedback()
+    {
+        $data = json_decode(file_get_contents('php://input'));
+        $payload = $this->userAuth->getCredentials();
+        $messageController = new MessageController();
+        $message = new Message();
+
+        $date = date('Y-m-d H:i:s');
+        $args = array(
+            "sender_id" => $payload->id,
+            "stamp" => $date,
+            "message_type" => "PROJECT_TASK_FEEDBACK_MESSAGE",
+            "msg" => $data['message']
+        );
+        try {
+            $messageController->send($args, array("sender_id", "stamp", "message_type", "msg"));
+
+            $newMessage = $message->getMessage(array("sender_id" => $payload->id, "stamp" => $date, "message_type" => "PROJECT_TASK_FEEDBACK_MESSAGE"), array("sender_id", "stamp", "message_type"));
+            $messageTypeArgs = array(
+                "message_id" => $newMessage->id,
+                "project_id" => $_SESSION['project_id'],
+                "task_id" => $data['task_id']
+            );
+
+            $message->setMessageType($messageTypeArgs, array("message_id", "project_id", "task_id"), "project_task_feedback_message");
+            return true;
+        } catch (\Throwable $th) {
+            return false;
         }
     }
 }

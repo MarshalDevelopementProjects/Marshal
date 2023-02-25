@@ -119,7 +119,7 @@ class Project implements Model
         }
     }
 
-    public function getProject(array $args = array())
+    public function getProject(array $args = array()):object|bool|array
     {
         $sql_string = "SELECT * FROM project WHERE id = :id";
 
@@ -135,7 +135,7 @@ class Project implements Model
     {
         try {
             $sql_string = "SELECT * FROM `project` WHERE `id` = :id";
-            $args = array("project_id" => $project_id);
+            $args = array("id" => $project_id);
             // execute the query
             $result = $this->crud_util->execute($sql_string, $args);
             if ($result->getCount() > 0) {

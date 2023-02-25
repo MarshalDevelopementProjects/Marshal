@@ -45,6 +45,7 @@ body{
     height: 50px;
     margin: 5px 25px 0 0;
     cursor: pointer;
+    border-radius: 50%;
 }
 
 .right-profile-area i{
@@ -230,7 +231,7 @@ body{
 
 .search-box{
     /* border: 1px solid black; */
-    margin: 15px 0px 0 0;
+    margin: 10px 0px 5px 0;
     width: 750px;
     /* position: absolute; */
     display: flex;
@@ -238,8 +239,8 @@ body{
 
 .search-bar a{
     /* border: 1px solid black; */
-    width: 300px;
-    font-size: 20px;
+    width: 400px;
+    font-size: 24px;
     font-weight: 650;
     display: flex;
     align-items: center;
@@ -740,4 +741,85 @@ body{
 .cuircular-progress .progress-value{
     position: relative;
     font-weight: 550;
+}
+
+
+/* confirmation message */
+
+.right-panel .confirmation-popup{
+    display: none;
+    position: fixed;
+    width: 400px;
+    height: 180px;
+    padding: 10px;
+    margin: 120px 0 0 275px;
+    border: 1px solid #dbd7d7;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    transition: all 1s ease;
+}
+.confirmation-popup.active{
+    display: block;
+}
+.close-area i{
+    margin-left: 360px;
+    color: #333;
+    cursor: pointer;
+}
+.confirmation-popup .message-area{
+    height: 120px;
+    display: flex;
+    flex-direction: column-reverse;
+    padding-bottom: 5px;
+}
+.message-area p{
+    border: 1px solid #d1d1d1;
+    width: fit-content;
+    max-width: 280px;
+    max-height: 100px;
+    overflow: hidden;
+    padding: 8px;
+    font-size: 13px;
+    margin-left: auto;
+    margin-right: 8px;
+    background-color: #f5f5f5;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: none;
+}
+.message-area p.active{
+    display: block;
+}
+.confirmation-popup .input-area{
+    /* border: 1px solid black; */
+    height: 25px;
+}
+.input-area input{
+    height: 24px;
+}
+.input-area input[type="text"]{
+    padding-left: 10px;
+    border: 1px solid #f1f1f1;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    width: 330px;
+}
+
+.input-area label{
+    border: 1px solid #f1f1f1;
+    color: #555;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+.input-area button{
+    height: 22px;
+    width: 22px;
+    font-size: 15px;
+    background-color: #fff;
+    border: none;
+    outline: none;
+    color: #20B289;
+    cursor: pointer;
 }

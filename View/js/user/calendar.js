@@ -1,28 +1,3 @@
-// console.log(jsonData)
-
-const notificationPopupBtn = document.querySelector('.notification-bell-btn')
-const notificationPopup = document.querySelector('.notification-popup-container');
-const notificationPopupCloseBtn = document.querySelector('.notification-popup-close-btn');
-const notificationPopupContainer = document.querySelector('.notification-popup-container');
-const container = document.querySelector('.container');
-
-notificationPopupBtn.addEventListener('click', () => notificationPopup.classList.add('active'));
-notificationPopupCloseBtn.addEventListener('click', () => notificationPopup.classList.remove('active'));
-notificationPopup.addEventListener('click', () => notificationPopup.classList.remove('active'))
-
-
-// const navbarNewProjectBtn = document.querySelector('.navbar-new-project');
-// const createProjectPopup = document.querySelector('.create-project-container');
-// const createProjectCloseBtn = document.querySelector('.create-project-popup-close');
-
-// navbarNewProjectBtn.addEventListener('click', () => createProjectPopup.classList.add('active'));
-// createProjectCloseBtn.addEventListener('click', () => createProjectPopup.classList.remove('active'));
-
-
-
-
-
-
 // calendor 
 
 function lastMondayOfMonth(month, year) {
@@ -149,4 +124,3 @@ const renderCalendar = (year, month) => {
     daysTxt.innerHTML = renderDays(year, month, monthState);
 };
 renderCalendar(year, month);
-
