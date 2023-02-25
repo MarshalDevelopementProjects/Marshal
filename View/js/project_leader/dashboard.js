@@ -1,5 +1,5 @@
 // set tasks of the project
-console.log(jsonData)
+// console.log(jsonData)
 
 todoBoard = document.querySelector('.todo .tasks'),
 ongoingBoard = document.querySelector('.ongoing .tasks'),
@@ -58,7 +58,11 @@ var ongoingTasksCode = "";
 
 if(ongoingTasks){
     ongoingTasks.forEach(task => {
-        ongoingTasksCode += `<div class="task" draggable="true">
+        let access = ""
+        if(task['assign_type'] == 'group'){
+            access = ' style="pointer-events: none"'
+        }
+        ongoingTasksCode += `<div class="task" draggable="true"${access}>
                                 <div class="top-task">
                                     <h4>${task['task_name']}</h4>
                                     <p class="priority-${task['priority']}">${task['priority']}</p>
@@ -77,7 +81,11 @@ var reviewTasksCode = "";
 
 if(reviewTasks){
     reviewTasks.forEach(task => {
-        reviewTasksCode += `<div class="task" draggable="true">
+        let access = ""
+        if(task['assign_type'] == 'group'){
+            access = ' style="pointer-events: none"'
+        }
+        reviewTasksCode += `<div class="task" draggable="true"${access}>
                                 <div class="top-task">
                                     <h4>${task['task_name']}</h4>
                                     <p class="priority-${task['priority']}">${task['priority']}</p>
@@ -132,7 +140,7 @@ const sendConfirmationFunction = (taskName, message, date, time) => {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
+        // console.log(data);
         location.reload();
     })
     .catch((error) => {
@@ -153,7 +161,7 @@ const rearangetask = function (taskName, newBoard){
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    // console.log(data);
                     location.reload();
                 })
                 .catch((error) => {
@@ -197,7 +205,7 @@ tasks.forEach(task => {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    // console.log(data);
                     location.reload();
                 })
                 .catch((error) => {
@@ -286,7 +294,7 @@ function getDragAfterElement(board, y){
     return draggableElements.reduce((closest, child)=>{
         const box = child.getBoundingClientRect()
         const offset = y - box.top - box.height/2
-        console.log(offset)
+        // console.log(offset)
         if(offset < 0 && offset > closest.offset){
             return {offset: offset, element: child}
         }else{
@@ -296,9 +304,170 @@ function getDragAfterElement(board, y){
 }
 
 
+function getTaskFeedbacks(task_id){
+
+    var feedbacks = []
+    // get task feedbacks
+    return fetch(`http://localhost/public/projectmember/taskfeedback?task=${task_id}`, {
+        withCredentials: true,
+        credentials: "include",
+        mode: "cors",
+        method: "GET"
+    })
+    .then(response => response.json())
+    .then(data => {
+        return data['message']
+    })
+    .catch((error) => {
+        console.error(error)
+    })
+
+}
+
+async function getOngoingTaskCode(taskDetails){
+
+    let feedbacks = await getTaskFeedbacks(taskDetails['task_id']);
+    feedbacks.reverse()
+    let feedbackMessages = ``
+
+    feedbacks.forEach(feedback => {
+        if(feedback['type'] == 'incoming'){
+            feedbackMessages += `<div class="incomming-feedback">
+                                    <div class="incomming-feedback-sender">
+                                        <img src="${feedback['profile']}" alt="">
+                                    </div>
+                                    <div class="incomming-feedback-message">
+                                        <p class="incomming-feedbacks">${feedback['msg']}</p>
+                                        <p class="incomming-time">${feedback['stamp'].split(" ")[1]}</p>
+                                    </div>
+                                </div>`
+        }else if(feedback['type'] == 'outgoing'){
+            feedbackMessages += `<div class="outgoing-feedback">
+                                    <div class="outgoing-feedback-message">
+                                        <p class="outgoing-feedbacks">${feedback['msg']}</p>
+                                        <p class="outgoing-time">${feedback['stamp'].split(" ")[1]}</p>
+                                    </div>
+                                </div>`
+        }
+    });
+    let i = 0
+    
+    let code = `<div class="top-bar">
+                                <h3>${taskDetails['task_name']}</h3>
+                                <p class="${taskDetails['priority']}">${taskDetails['priority']}</p>
+                            </div>
+                            <p class="task-details-description">${taskDetails['description']}</p>
+                            <p class="task-details-deadline">Deadline : ${taskDetails['deadline'].split(' ')[0]}</p>
+
+                            <div class="task-feedbacks">
+                                <div class="task-feedback-messages">
+                                    ${feedbackMessages}
+                                </div>
+
+                                <form id="ongoing-task-feedback-form" method="post">
+                                    <label for="feedbackMessage"></label>
+                                    <input id="ongoing-task-feedback-form-input" type="text" name="feedbackMessage" placeholder=" Send task feedback ...">
+                                    <button id="feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                                </form>
+                            
+                            </div>
+                            <div class="buttons">
+                                <a id="cancel-task-details" href="#">Cancel</a>
+                                <p id="finishTaskBtn">Finish</p>
+                            </div>`
+
+    return code
+}
+function getOngoingPopup(taskDetails, code){
+    const todoTaskDetails = document.querySelector('.TO-DO-task-details')
+            
+    todoTaskDetails.innerHTML = code
+    todoTaskDetails.classList.add('active')
+
+    const finishBtn = document.querySelector('#finishTaskBtn')
+    const confirmationPopup = document.querySelector('.confirmation-popup')
+    const confirmationPopupCloseBtn = document.querySelector('.confirmation-popup .close-area i')
+
+    finishBtn.addEventListener('click', () => confirmationPopup.classList.add('active'))
+
+    const confirmationMessage = document.getElementById('confirmationMessage')
+    const sendConfirmation = document.querySelector('.confirmation-popup .input-area button')
+    var message = ""
+
+    // get current date and time
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+    var day = date.getDate().toString().padStart(2, '0');
+    var formattedDate = year + '-' + month + '-' + day;
+
+    var time = date.toLocaleTimeString();
+
+    confirmationMessage.addEventListener('input', () => {
+        message = confirmationMessage.value
+    })
+
+    // console.log(taskName)
+    if(message != null){
+        sendConfirmation.addEventListener('click', () => {
+            sendConfirmationFunction(taskName, message, formattedDate, time)
+        })
+        confirmationMessage.addEventListener('keyup', (event) =>{
+            if(event.keyCode === 13){
+                sendConfirmationFunction(taskName, message, formattedDate, time)
+            }
+        })
+    }
+
+
+    // confirmationPopup.classList.add('active')
+    confirmationPopupCloseBtn.addEventListener('click', () => {
+        confirmationPopup.classList.remove('active')
+        location.reload();
+    })
+
+    confirmationPopupCloseBtn.addEventListener('click', () => confirmationPopup.classList.remove('active'))
+            
+    const cancelTodoTaskDetails = document.getElementById('cancel-task-details')
+    cancelTodoTaskDetails.addEventListener('click', () => todoTaskDetails.classList.remove('active'))
+
+    const feedbackForm = document.getElementById('ongoing-task-feedback-form')
+    const feedbackFormInput = document.getElementById('ongoing-task-feedback-form-input')
+
+    feedbackForm.addEventListener('submit', (event) => {
+        event.preventDefault()
+
+        if(Object.fromEntries(new FormData(feedbackForm)).feedbackMessage){
+            fetch("http://localhost/public/projectmember/taskfeedback", {
+                withCredentials: true,
+                credentials: "include",
+                mode: "cors",
+                method: "POST",
+                body: JSON.stringify({
+                    "feedbackMessage" : Object.fromEntries(new FormData(feedbackForm)).feedbackMessage,
+                    "task_id" : taskDetails['task_id']
+                })
+            })
+            .then(response => response.json())
+            .then(async data => {
+
+                let code = await getOngoingTaskCode(taskDetails)
+                getOngoingPopup(taskDetails, code)
+            })
+            .then(feedbackFormInput.focus())
+            .catch((error) => {
+                console.error(error)
+            })
+        }
+        
+    })
+    feedbackForm.reset()
+    feedbackFormInput.focus()
+
+}
 
 tasks.forEach(task => {
-    task.addEventListener('click', event => {
+    task.addEventListener('click',async event => {
         var position = event.clientX;
 
         // get task name
@@ -356,7 +525,7 @@ tasks.forEach(task => {
                     })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
+                        // console.log(data);
                         todoTaskDetails.classList.remove('active')
                         location.reload();
                     })
@@ -382,7 +551,7 @@ tasks.forEach(task => {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    // console.log(data);
                     todoTaskDetails.classList.remove('active')
                     location.reload();
                 })
@@ -397,78 +566,9 @@ tasks.forEach(task => {
         }else if(position > 562 && position < 784){
             
             taskDetails = getTaskDetails(ongoingTasks, taskName)
-            const todoTaskDetails = document.querySelector('.TO-DO-task-details')
+            let code = await getOngoingTaskCode(taskDetails)
 
-            let code = `<div class="top-bar">
-                                <h3>${taskDetails['task_name']}</h3>
-                                <p class="${taskDetails['priority']}">${taskDetails['priority']}</p>
-                            </div>
-                            <p class="task-details-description">${taskDetails['description']}</p>
-                            <p class="task-details-deadline">Deadline : ${taskDetails['deadline'].split(' ')[0]}</p>
-
-                            <div class="task-feedbacks">
-                                <p class="incomming-feedbacks"></p>
-                                <p class="outgoing-feedbacks"></p>
-                                <form action="#" method="post">
-                                    <label for="feedbackMessage"></label>
-                                    <input type="text" name="feedbackMessage" placeholder="Send something ...">
-                                    <button type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
-                                </form>
-                            </div>
-                            <div class="buttons">
-                                <a id="cancel-task-details" href="#">Cancel</a>
-                                <p id="finishTaskBtn">Finish</p>
-                            </div>`
-            
-            todoTaskDetails.innerHTML = code
-            todoTaskDetails.classList.add('active')
-
-            const finishBtn = document.querySelector('#finishTaskBtn')
-            const confirmationPopup = document.querySelector('.confirmation-popup')
-            const confirmationPopupCloseBtn = document.querySelector('.confirmation-popup .close-area i')
-
-            finishBtn.addEventListener('click', () => confirmationPopup.classList.add('active'))
-
-            const confirmationMessage = document.getElementById('confirmationMessage')
-            const sendConfirmation = document.querySelector('.confirmation-popup .input-area button')
-            var message = ""
-
-            // get current date and time
-            var date = new Date();
-            var year = date.getFullYear();
-            var month = (date.getMonth() + 1).toString().padStart(2, '0');
-            var day = date.getDate().toString().padStart(2, '0');
-            var formattedDate = year + '-' + month + '-' + day;
-
-            var time = date.toLocaleTimeString();
-
-            confirmationMessage.addEventListener('input', () => {
-                message = confirmationMessage.value
-            })
-
-            console.log(taskName)
-            if(message != null){
-                sendConfirmation.addEventListener('click', () => {
-                    sendConfirmationFunction(taskName, message, formattedDate, time)
-                })
-                confirmationMessage.addEventListener('keyup', (event) =>{
-                    if(event.keyCode === 13){
-                        sendConfirmationFunction(taskName, message, formattedDate, time)
-                    }
-                })
-            }
-
-
-            // confirmationPopup.classList.add('active')
-            confirmationPopupCloseBtn.addEventListener('click', () => {
-                confirmationPopup.classList.remove('active')
-                location.reload();
-            })
-
-            confirmationPopupCloseBtn.addEventListener('click', () => confirmationPopup.classList.remove('active'))
-            
-            const cancelTodoTaskDetails = document.getElementById('cancel-task-details')
-            cancelTodoTaskDetails.addEventListener('click', () => todoTaskDetails.classList.remove('active'))
+            getOngoingPopup(taskDetails, code)
 
         }else if(position > 832 && position < 1054){
             taskDetails = getTaskDetails(reviewTasks, taskName)
@@ -501,8 +601,6 @@ tasks.forEach(task => {
             const cancelTodoTaskDetails = document.querySelector('#continueBtn')
             cancelTodoTaskDetails.addEventListener('click', () => todoTaskDetails.classList.remove('active'))
         }
-
-        console.log(taskDetails);
 
         task.classList.remove('clicked');
     })
@@ -537,8 +635,3 @@ projectName.innerText = jsonData['projectName']
 
 const profilePicture = document.querySelector('.profile-image');
 profilePicture.src = jsonData['profile']
-
-
-
-
-
