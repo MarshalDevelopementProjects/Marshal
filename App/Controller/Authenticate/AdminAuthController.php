@@ -13,7 +13,7 @@ use Core\Response;
 
 class AdminAuthController extends Token
 {
-    private Admin $admin; // used to store the remember me session in database
+    private Admin $admin;
     private array $errors;
     private Validator $validator;
 
@@ -32,10 +32,7 @@ class AdminAuthController extends Token
         } else {
             if (!empty($credentials)) {
                 try {
-                    $remember_me = array_key_exists("remember_me", $credentials) ?
-                        (!empty($credentials["remember_me"]) ?
-                            true : false
-                        ) : false;
+                    $remember_me = array_key_exists("remember_me", $credentials) && !empty($credentials["remember_me"]);
 
                     if (array_key_exists("remember_me", $credentials))
                         unset($credentials["remember_me"]);
@@ -90,7 +87,7 @@ class AdminAuthController extends Token
                     throw $exception;
                 }
             } else {
-                return $this->sendResponse(
+                $this->sendResponse(
                     view: "/admin/login.html",
                     status: "unauthorized",
                     content: array("message" => "")
@@ -211,7 +208,7 @@ class AdminAuthController extends Token
     /* 
      * Function description
      * 
-     * take the data inside of the token payload and return that data as a php object
+     * take the data inside the token payload and return that data as a php object
      */
     public function getCredentials()
     {
