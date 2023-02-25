@@ -91,11 +91,29 @@ $router->get('/user/signup/email/verification', UserAuthController::class . '::v
 $router->post('/user/edit/password', UserController::class . '::changePassword');
 $router->put('/user/edit/password', UserController::class . '::changePassword');
 
-
 $router->get('/user/forgot/password', UserAuthController::class . '::forgotPasswordServePage');
 $router->post('/user/forgot/password/verification', UserAuthController::class . '::sendVerificationOnForgotPassword');
 $router->post('/user/forgot/password/verify', UserAuthController::class . '::verifyCodeOnForgotPassword');
 $router->put('/user/forgot/password/update', UserAuthController::class . '::updateUserPasswordOnForgotPassword');
+
+$router->get('/project/leader/forum/messages', ProjectLeaderController::class . '::getProjectForumMessages');
+$router->post('/project/leader/forum/messages', ProjectLeaderController::class . '::postMessageToProjectForum');
+
+$router->get('/project/leader/project/feedback/messages', ProjectLeaderController::class . '::getProjectFeedbackMessages');
+$router->post('/project/leader/project/feedback/messages', ProjectLeaderController::class . '::postMessageToProjectFeedback');
+$router->get('/project/leader/group/feedback/messages', ProjectLeaderController::class . '::getGroupFeedbackMessages');
+$router->post('/project/leader/group/feedback/messages', ProjectLeaderController::class . '::postMessageToGroupFeedback');
+
+$router->get('/project/member/forum/messages', ProjectMemberController::class . '::getProjectForumMessages');
+$router->post('/project/member/forum/messages', ProjectMemberController::class . '::postMessageToProjectForum');
+
+$router->get('/group/leader/forum/messages', GroupLeaderController::class . '::getGroupForumMessages');
+$router->post('/group/leader/forum/messages', GroupLeaderController::class . '::postMessageToGroupForum');
+$router->get('/group/leader/group/feedback/messages', ProjectLeaderController::class . '::getGroupFeedbackMessages');
+$router->post('/group/leader/group/feedback/messages', ProjectLeaderController::class . '::postMessageToGroupFeedback');
+
+$router->get('/group/member/forum/messages', GroupMemberController::class . '::getGroupForumMessages');
+$router->post('/group/member/forum/messages', GroupMemberController::class . '::postMessageToGroupForum');
 
 // sanitize the uri
 $uri = htmlspecialchars(
@@ -106,7 +124,4 @@ $uri = htmlspecialchars(
 
 $data = Request::getData(file_get_contents('php://input'));
 
-try {
-    $router->dispatch($uri, $data);
-} catch (Exception $exception) {
-}
+$router->dispatch($uri, $data);
