@@ -9,7 +9,7 @@ use Core\Validator\Validator;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
-class MessageController extends Controller
+class MessageController
 {
     public function defaultAction(Object|array|string|int $optional = null){
     }
@@ -23,8 +23,21 @@ class MessageController extends Controller
             $message->sendMessage($args, $keys);
             return true;
         } catch (\Throwable $th) {
-            return false;
+            // return false;
+            throw $th;
         }
     }
 
+    public function recieve(string $condition):object|array|bool
+    {
+        // from this we have to do decrypt message
+
+        $message = new Message();
+        try {
+            return $message->getMessages($condition);
+        } catch (\Throwable $th) {
+            // return array();
+            throw $th;
+        }
+    }
 }
