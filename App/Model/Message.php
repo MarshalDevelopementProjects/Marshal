@@ -45,7 +45,7 @@ class Message implements Model
             $this->crud_util->execute($sql, $args);
             return true;
         } catch (\Exception $exception) {
-            return false;
+            throw $exception;
         }
     }
 
@@ -53,7 +53,7 @@ class Message implements Model
     {
         $keyCount = count($keys);
 
-        $sql = "INSERT INTO `message` (";
+        $sql = "INSERT INTO `" . $table . "` (";
 
         for ($i = 0; $i < $keyCount; $i++) {
             $key = $keys[$i];
@@ -102,7 +102,24 @@ class Message implements Model
                 return array();
             }
         } catch (\Exception $exception) {
-            return array();
+            throw $exception;
+        }
+    }
+
+    public function getMessages($condition):object|array|bool
+    {
+        $sql = "SELECT * FROM `message` WHERE ";
+        $sql .= $condition;
+
+        try {
+            $result = $this->crud_util->execute($sql);
+            if ($result->getCount() > 0) {
+                return $result->getResults();
+            } else {
+                return array();
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
         }
     }
 }
