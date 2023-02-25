@@ -26,7 +26,7 @@ class ProjectLeader implements Model
         }
     }
 
-    public function saveProjectFeedbackMessage(string|int $id, string $msg)
+    public function saveProjectFeedbackMessage(string|int $id, string $msg): bool
     {
         // add the message to the project feedback table as well as the messages table
         try {
@@ -64,7 +64,7 @@ class ProjectLeader implements Model
         }
     }
 
-    public function getProjectFeedbackMessages()
+    public function getProjectFeedbackMessages(): bool
     {
         // get all the messages in the project feedback 
         try {
@@ -125,25 +125,20 @@ class ProjectLeader implements Model
     {
         // get all the messages in a project forum
         try {
-            // use a join between the messages table and the project table where ids are equal
-            try {
-                $sql_string = "SELECT * FROM `message` WHERE `id` in (SELECT `message_id` FROM `project_message` WHERE `project_id` = :project_id)";
-                $this->crud_util->execute($sql_string, array("project_id" => $this->project_data->id));
-                if (!$this->crud_util->hasErrors()) {
-                    $this->message_data = $this->crud_util->getResults();
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (\Exception $exception) {
-                throw $exception;
+            $sql_string = "SELECT * FROM `message` WHERE `id` in (SELECT `message_id` FROM `project_message` WHERE `project_id` = :project_id)";
+            $this->crud_util->execute($sql_string, array("project_id" => $this->project_data->id));
+            if (!$this->crud_util->hasErrors()) {
+                $this->message_data = $this->crud_util->getResults();
+                return true;
+            } else {
+                return false;
             }
         } catch (\Exception $exception) {
             throw $exception;
         }
     }
     // used to give the feedback for the groups
-    public function saveGroupFeedbackMessage(string|int $id, string|int $group_id, string $msg)
+    public function saveGroupFeedbackMessage(string|int $id, string|int $group_id, string $msg): bool
     {
         // add the message to the project message table and the messages table
         try {
@@ -179,22 +174,17 @@ class ProjectLeader implements Model
         }
     }
 
-    public function getGroupFeedbackMessages(string|int $group_id)
+    public function getGroupFeedbackMessages(string|int $group_id): bool
     {
         // get all the messages in a project forum
         try {
-            // use a join between the messages table and the project table where ids are equal
-            try {
-                $sql_string = "SELECT * FROM `message` WHERE `id` in (SELECT `message_id` FROM `group_feedback_message` WHERE `project_id` = :project_id AND `group_id` = :group_id)";
-                $this->crud_util->execute($sql_string, array("project_id" => $this->project_data->id, "group_id" => $group_id));
-                if (!$this->crud_util->hasErrors()) {
-                    $this->message_data = $this->crud_util->getResults();
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (\Exception $exception) {
-                throw $exception;
+            $sql_string = "SELECT * FROM `message` WHERE `id` in (SELECT `message_id` FROM `group_feedback_message` WHERE `project_id` = :project_id AND `group_id` = :group_id)";
+            $this->crud_util->execute($sql_string, array("project_id" => $this->project_data->id, "group_id" => $group_id));
+            if (!$this->crud_util->hasErrors()) {
+                $this->message_data = $this->crud_util->getResults();
+                return true;
+            } else {
+                return false;
             }
         } catch (\Exception $exception) {
             throw $exception;
