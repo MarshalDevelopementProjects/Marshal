@@ -11,60 +11,100 @@ class Messenger implements MessageComponentInterface
 {
     private array $channels;
 
+    /*
+     *
+     * WS Routes
+     *
+     * +=========+
+     * |Structure|
+     * +=========+
+     *
+     *  Projects
+     * =========
+     *  Base +> ws://localhost:8080/projects/
+     *
+     *  Project message forum +>  ws://localhost:8080/project/forum?project=ProjectID
+     *
+     *  Project feedback forum +>  ws://localhost:8080/project/feedback?project=ProjectID
+     *
+     *  Groups
+     * =========
+     *  Base +> ws://localhost:8080/groups/
+     *
+     *  Group message forum +>  ws://localhost:8080/groups/forum?project=ProjectID&group=GroupID
+     *
+     *  Group feedback forum +>  ws://localhost:8080/groups/feedback?project=ProjectID&group=GroupID
+     *
+     * +-----------------------------------------------------------------------+---------------------------------------------------------------------+
+     * |                Route                                                  |                    Route tokens                                     |
+     * +-----------------------------------------------------------------------+---------------------------------------------------------------------+
+     * | ws://localhost:8080/project/forum?project=ProjectID                   | routing_params => ['category' => 'project', 'route' => 'forum']     |
+     * |                                                                       | http_params => ['project' => '12']                                  |
+     * +-----------------------------------------------------------------------+---------------------------------------------------------------------+
+     * | ws://localhost:8080/project/feedback?project=ProjectID                | routing_params => ['category' => 'project', 'route' => 'feedback']  |
+     * |                                                                       | http_params => ['project' => '12']                                  |
+     * +-----------------------------------------------------------------------+---------------------------------------------------------------------+
+     * | ws://localhost:8080/groups/forum?project=ProjectID&group=GroupID      | routing_params => ['category' => 'groups', 'route' => 'forum']      |
+     * |                                                                       | http_params => ['project' => '12', 'group' => '12']                 |
+     * +-----------------------------------------------------------------------+---------------------------------------------------------------------+
+     * | ws://localhost:8080/groups/feedback?project=ProjectID&group=GroupID   | routing_params => ['category' => 'groups', 'route' => 'feedback']   |
+     * |                                                                       | http_params => ['project' => '12', 'group' => '12']                 |
+     * +-------------------------------------------------------------------+-------------------------------------------------------------------------+
+     *  */
+
     public function __construct()
     {
         $this->channels = array(
-            "clients" => array(),
-            "projects" => array(),
-
-            // revise these three
-            "groups" =>  array(),
-            "group_feedback" => array(), // this will be used to keep track of the group feedback forums
-            "project_feedback" => array(), // this will be used to keep track of the project feedback forums
+            "projects" => array(
+                "feedback" => array(),
+                "forum" => array()
+            ),
+            "groups" =>  array(
+                "feedback" => array(), // used to keep track of the clients joining for the feedback forums
+                "forum" => array() // used to keep track of the clients joining for the general forums
+            ),
+            "tasks" => array(),
         );
     }
 
     function onOpen(ConnectionInterface $conn)
     {
-        // ws://localhost:8080/projects?route=projectId&ws_token=token
-        // ws://localhost:8080/groups?route=projectId&group=groupId&ws_token=token
-
-        // ws://localhost:8080/groups?route=projectId&group=groupId&ws_token=token
-        // ws://localhost:8080/group_feedback?route=projectId&group=groupId&ws_token=token
-
-        // ws://localhost:8080/project_feedback?route=projectId&ws_token=token
-
-        // var_dump($conn->httpRequest->getUri()->getPath()); // if you used the above url they will get "/projects" as the output
-        // var_dump($conn->httpRequest->getUri()->getQuery()); // if you used this then you will get "route=projectId" as the output
-        // var_dump($conn->httpRequest->getUri()); check this for more details of what you can get using the getUri()
-        // var_dump($conn->httpRequest->getUri()->getRoute());
-
         $args = [];
         parse_str($conn->httpRequest->getUri()->getQuery(), $args);
         // var_dump($args);
-        // find which category does the conversation belong to
+        // var_dump($conn->resourceId);
+
         if (array_key_exists("category", $args) && isset($args["category"], $this->channels)) {
-            // in a particular channel which project or which group does the client belongs to
-            // if the project(or the group) forum is not yet initialized then create a new instance of the that forum
-            // add the client to that forum
-            // forums are usually constructed under their ids projectId, groupId, and so on
-            if (array_key_exists("forum", $args)) {
-                // check whether the given project name and the group name exists in the database
-                // create a new forum
-                if (!array_key_exists($args["forum"], $this->channels[$args["category"]])) {
-                    $this->channels[$args["category"]][$args["forum"]] = array(
-                        "clients" => new \SplObjectStorage(),
-                        "client_count" => 0
-                    );
-                }
-                // add the new client to the messaging forum
-                $this->channels[$args["category"]][$args["forum"]]["clients"]->attach($conn);
-                // increase the client count
-                $this->channels[$args["category"]][$args["forum"]]["client_count"]++;
-                // var_dump($this->channels[$args["category"]][$args["forum"]]["client_count"]);
-                $conn->send(json_encode(array("status" => "success", "message" => "connection established")));
+            if(array_key_exists("route", $args) && isset($args["route"], $this->channels[$args["category"]])) {
+               switch ($args["category"]) {
+                   case "projects": {
+                       if (!array_key_exists($args["project"], $this->channels[$args["category"]][$args["route"]])) {
+                           $this->channels[$args["category"]][$args["route"]][$args["project"]] = array(
+                               "clients" => new \SplObjectStorage(),
+                               "client_count" => 0
+                           );
+                       }
+                       $this->channels[$args["category"]][$args["route"]][$args["project"]]["clients"]->attach($conn);
+                       $this->channels[$args["category"]][$args["route"]][$args["project"]]["client_count"]++;
+                   } break;
+                   case "groups": {
+                       if (!array_key_exists($args["group"], $this->channels[$args["category"]][$args["route"]])) {
+                           $this->channels[$args["category"]][$args["route"]][$args["group"]] = array(
+                               "clients" => new \SplObjectStorage(),
+                               "client_count" => 0
+                           );
+                       }
+                       $this->channels[$args["category"]][$args["route"]][$args["group"]]["clients"]->attach($conn);
+                       $this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"]++;
+                       var_dump(array_keys($this->channels[$args["category"]][$args["route"]]));
+                       var_dump(array_keys($this->channels[$args["category"]][$args["route"]]));
+                       var_dump(array_keys($this->channels[$args["category"]][$args["route"]][$args["group"]]));
+                       var_dump($this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"]);
+                   } break;
+               }
+               $conn->send(json_encode(array("status" => "success", "message" => "Connection established")));
             } else {
-                $conn->send(json_encode(array("status" => "error", "message" => "Invalid forum")));
+                $conn->send(json_encode(array("status" => "error", "message" => "Invalid route")));
             }
         } else {
             $conn->send(json_encode(array("status" => "error", "message" => "Invalid category")));
@@ -77,14 +117,9 @@ class Messenger implements MessageComponentInterface
         parse_str($conn->httpRequest->getUri()->getQuery(), $args);
         // var_dump($args);
         if (array_key_exists("category", $args) && isset($args["category"], $this->channels)) {
-            if (array_key_exists("forum", $args) && isset($args["forum"], $this->channels)) {
+            if (array_key_exists("route", $args) && isset($args["route"], $this->channels[$args["category"]])) {
                 // remove the client from the messaging forum
-                $this->removeTheClientFromTheMessagingForum($args, $conn);
-
-                if ($this->channels[$args["category"]][$args["forum"]]["client_count"] == 0) {
-                    unset($this->channels[$args["category"]][$args["forum"]]);
-                    $conn->send(json_encode(array("status" => "success", "message" => "Message closed, since there are no active clients")));
-                }
+                $this->removeClient($args, $conn);
                 $conn->send(json_encode(array("status" => "success", "message" => "Client successfully disconnected")));
             } else {
                 $conn->send(json_encode(array("status" => "error", "message" => "Invalid forum")));
@@ -100,12 +135,9 @@ class Messenger implements MessageComponentInterface
         parse_str($conn->httpRequest->getUri()->getQuery(), $args);
         //var_dump($args);
         if (array_key_exists("category", $args) && isset($args["category"], $this->channels)) {
-            if (array_key_exists("forum", $args) && isset($args["forum"], $this->channels)) {
+            if (array_key_exists("route", $args) && isset($args["route"], $this->channels["category"])) {
                 // remove the client from the messaging forum
-                $this->removeTheClientFromTheMessagingForum($args, $conn);
-                if ($this->channels[$args["category"]][$args["forum"]]["client_count"] == 0) {
-                    unset($this->channels[$args["category"]][$args["forum"]]);
-                }
+                $this->removeClient($args, $conn);
             } else {
                 $conn->send(json_encode(array("status" => "error", "message" => "Invalid forum")));
             }
@@ -123,12 +155,23 @@ class Messenger implements MessageComponentInterface
         var_dump($args);
 
         if (array_key_exists("category", $args) && isset($args["category"], $this->channels)) {
-            if (array_key_exists("forum", $args) && isset($args["forum"], $this->channels)) {
-                foreach ($this->channels[$args["category"]][$args["forum"]]["clients"] as $to) {
-                    if ($from != $to) {
-                        $to->send($msg);
-                    }
-                }
+            if(array_key_exists("route", $args) && isset($args["route"], $this->channels[$args["category"]])) {
+               switch ($args["category"]) {
+                   case "projects": {
+                       foreach ($this->channels[$args["category"]][$args["route"]][$args["project"]] as $to) {
+                           if ($from != $to) {
+                               $to->send($msg);
+                           }
+                       }
+                   } break;
+                   case "groups": {
+                       foreach ($this->channels[$args["category"]][$args["route"]][$args["group"]] as $to) {
+                           if ($from != $to) {
+                               $to->send($msg);
+                           }
+                       }
+                   } break;
+               }
             } else {
                 $from->send(json_encode(array("status" => "error", "message" => "Invalid forum")));
             }
@@ -144,7 +187,49 @@ class Messenger implements MessageComponentInterface
      */
     private function removeTheClientFromTheMessagingForum(array $args, ConnectionInterface $conn): void
     {
-        $this->channels[$args["category"]][$args["forum"]]["clients"]->detach($conn);
-        $this->channels[$args["category"]][$args["forum"]]["client_count"]--;
+       switch ($args["category"]) {
+           case "projects": {
+               $this->channels[$args["category"]][$args["route"]][$args["project"]]["clients"]->detach($conn);
+               $this->channels[$args["category"]][$args["route"]][$args["project"]]["client_count"]--;
+           } break;
+           case "groups": {
+               $this->channels[$args["category"]][$args["route"]][$args["group"]]["clients"]->detach($conn);
+               $this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"]--;
+           } break;
+       }
+    }
+
+    /**
+     * @param array $args
+     * @param ConnectionInterface $conn
+     * @return void
+     */
+    private function removeClient(array $args, ConnectionInterface $conn): void
+    {
+        $this->removeTheClientFromTheMessagingForum($args, $conn);
+        switch ($args["category"]) {
+            case "projects":
+                {
+                    if (
+                        array_key_exists($args["project"], $this->channels[$args["category"]][$args["route"]]) &&
+                        $this->channels[$args["category"]][$args["route"]][$args["project"]]["client_count"] == 0
+                    ) {
+                        unset($this->channels[$args["category"]][$args["route"]][$args["project"]]);
+                        $conn->send(json_encode(array("status" => "success", "message" => "Message closed, since there are no active clients")));
+                    }
+                }
+                break;
+            case "groups":
+                {
+                    if (
+                        array_key_exists($args["group"], $this->channels[$args["category"]][$args["route"]]) &&
+                        $this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"] == 0
+                    ) {
+                        unset($this->channels[$args["category"]][$args["route"]][$args["group"]]);
+                        $conn->send(json_encode(array("status" => "success", "message" => "Message closed, since there are no active clients")));
+                    }
+                }
+                break;
+        }
     }
 }
