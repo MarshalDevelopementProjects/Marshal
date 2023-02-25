@@ -5,6 +5,7 @@ namespace App\CrudUtil;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Database\Database;
+use Exception;
 
 class CrudUtil
 {
@@ -50,7 +51,7 @@ class CrudUtil
      * Creates a database connection and resets all the
      * variables used to their default values
      * @access public
-     * @throws \Exception incase if anything goes wrong 
+     * @throws Exception incase if anything goes wrong
      * 
      */
     public function __construct()
@@ -60,7 +61,7 @@ class CrudUtil
             $this->pdo = $this->database->getPDO();
             $this->error = false;
             $this->count = 0;
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
@@ -74,7 +75,7 @@ class CrudUtil
      * 
      * @param string $sql_string takes a sql statement as a string
      * @param array $params takes an array of key, value pairs as arguments to the query
-     * @throws \Exception is thrown incase of an exception 
+     * @throws Exception is thrown in case of an exception
      * @return CrudUtil returns itself with the results encapsulated
      * 
      */
@@ -98,7 +99,7 @@ class CrudUtil
             $this->results = $this->query->fetchAll(\PDO::FETCH_OBJ);
             $this->count = $this->query->rowCount();
             return $this;
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->error = true;
             $this->results = null;
             $this->count = 0;
@@ -110,10 +111,10 @@ class CrudUtil
     /**
      * Method description
      * 
-     * Getter method for @var $_results 
+     * Getter method for @var $_results
      * @access public
      * @return array
-     * 
+     *
      */
     public function getResults(): array
     {
