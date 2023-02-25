@@ -2,7 +2,6 @@
 
 namespace App\Controller\ProjectMember;
 
-use App\Controller\Authenticate\UserAuthController;
 use App\Controller\User\UserController;
 use App\Controller\Group\GroupController;
 use App\Model\ProjectMember;
@@ -12,6 +11,7 @@ use App\Model\Project;
 use App\Model\Group;
 use App\Model\User;
 use Core\Validator\Validator;
+use Exception;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -23,7 +23,12 @@ class ProjectMemberController extends UserController
     {
         try {
             parent::__construct();
-        } catch (\Exception $exception) {
+            if(array_key_exists("project_id", $_SESSION)) {
+                $this->projectMember = new ProjectMember($_SESSION["project_id"]);
+            } else {
+                throw new Exception("Bad request missing arguments");
+            }
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
@@ -254,5 +259,44 @@ class ProjectMemberController extends UserController
         );
     }
 
-    
+    // the following functions sends JSON responses
+
+    // save the message to the project table
+    // $args format {"message" => "message string"}
+    public function postMessageToProjectForum(array|object $args) {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        // get the user id
+        if (!empty($args) && array_key_exists("message", $args)) {
+            if (!empty($args["message"])) {
+                try {
+                    if($this->projectMember->saveForumMessage(id: $this->user->getUserData()->id, msg: $args["message"])) {
+                        $this->sendJsonResponse("success");
+                    } else {
+                        $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
+                    }
+                } catch(Exception $exception) {
+                    throw $exception;
+                }
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Empty message body!"]);
+            }
+        } else {
+            $this->sendJsonResponse("error", ["message" => "Bad request"]);
+        }
+    }
+
+    // get all the messages to the project table
+    public function getProjectForumMessages()
+    {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        try{
+            if($this->projectMember->getForumMessages()) {
+                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectMember->getMessageData() ?? []]);
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Some error occurred"]);
+            }
+        } catch(Exception $exception) {
+            throw $exception;
+        }
+    }
 }
