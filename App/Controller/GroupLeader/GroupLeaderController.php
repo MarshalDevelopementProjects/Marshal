@@ -8,6 +8,7 @@ use App\Model\GroupLeader;
 use App\Model\User;
 use App\Model\Notification;
 use App\Model\Task;
+use Exception;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -19,6 +20,11 @@ class GroupLeaderController extends ProjectMemberController
     {
         try {
             parent::__construct();
+            if (array_key_exists("group_id", $_SESSION)) {
+                $this->groupLeader = new GroupLeader($_SESSION["project_id"], $_SESSION["group_id"]);
+            } else {
+                throw new Exception("Bad request missing arguments");
+            }
         } catch (\Exception $exception) {
             throw $exception;
         }
@@ -115,5 +121,80 @@ class GroupLeaderController extends ProjectMemberController
             view: "/group_leader/groupInfo.html",
             status: "success",
         );
+    }
+
+
+    // $args = ["message" => "message string"];
+    public function postMessageToGroupFeedback(array|object $args) {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
+        // TODO: SO THAT YOU WILL BE ABLE TO RETURN THE GROUP CANNOT BE FOUND ERROR
+        try{
+            if (!empty($args) && array_key_exists("message", $args)) {
+                if (!empty($args["message"])) {
+                    if($this->groupLeader->saveGroupFeedbackMessage(id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], msg: $args["message"])) {
+                        $this->sendJsonResponse("success");
+                    } else {
+                        $this->sendJsonResponse("error", ["message" => "No such group!"]);
+                    }
+                } else {
+                    $this->sendJsonResponse("error", ["message" => "Empty message body!"]);
+                }
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Invalid request  format!"]);
+            }
+        } catch(\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function getGroupFeedbackMessages() {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
+        // TODO: SO THAT YOU WILL BE ABLE TO RETURN THE GROUP CANNOT BE FOUND ERROR
+        try{
+            if ($this->groupLeader->getGroupFeedbackMessages($_SESSION["project_id"])) {
+                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupLeader->getMessageData() ?? []]);
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
+            }
+        } catch(\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    // $args must follow this format
+    // ["message" => "content of the message"]
+    public function postMessageToGroupForum(array $args)
+    {
+        try{
+            if (!empty($args) && array_key_exists("message", $args)) {
+                if (!empty($args["message"])) {
+                    if($this->groupLeader->saveGroupMessage(id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], msg: $args["message"])) {
+                        $this->sendJsonResponse("success");
+                    } else {
+                        $this->sendJsonResponse("error", ["message" => "Message cannot be saved to the database"]);
+                    }
+                } else {
+                    $this->sendJsonResponse("error", ["message" => "Empty message body!"]);
+                }
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Invalid request  format!"]);
+            }
+        } catch (Exception $exception) {
+            throw  $exception;
+        }
+    }
+
+    public function getGroupForumMessages() {
+       try{
+           if ($this->groupLeader->getGroupMessages(project_id: $_SESSION["project_id"])) {
+               $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupLeader->getMessageData() ?? []]);
+           } else {
+               $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
+           }
+       } catch (Exception $exception) {
+           throw $exception;
+       }
     }
 }
