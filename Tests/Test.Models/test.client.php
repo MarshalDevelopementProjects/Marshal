@@ -5,7 +5,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 use App\Model\Client;
 
 
-function testGetProjectData()
+function testGetProjectData(): void
 {
     $client = new Client(1);
     echo "<pre>";
@@ -16,7 +16,7 @@ function testGetProjectData()
     echo "<pre>";
 }
 
-function testSaveProjectFeedbackMessage()
+function testSaveProjectFeedbackMessage(): void
 {
     echo "<pre>";
     echo "Testing the saveProjectFeedbackMessage() method\n";
@@ -27,7 +27,7 @@ function testSaveProjectFeedbackMessage()
     echo "</pre>";
 }
 
-function testGetProjectFeedbackMessages()
+function testGetProjectFeedbackMessages(): void
 {
     $client = new Client(1);
     $client->getProjectFeedbackMessages();
