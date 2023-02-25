@@ -55,6 +55,8 @@ $router->get('/groupmember/dashboard', GroupMemberController::class . '::default
 
 $router->get('/projectmember/group', ProjectMemberController::class . '::goToGroup');
 $router->get('/projectmember/forum', ProjectMemberController::class . '::getForum');
+$router->post('/projectmember/taskfeedback', ProjectMemberController::class. '::sendTaskFeedback');
+$router->get('/projectmember/taskfeedback', ProjectMemberController::class. '::getTaskFeedback');
 
 $router->post('/projectmember/pickuptask', ProjectMemberController::class . '::pickupTask');
 $router->post('/projectmember/sendconfirmation', ProjectMemberController::class . '::sendConfirmation');
