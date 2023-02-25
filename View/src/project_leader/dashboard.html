@@ -92,13 +92,32 @@
                     <p class="task-details-deadline">Deadline : 10-01-2023</p>
 
                     <div class="task-feedbacks">
-                        <p class="incomming-feedbacks"></p>
-                        <p class="outgoing-feedbacks"></p>
-                        <form action="#" method="post">
-                            <label for="feedbackMessage"></label>
-                            <input type="text" name="feedbackMessage" placeholder="Send something ..." disabled>
-                            <button disabled type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                        <div class="task-feedback-messages">
+                            <div class="incomming-feedback">
+                                <div class="incomming-feedback-sender">
+                                    <img src="/View/images/dp.png" alt="">
+                                </div>
+                                <div class="incomming-feedback-message">
+                                    <p class="incomming-feedbacks">Hello How are you</p>
+                                    <p class="incomming-time">4.14 PM</p>
+                                </div>
+                            </div>
+
+                            <div class="outgoing-feedback">
+                                <div class="outgoing-feedback-message">
+                                    <p class="outgoing-feedbacks">Hello How are you</p>
+                                    <p class="outgoing-time">4.14 PM</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <form id="ongoing-task-feedback-form" method="post">
+                            <label id="${taskDetails['task_id'].toString()}" for="feedbackMessage"></label>
+                            <input type="text" name="feedbackMessage" placeholder=" Send something ...">
+                            <button id="feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
                         </form>
+                        
                     </div>
                     <div class="buttons">
                         <a id="cancel-task-details" href="#">Cancel</a>
