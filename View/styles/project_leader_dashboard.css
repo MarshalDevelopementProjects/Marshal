@@ -629,10 +629,68 @@ body{
     width: 400px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
-.task-feedbacks form{
-    /* border:  1px solid black; */
-    margin-top: 167px;
+.task-feedbacks .task-feedback-messages{
+    height: 167px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column-reverse;
+    overflow-y: scroll;
 }
+.incomming-feedback{
+    display: flex;
+}
+.incomming-feedback-sender{
+    display: flex;
+    margin: auto 0 0 0;
+}
+.incomming-feedback-sender img{
+    height: 25px;
+}
+.incomming-feedback-message{
+    background-color: #f0f0fb;
+    max-width: 250px;
+    width: fit-content;
+    margin: 2px 0 2px 5px;
+    padding: 8px 12px 8px 10px;
+    border-radius: 10px;
+    border-bottom-left-radius: 0px;
+    display: flex;
+}
+
+.incomming-feedbacks{
+    font-size: 13px;
+}
+.incomming-time{
+    font-size: 9px;
+    margin: auto 0 0 15px;
+    color: #222;
+}
+
+.outgoing-feedback{
+    display: flex;
+}
+.outgoing-feedback-message{
+    display: flex;
+    background-color: #de4045;
+    max-width: 250px;
+    width: fit-content;
+    margin: 2px 0 2px auto;
+    padding: 8px 12px 8px 10px;
+    border-radius: 10px;
+    border-bottom-right-radius: 0px;
+}
+.outgoing-feedbacks{
+    font-size: 13px;
+    color: #f7f7f7;
+}
+.outgoing-time{
+    font-size: 9px;
+    margin: auto 0 0 15px;
+    color: #f7f7f7;
+}
+
+
+
 .task-feedbacks form input{
     height: 30px;
     border: none;
@@ -642,7 +700,6 @@ body{
     background-color: #f8f8f8;
     padding-left: 15px;
     margin-right: -4px;
-    /* border: 1px solid black; */
 }
 .task-feedbacks form button{
     width: 30px;
