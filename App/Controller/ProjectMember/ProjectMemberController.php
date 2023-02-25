@@ -285,6 +285,8 @@ class ProjectMemberController extends UserController
 
     public function sendTaskFeedback(){
         $data = json_decode(file_get_contents('php://input'));
+
+        $successMessage = "";
         $payload = $this->userAuth->getCredentials();
         $messageController = new MessageController();
         $message = new Message();
@@ -294,22 +296,65 @@ class ProjectMemberController extends UserController
             "sender_id" => $payload->id,
             "stamp" => $date,
             "message_type" => "PROJECT_TASK_FEEDBACK_MESSAGE",
-            "msg" => $data['message']
+            "msg" => $data->feedbackMessage
         );
         try {
             $messageController->send($args, array("sender_id", "stamp", "message_type", "msg"));
 
             $newMessage = $message->getMessage(array("sender_id" => $payload->id, "stamp" => $date, "message_type" => "PROJECT_TASK_FEEDBACK_MESSAGE"), array("sender_id", "stamp", "message_type"));
+            // var_dump($newMessage);
             $messageTypeArgs = array(
                 "message_id" => $newMessage->id,
                 "project_id" => $_SESSION['project_id'],
-                "task_id" => $data['task_id']
+                "task_id" => $data->task_id
             );
 
             $message->setMessageType($messageTypeArgs, array("message_id", "project_id", "task_id"), "project_task_feedback_message");
-            return true;
+            $successMessage = "Message sent successfully";
         } catch (\Throwable $th) {
-            return false;
+            // $successMessage = "Message sent failed";
+            throw $th;
+        }
+
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => $successMessage
+            ]
+        );
+    }
+
+    public function getTaskFeedback(){
+
+        try {
+            $task_id = $_GET['task'];
+            $messageController = new MessageController();
+
+            $condition = "id IN(SELECT message_id FROM project_task_feedback_message WHERE task_id =" . $task_id . " AND project_id = " . $_SESSION['project_id'] .") ORDER BY `stamp` LIMIT 100 ";
+            $feedbackMessages = $messageController->recieve($condition);
+
+            foreach ($feedbackMessages as $feedback) {
+                if($feedback->sender_id != $this->user->getUserData()->id){
+                    $user = new User();
+                    $user->readUser("id", $feedback->sender_id);
+
+                    $sender = $user->getUserData();
+                    $feedback->profile = $sender->profile_picture;
+                    $feedback->type = "incoming";
+                }else{
+                    $feedback->profile = null;
+                    $feedback->type = "outgoing";
+                }
+            }
+
+            $this->sendJsonResponse(
+                status: "success",
+                content: [
+                    "message" => $feedbackMessages
+                ]
+            );
+        } catch (\Throwable $th) {
+            var_dump($th);
         }
     }
 }
