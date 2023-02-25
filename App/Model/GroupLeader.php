@@ -25,7 +25,7 @@ class GroupLeader implements Model
         }
     }
 
-    public function saveGroupMessage(string|int $id, string|int $project_id, string $msg)
+    public function saveGroupMessage(string|int $id, string|int $project_id, string $msg): bool
     {
         try {
             // add the message to the message table first
@@ -60,7 +60,7 @@ class GroupLeader implements Model
         }
     }
 
-    public function saveGroupFeedbackMessage(string|int $id, string|int $project_id, string $msg)
+    public function saveGroupFeedbackMessage(string|int $id, string|int $project_id, string $msg): bool
     {
         try {
             // add the message to the message table first
@@ -95,7 +95,7 @@ class GroupLeader implements Model
         }
     }
 
-    public function getGroupFeedbackMessages(string|int $project_id)
+    public function getGroupFeedbackMessages(string|int $project_id): bool
     {
         // get all the messages in a project forum
         try {
@@ -117,7 +117,7 @@ class GroupLeader implements Model
         }
     }
 
-    public function getGroupMessages(string|int $project_id)
+    public function getGroupMessages(string|int $project_id): bool
     {
         try {
             $sql_string = "SELECT * FROM `message` WHERE `id` IN (SELECT `message_id` FROM `group_message` WHERE `project_id` = :project_id AND `group_id` = :group_id)";
@@ -135,7 +135,7 @@ class GroupLeader implements Model
         }
     }
 
-    public function readGroupData(string|int $project_id, string|int $group_id)
+    public function readGroupData(string|int $project_id, string|int $group_id): bool
     {
         try {
             $sql_string = "SELECT * FROM `groups` WHERE `project_id` = :project_id AND `id` = :id";
