@@ -411,6 +411,14 @@ function getTableRowData(){
                             console.log(returnData);
                             if (response.ok) {
                             MessageBox.innerText = `${returnData.message}`;
+                            document.querySelector(".alert").style.cssText = "background-color: #c5f3d7; border-left: 8px solid #2dd670;";
+                            document.querySelector(".msg").style.cssText = "color: #5fb082;";
+                            document.querySelector(".close-btn").style.cssText = "background-color:#94eab9;";
+                            document.querySelector(".fas").style.cssText = "color: #21ab5e;";
+                            var icon = document.querySelector(".fa-exclamation-circle") 
+                            icon.classList.add('fas','fa-check-circle');
+                            icon.classList.remove('fa-exclamation-circle')
+                            document.querySelector(".fa-times").style.cssText = "color: #21ab5e;";
                             errorsAlert();
                             setTimeout(function() {
                                 location.reload();
@@ -441,12 +449,20 @@ function getTableRowData(){
                             console.log(returnData);
                             if (response.ok) {
                                 MessageBox.innerText = `${returnData.message}`;
+                                document.querySelector(".alert").style.cssText = "background-color: #c5f3d7; border-left: 8px solid #2dd670;";
+                                document.querySelector(".msg").style.cssText = "color: #5fb082;";
+                                document.querySelector(".close-btn").style.cssText = "background-color:#94eab9;";
+                                document.querySelector(".fas").style.cssText = "color: #21ab5e;";
+                                var icon = document.querySelector(".fa-exclamation-circle") 
+                                icon.classList.add('fas','fa-check-circle');
+                                icon.classList.remove('fa-exclamation-circle')
+                                document.querySelector(".fa-times").style.cssText = "color: #21ab5e;";
                                 errorsAlert();
                                 setTimeout(function() {
                                     location.reload();
                                 }, 1000);
                             }
-                            
+
                         } catch (error) {
                             alert(error.message);
                             console.error(error);
