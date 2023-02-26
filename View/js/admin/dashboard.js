@@ -363,6 +363,18 @@ function errorsAlert(){
     });
 }
 
+const user_name = document.getElementById('w2-name');
+const user_phone = document.getElementById('w2-phone');
+const user_username = document.getElementById('w2-username');
+const user_email = document.getElementById('w2-email');
+const user_date = document.getElementById('w2-date');
+const user_position = document.getElementById('w2-position');
+const user_profile = document.getElementById('w2-profile');
+const user_blockbtn = document.querySelector('.w2-block-btn');
+const user_unblockbtn = document.querySelector('.w2-unblock-btn');
+const wrapper2 = document.querySelector('.wrapper-2');
+const block_form = document.querySelector('#block-form');
+
 function getTableRowData(){
     const tableRowsData = document.getElementsByClassName("row");
     for (var i = 0; i < tableRowsData.length; i++) {
@@ -371,7 +383,42 @@ function getTableRowData(){
             $array = jsonData.user_details;
             for (let index = 0; index < $array.length; index++) {
                 if(name === jsonData.user_details[index].username){
-                    alert("User name: " + jsonData.user_details[index].email_address);
+                    user_username.innerText = jsonData.user_details[index].username;
+                    user_name.innerText = jsonData.user_details[index].first_name +' '+ jsonData.user_details[index].last_name;
+                    user_phone.innerText = jsonData.user_details[index].phone_number;
+                    user_email.innerText = jsonData.user_details[index].email_address;
+                    // user_date.innerText = jsonData.user_details[index].joined_datetime;
+                    user_position.innerText = jsonData.user_details[index].position;
+                    user_profile.setAttribute('src',jsonData.user_details[index].profile_picture);
+                    wrapper2.classList.add('active');
+
+                    block_form.addEventListener('submit', async function(event) {
+                        event.preventDefault();
+                        let requestData = {key:'username',value:jsonData.user_details[index].username};
+                        let jsonFormData = JSON.stringify(requestData);
+                        console.log(jsonFormData);
+                        try {
+                            let response = await fetch("http://localhost/public/admin/users/userblock", {
+                                withCredentials: true,
+                                credentials: "include",
+                                mode: "cors",
+                                method: "PUT",
+                                body: jsonFormData
+                            });
+                    
+                            let returnData = await response.json();
+                            console.log(returnData);
+                            if (response.ok) {
+                                // jsonData.user_info = returnData.user_info;
+                                OnLoad();
+                            }
+                            alert(returnData.message);
+                        } catch (error) {
+                            // alert(error.message);
+                            console.error(error);
+                        }
+                    });
+                    
                 }
             }
         });
