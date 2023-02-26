@@ -411,7 +411,7 @@ function getTableRowData(){
                             console.log(returnData);
                             if (response.ok) {
                                 // jsonData.user_info = returnData.user_info;
-                                OnLoad();
+                                location.reload();
                             }
                             alert(returnData.message);
                         } catch (error) {
@@ -438,11 +438,11 @@ function getTableRowData(){
                             console.log(returnData);
                             if (response.ok) {
                                 // jsonData.user_info = returnData.user_info;
-                                OnLoad();
+                                location.reload();
                             }
                             alert(returnData.message);
                         } catch (error) {
-                            // alert(error.message);
+                            alert(error.message);
                             console.error(error);
                         }
                     });
