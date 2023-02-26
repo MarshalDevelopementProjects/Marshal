@@ -410,12 +410,15 @@ function getTableRowData(){
                             let returnData = await response.json();
                             console.log(returnData);
                             if (response.ok) {
-                                // jsonData.user_info = returnData.user_info;
+                            MessageBox.innerText = `${returnData.message}`;
+                            errorsAlert();
+                            setTimeout(function() {
                                 location.reload();
+                              }, 1000);
                             }
-                            alert(returnData.message);
+                            
                         } catch (error) {
-                            // alert(error.message);
+                            alert(error.message);
                             console.error(error);
                         }
                     });
@@ -437,10 +440,13 @@ function getTableRowData(){
                             let returnData = await response.json();
                             console.log(returnData);
                             if (response.ok) {
-                                // jsonData.user_info = returnData.user_info;
-                                location.reload();
+                                MessageBox.innerText = `${returnData.message}`;
+                                errorsAlert();
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 1000);
                             }
-                            alert(returnData.message);
+                            
                         } catch (error) {
                             alert(error.message);
                             console.error(error);
