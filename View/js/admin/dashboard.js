@@ -392,7 +392,13 @@ function getTableRowData(){
                     user_position.innerText = jsonData.user_details[index].position;
                     user_profile.setAttribute('src',jsonData.user_details[index].profile_picture);
                     wrapper2.classList.add('active');
-
+                    if(jsonData.user_details[index].access == 'ENABLED'){
+                        unBlock_form.style.display = 'none';
+                        block_form.style.display = 'block';
+                    }else{
+                        block_form.style.display = 'none';
+                        unBlock_form.style.display = 'block';
+                    }
                     block_form.addEventListener('submit', async function(event) {
                         event.preventDefault();
                         let requestData = {key:'username',value:jsonData.user_details[index].username};
