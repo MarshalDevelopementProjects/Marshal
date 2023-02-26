@@ -52,8 +52,8 @@ $router->get('/groupmember/dashboard', GroupMemberController::class . '::default
 $router->post('/user/logout', UserAuthController::class . '::logout');
 $router->post('/admin/logout', AdminAuthController::class . '::logout');
 $router->post('/admin/users/addnewuser', AdminController::class . '::createNewUser');
-$router->post('/admin/users/userblock', AdminController::class . '::blockUser');
-$router->post('/admin/users/userunblock', AdminController::class . '::blockUser');
+$router->put('/admin/users/userblock', AdminController::class . '::blockUser');
+$router->put('/admin/users/userunblock', AdminController::class . '::grantAccessToUser');
 $router->get('/admin/users/all', AdminController::class . '::viewAllUsers');
 $router->get('/admin/users/active', AdminController::class . '::viewActiveUsers');
 $router->get('/admin/users/blocked', AdminController::class . '::viewBlockedUsers');
