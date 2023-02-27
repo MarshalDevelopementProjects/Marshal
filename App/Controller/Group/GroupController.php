@@ -20,21 +20,22 @@ class GroupController
     {
     }
 
-    public function getGroupTasks(array $args = array(), $user_id = null){
+    public function getGroupTasks(array $args = array(), $user_id = null)
+    {
         $newTask = new Task();
         $user = new User();
-    
+
         // get all tasks related to this project
         $tasks = $newTask->getAllTasks($args);
 
-        if($tasks){
+        if ($tasks) {
             // divide the tasks by status
             $todoTasks = array();
             $ongoingTasks = array();
             $reviewTasks = array();
             $doneTasks = array();
 
-            foreach($tasks as $task){
+            foreach ($tasks as $task) {
 
                 switch ($task->status) {
                     case 'TO-DO':
@@ -84,7 +85,7 @@ class GroupController
                 "doneTasks" => $doneTasks
             );
             return $projectTasks;
-        }else{
+        } else {
             return array();
         }
     }
