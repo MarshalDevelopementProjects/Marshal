@@ -14,6 +14,7 @@ use App\Model\User;
 use App\Model\Message;
 use Core\Validator\Validator;
 use Exception;
+use Throwable;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -250,15 +251,25 @@ class ProjectMemberController extends UserController
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function getForum()
     {
         $this->sendResponse(
             view: "/project_member/forum.html",
-            status: "success"
-            // content: $project->readProjectsOfUser($user_id, $project_id) ? $data : array()
+            status: "success",
+            content: [
+                "project_id" => $_SESSION["project_id"],
+                "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
+                "messages" => $this->projectMember->getForumMessages() ? $this->projectMember->getMessageData() : []
+            ]
         );
     }
 
+    /**
+     * @throws Throwable
+     */
     public function getProjectInfo()
     {
         // print_r($_SESSION);
@@ -328,6 +339,51 @@ class ProjectMemberController extends UserController
                 $this->sendJsonResponse("error", ["message" => "Some error occurred"]);
             }
         } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    // save the message to the task table
+    // $args format {"task_id" => "TaskID", "message" => "message string"}
+    public function postMessageToProjectTaskFeedback(array|object $args)
+    {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        try {
+            if (!empty($args) && array_key_exists("message", $args) && array_key_exists("task_id", $args)) {
+                if (!empty($args["message"])) {
+                    if ($this->projectMember->saveProjectTaskFeedbackMessage(id: $this->user->getUserData()->id, task_id: $args["task_id"], msg: $args["message"])) {
+                        $this->sendJsonResponse("success");
+                    } else {
+                        $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
+                    }
+                } else {
+                    $this->sendJsonResponse("error", ["message" => "Empty message body!"]);
+                }
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Bad request"]);
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    // $args format {"task_id" => "TaskID"}
+    public function getProjectTaskFeedbackMessages(array $args)
+    {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
+        // TODO: SO THAT YOU WILL BE ABLE TO RETURN THE GROUP CANNOT BE FOUND ERROR
+        try {
+            if (array_key_exists("task_id", $args)) {
+                if ($this->projectMember->getProjectTaskFeedbackMessages($args["task_id"])) {
+                    $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectMember->getMessageData() ?? []]);
+                } else {
+                    $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
+                }
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Invalid input format"]);
+            }
+        } catch (\Exception $exception) {
             throw $exception;
         }
     }
