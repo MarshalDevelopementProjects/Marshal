@@ -48,13 +48,14 @@ $router->get('/projectleader/dashboard', ProjectLeaderController::class . '::def
 $router->get('/projectmember/dashboard', ProjectMemberController::class . '::defaultAction');
 $router->get('/groupleader/dashboard', GroupLeaderController::class . '::defaultAction');
 $router->post('/groupleader/task', GroupLeaderController::class . '::createTask');
-$router->get('/groupleader/group', GroupLeaderController::class. '::getGroupInfo');
+$router->get('/groupleader/group', GroupLeaderController::class . '::getGroupInfo');
 $router->get('/groupmember/group', GroupMemberController::class . '::getGroupInfo');
 
 $router->get('/groupmember/dashboard', GroupMemberController::class . '::defaultAction');
 
-$router->get('/projectmember/group', ProjectMemberController::class . '::goToGroup');
+$router->get('/projectleader/forum', ProjectLeaderController::class . '::getForum');
 $router->get('/projectmember/forum', ProjectMemberController::class . '::getForum');
+$router->get('/projectmember/group', ProjectMemberController::class . '::goToGroup');
 
 $router->post('/projectmember/pickuptask', ProjectMemberController::class . '::pickupTask');
 $router->post('/projectmember/sendconfirmation', ProjectMemberController::class . '::sendConfirmation');
@@ -96,24 +97,37 @@ $router->post('/user/forgot/password/verification', UserAuthController::class . 
 $router->post('/user/forgot/password/verify', UserAuthController::class . '::verifyCodeOnForgotPassword');
 $router->put('/user/forgot/password/update', UserAuthController::class . '::updateUserPasswordOnForgotPassword');
 
-$router->get('/project/leader/forum/messages', ProjectLeaderController::class . '::getProjectForumMessages');
-$router->post('/project/leader/forum/messages', ProjectLeaderController::class . '::postMessageToProjectForum');
-
+$router->get('/project/leader/project/forum/messages', ProjectLeaderController::class . '::getProjectForumMessages');
+$router->post('/project/leader/project/forum/messages', ProjectLeaderController::class . '::postMessageToProjectForum');
 $router->get('/project/leader/project/feedback/messages', ProjectLeaderController::class . '::getProjectFeedbackMessages');
 $router->post('/project/leader/project/feedback/messages', ProjectLeaderController::class . '::postMessageToProjectFeedback');
 $router->get('/project/leader/group/feedback/messages', ProjectLeaderController::class . '::getGroupFeedbackMessages');
 $router->post('/project/leader/group/feedback/messages', ProjectLeaderController::class . '::postMessageToGroupFeedback');
 
-$router->get('/project/member/forum/messages', ProjectMemberController::class . '::getProjectForumMessages');
-$router->post('/project/member/forum/messages', ProjectMemberController::class . '::postMessageToProjectForum');
+$router->get('/project/leader/task/feedback/messages', ProjectLeaderController::class . '::getProjectTaskFeedbackMessages');
+$router->post('/project/leader/task/feedback/messages', ProjectLeaderController::class . '::postMessageToProjectTaskFeedback');
 
-$router->get('/group/leader/forum/messages', GroupLeaderController::class . '::getGroupForumMessages');
-$router->post('/group/leader/forum/messages', GroupLeaderController::class . '::postMessageToGroupForum');
+$router->get('/project/member/project/forum/messages', ProjectMemberController::class . '::getProjectForumMessages');
+$router->post('/project/member/project/forum/messages', ProjectMemberController::class . '::postMessageToProjectForum');
+$router->get('/project/member/task/feedback/messages', ProjectMemberController::class . '::getProjectTaskFeedbackMessages');
+$router->post('/project/member/task/feedback/messages', ProjectMemberController::class . '::postMessageToProjectTaskFeedback');
+
+$router->get('/group/leader/group/forum/messages', GroupLeaderController::class . '::getGroupForumMessages');
+$router->post('/group/leader/group/forum/messages', GroupLeaderController::class . '::postMessageToGroupForum');
 $router->get('/group/leader/group/feedback/messages', ProjectLeaderController::class . '::getGroupFeedbackMessages');
 $router->post('/group/leader/group/feedback/messages', ProjectLeaderController::class . '::postMessageToGroupFeedback');
 
-$router->get('/group/member/forum/messages', GroupMemberController::class . '::getGroupForumMessages');
-$router->post('/group/member/forum/messages', GroupMemberController::class . '::postMessageToGroupForum');
+$router->get('/group/leader/task/feedback/messages', ProjectLeaderController::class . '::getGroupTaskFeedbackMessages');
+$router->post('/group/leader/task/feedback/messages', ProjectLeaderController::class . '::postMessageToGroupTaskFeedback');
+
+$router->get('/group/member/group/forum/messages', GroupMemberController::class . '::getGroupForumMessages');
+$router->post('/group/member/group/forum/messages', GroupMemberController::class . '::postMessageToGroupForum');
+
+$router->get('/group/member/task/feedback/messages', GroupMemberController::class . '::getGroupTaskFeedbackMessages');
+$router->post('/group/member/task/feedback/messages', GroupMemberController::class . '::postMessageToGroupTaskFeedback');
+
+$router->get('/project/client/project/feedback/messages', ClientController::class . '::getProjectFeedbackMessages');
+$router->post('/project/client/project/feedback/messages', ClientController::class . '::postMessageToProjectFeedback');
 
 // sanitize the uri
 $uri = htmlspecialchars(
