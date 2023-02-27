@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Model;
+
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\CrudUtil\CrudUtil;
@@ -18,13 +19,14 @@ class Notification implements Model
         }
     }
 
-    public function createNotification(array $args = array()){
+    public function createNotification(array $args = array())
+    {
         if (!empty($args)) {
             $sql_string = "INSERT INTO notifications(`projectId`, `message`, `type`, `senderId`, `sendTime`) VALUES (:projectId, :message, :type, :senderId, :sendTime)";
 
             try {
                 $this->crud_util->execute($sql_string, $args);
-                
+
                 return true;
             } catch (\Exception $exception) {
                 throw $exception;
@@ -32,7 +34,8 @@ class Notification implements Model
         }
         return false;
     }
-    public function setNotifiedMembers(array $args = array()){
+    public function setNotifiedMembers(array $args = array())
+    {
         if (!empty($args)) {
             $sql_string = "INSERT INTO notification_recievers(`notificationId`, `memberId`) VALUES (:notificationId, :memberId)";
 
@@ -47,16 +50,17 @@ class Notification implements Model
         return false;
     }
 
-    public function getNotificationData(array $conditions = array()){
+    public function getNotificationData(array $conditions = array())
+    {
         $sql_string = "SELECT * FROM notifications";
-        if($conditions != []){
+        if ($conditions != []) {
 
             $sql_string .= " WHERE ";
             $keys = array_keys($conditions);
 
-            for($i = 0; $i < count($keys); $i++){
+            for ($i = 0; $i < count($keys); $i++) {
                 $sql_string .= $keys[$i] . ' = :' . $keys[$i];
-                if($i != count($conditions) - 1){
+                if ($i != count($conditions) - 1) {
                     $sql_string .= ' AND ';
                 }
             }
@@ -67,10 +71,11 @@ class Notification implements Model
             return $result->getResults();
         } else {
             return false;
-        }   
+        }
     }
 
-    public function getNotificationsOfUser(array $args = array()){
+    public function getNotificationsOfUser(array $args = array())
+    {
         $sql_string = "SELECT * FROM notifications WHERE id IN 
         (SELECT notificationId FROM notification_recievers WHERE memberId = :memberId AND isRead = 0)";
 
@@ -79,7 +84,7 @@ class Notification implements Model
             return $result->getResults();
         } else {
             return false;
-        }   
+        }
     }
 
     public function getNotificationProjectDetails(array $args = array())
@@ -91,10 +96,11 @@ class Notification implements Model
             return $result->getResults();
         } else {
             return false;
-        }   
+        }
     }
 
-    public function readNotification(array $args = array()){
+    public function readNotification(array $args = array())
+    {
 
         $sql_string = "UPDATE notification_recievers
         SET isRead = 1
