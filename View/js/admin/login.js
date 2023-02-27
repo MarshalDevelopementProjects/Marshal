@@ -6,4 +6,8 @@ ErrorMSG.innerHTML = `${jsonData.errors}`;
 console.log(`${jsonData.errors}`);
 if(ErrorMSG.innerHTML != '' && ErrorMSG.innerHTML !='undefined'){
     ErrorDiv.classList.add("active");
+    setTimeout(function() {
+        ErrorDiv.classList.remove("active");
+        ErrorMSG.innerHTML = '';
+      }, 6000);
 }
