@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
+
 <body>
     <div class="container">
 
@@ -38,7 +40,7 @@
                         <a href="http://localhost/public/user/profile" style="text-decoration: none; color: #333;">
                             <li class="profile">Profile</li>
                         </a>
-                        <a href="http://localhost/public/projectmember/forum" style="text-decoration: none; color: #333;">
+                        <a href="http://localhost/public/projectleader/forum" style="text-decoration: none; color: #333;">
                             <li class="sketch-idea">Forum</li>
                         </a>
                         <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333;">
@@ -66,7 +68,7 @@
                         <p>Sun</p>
                     </div>
                     <div class="days">
-                        
+
                     </div>
                 </div>
             </div>
@@ -78,7 +80,9 @@
                         <input type="text" placeholder="Search your project tasks ...">
                         <i class="fa fa-filter" aria-hidden="true"></i>
                     </div>
-                    <a href="http://localhost/public/projectleader/getinfo"><p id="project-name">Mentcare Web App</p></a>
+                    <a href="http://localhost/public/projectleader/getinfo">
+                        <p id="project-name">Mentcare Web App</p>
+                    </a>
                 </div>
 
                 <div class="TO-DO-task-details">
@@ -86,9 +90,8 @@
                         <h3>Design UI for login page</h3>
                         <p class="High">High</p>
                     </div>
-                    <p class="task-details-description">Gathering and evaluating user requirements, in collaboration with product managers and engineers. 
-
-                        Illustrating design ideas using storyboards, process flows and sitemaps. Designing graphic user interface elements, like menus, tabs and widgets.</p>
+                    <p class="task-details-description">Gathering and evaluating user requirements, in collaboration with product managers and engineers. Illustrating design ideas using storyboards, process flows and sitemaps. Designing graphic user interface elements, like menus, tabs
+                        and widgets.</p>
                     <p class="task-details-deadline">Deadline : 10-01-2023</p>
 
                     <div class="task-feedbacks">
@@ -127,10 +130,10 @@
                                     <input type="date" name="taskdeadline" id="taskdeadline">
                                     <label for="assignedMember">Assign a member</label>
                                     <input type="text" name="assignedMember" id="assignedMember" placeholder="Enter username or email...">
-                                    
+
                                 </div>
                                 <div class="priority">
-                                    
+
                                     <input type="radio" value="low" id="low" name="priority" checked>
                                     <label for="priority">Low</label>
                                     <br>
@@ -149,9 +152,9 @@
 
                             </form>
                         </div>
-                        
+
                         <div class="tasks">
-                            
+
                             <div class="task" draggable="true">
                                 <div class="top-task">
                                     <h4>Develop API 1</h4>
@@ -213,7 +216,7 @@
                                 <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
                                 <p class="deadline">13-11-2022</p>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="review board">
@@ -235,7 +238,7 @@
                                 <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
                                 <p class="deadline">13-11-2022</p>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="done board">
@@ -265,23 +268,23 @@
                                 <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
                                 <p class="deadline">13-11-2022</p>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="confirmation-popup">
                     <div class="close-area"><i class="fa fa-times" aria-hidden="true"></i></div>
                     <div class="message-area">
                         <p></p>
                     </div>
                     <div class="input-area">
-                        
+
                         <input id="confirmationMessage" type="text" name="confirmationMessage" placeholder="Type confirmation message...">
                         <label for="confirmationFile"><i class="fa fa-file" aria-hidden="true"></i></label>
                         <input id="confirmationFile" type="file" name="confirmationFile" style="display: none;">
                         <button type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
-                        
+
                     </div>
                 </div>
 
@@ -299,6 +302,7 @@
     <script src="/View/js/user/createProject.js"></script>
     <script src="/View/js/user/sidebar.js"></script>
 </body>
+
 </html>
 
 
