@@ -388,7 +388,7 @@ function getTableRowData(){
                     user_name.innerText = jsonData.user_details[index].first_name +' '+ jsonData.user_details[index].last_name;
                     user_phone.innerText = jsonData.user_details[index].phone_number;
                     user_email.innerText = jsonData.user_details[index].email_address;
-                    // user_date.innerText = jsonData.user_details[index].joined_datetime;
+                    user_date.innerText = jsonData.user_details[index].joined_datetime;
                     user_position.innerText = jsonData.user_details[index].position;
                     user_profile.setAttribute('src',jsonData.user_details[index].profile_picture);
                     wrapper2.classList.add('active');
