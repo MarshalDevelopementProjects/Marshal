@@ -14,21 +14,21 @@ Date.prototype.timeNow = function () {
     return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
 }
 
-let projectLeaderTaskFeedbackForumConnection = new WebSocket(`ws://localhost:8080/tasks/feedback?project=${projectID}&task=${taskID}`);
+let projectMemberTaskFeedbackForumConnection = new WebSocket(`ws://localhost:8080/tasks/feedback?project=${projectID}&task=${taskID}`);
 
-projectLeaderTaskFeedbackForumConnection.onopen = (event) => {
+projectMemberTaskFeedbackForumConnection.onopen = (event) => {
     console.log(event.data);
 }
 
-projectLeaderTaskFeedbackForumConnection.onclose = (event) => {
+projectMemberTaskFeedbackForumConnection.onclose = (event) => {
     console.log(event.data);
 }
 
-projectLeaderTaskFeedbackForumConnection.onerror = (event) => {
+projectMemberTaskFeedbackForumConnection.onerror = (event) => {
     console.error(event.data);
 }
 
-projectLeaderTaskFeedbackForumConnection.onmessage = (event) => {
+projectMemberTaskFeedbackForumConnection.onmessage = (event) => {
     // A JSON STRING WILL BE SENT FROM THE SENDER PARSE IT AND TAKE THE DATA
     // Message data must be a json string of this form
     // {
@@ -60,7 +60,7 @@ let msgObj = {
 // chat forum use the GET end points
 async function onStartUp(type) {
     // TODO: GET ALL THE  MESSAGES FROM THE APPROPRIATE END POINT(ASYNC)
-    let url = `http://localhost/public/project/leader/task/feedback/messages?task_id=${taskID}`;
+    let url = `http://localhost/public/project/member/task/feedback/messages?task_id=${taskID}`;
     try {
         let response = await fetch(url, {
             withCredentials: true,
@@ -81,13 +81,13 @@ async function onStartUp(type) {
         }
     } catch (error) {
         console.error(error);
-        projectLeaderTaskFeedbackForumConnection.close();
+        projectMemberTaskFeedbackForumConnection.close();
     }
 }
 
 function closeConnection() {
     // TODO: CLOSE THE POP-UP OR DO SOMETHING ELSE
-    projectLeaderTaskFeedbackForumConnection.close();
+    projectMemberTaskFeedbackForumConnection.close();
 }
 
 // have to give a json string as the message to this function
@@ -106,11 +106,11 @@ async function sendMessages(msg) {
     msgObj.message = msg;
     msgObj.date_time = `${date.today()} ${date.timeNow()}`;
     // TODO: SEND THE MESSAGE
-    projectLeaderTaskFeedbackForumConnection.send(JSON.stringify(msgObj));
+    projectMemberTaskFeedbackForumConnection.send(JSON.stringify(msgObj));
     console.log(msgObj);
 
     // TODO: SEND THE MESSAGE TO THE APPROPRIATE END POINT(ASYNC)
-    let url = "http://localhost/public/project/leader/task/feedback/messages";
+    let url = "http://localhost/public/project/member/task/feedback/messages";
     let requestBody = {
         task_id: taskID,
         message: msgObj.message
@@ -129,6 +129,6 @@ async function sendMessages(msg) {
         }
     } catch (error) {
         console.error(error);
-        projectLeaderTaskFeedbackForumConnection.close();
+        projectMemberTaskFeedbackForumConnection.close();
     }
 }
