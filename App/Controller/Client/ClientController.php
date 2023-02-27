@@ -38,13 +38,14 @@ class ClientController extends UserController
 
     // save the message to the project table
     // $args format {"message" => "message string"}
-    public function postMessageToProjectFeedback(array|object $args) {
+    public function postMessageToProjectFeedback(array|object $args)
+    {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
-        try{
+        try {
             if (!empty($args) && array_key_exists("message", $args)) {
                 if (!empty($args["message"])) {
                     $id = $this->user->getUserData()->id;
-                    if($this->client->saveProjectFeedbackMessage(id: $id, msg: $args["message"])) {
+                    if ($this->client->saveProjectFeedbackMessage(id: $id, msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
@@ -55,20 +56,21 @@ class ClientController extends UserController
             } else {
                 $this->sendJsonResponse("error", ["message" => "Bad request"]);
             }
-        } catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             throw $exception;
         }
     }
 
-    public function getProjectFeedbackMessages() {
+    public function getProjectFeedbackMessages()
+    {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
-        try{
-            if($this->client->getProjectFeedbackMessages()) {
+        try {
+            if ($this->client->getProjectFeedbackMessages()) {
                 $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->client->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => "Some error occurred"]);
             }
-        } catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             throw $exception;
         }
     }
