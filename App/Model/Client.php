@@ -70,7 +70,8 @@ class Client implements Model
         try {
             // use a join between the messages table and the project table where ids are equal
             try {
-                $sql_string = "SELECT * FROM `message` WHERE `id` in (SELECT `message_id` FROM `project_feedback_message` WHERE `project_id` = :project_id)";
+                // $sql_string = "SELECT * FROM `message` WHERE `id` in (SELECT `message_id` FROM `project_feedback_message` WHERE `project_id` = :project_id)";
+                $sql_string  = "SELECT m.*, u.`profile_picture` AS `sender_profile_picture` FROM `message` m JOIN `user` u ON m.`sender_id` = u.`id` JOIN `project_feedback_message` pfm ON m.`id` = pfm.`message_id` WHERE pfm.`project_id` = :project_id ORDER BY m.stamp";
                 $this->crud_util->execute($sql_string, array("project_id" => $this->project_data->id));
                 if (!$this->crud_util->hasErrors()) {
                     $this->message_data = $this->crud_util->getResults();
