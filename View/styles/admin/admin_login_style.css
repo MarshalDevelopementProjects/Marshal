@@ -205,19 +205,26 @@ header{
     color:#bda2a2;
 }
 
- #email_error{
-	margin-top: 5px;
-    margin-left: 80px;
+ #error{
+	margin-top: 10px;
+    margin-left: 5px;
     margin-bottom: -20px;
-	width: 285px;
+	width: 370px;
 	font-size: 15px;
 	color: #ffffff;
-    background-color: #aaaaaa;
+    background-color: #de6262;
+    border: 2px solid #e33541;
+    opacity: 0.8;
 	text-align: center;
-	padding: 5px 8px;
-	border-radius: 25px;
-	display: none;
-	
+	padding: 5px 5px;
+	border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+#error.active{
+    display: flex;
 }
 
 @media only screen and (max-width: 1430px) {
