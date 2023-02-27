@@ -77,7 +77,7 @@ class User implements Model
         }
     }
 
-    public function readUser(string $key, string|int $value)
+    public function readUser(string $key, string|int $value): bool
     {
         // example format => "SELECT * FROM users WHERE id = :id";
         $sql_string = "SELECT * FROM `user` WHERE `" . $key . "` = :" . $key;
@@ -93,6 +93,7 @@ class User implements Model
             throw $exception;
         }
     }
+
     public function getAllUsers(array $args, string $condition)
     {
 
@@ -109,7 +110,8 @@ class User implements Model
             throw $th;
         }
     }
-    public function getUserProfiles(array $args, string $condition){
+    public function getUserProfiles(array $args, string $condition)
+    {
 
         $sql_string = "SELECT profile_picture FROM user " . $condition;
 
