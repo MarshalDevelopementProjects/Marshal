@@ -16,10 +16,7 @@ use Core\Response;
  * Encapsulates error handling details used to send error
  * in development to the front end to identify what went
  * wrong
- * 
- * @method static void errorHandler() handles errors in general
- * @method static void exceptionHandler() handles exceptions that is thrown
- * 
+ *
  */
 class ErrorHandler
 {
