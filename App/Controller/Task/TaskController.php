@@ -11,7 +11,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 
 class TaskController extends Controller
 {
-    public function defaultAction(Object|array|string|int $optional = null){
+    public function defaultAction(Object|array|string|int $optional = null)
+    {
     }
-
 }
