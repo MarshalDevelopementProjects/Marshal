@@ -65,7 +65,8 @@ class Task implements Model
             return false;
         }
     }
-    public function getTasks(array $args, array $keys){
+    public function getTasks(array $args, array $keys)
+    {
         $keyCount = count($keys);
 
         $sql = "SELECT task_name FROM task WHERE ";
