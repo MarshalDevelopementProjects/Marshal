@@ -11,11 +11,13 @@ require __DIR__ . '/../../../vendor/autoload.php';
 
 class MessageController extends Controller
 {
-    public function defaultAction(Object|array|string|int $optional = null){
+    public function defaultAction(Object|array|string|int $optional = null)
+    {
     }
 
-    public function send(array $args, array $keys):bool{
-        
+    public function send(array $args, array $keys): bool
+    {
+
         // from this we have to do encrypt message
 
         $message = new Message();
@@ -26,5 +28,4 @@ class MessageController extends Controller
             return false;
         }
     }
-
 }
