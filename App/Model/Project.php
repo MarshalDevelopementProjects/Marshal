@@ -119,7 +119,7 @@ class Project implements Model
         }
     }
 
-    public function getProject(array $args = array()):object|bool|array
+    public function getProject(array $args = array()): object|bool|array
     {
         $sql_string = "SELECT * FROM project WHERE id = :id";
 
