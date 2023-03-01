@@ -53,6 +53,9 @@ body{
 #all-Users.active{
     border-left: 4px solid #fff;
 }
+#users-Analyst.active{
+    border-left: 4px solid #fff;
+}
 
 #menu .items li i{
     color: rgb(134, 141, 151);
@@ -276,4 +279,13 @@ tbody tr td{
 }
 .status .red{
     color:red;
+}
+.chart{
+    width:800px;
+    margin: auto;
+    margin-top: 50px;
+    display:none;
+}
+.chart.active{
+    display: block;
 }
