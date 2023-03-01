@@ -20,7 +20,7 @@ function onLoad(){
                         <td class="people">
                             <img src="${tableRow['profile_picture']}" alt="">
                             <div class="people-de">
-                                <h5>${tableRow['username']}</h5>
+                                <h5 id="username">${tableRow['username']}</h5>
                             </div>
                         </td>
                         <td class="people-email">
@@ -93,7 +93,7 @@ ActiveUsersDiv.addEventListener('click', async (event) => {
                         <td class="people">
                             <img src="${tableRow['profile_picture']}" alt="">
                             <div class="people-de">
-                                <h5>${tableRow['username']}</h5>
+                                <h5 id="username">${tableRow['username']}</h5>
                             </div>
                         </td>
                         <td class="people-email">
@@ -147,7 +147,7 @@ BlockedUsersDiv.addEventListener('click', async (event) => {
                         <td class="people">
                             <img src="${tableRow['profile_picture']}" alt="">
                             <div class="people-de">
-                                <h5>${tableRow['username']}</h5>
+                                <h5 id="username">${tableRow['username']}</h5>
                             </div>
                         </td>
                         <td class="people-email">
@@ -201,7 +201,7 @@ AllUsersDiv.addEventListener('click', async (event) => {
                         <td class="people">
                             <img src="${tableRow['profile_picture']}" alt="">
                             <div class="people-de">
-                                <h5>${tableRow['username']}</h5>
+                                <h5 id="username">${tableRow['username']}</h5>
                             </div>
                         </td>
                         <td class="people-email">
@@ -266,7 +266,7 @@ allUserBtn.addEventListener('click', async (event) => {
                         <td class="people">
                             <img src="${tableRow['profile_picture']}" alt="">
                             <div class="people-de">
-                                <h5>${tableRow['username']}</h5>
+                                <h5 id="username">${tableRow['username']}</h5>
                             </div>
                         </td>
                         <td class="people-email">
@@ -479,3 +479,19 @@ function getTableRowData(){
         });
     }
 }
+
+function searchUser() {
+    let input = document.getElementById("search").value.toLowerCase();
+    console.log(input);
+    let rows = document.querySelectorAll(".row");
+    rows.forEach(row => {
+        console.log(row.querySelector("#username").textContent.toLowerCase().indexOf(input) > -1);
+      if (row.querySelector("#username").textContent.toLowerCase().indexOf(input) > -1 ){
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+    });
+  }
+  document.getElementById("search").addEventListener("keyup", searchUser);
+  
