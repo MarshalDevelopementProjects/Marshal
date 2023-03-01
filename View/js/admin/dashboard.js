@@ -482,18 +482,29 @@ function getTableRowData(){
 
 function searchUser() {
     let input = document.getElementById("search").value.toLowerCase();
-    console.log(input);
     let rows = document.querySelectorAll(".row");
+    let userNotFoundRow = document.getElementById("user-not-found-row");
+    
+    if (userNotFoundRow) {
+      userNotFoundRow.remove();
+    }
+    
+    let foundUser = false;
     rows.forEach(row => {
-        console.log(row.querySelector("#username").textContent.toLowerCase().indexOf(input) > -1);
+      console.log(row.querySelector("#username").textContent.toLowerCase().indexOf(input) > -1);
       if (row.querySelector("#username").textContent.toLowerCase().indexOf(input) > -1 ){
         row.style.display = "";
+        foundUser = true;
       } else {
         row.style.display = "none";
-        userNotFound();
       }
     });
+    
+    if (!foundUser) {
+      userNotFound();
+    }
   }
+  
   document.getElementById("search").addEventListener("keyup", searchUser);
   
   function userNotFound(){
