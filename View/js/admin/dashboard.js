@@ -490,8 +490,20 @@ function searchUser() {
         row.style.display = "";
       } else {
         row.style.display = "none";
+        userNotFound();
       }
     });
   }
   document.getElementById("search").addEventListener("keyup", searchUser);
+  
+  function userNotFound(){
+    const tableBody = document.getElementById("user-table");
+    console.log(tableBody);
+    const row = tableBody.insertRow();
+    row.id = "user-not-found-row";
+    const cell = row.insertCell(0);
+    cell.colSpan = 6;
+    cell.style.textAlign = "center";
+    cell.innerHTML = "User not found.";
+  }
   
