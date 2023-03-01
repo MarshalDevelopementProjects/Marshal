@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/View/styles/admin/admin_view_user_details.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <title>Marshal</title>
 </head>
 
@@ -21,8 +22,9 @@
         </div>
         <div class="items">
             <li id="all-Users"><i class="fa fa-users" aria-hidden="true"></i><a>Users</a></li>
-            <li id="add-New-User"><i class="fa fa-users" aria-hidden="true"></i><a>Add new users</a></li>
-            <li id="log-out-btn"><i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i><a>Logout</a></li>
+            <li id="add-New-User"><i class="fa fa-user-plus" aria-hidden="true"></i><a>Add new users</a></li>
+            <li id="users-Analyst"><i class="fa fa-chart-bar" aria-hidden="true"></i><a>Analyst</a></li>
+            <li id="log-out-btn"><i class="fa fa-right-from-bracket" id="log-out-btn" aria-hidden="true"></i><a>Logout</a></li>
         </div>
     </section>
     <section id="interface">
@@ -49,21 +51,21 @@
         <h3 class="i-name">Dashboard</h3>
         <div class="values">
             <div class="values-box" id="all-users-div">
-                <i class="fa fa-user"></i>
+                <i class="fa fa-users"></i>
                 <div>
                     <h3 id="numOfAll">0</h3>
                     <span>Users</span>
                 </div>
             </div>
             <div class="values-box" id="active-users-div">
-                <i class="fa fa-user"></i>
+                <i class="fa fa-user-check"></i>
                 <div>
                     <h3 id="numOfActive">0</h3>
                     <span>Active users</span>
                 </div>
             </div>
             <div class="values-box" id="blocked-users-div">
-                <i class="fa fa-user"></i>
+                <i class="fa fa-users-slash"></i>
                 <div>
                     <h3 id="numOfBlock">0</h3>
                     <span>Block users</span>
@@ -185,6 +187,10 @@
                         </div>
                     </form>
                 </div>
+            </div>
+            <div class="chart">
+                <canvas id="myChart"></canvas>
+                <canvas id="myChart2"></canvas>
             </div>
         </dir>
     </section>
