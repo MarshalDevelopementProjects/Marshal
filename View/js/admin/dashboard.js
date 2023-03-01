@@ -515,6 +515,9 @@ function searchUser() {
     const cell = row.insertCell(0);
     cell.colSpan = 6;
     cell.style.textAlign = "center";
+    cell.style.backgroundColor = "red";
+    cell.style.color = "white";
+    cell.style.fontWeight = "bold";
     cell.innerHTML = "User not found.";
   }
   
