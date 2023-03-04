@@ -57,6 +57,7 @@ $router->put('/admin/users/userunblock', AdminController::class . '::grantAccess
 $router->get('/admin/users/all', AdminController::class . '::viewAllUsers');
 $router->get('/admin/users/active', AdminController::class . '::viewActiveUsers');
 $router->get('/admin/users/blocked', AdminController::class . '::viewBlockedUsers');
+$router->get('/admin/users/offline', AdminController::class . '::viewOfflineUsers');
 
 $router->get('/user/projects', UserController::class . '::viewProjects');
 $router->post('/user/projects', UserController::class . '::createProject');
