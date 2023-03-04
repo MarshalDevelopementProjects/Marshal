@@ -315,6 +315,7 @@ addNewUserBtn.addEventListener('click', () => {
     AllUsersDiv.classList.remove('active');
     chart.classList.remove('active');
     analystBtn.classList.remove('active');
+    closePopup();
 
 });
 
@@ -368,7 +369,8 @@ allUserBtn.addEventListener('click', async (event) => {
         addNewUserBtn.classList.remove('active');
         chart.classList.remove('active');
         analystBtn.classList.remove('active');
-        getTableRowData()
+        closePopup();
+        getTableRowData();
     }
 });
 
@@ -617,6 +619,7 @@ analystBtn.addEventListener('click', () => {
     addNewUserBtn.classList.remove('active');
     allUserBtn.classList.remove('active');
     AllUsersDiv.classList.remove('active');
+    closePopup();
 
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
