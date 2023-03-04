@@ -188,6 +188,22 @@ class Admin implements Model
         }
     }
 
+    public function getOfflineUsers()
+    {
+        $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture`,`user_state` FROM `user` WHERE `user_state` = 'OFFLINE'";
+        try {
+            $result = $this->crud_util->execute($sql_string);
+            if ($result->getCount() > 0) {
+                $this->query_results = $result->getResults();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
     public function getBlockedUsers()
     {
         $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture` FROM `user` WHERE `access` = 'DISABLED'";
