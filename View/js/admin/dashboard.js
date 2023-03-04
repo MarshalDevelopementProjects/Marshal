@@ -5,12 +5,13 @@ const countBlockUser = document.getElementById("numOfBlock");
 const countActiveUser = document.getElementById("numOfActive");
 const countAllUser = document.getElementById("numOfAll");
 const adminName = document.getElementById("admin-user-name");
+const offlineUsers = document.getElementById("numOfoffline");
 
 countBlockUser.innerText = `${jsonData.block_user_count}`;
 countActiveUser.innerText = `${jsonData.active_user_count}`;
 countAllUser.innerText = `${jsonData.all_user_count}`;
 adminName.innerText = `${jsonData.admin_data.username}`;
-
+offlineUsers.innerHTML = `${jsonData.offline_user_count}`;
 tableRows = document.querySelector('.table-row');
 
 function onLoad() {
