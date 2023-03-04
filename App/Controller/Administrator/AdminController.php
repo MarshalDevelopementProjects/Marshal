@@ -75,6 +75,10 @@ class AdminController extends Controller
             $count["active_users"]= $this->admin->getQueryResults();
             $data["active_user_count"] = sizeof($count["active_users"]);
             
+            $this->admin->getOfflineUsers();
+            $count["offline_users"]= $this->admin->getQueryResults();
+            $data["offline_user_count"] = sizeof($count["offline_users"]);
+            
             $this->sendResponse(
                 view: "/admin/dashboard.html",
                 status: "success",
