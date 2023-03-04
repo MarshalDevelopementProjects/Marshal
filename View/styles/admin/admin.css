@@ -213,6 +213,9 @@ body{
 #all-users-div.active{
     background-color: #444a53;
 }
+#offline-users-div.active{
+    background-color: #444a53;
+}
 
 .board{
     width: 94%;
