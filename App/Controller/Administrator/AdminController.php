@@ -281,6 +281,30 @@ class AdminController extends Controller
         }
     }
 
+    public function viewOfflineUsers()
+    {
+        try {
+            if ($this->admin->getOfflineUsers()) {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "Offline users successfully retrieved",
+                        "Offline_users" => $this->admin->getQueryResults()
+                    )
+                );
+            } else {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "Offline users cannot be retrieved",
+                    )
+                );
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
     // after notification is fixed
     public function broadcastMessages(array $args)
     {
