@@ -448,6 +448,7 @@ const user_unblockbtn = document.querySelector('.w2-unblock-btn');
 const wrapper2 = document.querySelector('.wrapper-2');
 const block_form = document.querySelector('#block-form');
 const unBlock_form = document.querySelector('#unBlock-form');
+const overlay = document.getElementById("overlay");
 
 function getTableRowData() {
     const tableRowsData = document.getElementsByClassName("row");
@@ -464,7 +465,7 @@ function getTableRowData() {
                     user_date.innerText = jsonData.user_details[index].joined_datetime;
                     user_position.innerText = jsonData.user_details[index].position;
                     user_profile.setAttribute('src', jsonData.user_details[index].profile_picture);
-                    wrapper2.classList.add('active');
+                    openPopup();
                     if (jsonData.user_details[index].access == 'ENABLED') {
                         unBlock_form.style.display = 'none';
                         block_form.style.display = 'block';
@@ -552,6 +553,17 @@ function getTableRowData() {
         });
     }
 }
+
+function openPopup() {
+    overlay.style.display = 'block';
+    wrapper2.style.display = 'flex';
+}
+
+function closePopup() {
+    overlay.style.display = 'none';
+    wrapper2.style.display = 'none';
+}
+overlay.addEventListener('click', closePopup);
 
 function searchUser() {
     let input = document.getElementById("search").value.toLowerCase();
