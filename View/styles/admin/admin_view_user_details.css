@@ -9,6 +9,7 @@
   height:220PX;
   display: flex;
   box-shadow: 0 1px 20px 0 rgba(69,90,100,.08);
+  z-index: 10000;
   display: none;
 }
 .wrapper-2.active{
