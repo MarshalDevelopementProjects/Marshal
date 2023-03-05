@@ -9,7 +9,7 @@ const CancelChangesBtn = document.getElementById("cancel-changes-btn");
 const UsernameHeader = document.getElementById("username-header");
 const BioHeader = document.getElementById("bio-header");
 
-const Username = document.getElementById("username");
+const Username = document.getElementById("user-name");
 const FirstName = document.getElementById("first_name");
 const LastName = document.getElementById("last_name");
 const EmailAddress = document.getElementById("email_address");
@@ -18,19 +18,23 @@ const PhoneNumber = document.getElementById("phone_number");
 const Position = document.getElementById("position");
 const Status = document.getElementById("status");
 
+
 const ProfilePictureImg = document.getElementById("profile-picture-img");
+const ProfilePicture = document.getElementById("profile-img");
 
 const ChangePasswordBtn = document.getElementById("change-password-btn");
 
 // ==============================================================
 // user profile information
-console.log(jsonData);
+
 
 // this function is used to load the user information to the relevant fields on load
 // or on page refresh after editing the profile information
-const OnLoad = async function() {
+function onLoad() {
+    console.log("sdfh");
+    console.log(jsonData.user_info.username);
     UsernameHeader.innerText = jsonData.user_info.username;
-    BioHeader.innerText = jsonData.user_info.bio;
+    // BioHeader.value = jsonData.user_info.bio;
     Username.value = jsonData.user_info.username;
     FirstName.value = jsonData.user_info.first_name;
     LastName.value = jsonData.user_info.last_name;
@@ -38,8 +42,10 @@ const OnLoad = async function() {
     EmailAddress.value = jsonData.user_info.email_address;
     Position.value = jsonData.user_info.position;
     PhoneNumber.value = jsonData.user_info.phone_number;
-    Status.value = jsonData.user_info.user_status;
+    // Status.value = jsonData.user_info.user_status;
     ProfilePictureImg.src = jsonData.user_info.display_picture;
+    ProfilePicture.src = jsonData.user_info.display_picture;
+    console.log(ProfilePictureImg.src);
     Username.disabled = true;
     FirstName.disabled = true;
     LastName.disabled = true;
@@ -47,15 +53,18 @@ const OnLoad = async function() {
     EmailAddress.disabled = true;
     Position.disabled = true;
     PhoneNumber.disabled = true;
-    Status.disabled = true;
-    SaveChangesBtn.disabled = true;
-    CancelChangesBtn.disabled = true;
+    // Status.disabled = true;
+    // SaveChangesBtn.disabled = true;
+    // CancelChangesBtn.disabled = true;
     SaveChangesBtn.setAttribute("style", "display: none");
     CancelChangesBtn.setAttribute("style", "display: none");
+    ChangePasswordBtn.setAttribute("style", "display: none");
 };
+onLoad();
 // ==============================================================
 // edit form buttons
-EditProfileBtn.addEventListener('click', function(event) {
+const pwdDiv = document.getElementById("pwdDiv");
+EditProfileBtn.addEventListener('click', function (event) {
     event.preventDefault();
     Username.disabled = false;
     FirstName.disabled = false;
@@ -64,49 +73,51 @@ EditProfileBtn.addEventListener('click', function(event) {
     EmailAddress.disabled = false;
     Position.disabled = false;
     PhoneNumber.disabled = false;
-    Status.disabled = false;
+    // Status.disabled = false;
     SaveChangesBtn.disabled = false;
     CancelChangesBtn.disabled = false;
     SaveChangesBtn.setAttribute("style", "display: inline");
     CancelChangesBtn.setAttribute("style", "display: inline");
+    ChangePasswordBtn.setAttribute("style", "display: inline");
+    pwdDiv.setAttribute("style", "display: block");
 });
 // ==============================================================
 // cancel changes btn
-CancelChangesBtn.addEventListener('click', function(event) {
+CancelChangesBtn.addEventListener('click', function (event) {
     event.preventDefault();
-    OnLoad();
+    onLoad();
 });
 // ==============================================================
 
-LogOutButton.addEventListener("click", () => {
-    fetch("http://localhost/public/user/logout", {
-            withCredentials: true,
-            credentials: "include",
-            mode: "cors",
-            method: "POST",
-        })
-        .then((response) => {
-            if (response.ok) {
-                window.location.replace("http://localhost/public/user/login");
-                return;
-            }
-            if (!response.ok) {
-                response.json();
-            }
-        })
-        .then((data) => {
-            if (data.message != undefined && data.message != undefined) {
-                alert(data.message);
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch((error) => {
-            console.error(error)
-        });
-});
+// LogOutButton.addEventListener("click", () => {
+//     fetch("http://localhost/public/user/logout", {
+//             withCredentials: true,
+//             credentials: "include",
+//             mode: "cors",
+//             method: "POST",
+//         })
+//         .then((response) => {
+//             if (response.ok) {
+//                 window.location.replace("http://localhost/public/user/login");
+//                 return;
+//             }
+//             if (!response.ok) {
+//                 response.json();
+//             }
+//         })
+//         .then((data) => {
+//             if (data.message != undefined && data.message != undefined) {
+//                 alert(data.message);
+//             } else {
+//                 alert(data.message);
+//             }
+//         })
+//         .catch((error) => {
+//             console.error(error)
+//         });
+// });
 
-EditProfilePictureForm.addEventListener('submit', async function(event) {
+EditProfilePictureForm.addEventListener('submit', async function (event) {
     event.preventDefault();
     const inputFile = document.getElementById("profile-picture");
     let formData = new FormData();
@@ -138,10 +149,11 @@ EditProfilePictureForm.addEventListener('submit', async function(event) {
     }
 });
 
-EditProfileFrom.addEventListener('submit', async function(event) {
+SaveChangesBtn.addEventListener('click', async function (event) {
     event.preventDefault();
     let formData = new FormData(EditProfileFrom);
     let jsonFormData = JSON.stringify(Object.fromEntries(formData));
+    console.log(jsonFormData);
     try {
         let response = await fetch("http://localhost/public/user/profile/edit", {
             withCredentials: true,
@@ -164,26 +176,29 @@ EditProfileFrom.addEventListener('submit', async function(event) {
     }
 });
 
-ChangePasswordBtn.addEventListener('click', async function(event) {
+ChangePasswordBtn.addEventListener('click', async function (event) {
     event.preventDefault();
     // on click make a popup and prompt the user whether he wants to proceed or not
     const VerifyPasswordFromDiv = document.getElementById("verify-password-form-div");
-    VerifyPasswordFromDiv.setAttribute("style", "display: inline");
+    const changePwdTitle = document.getElementById("change-pwd-title");
+    VerifyPasswordFromDiv.setAttribute("style", "display: inline; animation: fadeIn 1s ease;");
+    changePwdTitle.setAttribute("style", "display: block");
+    ChangePasswordBtn.setAttribute("style", "display: none");
 
     const VerifyPasswordFrom = document.getElementById("verify-password-form");
-    VerifyPasswordFrom.addEventListener("submit", async function(event) {
+    VerifyPasswordFrom.addEventListener("submit", async function (event) {
         event.preventDefault();
         try {
             let formData_1 = new FormData(VerifyPasswordFrom);
             let formDataObj_1 = Object.fromEntries(formData_1);
             let response_1 = await fetch(
                 "http://localhost/public/user/edit/password", {
-                    withCredentials: true,
-                    credentials: "include",
-                    mode: "cors",
-                    method: "POST",
-                    body: formData_1
-                }
+                withCredentials: true,
+                credentials: "include",
+                mode: "cors",
+                method: "POST",
+                body: formData_1
+            }
             );
 
             let data_1 = await response_1.json();
@@ -191,21 +206,24 @@ ChangePasswordBtn.addEventListener('click', async function(event) {
                 // another popup to ask the user whether he wants to proceed or not
                 alert(data_1.message);
                 const UpdatePasswordFormDiv = document.getElementById("update-password-form-div");
-                UpdatePasswordFormDiv.setAttribute("style", "display: inline");
+                UpdatePasswordFormDiv.setAttribute("style", "display: inline; transition: opacity 1s");
+                UpdatePasswordFormDiv.style.opacity = "1";
+
+                VerifyPasswordFromDiv.setAttribute("style", "display: none; animation: fadeIn 1s ease;");
 
                 const UpdatePasswordForm = document.getElementById("update-password-form");
-                UpdatePasswordForm.addEventListener('submit', async function(event) {
+                UpdatePasswordForm.addEventListener('submit', async function (event) {
                     event.preventDefault();
                     let formData_2 = new FormData(UpdatePasswordForm);
                     let formDataObj_2 = Object.fromEntries(formData_2);
                     let response_2 = await fetch(
                         "http://localhost/public/user/edit/password", {
-                            withCredentials: true,
-                            credentials: "include",
-                            mode: "cors",
-                            method: "PUT",
-                            body: JSON.stringify(formDataObj_2)
-                        }
+                        withCredentials: true,
+                        credentials: "include",
+                        mode: "cors",
+                        method: "PUT",
+                        body: JSON.stringify(formDataObj_2)
+                    }
                     );
 
                     let data_2 = await response_2.json();
