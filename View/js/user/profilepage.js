@@ -24,6 +24,7 @@ const ChangePasswordBtn = document.getElementById("change-password-btn");
 const submitButton = document.getElementById("submitButton");
 const profileImg = document.getElementById("profile-img");
 const popupWrapper = document.querySelector(".wrapper-container");
+const addProfileBtn = document.getElementById("add-icon");
 
 // ==============================================================
 // user profile information
@@ -32,7 +33,6 @@ const popupWrapper = document.querySelector(".wrapper-container");
 // this function is used to load the user information to the relevant fields on load
 // or on page refresh after editing the profile information
 function onLoad() {
-    console.log("sdfh");
     console.log(jsonData.user_info.username);
     UsernameHeader.innerText = jsonData.user_info.username;
     // BioHeader.value = jsonData.user_info.bio;
@@ -84,6 +84,7 @@ EditProfileBtn.addEventListener('click', function (event) {
     pwdDiv.setAttribute("style", "display: block");
     titleElement.textContent = "Edit Profile";
     EditProfileBtn.classList.add("hide");
+    addProfileBtn.setAttribute("style", "display: block; animation: fadeIn 1s ease;");
     if (pwdDiv.classList.contains("hide")) {
         pwdDiv.classList.remove("hide");
         changePwdTitle.setAttribute("style", "display: none");
@@ -98,6 +99,9 @@ CancelChangesBtn.addEventListener('click', function (event) {
     event.preventDefault();
     EditProfileBtn.classList.remove("hide");
     pwdDiv.classList.add("hide")
+    addProfileBtn.setAttribute("style", "display: none");
+    titleElement.textContent = "Profile Details";
+    titleElement.setAttribute("style", "animation: fadeIn 1s ease;");
     onLoad();
 });
 // ==============================================================
@@ -259,9 +263,9 @@ const overlay = document.createElement("div");
 overlay.classList.add("overlay");
 document.body.appendChild(overlay);
 
-profileImg.addEventListener("click", function () {
+addProfileBtn.addEventListener("click", function () {
     popupWrapper.style.display = "block";
-    // overlay.style.display = "flex";
+    // overlay.style.display = "block";
 });
 
 overlay.addEventListener("click", function () {

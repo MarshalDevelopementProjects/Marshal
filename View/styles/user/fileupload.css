@@ -6,9 +6,9 @@
   justify-content: center;
   left: 80%;
   top: 20%;
-  transform: translate(-50%, -85%);
+  transform: translate(-40%, 70%);
   display: none;
-  z-index: 1000;
+  z-index: 100;
 }
 
 .wrapper {
