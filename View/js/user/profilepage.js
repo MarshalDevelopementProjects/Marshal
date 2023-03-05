@@ -1,14 +1,11 @@
 const LogOutButton = document.getElementById("log-out-btn");
-
 const EditProfilePictureForm = document.getElementById("edit-profile-picture-form");
 const EditProfileFrom = document.getElementById("edit-profile-form");
 const EditProfileBtn = document.getElementById("edit-profile-btn");
 const SaveChangesBtn = document.getElementById("save-changes-btn");
 const CancelChangesBtn = document.getElementById("cancel-changes-btn");
-
 const UsernameHeader = document.getElementById("username-header");
 const BioHeader = document.getElementById("bio-header");
-
 const Username = document.getElementById("user-name");
 const FirstName = document.getElementById("first_name");
 const LastName = document.getElementById("last_name");
@@ -17,12 +14,16 @@ const Bio = document.getElementById("bio");
 const PhoneNumber = document.getElementById("phone_number");
 const Position = document.getElementById("position");
 const Status = document.getElementById("status");
-
-
+const titleElement = document.getElementById("title");
+const VerifyPasswordFromDiv = document.getElementById("verify-password-form-div");
+const changePwdTitle = document.getElementById("change-pwd-title");
+const UpdatePasswordFormDiv = document.getElementById("update-password-form-div");
 const ProfilePictureImg = document.getElementById("profile-picture-img");
 const ProfilePicture = document.getElementById("profile-img");
-
 const ChangePasswordBtn = document.getElementById("change-password-btn");
+const submitButton = document.getElementById("submitButton");
+const profileImg = document.getElementById("profile-img");
+const popupWrapper = document.querySelector(".wrapper-container");
 
 // ==============================================================
 // user profile information
@@ -59,6 +60,7 @@ function onLoad() {
     SaveChangesBtn.setAttribute("style", "display: none");
     CancelChangesBtn.setAttribute("style", "display: none");
     ChangePasswordBtn.setAttribute("style", "display: none");
+    popupWrapper.style.display = "none";
 };
 onLoad();
 // ==============================================================
@@ -80,12 +82,25 @@ EditProfileBtn.addEventListener('click', function (event) {
     CancelChangesBtn.setAttribute("style", "display: inline");
     ChangePasswordBtn.setAttribute("style", "display: inline");
     pwdDiv.setAttribute("style", "display: block");
+    titleElement.textContent = "Edit Profile";
+    EditProfileBtn.classList.add("hide");
+    if (pwdDiv.classList.contains("hide")) {
+        pwdDiv.classList.remove("hide");
+        changePwdTitle.setAttribute("style", "display: none");
+        VerifyPasswordFromDiv.setAttribute("style", "display: none; animation: fadeIn 1s ease;");
+        UpdatePasswordFormDiv.setAttribute("style", "display: none; transition: opacity 1s");
+    }
+
+    // EditProfileBtn.setAttribute("style", "display: none");
 });
 // ==============================================================
 // cancel changes btn
 CancelChangesBtn.addEventListener('click', function (event) {
     event.preventDefault();
+    EditProfileBtn.classList.remove("hide");
+    pwdDiv.classList.add("hide")
     onLoad();
+    // pwdDiv.classList.remove("hide")
 });
 // ==============================================================
 
@@ -117,7 +132,13 @@ CancelChangesBtn.addEventListener('click', function (event) {
 //         });
 // });
 
-EditProfilePictureForm.addEventListener('submit', async function (event) {
+fileInput = document.querySelector(".file-input"),
+
+    EditProfilePictureForm.addEventListener("click", () => {
+        fileInput.click();
+    });
+
+submitButton.addEventListener('click', async function (event) {
     event.preventDefault();
     const inputFile = document.getElementById("profile-picture");
     let formData = new FormData();
@@ -146,8 +167,13 @@ EditProfilePictureForm.addEventListener('submit', async function (event) {
 
     } catch (error) {
         console.error(error);
+        location.reload();
     }
 });
+
+profileImg.addEventListener("click", function() {
+    popupWrapper.style.display = "block";
+  });
 
 SaveChangesBtn.addEventListener('click', async function (event) {
     event.preventDefault();
@@ -179,8 +205,6 @@ SaveChangesBtn.addEventListener('click', async function (event) {
 ChangePasswordBtn.addEventListener('click', async function (event) {
     event.preventDefault();
     // on click make a popup and prompt the user whether he wants to proceed or not
-    const VerifyPasswordFromDiv = document.getElementById("verify-password-form-div");
-    const changePwdTitle = document.getElementById("change-pwd-title");
     VerifyPasswordFromDiv.setAttribute("style", "display: inline; animation: fadeIn 1s ease;");
     changePwdTitle.setAttribute("style", "display: block");
     ChangePasswordBtn.setAttribute("style", "display: none");
@@ -205,12 +229,9 @@ ChangePasswordBtn.addEventListener('click', async function (event) {
             if (response_1.ok) {
                 // another popup to ask the user whether he wants to proceed or not
                 alert(data_1.message);
-                const UpdatePasswordFormDiv = document.getElementById("update-password-form-div");
                 UpdatePasswordFormDiv.setAttribute("style", "display: inline; transition: opacity 1s");
                 UpdatePasswordFormDiv.style.opacity = "1";
-
                 VerifyPasswordFromDiv.setAttribute("style", "display: none; animation: fadeIn 1s ease;");
-
                 const UpdatePasswordForm = document.getElementById("update-password-form");
                 UpdatePasswordForm.addEventListener('submit', async function (event) {
                     event.preventDefault();
