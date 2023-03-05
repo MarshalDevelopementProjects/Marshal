@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -209,6 +209,213 @@
                 <script src="/View/js/user/profilepage.js"></script>
                 <script src="/View/js/user/script_user_profile.js"></script>
                 <script src="/View/js/user/sidebar.js"></script>
+</body>
+
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Dashboard</title>
+    <link rel="stylesheet" href="/View/styles/user/profilepagestyels.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="navbar">
+            <div class="profile-area">
+                <img id="profile-picture-img" alt="Profile Picture" class="profile-picture">
+                <p class="user-name" id="username-header"></p>
+            </div>
+        </div>
+
+        <div class="projects-container">
+            <div class="left-panel">
+                <div class="top-menus">
+                    <ul class="menu">
+                        <li class="dashboard active"></i>Dashboard</li>
+                        <li class="new-project">New project</li>
+                        <li class="profile">Profile</li>
+                        <li class="sketch-idea">Sketch idea</li>
+                        <li class="settings">Settings</li>
+                    </ul>
+                    <ul class="menu-icon">
+                        <li class="dashboard active"><i class="fa fa-address-book-o" aria-hidden="true"></i></li>
+                        <li class="new-project"><i class="fa fa-plus-square" aria-hidden="true"></i></li>
+                        <li class="profile"><i class="fa fa-user" aria-hidden="true"></i></li>
+                        <li class="sketch-idea"><i class="fa fa-paint-brush" aria-hidden="true"></i></li>
+                        <li class="settings"><i class="fa fa-cog" aria-hidden="true"></i></li>
+                        <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
+                    </ul>
+                </div>
+                <div class="middle-icon">
+                    <i class="fa fa-caret-left" aria-hidden="true"></i>
+                </div>
+                <div class="middle-icon2">
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                </div>
+                <div class="bottom-calender">
+                    <div class="top-month">
+                        <button type="submit" class="previous-month-btn"><i class="fa fa-caret-left"
+                                aria-hidden="true"></i></button>
+                        <p><span class="month"></span> <span class="year"></span></p>
+                        <button type="submit" class="next-month-btn"><i class="fa fa-caret-right"
+                                aria-hidden="true"></i></button>
+                    </div>
+                    <div class="day-names">
+                        <p>Mon</p>
+                        <p>Tue</p>
+                        <p>Wed</p>
+                        <p>Thu</p>
+                        <p>Fri</p>
+                        <p>Sat</p>
+                        <p>Sun</p>
+                    </div>
+                    <div class="days">
+                    </div>
+                </div>
+            </div>
+            <div class="right-panel">
+                <div class="title-div">
+                    <div class="title-left">
+                        <h3 id="title">Profile Details</h3>
+                    </div>
+                    <div class="title-right">
+                        <button id="edit-profile-btn">Edit Profile</button>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="profile-details">
+                        <form id="edit-profile-form">
+                            <div class="user-info">
+                                <div class="user-info-1">
+                                    <div class="user-info-left">
+                                        <img id="profile-img" alt="Profile Picture" class="profile-picture">
+                                    </div>
+                                    <div class="user-info-right">
+                                        <div class="field one">
+                                            <div class="lable">
+                                                <label for="username">Username</label>
+                                            </div>
+                                            <div class="data">
+                                                <input type="text" id="user-name" name="username" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="field-2">
+                                            <div class="field">
+                                                <div class="lable">
+                                                    <label for="first_name">First name</label>
+                                                </div>
+                                                <div class="data">
+                                                    <input type="text" id="first_name" name="first_name" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <div class="name-lable">
+                                                    <label for="last_name">Last name</label>
+                                                </div>
+                                                <div class="data">
+                                                    <input type="text" id="last_name" name="last_name" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="field-2">
+                                            <div class="field">
+                                                <div class="lable">
+                                                    <label for="company">Email</label>
+                                                </div>
+                                                <div class="data">
+                                                    <input type="text" id="email_address" name="email_address" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <div class="lable">
+                                                    <label for="position">Position</label>
+                                                </div>
+                                                <div class="data">
+                                                    <input type="text" id="position" name="position" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="lable">
+                                                <label for="phonenumber">Phone Number</label>
+                                            </div>
+                                            <div class="data">
+                                                <input type="text" id="phone_number" name="phone_number" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="user-info-2">
+                                    <div class="field">
+                                        <div class="lable">
+                                            <label for="address">Address</label>
+                                        </div>
+                                        <div class="data">
+                                            <input type="text" id="address" name="address" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="user-text">
+                                <textarea name="bio" id="bio" cols="30" rows="10" disabled></textarea>
+                            </div>
+                        </form>
+                            <div class="user-pwd-area" id="pwdDiv" style="display: none;">
+                                <div class="btn-div">
+                                    <button id="cancel-changes-btn">Cancel Change</button>
+                                    <button id="save-changes-btn">Save Change</button>
+                                    <button id="change-password-btn">Change Password</button>
+                                </div>
+                                <h3 id="change-pwd-title" style="display: none;">Change password</h3>
+                                
+                                <div id="verify-password-form-div">
+                                    <form id="verify-password-form">
+                                        <input type="password" id="old_password" name="old_password"
+                                            placeholder="Enter your current password" required>
+                                        <button type="submit">Verify</button>
+                                    </form>
+                                </div>
+                                <form id="edit-profile-picture-form" enctype="multipart/form-data"
+                                    style="display: none;">
+                                    <label for="profile-picture">Upload a profile picture here</label>
+                                    <input type="file" name="profile_picture" id="profile-picture">
+                                    <button type="submit">Upload</button>
+                                </form>
+                                <div class="inputs" id="update-password-form-div" style="display: none;">
+                                    <form id="update-password-form">
+                                        <label for="new_password"></label>
+                                        <input type="password" id="new_password" name="new_password"
+                                            placeholder="Enter the new password" required>
+                                        <label for="re_entered_new_password"></label>
+                                        <input type="password" id="re_entered_new_password"
+                                            name="re_entered_new_password" placeholder="Re-enter the new password"
+                                            required>
+                                        <button id="Update-pwd-btn" type="submit">Update</button>
+                                    </form>
+                                </div>
+                                
+                            </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <script>
+            var jsonData = JSON.parse('<?= $data; ?>');
+            console.log(jsonData);
+        </script>
+        <script src="/View/js/user/profilepage.js"></script>
+        <script src="/View/js/user/script_user_profile.js"></script>
+        <script src="/View/js/user/sidebar.js"></script>
 </body>
 
 </html>
