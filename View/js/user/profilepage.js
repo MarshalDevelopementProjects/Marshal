@@ -91,7 +91,6 @@ EditProfileBtn.addEventListener('click', function (event) {
         UpdatePasswordFormDiv.setAttribute("style", "display: none; transition: opacity 1s");
     }
 
-    // EditProfileBtn.setAttribute("style", "display: none");
 });
 // ==============================================================
 // cancel changes btn
@@ -100,7 +99,6 @@ CancelChangesBtn.addEventListener('click', function (event) {
     EditProfileBtn.classList.remove("hide");
     pwdDiv.classList.add("hide")
     onLoad();
-    // pwdDiv.classList.remove("hide")
 });
 // ==============================================================
 
@@ -170,10 +168,6 @@ submitButton.addEventListener('click', async function (event) {
         location.reload();
     }
 });
-
-profileImg.addEventListener("click", function() {
-    popupWrapper.style.display = "block";
-  });
 
 SaveChangesBtn.addEventListener('click', async function (event) {
     event.preventDefault();
@@ -259,4 +253,18 @@ ChangePasswordBtn.addEventListener('click', async function (event) {
             console.error(error);
         }
     });
+});
+
+const overlay = document.createElement("div");
+overlay.classList.add("overlay");
+document.body.appendChild(overlay);
+
+profileImg.addEventListener("click", function () {
+    popupWrapper.style.display = "block";
+    // overlay.style.display = "flex";
+});
+
+overlay.addEventListener("click", function () {
+    overlay.style.display = "none";
+    popupWrapper.style.display = "none";
 });

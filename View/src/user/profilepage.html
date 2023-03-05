@@ -1,217 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/View/styles/user/profilepagestyels.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Marshal</title>
-</head>
-
-<body onload="OnLoad()">
-    <div class="container">
-        <div class="header__wrapper">
-            <header></header>
-            <div class="cols__container">
-                <div class="left__col">
-                    <div class="img__container">
-                        <img id="profile-picture-img" alt="Profile Picture" class="profile-picture">
-                    </div>
-                    <h3 class="username" id="username-header"></h3>
-                    <h4 class="username" id="bio-header"></h4>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="projects-container">
-                <div class="left-panel">
-                    <div class="top-menus">
-                        <ul>
-                            <li class="dashboard">Dashboard</li>
-                            <li class="new-project">New project</li>
-                            <li class="profile active">Profile</li>
-                            <li class="settings">Settings</li>
-                            <li class="sketch-idea">Sketch idea</li>
-                        </ul>
-                    </div>
-                    <div class="middle-icon">
-                        <i class="fa fa-caret-left" aria-hidden="true"></i>
-                    </div>
-                    <div class="bottom-calender">
-                        <div class="top-month">
-                            <button type="submit" class="previous-month-btn"><i class="fa fa-caret-left"
-                                    aria-hidden="true"></i></button>
-                            <p><span class="month"></span> <span class="year"></span></p>
-                            <button type="submit" class="next-month-btn"><i class="fa fa-caret-right"
-                                    aria-hidden="true"></i></button>
-                        </div>
-                        <div class="day-names">
-                            <p>Mon</p>
-                            <p>Tue</p>
-                            <p>Wed</p>
-                            <p>Thu</p>
-                            <p>Fri</p>
-                            <p>Sat</p>
-                            <p>Sun</p>
-                        </div>
-                        <div class="days">
-                        </div>
-                    </div>
-
-                </div>
-                <div class="right-panel">
-                    <div class="container">
-                        <button id="edit-profile-btn"><img src="/View/images/user/pen-to-square-solid.svg" alt=""></button>
-                        <div class="profile-details">
-                            <form id="edit-profile-form" class="profile-details-form">
-                                <div class="name-field">
-                                    <div class="field 2">
-                                        <div class="name-lable">
-                                            <label for="first_name">First name</label>
-                                        </div>
-                                        <div class="data">
-                                            <input type="text" id="first_name" name="first_name" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="field 3">
-                                        <div class="name-lable">
-                                            <label for="last_name">Last name</label>
-                                        </div>
-                                        <div class="data">
-                                            <input type="text" id="last_name" name="last_name" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="name-field">
-                                    <div class="field 1">
-                                        <div class="username-lable">
-                                            <label for="username">Username</label>
-                                        </div>
-                                        <div class="data">
-                                            <input type="text" id="username" name="username" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="field 4">
-                                        <div class="email-lable">
-                                            <label for="email_address">Email Address</label>
-                                        </div>
-                                        <div class="data">
-                                            <input type="email" id="email_address" name="email_address" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="name-field">
-                                    <div class="field 4">
-                                        <div class="email-lable">
-                                            <label for="phone_number">Phone Number</label>
-                                        </div>
-                                        <div class="data">
-                                            <input type="tel" id="phone_number" name="phone_number" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="field 4">
-                                        <div class="email-lable">
-                                            <label for="Position">Position</label>
-                                        </div>
-                                        <div class="data">
-                                            <input type="text" id="position" name="position" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="name-field">
-                                    <div class="field 4">
-                                        <div class="email-lable">
-                                            <label for="status">Status</label>
-                                        </div>
-                                        <div class="data">
-                                            <input type="text" id="status" name="user_status" disabled>
-
-                                            <br>
-                                            <label for="bio">Bio</label>
-                                            <input type="text" id="bio" name="bio" disabled>
-
-                                            <br>
-                                            <button type="submit" id="save-changes-btn" style="display: none;">Save Changes</button>
-                            </form>
-                            </div>
-
-                            <form id="edit-profile-picture-form" enctype="multipart/form-data">
-                                <label for="profile-picture">Upload a profile picture here</label>
-                                <input type="file" name="profile_picture" id="profile-picture">
-                                <button type="submit">Upload</button>
-                            </form>
-
-                            </div>
-                            < </div>
-                                <div class="progress-container">
-                                    <div class="project-progress">
-                                        <div class="name">
-                                            <h3>Contributed field</h3>
-                                        </div>
-                                        <div class="field">
-                                            <div class="skill">
-                                                <div class="outer">
-                                                    <div class="inner">
-                                                        <div id="number">
-
-                                                        </div>
-                                                    </div>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100px" height="100px">
-                                            <defs>
-                                                <linearGradient id="GradientColor">
-                                                    <stop offset="0%" stop-color="#e91e63" />
-                                                    <stop offset="100%" stop-color="#673ab7" />
-                                                </linearGradient>
-                                            </defs>
-                                            <circle id="circle1" cx="50" cy="50" r="40" stroke-linecap="round" />
-                                        </svg>
-                                                </div>
-                                            </div>
-                                            <div class="field-name">
-                                                <p>Contributed to UI/UX project</p>
-                                            </div>
-                                        </div>
-                                        <div class="field">
-                                            <div class="skill">
-                                                <div class="outer">
-                                                    <div class="inner">
-                                                        <div id="number2">
-
-                                                        </div>
-                                                    </div>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100px" height="100px">
-                                            <defs>
-                                                <linearGradient id="GradientColor">
-                                                    <stop offset="0%" stop-color="#e91e63" />
-                                                    <stop offset="100%" stop-color="#673ab7" />
-                                                </linearGradient>
-                                            </defs>
-                                            <circle id="circle2" cx="50" cy="50" r="40" stroke-linecap="round" />
-                                        </svg>
-                                                </div>
-                                            </div>
-                                            <div class="field-name">
-                                                <p>Contributed as project leader</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-                <script>
-                    var jsonData = JSON.parse('<?= $data; ?>');
-                    console.log(jsonData);
-                </script>
-                <script src="/View/js/user/profilepage.js"></script>
-                <script src="/View/js/user/script_user_profile.js"></script>
-                <script src="/View/js/user/sidebar.js"></script>
-</body>
-
-</html> -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -227,16 +13,13 @@
 </head>
 
 <body>
-
     <div class="container">
-
         <div class="navbar">
             <div class="profile-area">
                 <img id="profile-picture-img" alt="Profile Picture" class="profile-picture">
                 <p class="user-name" id="username-header"></p>
             </div>
         </div>
-
         <div class="projects-container">
             <div class="left-panel">
                 <div class="top-menus">
@@ -283,7 +66,6 @@
                     </div>
                 </div>
             </div>
-            <div class="overlay"></div>
             <div class="right-panel">
                 <div class="title-div">
                     <div class="title-left">
@@ -374,14 +156,15 @@
                         <div class="wrapper-container" style="display: none;">
                             <div class="wrapper">
                                 <form id="edit-profile-picture-form" enctype="multipart/form-data">
-                                    <input type="file" class="file-input" name="profile_picture" id="profile-picture"style="display: none;">
+                                    <input type="file" class="file-input" name="profile_picture" id="profile-picture"
+                                        style="display: none;">
                                     <i class="fas fa-cloud-upload-alt"></i>
                                     <p>Browse File to Upload</p>
                                 </form>
                                 <div class="submit-btn-div">
                                     <button id="submitButton" type="submit">Upload</button>
                                 </div>
-                                
+
                             </div>
                         </div>
 
@@ -411,11 +194,8 @@
                                     <button id="Update-pwd-btn" type="submit">Update</button>
                                 </form>
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>

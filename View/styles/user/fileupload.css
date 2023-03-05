@@ -1,17 +1,18 @@
 .wrapper-container {
-  position: absolute;
+  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 200;
   left: 80%;
-  top: 50%;
-  transform: translate(-50%,-50%);
+  top: 20%;
+  transform: translate(-50%, -85%);
   display: none;
+  z-index: 1000;
 }
 
 .wrapper {
+  position: relative;
   width: 430px;
   background: #fff;
   border-radius: 5px;
