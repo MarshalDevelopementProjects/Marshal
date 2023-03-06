@@ -165,6 +165,8 @@ submitButton.addEventListener('click', async function (event) {
             alert(message);
             location.reload();
         } else {
+            fileInput.value = "";
+            submitButton.setAttribute("style", "display: none; animation: fadeIn 1s ease;");
             alert(message);
         }
 
@@ -266,7 +268,19 @@ addProfileBtn.addEventListener("click", function () {
 });
 
 overlay.addEventListener("click", function () {
-    console.log("hii");
     overlay.style.display = "none";
     popupWrapper.style.display = "none";
 });
+
+fileInput.addEventListener("change", function () {
+    if (fileInput.value) {
+        console.log("File selected: ", fileInput.value);
+        submitButton.style.display = "block";
+    } else {
+        console.log("No file selected");
+        submitButton.style.display = "none";
+    }
+});
+
+
+
