@@ -26,7 +26,7 @@ const profileImg = document.getElementById("profile-img");
 const popupWrapper = document.querySelector(".wrapper-container");
 const addProfileBtn = document.getElementById("add-icon");
 const overlay = document.getElementById("lay");
-
+const MessageBox = document.querySelector(".msg");
 // ==============================================================
 // user profile information
 
@@ -56,8 +56,8 @@ function onLoad() {
     Position.disabled = true;
     PhoneNumber.disabled = true;
     // Status.disabled = true;
-    // SaveChangesBtn.disabled = true;
-    // CancelChangesBtn.disabled = true;
+    SaveChangesBtn.disabled = true;
+    CancelChangesBtn.disabled = true;
     SaveChangesBtn.setAttribute("style", "display: none");
     CancelChangesBtn.setAttribute("style", "display: none");
     ChangePasswordBtn.setAttribute("style", "display: none");
@@ -162,12 +162,26 @@ submitButton.addEventListener('click', async function (event) {
         // make this a pop up
         let message = (await response.json()).message;
         if (response.ok) {
-            alert(message);
-            location.reload();
+            MessageBox.innerText = message;
+            document.querySelector(".alert").style.cssText = "background-color: #ffe1e3; border-left: 8px solid #fe475c;";
+            document.querySelector(".fa-exclamation-circle").style.cssText = "color: #fe475c;";
+            document.querySelector(".msg").style.cssText = "color: #ec7a8b;";
+            document.querySelector(".close-btn").style.cssText = "background-color: #ff99a4;";
+            document.querySelector(".fa-times").style.cssText = "color: #fc4a57;";
+            errorsAlert();
+            setTimeout(function () {
+                location.reload();
+            }, 2000);
         } else {
             fileInput.value = "";
             submitButton.setAttribute("style", "display: none; animation: fadeIn 1s ease;");
-            alert(message);
+            MessageBox.innerText = message;
+            document.querySelector(".alert").style.cssText = "background-color: #ffe1e3; border-left: 8px solid #fe475c;";
+            document.querySelector(".fa-exclamation-circle").style.cssText = "color: #fe475c;";
+            document.querySelector(".msg").style.cssText = "color: #ec7a8b;";
+            document.querySelector(".close-btn").style.cssText = "background-color: #ff99a4;";
+            document.querySelector(".fa-times").style.cssText = "color: #fc4a57;";
+            errorsAlert();
         }
 
     } catch (error) {
@@ -229,7 +243,16 @@ ChangePasswordBtn.addEventListener('click', async function (event) {
             let data_1 = await response_1.json();
             if (response_1.ok) {
                 // another popup to ask the user whether he wants to proceed or not
-                alert(data_1.message);
+                MessageBox.innerText = data_1.message;
+                document.querySelector(".alert").style.cssText = "background-color: #c5f3d7; border-left: 8px solid #2dd670;";
+                document.querySelector(".msg").style.cssText = "color: #5fb082;";
+                document.querySelector(".close-btn").style.cssText = "background-color:#94eab9;";
+                document.querySelector(".fas").style.cssText = "color: #21ab5e;";
+                var icon = document.querySelector(".fa-exclamation-circle")
+                icon.classList.add('fas', 'fa-check-circle');
+                icon.classList.remove('fa-exclamation-circle')
+                document.querySelector(".fa-times").style.cssText = "color: #21ab5e;";
+                errorsAlert();
                 UpdatePasswordFormDiv.setAttribute("style", "display: inline; transition: opacity 1s");
                 UpdatePasswordFormDiv.style.opacity = "1";
                 VerifyPasswordFromDiv.setAttribute("style", "display: none; animation: fadeIn 1s ease;");
@@ -253,8 +276,16 @@ ChangePasswordBtn.addEventListener('click', async function (event) {
                     location.reload();
                 });
             } else {
-                alert(data_1.message);
-                location.reload();
+                MessageBox.innerText = data_1.message;
+                document.querySelector(".alert").style.cssText = "background-color: #ffe1e3; border-left: 8px solid #fe475c;";
+                document.querySelector(".fa-exclamation-circle").style.cssText = "color: #fe475c;";
+                document.querySelector(".msg").style.cssText = "color: #ec7a8b;";
+                document.querySelector(".close-btn").style.cssText = "background-color: #ff99a4;";
+                document.querySelector(".fa-times").style.cssText = "color: #fc4a57;";
+                errorsAlert();
+                setTimeout(function () {
+                    location.reload();
+                }, 2000);
             }
         } catch (error) {
             console.error(error);
@@ -282,5 +313,18 @@ fileInput.addEventListener("change", function () {
     }
 });
 
-
+//Errors alert
+function errorsAlert() {
+    document.querySelector('.alert').classList.add('show');
+    document.querySelector('.alert').classList.remove('hide');
+    document.querySelector('.alert').classList.add('showAlert');
+    setTimeout(() => {
+        document.querySelector('.alert').classList.remove('show');
+        document.querySelector('.alert').classList.add('hide');
+    }, 5000);
+    document.querySelector('.close-btn').addEventListener('click', () => {
+        document.querySelector('.alert').classList.remove('show');
+        document.querySelector('.alert').classList.add('hide');
+    });
+}
 
