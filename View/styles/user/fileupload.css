@@ -26,6 +26,9 @@
   align-items: center;
   justify-content: center
 }
+#submitButton{
+  display: none;
+}
 
 .wrapper form {
   height: 167px;
