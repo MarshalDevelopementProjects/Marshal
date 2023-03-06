@@ -25,6 +25,7 @@ const submitButton = document.getElementById("submitButton");
 const profileImg = document.getElementById("profile-img");
 const popupWrapper = document.querySelector(".wrapper-container");
 const addProfileBtn = document.getElementById("add-icon");
+const overlay = document.getElementById("lay");
 
 // ==============================================================
 // user profile information
@@ -259,16 +260,13 @@ ChangePasswordBtn.addEventListener('click', async function (event) {
     });
 });
 
-const overlay = document.createElement("div");
-overlay.classList.add("overlay");
-document.body.appendChild(overlay);
-
 addProfileBtn.addEventListener("click", function () {
     popupWrapper.style.display = "block";
-    // overlay.style.display = "block";
+    overlay.style.display = "block";
 });
 
 overlay.addEventListener("click", function () {
+    console.log("hii");
     overlay.style.display = "none";
     popupWrapper.style.display = "none";
 });
