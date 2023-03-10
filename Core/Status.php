@@ -93,7 +93,7 @@ abstract class Status
      * constructs the status header string with a given status with respect to the http method 
      * 
      * @param string $status must be a key in the above constant array ex:- SUCCESS or ERROR and likewise 
-     * @return string
+     * @return int
      */
     public static function getStatusCode(string $status): int
     {
