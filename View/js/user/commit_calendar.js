@@ -1,5 +1,4 @@
 // Define the contribution levels and colors
-console.log("jjj");
 var levels = [  { value: 0, color: '#ebedf0', text: 'No contributions' },  { value: 1, color: '#c6e48b', text: '1 contribution' },  { value: 3, color: '#7bc96f', text: '3 contributions' },  { value: 6, color: '#239a3b', text: '6 contributions' },  { value: 9, color: '#196127', text: '9 contributions' }];
 
 // Get the current year
@@ -15,7 +14,7 @@ var row = document.createElement('tr');
 var yearCell = document.createElement('th');
 yearCell.colSpan = 31;
 yearCell.innerHTML = year;
-yearCell.classList.add('year');
+yearCell.classList.add('yearCalender');
 row.appendChild(yearCell);
 thead.appendChild(row);
 table.appendChild(thead);
@@ -28,7 +27,7 @@ for (var i = 0; i < 12; i++) {
   row = document.createElement('tr');
   var monthCell = document.createElement('td');
   monthCell.innerHTML = month.format('MMM');
-  monthCell.classList.add('month');
+  monthCell.classList.add('monthCalender');
   row.appendChild(monthCell);
 
   // Add the commit squares for the month
@@ -40,7 +39,7 @@ for (var i = 0; i < 12; i++) {
       cell.innerHTML = '';
     } else {
       var count = Math.floor(Math.random() * levels.length);
-      var active = month.isSame(moment(), 'month') && j === moment().date();
+      var active = month.isSame(moment(), 'monthCalender') && j === moment().date();
       cell.innerHTML = '<div class="commit' + (active ? ' active' : '') + '" style="background-color: ' + levels[count].color + ';"></div>';
     }
 
@@ -52,6 +51,7 @@ for (var i = 0; i < 12; i++) {
 
 // Add the contribution level legend
 var legend = document.createElement('div');
+legend.classList.add('legend');
 legend.style.display = 'flex';
 legend.style.marginTop = '1rem';
 for (var k = 0; k < levels.length; k++) {
@@ -59,10 +59,12 @@ for (var k = 0; k < levels.length; k++) {
   var legendItem = document.createElement('div');
   legendItem.style.flex = 1;
   legendItem.style.textAlign = 'center';
-  legendItem.innerHTML = '<span class="legend-item" style="display: inline-block; width: 1rem; height: 1rem; margin-right: 0.5rem; background-color: ' + level.color + ';"></span>' + level.text;
+  legendItem.innerHTML = '<span class="legend-item" style="display: inline-block; width: 8px; height: 8px; margin-right: 0.5rem; background-color: ' + level.color + ';"></span>' + '<span class="text" style="display: inline-block; font-size = "10px";>' + level.text + '</span>' ;
   legend.appendChild(legendItem);
 }
 
 var commit_container = document.getElementById('commit_container');
 commit_container.appendChild(table);
 commit_container.appendChild(legend);
+
+
