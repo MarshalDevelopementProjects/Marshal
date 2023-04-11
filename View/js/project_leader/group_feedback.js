@@ -73,7 +73,15 @@ async function onStartUp() {
             // TODO: ATTACH THE MESSAGES TO THE FORUM
             if (data.length > 0) {
                 data.forEach(
-                    message => console.log(message)
+                    message => {
+                        // TODO: ATTACH THE MESSAGES TO THE FORUM
+                        // check whether the messages are incoming messages or outgoing messages
+                        if (message.sender_username !== userData.username) {
+                            appendMessage('IN', MessageContainerDiv, message);
+                        } else {
+                            appendMessage('OUT', MessageContainerDiv, message);
+                        }
+                    }
                 );
             } else {
                 console.log("No messages to display")
@@ -130,4 +138,44 @@ async function sendMessages(msg) {
         console.error(error);
         projectLeaderGroupFeedbackForumConnection.close();
     }
+}
+
+function appendMessage(type, parent_div, message) {
+
+    let message_div = document.createElement('div'); // message
+
+    if (type === 'OUT') {
+        message_div.setAttribute('class', 'outgoing-message');
+    } else if (type === 'IN') {
+        message_div.setAttribute('class', 'incoming-message');
+    } else {
+        console.error('NOT A VALID MESSAGE TYPE');
+        message_div = undefined;
+        return;
+    }
+
+    let sender_details = document.createElement('div'); // sender details div
+    sender_details.setAttribute('class', 'sender-details');
+
+    let sender_profile_picture = document.createElement('img'); // sender profile picture img tag
+    sender_profile_picture.src = message.sender_profile_picture;
+
+    let sender_username = document.createElement('h5'); // sender user name heading
+    sender_username.innerText = message.sender_username;
+
+    let date_time = document.createElement('p'); // date time paragraph tag
+    date_time.innerText = message.stamp;
+
+    let message_content = document.createElement('p'); // message content
+    message_content.setAttribute('class', 'message-content');
+    message_content.innerText = message.msg;
+
+    // adding elements
+    sender_details.appendChild(sender_profile_picture);
+    sender_details.appendChild(sender_username);
+    sender_details.appendChild(date_time);
+
+    message_div.appendChild(sender_details);
+    message_div.appendChild(message_content);
+    parent_div.insertAdjacentElement("afterbegin", message_div);
 }
