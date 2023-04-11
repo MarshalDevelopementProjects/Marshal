@@ -11,6 +11,7 @@ use App\Model\User;
 use App\Model\Task;
 use App\Model\Group;
 use App\Model\Message;
+use Exception;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -23,7 +24,12 @@ class ProjectLeaderController extends ProjectMemberController
     {
         try {
             parent::__construct();
-        } catch (\Exception $exception) {
+            if (array_key_exists("project_id", $_SESSION)) {
+                $this->projectLeader = new ProjectLeader($_SESSION["project_id"]);
+            } else {
+                throw new Exception("Bad request missing arguments");
+            }
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
@@ -32,9 +38,9 @@ class ProjectLeaderController extends ProjectMemberController
     {
     }
 
-    // in here check the user role whether it is project leader regarding the project
     public function auth(): bool
     {
+        // TODO: IN THE AUTH CHECK THE ROLE WHETHER THE INCOMING REQUEST OWNER IS ACTUALLY THE PROJECT LEADER OF THIS PROJECT
         return parent::auth();
     }
     public function getProjectInfo()
@@ -66,10 +72,10 @@ class ProjectLeaderController extends ProjectMemberController
         // get user profile
         $user = new User();
 
-        if($user->readUser("id", $payload->id)){
+        if ($user->readUser("id", $payload->id)) {
             $data += array("profile" => $user->getUserData()->profile_picture);
         }
-        
+
         $this->sendResponse(
             view: "/project_leader/getProjectInfo.html",
             status: "success",
@@ -325,7 +331,7 @@ class ProjectLeaderController extends ProjectMemberController
         $user_id = $payload->id;
 
         $leaderId = $user_id;
-        if($data['assignMember']){
+        if ($data['assignMember']) {
             $leaderId = $data['assignMember'];
         }
 
@@ -449,8 +455,196 @@ class ProjectLeaderController extends ProjectMemberController
             status: "success",
             content: [
                 "message" => $successMessage
+                ]
+        );
+    }
+    
+    /**
+     * @throws Exception
+     */
+    public function getForum()
+    {
+        $this->sendResponse(
+            view: "/project_leader/forum.html",
+            status: "success",
+            content: [
+                "project_id" => $_SESSION["project_id"],
+                "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
+                "messages" => $this->projectLeader->getForumMessages() ? $this->projectLeader->getMessageData() : []
             ]
         );
     }
 
+    // the following functions sends JSON responses
+    // save the message to the project table
+    // $args format {"message" => "message string"}
+    public function postMessageToProjectForum(array|object $args)
+    {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        // get the user id
+        if (!empty($args) && array_key_exists("message", $args)) {
+            if (!empty($args["message"])) {
+                try {
+                    if ($this->projectLeader->saveForumMessage(id: $this->user->getUserData()->id, msg: $args["message"])) {
+                        $this->sendJsonResponse("success");
+                    } else {
+                        $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
+                    }
+                } catch (\Exception $exception) {
+                    throw $exception;
+                }
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Empty message body!"]);
+            }
+        } else {
+            $this->sendJsonResponse("error", ["message" => "Bad request"]);
+        }
+    }
+
+    // get all the messages to the project table
+    public function getProjectForumMessages()
+    {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        try {
+            if ($this->projectLeader->getForumMessages()) {
+                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectLeader->getMessageData() ?? []]);
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Some error occurred"]);
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    // save the message to the project table
+    // $args format {"message" => "message string"}
+    public function postMessageToProjectFeedback(array|object $args)
+    {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        try {
+            if (!empty($args) && array_key_exists("message", $args)) {
+                if (!empty($args["message"])) {
+                    if ($this->projectLeader->saveProjectFeedbackMessage(id: $this->user->getUserData()->id, msg: $args["message"])) {
+                        $this->sendJsonResponse("success");
+                    } else {
+                        $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
+                    }
+                } else {
+                    $this->sendJsonResponse("error", ["message" => "Empty message body!"]);
+                }
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Bad request"]);
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function getProjectFeedbackMessages()
+    {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        try {
+            if ($this->projectLeader->getProjectFeedbackMessages()) {
+                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectLeader->getMessageData() ?? []]);
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Some error occurred"]);
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    // save the message to the task table
+    // $args format {"task_id" => "TaskID", "message" => "message string"}
+    public function postMessageToProjectTaskFeedback(array|object $args)
+    {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        try {
+            if (!empty($args) && array_key_exists("message", $args) && array_key_exists("task_id", $args)) {
+                if (!empty($args["message"])) {
+                    if ($this->projectLeader->saveProjectTaskFeedbackMessage(id: $this->user->getUserData()->id, task_id: $args["task_id"], msg: $args["message"])) {
+                        $this->sendJsonResponse("success");
+                    } else {
+                        $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
+                    }
+                } else {
+                    $this->sendJsonResponse("error", ["message" => "Empty message body!"]);
+                }
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Bad request"]);
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    // $args format {"task_id" => "TaskID"}
+    public function getProjectTaskFeedbackMessages(array $args)
+    {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
+        // TODO: SO THAT YOU WILL BE ABLE TO RETURN THE GROUP CANNOT BE FOUND ERROR
+        try {
+            if (array_key_exists("task_id", $args)) {
+                if ($this->projectLeader->getProjectTaskFeedbackMessages($args["task_id"])) {
+                    $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectLeader->getMessageData() ?? []]);
+                } else {
+                    $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
+                }
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Invalid input format"]);
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    // assumes that the project leader is in the group feedback page
+    // when these functions are called
+    // $args must follow this format
+    // $args = ["message" => "message string"];
+    public function postMessageToGroupFeedback(array|object $args)
+    {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
+        // TODO: SO THAT YOU WILL BE ABLE TO RETURN THE GROUP CANNOT BE FOUND ERROR
+        try {
+            if (!empty($args) && array_key_exists("message", $args) && array_key_exists("group_id", $_SESSION)) {
+                if (!empty($args["message"])) {
+                    if ($this->projectLeader->saveGroupFeedbackMessage(id: $this->user->getUserData()->id, group_id: $_SESSION["group_id"], msg: $args["message"])) {
+                        $this->sendJsonResponse("success");
+                    } else {
+                        $this->sendJsonResponse("error", ["message" => "No such group!"]);
+                    }
+                } else {
+                    $this->sendJsonResponse("error", ["message" => "Empty message body!"]);
+                }
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Bad request"]);
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    // $args must follow this format
+    public function getGroupFeedbackMessages()
+    {
+        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
+        // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
+        // TODO: SO THAT YOU WILL BE ABLE TO RETURN THE GROUP CANNOT BE FOUND ERROR
+        try {
+            if (array_key_exists("group_id", $_SESSION)) {
+                if ($this->projectLeader->getGroupFeedbackMessages($_SESSION["group_id"])) {
+                    $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectLeader->getMessageData() ?? []]);
+                } else {
+                    $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
+                }
+            } else {
+                $this->sendJsonResponse("error", ["message" => "Invalid input format"]);
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
 }

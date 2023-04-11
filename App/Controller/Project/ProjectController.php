@@ -47,7 +47,7 @@ class ProjectController
                         $userData = $user->readUser("id", $task->memberId);
                         $userData = $user->getUserData();
 
-                        if($userData){
+                        if ($userData) {
                             $task->profile = $userData->profile_picture;
                         }
                         $task->userId = $user_id;
@@ -59,10 +59,10 @@ class ProjectController
                         $userData = $user->readUser("id", $task->memberId);
                         $userData = $user->getUserData();
 
-                        if($userData){
+                        if ($userData) {
                             $task->profile = $userData->profile_picture;
                         }
-                        
+
                         $task->userId = $user_id;
 
                         // get completed data
@@ -78,7 +78,7 @@ class ProjectController
                         $userData = $user->readUser("id", $task->memberId);
                         $userData = $user->getUserData();
 
-                        if($userData){
+                        if ($userData) {
                             $task->profile = $userData->profile_picture;
                         }
                         $doneTasks[] = $task;

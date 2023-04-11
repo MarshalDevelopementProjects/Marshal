@@ -29,16 +29,16 @@ CREATE TABLE `user`(
 	`first_name` VARCHAR(40) NOT NULL, 
 	`last_name` VARCHAR(40) NOT NULL,
 	`password` VARCHAR(136) NOT NULL,
-	`user_status` ENUM("Available", "Idle", "Busy") NOT NULL DEFAULT "Available",
-	`phone_number` VARCHAR(20) NOT NULL DEFAULT "000-0000000",
+	`user_status` ENUM('Available', 'Idle', 'Busy') NOT NULL DEFAULT 'Available',
+	`phone_number` VARCHAR(20) NOT NULL DEFAULT '000-0000000',
 	`position` TEXT NOT NULL,
 	`bio` TEXT NOT NULL,
-	`user_state` ENUM("OFFLINE", "ONLINE") NOT NULL DEFAULT "OFFLINE",
+	`user_state` ENUM('OFFLINE', 'ONLINE') NOT NULL DEFAULT 'OFFLINE',
 	`joined_datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-	`profile_picture` VARCHAR(255) NOT NULL DEFAULT "/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg",
-	`access` ENUM("ENABLED", "DISABLED") NOT NULL DEFAULT "ENABLED",
-	`verified` ENUM("TRUE", "FALSE") NOT NULL DEFAULT "FALSE",
-	`verification_code` VARCHAR(100) DEFAULT "-",
+	`profile_picture` VARCHAR(255) NOT NULL DEFAULT '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg',
+	`access` ENUM('ENABLED', 'DISABLED') NOT NULL DEFAULT 'ENABLED',
+	`verified` ENUM('TRUE', 'FALSE') NOT NULL DEFAULT 'FALSE',
+	`verification_code` VARCHAR(100) DEFAULT '-',
 	PRIMARY KEY (`id`)
 );
 
@@ -72,6 +72,10 @@ CREATE TABLE `project`(
 	PRIMARY KEY(`id`)
 );
 
+INSERT INTO `project` (`id`, `created_by`, `project_name`, `description`, `field`, `start_on`, `end_on`, `created_on`) VALUES
+(1, 1, 'mHealth App development', 'mHealth apps facilitate engagement through effective patient-focused care, personalized experiences & knowledge sharing between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of thei', 'web', '2023-01-22 01:49:25', '2023-05-30 01:49:25', '2023-01-22 01:49:25'),
+(2, 2, 'project 2', 'sd', 'web', '2023-01-22 03:30:04', '2023-02-16 03:29:39', '2023-01-22 03:30:04');
+
 CREATE TABLE `project_join`(
 	`project_id` INT,
 	`member_id` INT,
@@ -88,22 +92,26 @@ CREATE TRIGGER `join_leader_to_project_join_on_project_creation`
 AFTER INSERT ON `project`
 FOR EACH ROW
 BEGIN
-    INSERT INTO `project_join`(`project_id`, `member_id`, `role`) VALUES(NEW.`id`, NEW.`created_by`, "LEADER");
+    INSERT INTO `project_join`(`project_id`, `member_id`, `role`) VALUES(NEW.`id`, NEW.`created_by`, 'LEADER');
 END$$
 
 DELIMITER ;
 
+INSERT INTO `project_join` (`project_id`, `member_id`, `role`, `joined`) VALUES
+(1, 2, 'MEMBER', '2023-01-24 14:51:36'),
+(2, 1, 'MEMBER', '2023-01-28 15:22:46');
+
 CREATE TABLE `task`(
 	`task_id` INT AUTO_INCREMENT,
 	`task_name` VARCHAR(100) NOT NULL,
-	`status` ENUM("TO-DO", "DONE", "ONGOING", "REVIEW") NOT NULL DEFAULT "TO-DO",
+	`status` ENUM('TO-DO', 'DONE', 'ONGOING', 'REVIEW') NOT NULL DEFAULT 'TO-DO',
 	`description` TEXT NOT NULL,
 	`deadline` DATETIME NOT NULL,
 	`project_id` INT NOT NULL,
 	`member_id` INT DEFAULT NULL,
-	`priority` ENUM("low", "high", "medium") NOT NULL,
-	`assign_type` ENUM("member", "group") NOT NULL,
-	`task_type` ENUM("project", "group") NOT NULL,
+	`priority` ENUM('low', 'high', 'medium') NOT NULL,
+	`assign_type` ENUM('member', 'group') NOT NULL,
+	`task_type` ENUM('project', 'group') NOT NULL,
 	FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
 	PRIMARY KEY (`task_id`)
 );
@@ -112,11 +120,14 @@ CREATE TABLE `task`(
 
 CREATE TABLE `completedtask`(
 	`task_id` INT,
-	`confirmation_type` ENUM("message", "file") NOT NULL DEFAULT "message",
+	`confirmation_type` ENUM('message', 'file') NOT NULL DEFAULT 'message',
 	`confirmation_message` TEXT NOT NULL,
-	FOREIGN KEY (`task_id`) REFERENCES `task`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+	FOREIGN KEY (`task_id`) REFERENCES `task`(`task_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
 	PRIMARY KEY (`task_id`)
 );
+
+
+-- FOREIGN KEY (`task_name`) REFERENCES `task`(`task_name`) ON DELETE RESTRICT ON UPDATE CASCADE,
 
 -- group_name unique?
 CREATE TABLE `groups`(
@@ -126,7 +137,6 @@ CREATE TABLE `groups`(
 	`description` TEXT NOT NULL,
 	`project_id` INT NOT NULL,
 	`leader_id` INT NOT NULL,
-	FOREIGN KEY (`task_name`) REFERENCES `task`(`task_name`) ON DELETE RESTRICT ON UPDATE CASCADE,
 	FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
 	FOREIGN KEY (`leader_id`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
 	PRIMARY KEY(`id`)
@@ -135,7 +145,7 @@ CREATE TABLE `groups`(
 CREATE TABLE `group_join`(
 	`group_id` INT,
 	`member_id` INT,
-	`role` ENUM("LEADER", "MEMBER") NOT NULL,
+	`role` ENUM('LEADER', 'MEMBER') NOT NULL,
 	`joined` DATETIME,
 	FOREIGN KEY (`member_id`) REFERENCES `project_join`(`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
 	FOREIGN KEY (`group_id`) REFERENCES `groups`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -154,9 +164,8 @@ CREATE TABLE `notification`(
 	`id` INT AUTO_INCREMENT,
 	`projectId` INT NOT NULL,
 	`message` TEXT NOT NULL,
-	`sendTime` DATETIME,
 	`senderId` INT NOT NULL,
-	`type` ENUM("request", "notification"),
+	`type` ENUM('request', 'notification'),
 	`sendTime` DATETIME NOT NULL,
 	`url` VARCHAR(100) DEFAULT NULL,
 	FOREIGN KEY (`projectId`) REFERENCES `project`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -178,7 +187,7 @@ CREATE TABLE `message`(
 	`id` INT AUTO_INCREMENT,
 	`sender_id` INT NOT NULL,
 	`stamp` DATETIME NOT NULL,
-	`message_type` ENUM("PROJECT_MESSAGE", "PROJECT_FEEDBACK_MESSAGE", "GROUP_MESSAGE", "GROUP_FEEDBACK_MESSAGE", "PROJECT_TASK_FEEDBACK_MESSAGE") NOT NULL,
+	`message_type` ENUM('PROJECT_MESSAGE', 'PROJECT_FEEDBACK_MESSAGE', 'GROUP_MESSAGE', 'GROUP_FEEDBACK_MESSAGE', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'GROUP_TASK_FEEDBACK_MESSAGE') NOT NULL,
 	`msg` TEXT NOT NULL,
 	FOREIGN KEY (`sender_id`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY (`id`)
@@ -230,4 +239,16 @@ CREATE TABLE `group_feedback_message`(
 	FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (`group_id`) REFERENCES `groups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY (`message_id`)
+);
+
+CREATE TABLE `group_task_feedback_message`(
+    `message_id` INT NOT NULL,
+    `project_id` INT NOT NULL,
+    `group_id` INT NOT NULL,
+    `task_id` INT NOT NULL,
+    FOREIGN KEY (`message_id`) REFERENCES `message`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`group_id`) REFERENCES `groups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`task_id`) REFERENCES `task`(`task_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (`message_id`)
 );

@@ -17,7 +17,7 @@ class Message implements Model
             throw $exception;
         }
     }
-    public function sendMessage(array $args, array $keys):bool
+    public function sendMessage(array $args, array $keys): bool
     {
         $keyCount = count($keys);
 
@@ -49,7 +49,7 @@ class Message implements Model
         }
     }
 
-    public function setMessageType(array $args, array $keys, string $table):bool
+    public function setMessageType(array $args, array $keys, string $table): bool
     {
         $keyCount = count($keys);
 
@@ -80,7 +80,7 @@ class Message implements Model
             return false;
         }
     }
-    public function getMessage($args, $keys):object|array|bool
+    public function getMessage($args, $keys): object|array|bool
     {
         $keyCount = count($keys);
 

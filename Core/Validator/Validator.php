@@ -5,17 +5,13 @@ namespace Core\Validator;
 require __DIR__ . "/../../vendor/autoload.php";
 
 use App\CrudUtil\CrudUtil;
+use Exception;
 
 /**
  * Class description
  * 
  * Encapsulates the validation tasks performed on user input or query parameters
  *  
- * @method void validate(array $values, string $schema)
- * @method array getRequirements()
- * @method bool getPassed()
- * @method array getErrors()
- * 
  */
 class Validator
 {
@@ -42,31 +38,32 @@ class Validator
     /**
      * @access public
      * @return Validator
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct()
     {
         try {
             $this->crud_util = new CrudUtil();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
 
     /**
      * Function description
-     * 
+     *
      * @access public
-     * @return void
      * @param array $values takes an associative array to validate
      * @param string $schema takes schema to get the validation rules
-     * 
+     *
      * Used to validate set of values depending on a schema
      * example => validation user login inputs sent by the client
      *            read the validation rules from the schemas in this case it's login
      *            then, evaluate the values based on the rules defined under that
      * See the Schemas/ directory for validation schemas and rules
-     * 
+     *
+     * @return void
+     * @throws Exception
      */
     public function validate(array $values = array(), string $schema = ""): void
     {
@@ -139,7 +136,7 @@ class Validator
                     if (empty($this->errors)) $this->passed = true;
                     else $this->passed = false;
                 }
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 throw $exception;
             }
         }
@@ -150,7 +147,7 @@ class Validator
      * 
      * @param string $schema
      * @return array
-     * @throws \Exception if the schema is not a valid schema
+     * @throws Exception if the schema is not a valid schema
      * 
      * used to read the rules of a given schema 
      * 
@@ -162,7 +159,7 @@ class Validator
         if ($file) {
             return json_decode($file, true); // this will return an object
         } else {
-            throw new \Exception("Schema requested cannot be found check the schema once again");
+            throw new Exception("Schema requested cannot be found check the schema once again");
         }
     }
 

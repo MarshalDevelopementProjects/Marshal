@@ -7,9 +7,6 @@ require __DIR__ . '/../vendor/autoload.php';
 /**
  * Class description
  * 
- * @method static array getData() returns data extracted from the body
- * @method static array|bool getQueryParams() returns data extracted from the request URI
- * 
  * Encapsulates the actions to be performed on a query string
  * or query data of a request
  * 
@@ -36,9 +33,9 @@ class Request
      */
     public static function getData(string $req_data = ""): null|array
     {
-        if ($_SERVER["REQUEST_METHOD"] === "GET") {
+        if ($_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET)) {
             return self::sanitize($_GET);
-        } else if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        } else if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST)) {
             return self::sanitize($_POST);
         } else {
             if (!empty($req_data)) {
