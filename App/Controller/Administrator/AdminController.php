@@ -58,30 +58,34 @@ class AdminController extends Controller
         // default page should have the following 
         // user count, active user count, admin count
         // and all the users
-        try{  
+        try {
 
             $data = array();
             $this->admin->readAllUsers();
             $data["user_details"] = $this->admin->getQueryResults();
             $data["all_user_count"] = sizeof($data["user_details"]);
             $data["admin_data"] = $this->admin->getAdminData();
-            
+
             $this->admin->getBlockedUsers();
             $count = array();
-            $count["block_users"]= $this->admin->getQueryResults();
+            $count["block_users"] = $this->admin->getQueryResults();
             $data["block_user_count"] = sizeof($count["block_users"]);
 
             $this->admin->getActiveUsers();
-            $count["active_users"]= $this->admin->getQueryResults();
+            $count["active_users"] = $this->admin->getQueryResults();
             $data["active_user_count"] = sizeof($count["active_users"]);
-            
+
+            $this->admin->getOfflineUsers();
+            $count["offline_users"] = $this->admin->getQueryResults();
+            $data["offline_user_count"] = sizeof($count["offline_users"]);
+
             $this->sendResponse(
                 view: "/admin/dashboard.html",
                 status: "success",
                 content: $data
             );
             exit;
-        }catch(\Exception $exception){
+        } catch (\Exception $exception) {
             throw $exception;
         }
     }
@@ -230,7 +234,7 @@ class AdminController extends Controller
 
     public function viewActiveUsers()
     {
-        try {   
+        try {
 
             if ($this->admin->getActiveUsers()) {
                 $this->sendJsonResponse(
@@ -281,6 +285,29 @@ class AdminController extends Controller
     // all or a single user of the system
     public function sendEmailsToUsers(array $args)
     {
+    }
+    public function viewOfflineUsers()
+    {
+        try {
+            if ($this->admin->getOfflineUsers()) {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "Offline users successfully retrieved",
+                        "Offline_users" => $this->admin->getQueryResults()
+                    )
+                );
+            } else {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "Offline users cannot be retrieved",
+                    )
+                );
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
     }
 
     // after notification is fixed
