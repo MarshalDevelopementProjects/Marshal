@@ -6,6 +6,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 
 use Ratchet;
 use App\SocketServer\src\Messenger;
+use App\SocketServer\src\SignalingServer;
 
 /*
  *
@@ -46,8 +47,12 @@ use App\SocketServer\src\Messenger;
  * | ws://localhost:8080/groups/feedback?project=ProjectID&group=GroupID   | routing_params => ['category' => 'groups', 'route' => 'feedback']   |
  * |                                                                       | http_params => ['project' => '12', 'group' => '12']                 |
  * +-----------------------------------------------------------------------+---------------------------------------------------------------------+
+ *
+ * TODO: INCLUDE DOCS FOR SIGNALING SERVER ROUTES
+ *
  *  */
 
 $app = new Ratchet\App();
+$app->route("/signal/{category}/{route}", new SignalingServer(), array('*'));
 $app->route("/{category}/{route}", new Messenger(), array('*'));
 $app->run();
