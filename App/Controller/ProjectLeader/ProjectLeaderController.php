@@ -232,11 +232,11 @@ class ProjectLeaderController extends ProjectMemberController
             $updates[] = "memberId";
 
             // we have to delete all messages as well related to that task
-            $rearrangedTask = $task->getTask(array("project_id" => $project_id, "task_name" => $data->task_name), array("project_id","task_name"));
+            $rearrangedTask = $task->getTask(array("project_id" => $project_id, "task_name" => $data->task_name), array("project_id", "task_name"));
             $messageCondition = "WHERE id IN (SELECT message_id FROM project_task_feedback_message WHERE task_id = " . $rearrangedTask->task_id . " AND project_id = " . $project_id . ")";
-        
+
             $message->deleteMessage($messageCondition, "message");
-        
+
             // we have to delete notifications related to that task messages
             $notificationCondition = "WHERE id IN (SELECT notification_id FROM task_notification WHERE task_id = " . $rearrangedTask->task_id . ")";
             $notification->deleteNotification($notificationCondition, "notifications");
@@ -386,7 +386,8 @@ class ProjectLeaderController extends ProjectMemberController
         );
     }
 
-    public function addAnnouncement(){
+    public function addAnnouncement()
+    {
         $data = json_decode(file_get_contents('php://input'));
 
         $successMessage = "";
@@ -407,7 +408,7 @@ class ProjectLeaderController extends ProjectMemberController
             $messageController->send($args, array("sender_id", "stamp", "message_type", "msg"));
 
             $newMessage = $message->getMessage(array("sender_id" => $payload->id, "stamp" => $date, "message_type" => "PROJECT_ANNOUNCEMENT"), array("sender_id", "stamp", "message_type"));
-            
+
             $messageTypeArgs = array(
                 "message_id" => $newMessage->id,
                 "project_id" => $_SESSION['project_id'],
@@ -455,10 +456,10 @@ class ProjectLeaderController extends ProjectMemberController
             status: "success",
             content: [
                 "message" => $successMessage
-                ]
+            ]
         );
     }
-    
+
     /**
      * @throws Exception
      */
