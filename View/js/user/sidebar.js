@@ -1,3 +1,74 @@
+const leftPanel = document.querySelector('.left-panel');
+const middle = document.querySelector('.middle-icon');
+const middle2 = document.querySelector('.middle-icon2');
+const sideBtn = document.querySelector('.fa-caret-left');
+const topMenu = document.querySelector('.top-menus');
+const menu = document.querySelector('.menu');
+const menuIcon = document.querySelector('.menu-icon');
+const calender = document.querySelector('.bottom-calender');
+const calenderBtn = document.querySelector('.calender');
+const rightPanel = document.querySelector('.right-panel');
+// const projects = document.querySelector('.projects');
+
+
+middle.addEventListener('click', function(){
+    leftPanel.classList.add('active');
+    delay(addCalenderFunction, 200);
+    delay(addFunction, 300);
+    
+});
+middle2.addEventListener('click', function(){
+    delay(removeFunction, 700);
+    delay(removeCalenderFunction, 900);
+    leftPanel.classList.remove('active');
+    
+});
+
+calenderBtn.addEventListener('click', function(){
+    delay(removeFunction, 600);
+    delay(removeCalenderFunction, 800);
+    leftPanel.classList.remove('active');
+    
+});
+
+function delay(callback, time) {
+    setTimeout(callback, time);
+  }
+  
+  function addFunction() {
+    leftPanel.classList.add('active');
+    topMenu.classList.add('active');
+    sideBtn.classList.add('active');
+    middle.classList.add('active');
+    middle2.classList.add('active');
+    menu.classList.add('active');
+    menuIcon.classList.add('active');
+    rightPanel.classList.add('active');
+    // projects.classList.add('active');
+  }
+  function removeFunction(){
+    rightPanel.classList.remove('active');
+    topMenu.classList.remove('active');
+    sideBtn.classList.remove('active');
+    middle.classList.remove('active');
+    middle2.classList.remove('active');
+    menu.classList.remove('active');
+    menuIcon.classList.remove('active');
+    // projects.classList.remove('active'); 
+  }
+  
+  function addCalenderFunction() {
+    // searchBar.classList.add('active');
+    calender.classList.add('active');
+  }
+  function removeCalenderFunction(){
+    // searchBar.classList.remove('active');
+    calender.classList.remove('active');
+  }
+ 
+  
+
+
 const dashboard = document.querySelector('.dashboard');
 const newProject = document.querySelector('.new-project');
 const profile = document.querySelector('.profile');
@@ -49,4 +120,7 @@ sketchIdea.addEventListener('click', function(){
 
     window.location.href = "./index.html";
 })
+
+
+
 
