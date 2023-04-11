@@ -251,6 +251,185 @@ class ProjectMemberController extends UserController
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * @throws Exception
      */
@@ -262,7 +441,8 @@ class ProjectMemberController extends UserController
             content: [
                 "project_id" => $_SESSION["project_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
-                "messages" => $this->projectMember->getForumMessages() ? $this->projectMember->getMessageData() : []
+                "messages" => $this->projectMember->getForumMessages() ? $this->projectMember->getMessageData() : [],
+                "members" =>  $this->projectMember->getProjectMembers() ? $this->projectMember->getProjectMemberData() : [],
             ]
         );
     }
@@ -417,5 +597,14 @@ class ProjectMemberController extends UserController
         } catch (\Throwable $th) {
             return false;
         }
+    }
+
+    public function gotoConference()
+    {
+        $this->sendResponse(
+            view: "/user/meeting.html",
+            status: "success",
+            content: []
+        );
     }
 }
