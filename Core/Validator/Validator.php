@@ -76,61 +76,61 @@ class Validator
                             switch ($rule) {
                                 case 'required': {
                                         if ($rule_value && empty($value))
-                                            array_push($this->errors, str_replace('_', ' ', $key) . " is required");
-                                    };
+                                            $this->errors[] = str_replace('_', ' ', $key) . " is required";
+                                    }
                                     break;
                                 case 'min': {
                                         if (strlen($value) < $rule_value)
-                                            array_push($this->errors, str_replace('_', ' ', $key) . " needs to have a minimum length of " . str_replace('_', ' ', $rule_value) . " characters");
-                                    };
+                                            $this->errors[] = str_replace('_', ' ', $key) . " needs to have a minimum length of " . str_replace('_', ' ', $rule_value) . " characters";
+                                    }
                                     break;
                                 case 'max': {
                                         if (strlen($value) > $rule_value)
-                                            array_push($this->errors, str_replace('_', ' ', $key) . " needs to have a maximum length of " . str_replace('_', ' ', $rule_value) . " characters");
-                                    };
+                                            $this->errors[] = str_replace('_', ' ', $key) . " needs to have a maximum length of " . str_replace('_', ' ', $rule_value) . " characters";
+                                    }
                                     break;
                                 case 'email': {
                                         if (!filter_var($value, FILTER_VALIDATE_EMAIL))
-                                            array_push($this->errors, str_replace('_', ' ', $key) . " is not in a valid format");
-                                    };
+                                            $this->errors[] = str_replace('_', ' ', $key) . " is not in a valid format";
+                                    }
                                     break;
                                 case 'unique': {
                                         if ($rule_value) {
                                             $sql_string = "SELECT {$key} FROM {$requirements["table"]} WHERE {$key} = :{$key}";
                                             $result = $this->crud_util->execute($sql_string, array("{$key}" => $value));
                                             if ($result->getCount()) {
-                                                array_push($this->errors, str_replace('_', ' ', $key) . " already exists");
+                                                $this->errors[] = str_replace('_', ' ', $key) . " already exists";
                                             }
                                         }
-                                    };
+                                    }
                                     break;
                                 case 'format': {
                                         if (!preg_match($rule_value, $value)) {
-                                            array_push($this->errors, str_replace('_', ' ', $key) . " is not in a valid format");
+                                            $this->errors[] = str_replace('_', ' ', $key) . " is not in a valid format";
                                         }
-                                    };
+                                    }
                                     break;
                                 case 'match': {
                                         if ($value !== $values[$rule_value]) {
-                                            array_push($this->errors, str_replace('_', ' ', $rule_value) . " must match " . str_replace('_', ' ', $key));
+                                            $this->errors[] = str_replace('_', ' ', $rule_value) . " must match " . str_replace('_', ' ', $key);
                                         }
-                                    };
+                                    }
                                     break;
                                 case 'exists': {
                                         // check whether the property exists
-                                    };
+                                    }
                                     break;
                                 case 'enum': {
                                         if (!in_array($value, $rule_value)) {
-                                            array_push($this->errors, "Input is not valid, could be only one of the following $rule_value");
+                                            $this->errors[] = "Input is not valid, could be only one of the following $rule_value";
                                         }
-                                    };
+                                    }
                                     break;
                                 default: {
-                                        array_push($this->errors, "{$rule} is not a valid rule");
-                                    };
+                                        $this->errors[] = "{$rule} is not a valid rule";
+                                    }
                                     break;
-                            }
+                            };
                         }
                     }
                     if (empty($this->errors)) $this->passed = true;
