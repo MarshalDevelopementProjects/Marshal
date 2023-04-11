@@ -19,6 +19,7 @@ const Position = document.getElementById("position");
 const Status = document.getElementById("status");
 
 const ProfilePictureImg = document.getElementById("profile-picture-img");
+const ProfilePicUploadForm = document.querySelector("#edit-profile-picture-form");
 
 const ChangePasswordBtn = document.getElementById("change-password-btn");
 
@@ -69,42 +70,44 @@ EditProfileBtn.addEventListener('click', function(event) {
     CancelChangesBtn.disabled = false;
     SaveChangesBtn.setAttribute("style", "display: inline");
     CancelChangesBtn.setAttribute("style", "display: inline");
+    ProfilePicUploadForm.classList.add('active');
 });
 // ==============================================================
 // cancel changes btn
 CancelChangesBtn.addEventListener('click', function(event) {
     event.preventDefault();
+    ProfilePicUploadForm.classList.remove('active');
     OnLoad();
 });
 // ==============================================================
 
-LogOutButton.addEventListener("click", () => {
-    fetch("http://localhost/public/user/logout", {
-            withCredentials: true,
-            credentials: "include",
-            mode: "cors",
-            method: "POST",
-        })
-        .then((response) => {
-            if (response.ok) {
-                window.location.replace("http://localhost/public/user/login");
-                return;
-            }
-            if (!response.ok) {
-                response.json();
-            }
-        })
-        .then((data) => {
-            if (data.message != undefined && data.message != undefined) {
-                alert(data.message);
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch((error) => {
-            console.error(error)
-        });
-});
+// LogOutButton.addEventListener("click", () => {
+//     fetch("http://localhost/public/user/logout", {
+//             withCredentials: true,
+//             credentials: "include",
+//             mode: "cors",
+//             method: "POST",
+//         })
+//         .then((response) => {
+//             if (response.ok) {
+//                 window.location.replace("http://localhost/public/user/login");
+//                 return;
+//             }
+//             if (!response.ok) {
+//                 response.json();
+//             }
+//         })
+//         .then((data) => {
+//             if (data.message != undefined && data.message != undefined) {
+//                 alert(data.message);
+//             } else {
+//                 alert(data.message);
+//             }
+//         })
+//         .catch((error) => {
+//             console.error(error)
+//         });
+// });
 
 EditProfilePictureForm.addEventListener('submit', async function(event) {
     event.preventDefault();
@@ -133,8 +136,8 @@ EditProfilePictureForm.addEventListener('submit', async function(event) {
             alert(message);
         }
 
-    } catch (error) {
-        console.error(error);
+    } catch (error){
+        console.log(error);
     }
 });
 

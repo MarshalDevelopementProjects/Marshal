@@ -75,6 +75,10 @@ class AdminController extends Controller
             $count["active_users"] = $this->admin->getQueryResults();
             $data["active_user_count"] = sizeof($count["active_users"]);
 
+            $this->admin->getOfflineUsers();
+            $count["offline_users"] = $this->admin->getQueryResults();
+            $data["offline_user_count"] = sizeof($count["offline_users"]);
+
             $this->sendResponse(
                 view: "/admin/dashboard.html",
                 status: "success",
@@ -281,6 +285,29 @@ class AdminController extends Controller
     // all or a single user of the system
     public function sendEmailsToUsers(array $args)
     {
+    }
+    public function viewOfflineUsers()
+    {
+        try {
+            if ($this->admin->getOfflineUsers()) {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "Offline users successfully retrieved",
+                        "Offline_users" => $this->admin->getQueryResults()
+                    )
+                );
+            } else {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "Offline users cannot be retrieved",
+                    )
+                );
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
     }
 
     // after notification is fixed

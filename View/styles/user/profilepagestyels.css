@@ -352,8 +352,23 @@ input[type=submit] {
     cursor: pointer;
 
 }
-
-
+#Upload-Btn{
+    width: 200px;
+    background-color: #F83B3B;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 100px;
+}
+#edit-profile-picture-form{
+    display: none;
+}
+#edit-profile-picture-form.active{
+    display: block;
+}
 
 .progress-container {
     width: 100%;
