@@ -69,12 +69,35 @@ sketchIdea.addEventListener('click', function(){
 
 // set the groups
 
+function notMemberWarningPopup(event) {
+    var popup = document.querySelector(".not-member-warning");
+
+    popup.style.display = "flex"; // show the popup
+
+    console.log(event.clientX, event.clientY)
+
+    let warningCancelBtn = document.querySelector('.not-member-warning button')
+    warningCancelBtn.addEventListener('click', () => {
+        popup.style.display = "none"; // hide the popup after 5 seconds
+    })
+
+    setTimeout(function() {
+      popup.style.display = "none"; // hide the popup after 5 seconds
+    }, 5000);
+  }
+
 const groups = document.querySelector('.groups');
 var groupsCode = "";
 
+
 if(jsonData['groups']){
     jsonData['groups'].forEach(group => {
-        groupsCode += `<a href="http://localhost/public/projectmember/group?id=${group['id']}"><p class="group">${group['group_name']}</p></a>`
+
+        if(!group['hasAccess']){
+            groupsCode += `<div class="not-member-group" onclick="notMemberWarningPopup(event)"><p class = "group">${group['group_name']}</p></div>`
+        }else{
+            groupsCode += `<a href="http://localhost/public/projectmember/group?id=${group['id']}"><p class="group">${group['group_name']}</p></a>`
+        }
     })
 }
 

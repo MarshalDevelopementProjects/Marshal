@@ -3,12 +3,14 @@
 namespace App\Controller\ProjectLeader;
 
 use App\Controller\ProjectMember\ProjectMemberController;
+use App\Controller\Message\MessageController;
 use App\Model\ProjectLeader;
 use App\Model\Project;
 use App\Model\Notification;
 use App\Model\User;
 use App\Model\Task;
 use App\Model\Group;
+use App\Model\Message;
 use Exception;
 
 require __DIR__ . '/../../../vendor/autoload.php';
@@ -66,6 +68,7 @@ class ProjectLeaderController extends ProjectMemberController
         $data['projectMembers'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "MEMBER", "role2" => "LEADER"), $projectMemberCondition);
         $data['groupLeaders'] = $user->getAllUsers(array("project_id" => $project_id), $groupLeaderCondition);
 
+        $data += parent::getTaskDeadlines();
         // get user profile
         $user = new User();
 
@@ -101,16 +104,17 @@ class ProjectLeaderController extends ProjectMemberController
 
                 $args = array(
                     "projectId" => $project_id,
-                    "message" => "Invitation",
+                    "message" => "Invite to this peoject",
                     "type" => "request",
                     "senderId" => $user_id,
-                    "sendTime" => $date
+                    "sendTime" => $date,
+                    "url" => "http://localhost/public/user/project?id=" . $project_id
                 );
             }
             // set notified members
             // get notification id
             $notification = new Notification();
-            $notification->createNotification($args);
+            $notification->createNotification($args, array("projectId", "message", "type", "senderId", "sendTime", "url"));
 
             $conditions = array(
                 "projectId" => $project_id,
@@ -118,15 +122,13 @@ class ProjectLeaderController extends ProjectMemberController
                 "sendTime" => $date
             );
 
-            $newNotification = $notification->getNotificationData($conditions);
-            $newNotificationId = $newNotification[0]->id;
+            $newNotification = $notification->getNotification($conditions, array("projectId", "senderId", "sendTime"));
 
-            $receivedUserId = $receivedUser->id;
             $arguments = array(
-                "notificationId" => $newNotificationId,
-                "memberId" => $receivedUserId
+                "notificationId" => $newNotification->id,
+                "memberId" => $receivedUser->id
             );
-            $notification->setNotifiedMembers($arguments);
+            $notification->setNotifiers($arguments, array("notificationId", "memberId"));
 
             echo (json_encode(array("message" => "Success")));
         } catch (\Throwable $th) {
@@ -220,22 +222,35 @@ class ProjectLeaderController extends ProjectMemberController
         $updates = array("status");
 
         $task = new Task();
-        $message = "";
+        $message = new Message();
+        $notification = new Notification();
+
+        $successMessage = "";
 
         if ($data->new_board === "TO-DO") {
             $args['memberId'] = NULL;
             $updates[] = "memberId";
+
+            // we have to delete all messages as well related to that task
+            $rearrangedTask = $task->getTask(array("project_id" => $project_id, "task_name" => $data->task_name), array("project_id","task_name"));
+            $messageCondition = "WHERE id IN (SELECT message_id FROM project_task_feedback_message WHERE task_id = " . $rearrangedTask->task_id . " AND project_id = " . $project_id . ")";
+        
+            $message->deleteMessage($messageCondition, "message");
+        
+            // we have to delete notifications related to that task messages
+            $notificationCondition = "WHERE id IN (SELECT notification_id FROM task_notification WHERE task_id = " . $rearrangedTask->task_id . ")";
+            $notification->deleteNotification($notificationCondition, "notifications");
         }
         try {
-            $message = $task->updateTask($args, $updates, $conditions);
-            // $message = "Successfully rearraged the task";
+            $task->updateTask($args, $updates, $conditions);
+            $successMessage = "Reported successfully";
         } catch (\Throwable $th) {
-            $message = "Failed to rearange the task";
+            $successMessage = "Failed to rearange the task";
         }
         $this->sendJsonResponse(
             status: "success",
             content: [
-                "message" => $message
+                "message" => $successMessage
             ]
         );
     }
@@ -265,7 +280,7 @@ class ProjectLeaderController extends ProjectMemberController
 
             try {
                 // $task->pickupTask($args);
-                $message = "Successfully picked";
+                $message = "Successfully handovered the task.";
 
                 // send notification to leader
                 $date = date("Y-m-d H:i:s");
@@ -276,26 +291,26 @@ class ProjectLeaderController extends ProjectMemberController
                     "message" => "Leader assigned you to " . $data->task_name . '.',
                     "type" => "notification",
                     "senderId" => $user_id,
-                    "sendTime" => $date
+                    "sendTime" => $date,
+                    "url" => `http://localhost/public/user/project?id=${project_id}`
                 );
                 $notification = new Notification();
-                $notification->createNotification($notificationArgs);
+                $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
 
                 $notifyConditions = array(
                     "projectId" => $project_id,
                     "senderId" => $user_id,
                     "sendTime" => $date
                 );
-                $newNotification = $notification->getNotificationData($notifyConditions);
-                $newNotificationId = $newNotification[0]->id;
+                $newNotification = $notification->getNotification($notifyConditions);
 
                 $notifyMemberArgs = array(
-                    "notificationId" => $newNotificationId,
+                    "notificationId" => $newNotification->id,
                     "memberId" => $receivedUser->id
                 );
-                $notification->setNotifiedMembers($notifyMemberArgs);
+                $notification->setNotifiers($notifyMemberArgs, array("notificationId", "memberId"));
             } catch (\Throwable $th) {
-                $message = "Failed to pick up";
+                $message = "Failed to handover the task: " . $th->getMessage();
             }
 
             $this->sendJsonResponse(
@@ -309,7 +324,7 @@ class ProjectLeaderController extends ProjectMemberController
     public function createGroup()
     {
         $data = $_POST;
-        var_dump($data);
+        // var_dump($data);
         $project_id = $_SESSION['project_id'];
 
         $payload = $this->userAuth->getCredentials();
@@ -371,6 +386,79 @@ class ProjectLeaderController extends ProjectMemberController
         );
     }
 
+    public function addAnnouncement(){
+        $data = json_decode(file_get_contents('php://input'));
+
+        $successMessage = "";
+        $payload = $this->userAuth->getCredentials();
+        $messageController = new MessageController();
+        $message = new Message();
+        $notification =  new Notification();
+        $project = new Project($payload->id);
+
+        $date = date('Y-m-d H:i:s');
+        $args = array(
+            "sender_id" => $payload->id,
+            "stamp" => $date,
+            "message_type" => "PROJECT_ANNOUNCEMENT",
+            "msg" => $data->announcementMessage
+        );
+        try {
+            $messageController->send($args, array("sender_id", "stamp", "message_type", "msg"));
+
+            $newMessage = $message->getMessage(array("sender_id" => $payload->id, "stamp" => $date, "message_type" => "PROJECT_ANNOUNCEMENT"), array("sender_id", "stamp", "message_type"));
+            
+            $messageTypeArgs = array(
+                "message_id" => $newMessage->id,
+                "project_id" => $_SESSION['project_id'],
+                "heading" => $data->announcementHeading
+            );
+
+            $message->setMessageType($messageTypeArgs, array("message_id", "project_id", "heading"), "project_announcement");
+            $successMessage = "Message sent successfully";
+        } catch (\Throwable $th) {
+            // $successMessage = "Message sent failed";
+            throw $th;
+        }
+
+        // set notifications
+        // try {
+        //     $date = date("Y-m-d H:i:s");
+
+        //     $notificationArgs = array(
+        //         "projectId" => $_SESSION['project_id'],
+        //         "message" => $data->announcementHeading,
+        //         "type" => "notification",
+        //         "senderId" => $payload->id,
+        //         "sendTime" => $date,
+        //         "url" => "http://localhost/public/projectmember/getinfo"
+        //     );
+
+        //     $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
+        //     $notifyConditions = array(
+        //         "projectId" => $_SESSION['project_id'],
+        //         "senderId" => $payload->id,
+        //         "sendTime" => $date
+        //     );
+        //     $newNotification = $notification->getNotification($notifyConditions, array("projectId", "senderId", "sendTime"));
+
+        //     $members = $project->getProjectUsers("WHERE project_id = " . $_SESSION['project_id'] . " AND `role` = 'MEMBER'");
+
+        //     foreach($members as $member){
+        //         $notification->setNotifiers(array("notificationId" => $newNotification->id, "memberId" => $member->member_id), array("notificationId", "memberId"));
+        //     }
+
+        // } catch (\Throwable $th) {
+        //     throw $th;
+        // }
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => $successMessage
+                ]
+        );
+    }
+    
     /**
      * @throws Exception
      */

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects | Dashboard</title>
     <link rel="stylesheet" href="/View/styles/group_leader/groupInfo.css">
+    <link rel="stylesheet" href="/View/styles/user/calendar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -60,15 +61,23 @@
                         
                     </div>
                 </div>
+                <div class="deadline-popup">
+                    <h3>Events</h3>
+                    <hr>
+                    <div class="events">
+                        <p>Build meeting API</p>
+                        <p>Design UI</p>
+                    </div>
+                </div>
             </div>
             <div class="right-panel">
 
                 <div class="project-info">
                     <div class="project-info-top">
-                        <h2><span id="groupIdentifier">#</span> Medicare App Development <span>Web App development</span></h2>
+                        <h2><span id="groupIdentifier"></h2>
                         <p id="invite-member-btn"><i class="fa fa-user-plus" aria-hidden="true"></i> Invite member</p>
                     </div>
-                    <p>mHealth apps  between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals.
+                    <p id="group-description">mHealth apps  between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals.
                         <br> convenience of their own homes without visiting hospitals.</p>
 
                     <div class="progress-bar">
@@ -79,7 +88,7 @@
 
                     <div class="feedbacks-and-groups">
                         <div class="feedbacks">
-                            <h3>Feedback Form</h3>
+                            <!-- <h3>Feedback Form</h3>
                             <div class="feedback-form">
                                 <p class="outgoing-feedback">How is Going</p>
                                 <p class="outgoing-feedback">Yes, you have written the first thing first, but after that it becomes muddled. Your next step is to go back to your plan and check your numbering of the order of the events as they happened.</p>
@@ -91,7 +100,68 @@
                                 <input type="text" name="feedback" id="feedback" placeholder="Type feedback ...">
                                 
                                 <button type="submit"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
-                            </form>
+                            </form> -->
+
+                            <div class="feedbacks-headers">
+                                <h3 id="group-announcements">Group Announcements</h3>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                                <h3 id="leader-feedback">Leader Feedback</h3>
+                            </div>
+                            
+                            <div class="group-announcement-area">
+                                <div class="feedback-form">
+                                
+                                    <div class="announcement">
+                                        <img src="" alt="">
+                                        <div class="announcement-details">
+                                            <div class="announcement-detail-heading">
+                                                <p class="announcement-heading-line"></p>
+                                                <p class="announcement-sent-time"></p>
+                                            </div>
+                                            <p class="announcement-detail-message"></p>
+                                        </div>
+                                    </div>
+    
+                                </div>
+                                <form class="group-announcements-form" method="post">
+                                    <label id="announcementHeading" for="announcementHeading">Announcement Heading</label>
+                                    <label id="announcement-down"><i class="fa fa-chevron-down" aria-hidden="true"></i></label>
+                                    <br>
+                                    <input required id="announcement-heading" type="text" name="announcementHeading" placeholder=" Enter announcement heading ...">
+                                    <br>
+                                    <label for="announcementMessage">Announcement Message</label>
+                                    <br>
+                                    <input required id="announcement-message" type="text" name="announcementMessage" placeholder=" Enter announcement message ...">
+    
+                                    <button id="feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                                </form>
+                                <p id="show-send-announcement-form" class="show-send-announcement-form"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp; add announcement</p>
+      
+                            </div>
+
+                            <div class="leader-feedback-area">
+                                <div class="group-feedback-messages">
+                                    <div class="incomming-feedback">
+                                        <img src="/View/images/dp.png" alt="">
+                                        <div class="incomming-feedback-message">
+                                            <p class="incomming-feedbacks">Hello How are you</p>
+                                            <p class="incomming-time">4.14 PM</p>
+                                        </div>
+                                    </div>
+        
+                                    <div class="outgoing-feedback">
+                                        <p class="outgoing-feedbacks">Hello How are you</p>
+                                        <p class="outgoing-time">4.14 PM</p>
+                                    </div>
+        
+                                </div>
+        
+                                <form id="leader-feedback-form" method="post">
+                                    <label for="feedbackMessage"></label>
+                                    <input type="text" name="feedbackMessage" placeholder=" Type something...">
+                                    <button id="feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                                </form>
+                            </div>
+
                         </div>
                         
                     </div>
@@ -99,7 +169,7 @@
 
                 <div class="member-list">
                     <h3>Group Leader</h3>
-                    <div class="member-card">
+                    <div class="member-card" id="group-leader">
                         <div class="profile-image">
                             <img src="/View/images/dp.png" alt="">
                             <i class="fa fa-circle" aria-hidden="true"></i>
@@ -363,7 +433,9 @@
 
         
     </div>
-
+    <script>
+        var jsonData = JSON.parse('<?= $data; ?>');
+    </script>
     <script src="/View/js/group_leader/groupInfo.js"></script>
     <script src="/View/js/user/logout.js"></script>
     <script src="/View/js/user/calendar.js"></script>
