@@ -572,3 +572,11 @@ select {
     height: 50px;
     z-index: 5;
 }
+.commit-board-div{
+    width: 100%;
+    height: 210px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 140px;
+}
