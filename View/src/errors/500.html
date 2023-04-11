@@ -29,6 +29,10 @@
     <h1>500 Error</h1>
     <p>Sorry, the server encountered an internal error.</p>
     <p>Please try again later or contact the website administrator if the problem persists.</p>
+  
+  <script>
+      var jsonData = JSON.parse('<?= $data; ?>');
+  </script>
   <script src="/View/js/errors/500.js"></script>
 </body>
 </html>

@@ -421,6 +421,7 @@ body{
 .groups a{
 
     text-decoration: none;
+    overflow-x: hidden;
 }
 .groups p{
     /* border: 1px solid black; */
@@ -428,6 +429,7 @@ body{
     height: 35px;
     margin: 6px 20px;
     border-radius: 6px;
+    padding-top: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -437,6 +439,24 @@ body{
     font-weight: 500;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     text-decoration: none;
+    overflow-x: hidden;
+}
+.not-member-group p{
+    width: 160px;
+    height: 35px;
+    margin: 6px 20px;
+    border-radius: 6px;
+    padding-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #415a83;
+    color: #fff;
+    font-weight: 500;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    text-decoration: none;
+    overflow-x: hidden;
 }
 
 .member-list{
@@ -1174,3 +1194,54 @@ div::-webkit-scrollbar {
 }
 
 
+
+
+
+.not-member-warning{
+    display: none;
+    width: 220px;
+    height: 130px;
+    position: absolute;
+    border-radius: 10px;
+    background-color: #fff;
+    /* display: flex; */
+    flex-direction: column;
+    margin-top: -120px;
+    margin-left: -10px;
+}
+.not-member-warning h3{
+    background-color: #f45454;
+    text-align: center;
+    padding: 7px 0;
+    color: #fff;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+.not-member-warning p{
+    color: #555;
+    width: fit-content;
+    height: fit-content;
+    margin: 0px;
+    padding: 12px 0;
+    font-size: 14px;
+    font-weight: 550;
+    text-align: center;
+    align-self: center;
+}
+.not-member-warning button{
+    /* width: 80px; */
+    width: 30px;
+    height: 30px;
+    padding: 8px;
+    align-self: center;
+    background-color: #f45454;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}

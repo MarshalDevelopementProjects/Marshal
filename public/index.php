@@ -49,6 +49,8 @@ $router->get('/projectmember/dashboard', ProjectMemberController::class . '::def
 $router->get('/groupleader/dashboard', GroupLeaderController::class . '::defaultAction');
 $router->post('/groupleader/task', GroupLeaderController::class . '::createTask');
 $router->get('/groupleader/group', GroupLeaderController::class. '::getGroupInfo');
+$router->post('/groupleader/announcement', GroupLeaderController::class. '::addAnnouncement');
+$router->get('/groupmember/announcement', GroupMemberController::class. '::getGroupAnnouncements');
 $router->get('/groupmember/group', GroupMemberController::class . '::getGroupInfo');
 
 $router->get('/groupmember/dashboard', GroupMemberController::class . '::defaultAction');
@@ -57,11 +59,16 @@ $router->get('/projectmember/group', ProjectMemberController::class . '::goToGro
 $router->get('/projectmember/forum', ProjectMemberController::class . '::getForum');
 $router->post('/projectmember/taskfeedback', ProjectMemberController::class. '::sendTaskFeedback');
 $router->get('/projectmember/taskfeedback', ProjectMemberController::class. '::getTaskFeedback');
+$router->post('/groupmember/taskfeedback', GroupMemberController::class. '::sendTaskFeedback');
+$router->get('/groupmember/taskfeedback', GroupMemberController::class. '::getTaskFeedback');
 
 $router->post('/projectmember/pickuptask', ProjectMemberController::class . '::pickupTask');
 $router->post('/projectmember/sendconfirmation', ProjectMemberController::class . '::sendConfirmation');
 $router->post('/projectleader/rearangetask', ProjectLeaderController::class . '::rearangeTask');
 $router->post('/projectleader/assigntask', ProjectLeaderController::class . '::assignTask');
+$router->post('/projectleader/announcement', ProjectLeaderController::class . '::addAnnouncement');
+$router->post('/projectleader/clientfeedback', ProjectLeaderController::class . '::sendMessageToClient');
+$router->get('/projectmember/announcement', ProjectMemberController::class . '::getProjectAnnouncements');
 
 $router->post('/user/logout', UserAuthController::class . '::logout');
 $router->post('/admin/logout', AdminAuthController::class . '::logout');

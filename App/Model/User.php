@@ -93,6 +93,21 @@ class User implements Model
             throw $exception;
         }
     }
+    public function readMember(string $key, string|int $value)
+    {
+        // example format => "SELECT * FROM users WHERE id = :id";
+        $sql_string = "SELECT * FROM `user` WHERE `" . $key . "` = :" . $key;
+        try {
+            $result = $this->crud_util->execute($sql_string, array($key => $value));
+            if ($result->getCount() > 0) {
+                return $result->getFirstResult();
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
     public function getAllUsers(array $args, string $condition)
     {
 

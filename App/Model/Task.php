@@ -68,7 +68,7 @@ class Task implements Model
     public function getTasks(array $args, array $keys){
         $keyCount = count($keys);
 
-        $sql = "SELECT task_name FROM task WHERE ";
+        $sql = "SELECT * FROM task WHERE ";
         for ($i = 0; $i < $keyCount; $i++) {
             $key = $keys[$i];
             $sql .= $key . " = :" . $key;

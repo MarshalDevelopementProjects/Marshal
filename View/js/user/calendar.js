@@ -1,4 +1,45 @@
 // calendor 
+console.log(jsonData['taskDeadlines'])
+// get task deadline dates 
+
+let deadlineDays = {}
+
+jsonData['taskDeadlines'].forEach(deadline => {
+    if(deadlineDays[deadline['deadline']] == undefined){
+        deadlineDays[deadline['deadline']] = [deadline['task_name']];
+    }else{
+        deadlineDays[deadline['deadline']].push(deadline['task_name'])
+    }
+});
+
+function generateDateFormat(date){
+    let currentDate = new Date()
+    let year = currentDate.getFullYear();
+    let month = currentDate.getMonth() + 1;
+
+    let monthStr = month.toString();
+    if(month < 10){
+        monthStr = '0' + month
+    }
+    let temp = year.toString() + '-' + monthStr + '-' + date
+
+    return temp;
+}
+
+function checkDeadine(date){
+    
+    let temp = generateDateFormat(date)
+    if(deadlineDays[temp] == undefined){
+        return false;
+    }else{
+        return true;
+    }
+}
+function getDeadlines(date){
+    let temp = generateDateFormat(date)
+    return deadlineDays[temp];
+}
+
 
 function lastMondayOfMonth(month, year) {
     // Create a new date object set to the last day of the given month and year
@@ -67,8 +108,14 @@ previousMonthBtn.addEventListener('click', function(){
 
     daysTxt.innerHTML = renderDays(year, month, monthState);
 })
+
+
+
+
 const renderDays = (year, month, monthState) => {
 
+    let currentMonth = new Date().getMonth() + 1
+    
     var checkWeek = 0;
     var dayStatus = 'inactive';
     var lastMonthStart = lastMondayOfMonth(month, year);
@@ -93,10 +140,12 @@ const renderDays = (year, month, monthState) => {
             dayNo = 1;
         }
 
+        // console.log(i - (lastMonthEnd - lastMonthStart), i)
+        console.log(monthState)
         if(dayStatus == 'active' && monthState == 0 && i == currentDate.getDate() + (lastMonthEnd - lastMonthStart)){
-            code += `<p class="day today ${dayStatus}">${dayNo}</p>`;
-        }else if(monthState == 0 && i %11 == 1 && dayStatus == 'active'){
-            code += `<p class="day deadline ${dayStatus}">${dayNo}</p>`;
+            code += `<p id="${dayNo}" class="day today ${dayStatus}">${dayNo}</p>`;
+        }else if(dayStatus == 'active' && monthState == 0 && checkDeadine(i - (lastMonthEnd - lastMonthStart))){
+            code += `<p id="${dayNo}" class="day deadline ${dayStatus}">${dayNo}</p>`;
         }
         else{
             code += `<p class="day ${dayStatus}">${dayNo}</p>`;
@@ -124,3 +173,39 @@ const renderCalendar = (year, month) => {
     daysTxt.innerHTML = renderDays(year, month, monthState);
 };
 renderCalendar(year, month);
+
+// set deadline details popup
+
+const deadlineDates = document.querySelectorAll('.deadline'),
+    deadlinePopup = document.querySelector('.deadline-popup'),
+    day = document.querySelector('.day')
+    events = document.querySelector('.events');
+
+deadlineDates.forEach(deadlineDate => {
+    deadlineDate.addEventListener('mouseover', (event) => {
+
+        let date = event.target.id
+        let deadlines = getDeadlines(date)
+        let code = ""
+    
+        if(deadlines){
+            deadlines.forEach(deadline => {
+                code += `<p>${deadline}</p>`
+            });
+        }
+        
+        events.innerHTML = code;
+    
+        const rect = deadlineDate.getBoundingClientRect();
+        deadlinePopup.style.top = rect.bottom;
+        deadlinePopup.style.right = rect.left;
+        
+        // Show the popup
+        deadlinePopup.style.display = 'block';
+    })
+    
+    deadlineDate.addEventListener('mouseout', () => {
+        deadlinePopup.style.display = 'none';
+    })
+    
+});

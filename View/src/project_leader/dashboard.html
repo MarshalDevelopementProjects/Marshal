@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task board</title>
     <link rel="stylesheet" href="/View/styles/project_leader_dashboard.css">
+    <link rel="stylesheet" href="/View/styles/user/notification.css">
+    <link rel="stylesheet" href="/View/styles/project_member/ongoingTaskPopup.css">
+    <link rel="stylesheet" href="/View/styles/project_member/reviewTaskPopup.css">
+    <link rel="stylesheet" href="/View/styles/project_member/todoTaskPopup.css">
+    <link rel="stylesheet" href="/View/styles/user/calendar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
@@ -69,6 +74,14 @@
                         
                     </div>
                 </div>
+                <div class="deadline-popup">
+                    <h3>Events</h3>
+                    <hr>
+                    <div class="events">
+                        <p>Build meeting API</p>
+                        <p>Design UI</p>
+                    </div>
+                </div>
             </div>
 
             <div class="right-panel">
@@ -76,52 +89,118 @@
 
                     <div class="search-box">
                         <input type="text" placeholder="Search your project tasks ...">
-                        <i class="fa fa-filter" aria-hidden="true"></i>
                     </div>
                     <a href="http://localhost/public/projectleader/getinfo"><p id="project-name">Mentcare Web App</p></a>
                 </div>
 
+                
+
                 <div class="TO-DO-task-details">
-                    <div class="top-bar">
-                        <h3>Design UI for login page</h3>
-                        <p class="High">High</p>
+
+                    <div class="todo-top-bar">
+                        <h3></h3>
+                        <p class=""></p>
                     </div>
-                    <p class="task-details-description">Gathering and evaluating user requirements, in collaboration with product managers and engineers. 
+                    <p class="todo-task-details-description"></p>
+                    <p class="todo-task-details-deadline"></p>
 
-                        Illustrating design ideas using storyboards, process flows and sitemaps. Designing graphic user interface elements, like menus, tabs and widgets.</p>
-                    <p class="task-details-deadline">Deadline : 10-01-2023</p>
+                    <div class="todo-task-feedbacks">
+                        <div class="todo-task-feedback-area"></div>
+                        <form action="#" method="post">
+                            <label for="feedbackMessage"></label>
+                            <input type="text" name="feedbackMessage" placeholder="Send something ..." disabled>
+                            <button disabled type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                        </form>
+                    </div>
 
-                    <div class="task-feedbacks">
-                        <div class="task-feedback-messages">
-                            <div class="incomming-feedback">
-                                <div class="incomming-feedback-sender">
-                                    <img src="/View/images/dp.png" alt="">
+                    <div class="buttons">
+                        <input type="text" name="assignedMember" class="assign-member-for-task" placeholder="Assign member ...">
+                        <p id="cancel-todo-task-details">Cancel</p>
+                        <p id="pickup-task-btn">PickUp</p>
+                    </div>
+
+
+                    
+                </div>
+
+                <div class="Ongoing-task-details">
+                    <div class="ongoing-top-bar">
+                        <h3></h3>
+                        <p class=""></p>
+                    </div>
+                    <p class="ongoing-task-details-description"></p>
+                    <p class="ongoing-task-details-deadline"></p>
+
+                    <div class="ongoing-task-feedbacks">
+                        <div id="ongoing-task-feedback-messages" class="ongoing-task-feedback-messages">
+                            <div class="ongoing-incomming-feedback">
+                                <div class="ongoing-incomming-feedback-sender">
+                                    <img src="" alt="">
                                 </div>
-                                <div class="incomming-feedback-message">
-                                    <p class="incomming-feedbacks">Hello How are you</p>
-                                    <p class="incomming-time">4.14 PM</p>
+                                <div class="ongoing-incomming-feedback-message">
+                                    <p class="ongoing-incomming-feedbacks"></p>
+                                    <p class="ongoing-incomming-time"></p>
                                 </div>
                             </div>
 
-                            <div class="outgoing-feedback">
-                                <div class="outgoing-feedback-message">
-                                    <p class="outgoing-feedbacks">Hello How are you</p>
-                                    <p class="outgoing-time">4.14 PM</p>
+                            <div class="ongoing-outgoing-feedback">
+                                <div class="ongoing-outgoing-feedback-message">
+                                    <p class="ongoing-outgoing-feedbacks"></p>
+                                    <p class="ongoing-outgoing-time"></p>
                                 </div>
                             </div>
 
                         </div>
 
                         <form id="ongoing-task-feedback-form" method="post">
-                            <label id="${taskDetails['task_id'].toString()}" for="feedbackMessage"></label>
-                            <input type="text" name="feedbackMessage" placeholder=" Send something ...">
-                            <button id="feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                            <label for="feedbackMessage"></label>
+                            <input id="ongoing-task-feedback-form-input" type="text" name="feedbackMessage" placeholder=" Send task feedback ...">
+                            <button id="ongoing-feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
                         </form>
                         
                     </div>
                     <div class="buttons">
-                        <a id="cancel-task-details" href="#">Cancel</a>
-                        <a href="#">PickUp</a>
+                        <p id="cancel-ongoing-task-details">Cancel</p>
+                        <p id="finishTaskBtn">Finish</p>
+                    </div>
+                </div>
+
+                <div class="Review-task-details">
+                    <div class="review-top-bar">
+                        <h3></h3>
+                        <p class=""></p>
+                    </div>
+                    <p class="review-task-details-description"></p>
+                    <p class="review-task-details-deadline"></p>
+
+                    <div class="review-task-feedbacks">
+                        <div class="review-task-feedback-messages">
+                            <div class="review-incomming-feedback">
+                                <div class="review-incomming-feedback-sender">
+                                    <img src="/View/images/dp.png" alt="">
+                                </div>
+                                <div class="review-incomming-feedback-message">
+                                    <p class="review-incomming-feedbacks"></p>
+                                    <p class="review-incomming-time"></p>
+                                </div>
+                            </div>
+
+                            <div class="review-outgoing-feedback">
+                                <div class="review-outgoing-feedback-message">
+                                    <p class="review-outgoing-feedbacks"></p>
+                                    <p class="review-outgoing-time"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <form id="review-task-feedback-form" method="post">
+                            <label for="feedbackMessage"></label>
+                            <input id="review-task-feedback-form-input" type="text" name="feedbackMessage" placeholder=" Send task feedback ...">
+                            <button id="review-feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                        </form>
+                    </div>
+                    <div class="buttons">
+                        <p id="completedMessage"></p>
+                        <p id="continueBtn" style="margin-left: 100px">Continue</p>
                     </div>
                 </div>
 
@@ -171,30 +250,7 @@
                         
                         <div class="tasks">
                             
-                            <div class="task" draggable="true">
-                                <div class="top-task">
-                                    <h4>Develop API 1</h4>
-                                    <p>High</p>
-                                </div>
-                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
-                                <p class="deadline">13-11-2022</p>
-                            </div>
-                            <div class="task" draggable="true">
-                                <div class="top-task">
-                                    <h4>Develop API 2</h4>
-                                    <p>High</p>
-                                </div>
-                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
-                                <p class="deadline">13-11-2022</p>
-                            </div>
-                            <div class="task" draggable="true">
-                                <div class="top-task">
-                                    <h4>Develop API 3</h4>
-                                    <p>High</p>
-                                </div>
-                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
-                                <p class="deadline">13-11-2022</p>
-                            </div>
+                            
                             <div class="task" draggable="true">
                                 <div class="top-task">
                                     <h4>Develop API 4</h4>
@@ -203,14 +259,7 @@
                                 <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
                                 <p class="deadline">13-11-2022</p>
                             </div>
-                            <div class="task" draggable="true">
-                                <div class="top-task">
-                                    <h4>Develop API 5</h4>
-                                    <p>High</p>
-                                </div>
-                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
-                                <p class="deadline">13-11-2022</p>
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="ongoing board">
@@ -224,14 +273,7 @@
                                 <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
                                 <p class="deadline">13-11-2022</p>
                             </div>
-                            <div class="task" draggable="true">
-                                <div class="top-task">
-                                    <h4>Develop API 7</h4>
-                                    <p>High</p>
-                                </div>
-                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
-                                <p class="deadline">13-11-2022</p>
-                            </div>
+                            
                             
                         </div>
                     </div>
@@ -246,14 +288,7 @@
                                 <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
                                 <p class="deadline">13-11-2022</p>
                             </div>
-                            <div class="task" draggable="true">
-                                <div class="top-task">
-                                    <h4>Develop API 7</h4>
-                                    <p>High</p>
-                                </div>
-                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
-                                <p class="deadline">13-11-2022</p>
-                            </div>
+                            
                             
                         </div>
                     </div>
@@ -268,22 +303,7 @@
                                 <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
                                 <p class="deadline">13-11-2022</p>
                             </div>
-                            <div class="task" draggable="true">
-                                <div class="top-task">
-                                    <h4>Develop API 8</h4>
-                                    <p>High</p>
-                                </div>
-                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
-                                <p class="deadline">13-11-2022</p>
-                            </div>
-                            <div class="task" draggable="true">
-                                <div class="top-task">
-                                    <h4>Develop API 9</h4>
-                                    <p>High</p>
-                                </div>
-                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
-                                <p class="deadline">13-11-2022</p>
-                            </div>
+                            
                             
                         </div>
                     </div>
@@ -305,8 +325,57 @@
                 </div>
 
             </div>
+            <div class="search-results"></div>
 
         </div>
+
+        <div class="notification-popup-container">
+            <div class="notification-popup">
+                <div class="notification-popup-top">
+                    <h3>Notifications</h3>
+                    <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
+                </div>
+                <div class="notifications">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="create-project-container">
+            <div class="create-project-popup">
+                <div class="create-project-top">
+                    <div class="create-project-header">
+                        <h3>Let's create a workspace.</h3>
+                        <p>Make it simpler for everyone to access boards in one place to increase productivity.</p>
+                    </div>
+                    <i class="fa fa-times create-project-popup-close" aria-hidden="true"></i>
+                </div>
+                <div class="create-project-details">
+                    <div class="create-project-form">
+                        <form action="http://localhost/public/user/projects" method="post">
+                            <label for="projec_name">Project Name</label>
+                            <br>
+                            <input type="text" name="project_name" placeholder="Enter project name ...">
+                            <br>
+                            <p>Your business, group, or organization's name is here.</p>
+
+                            <label for="field">Project Type</label>
+                            <br>
+                            <input type="text" name="field" placeholder="Enter project type ...">
+
+                            <br>
+                            <label for="description">Project Description</label>
+                            <br>
+                            <input type="text" id="description" name="description" placeholder="Please enter something on your project ... ">
+
+                            <br>
+                            <button type="submit">CREATE</button>
+                        </form>
+                    </div>
+                    <img src="/View/images/project_create.png" alt="project_create">
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -317,60 +386,10 @@
     <script src="/View/js/user/calendar.js"></script>
     <script src="/View/js/user/createProject.js"></script>
     <script src="/View/js/user/sidebar.js"></script>
+    <script src="/View/js/user/notification.js"></script>
+
 </body>
 </html>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/View/styles/styles_less.css" />
-    <link rel="stylesheet" href="/View/styles/landing.css" />
-    <title>Marshal</title>
-</head>
-
-<body>
-    <nav class="navbar">
-        
-        <div class="logo">MARSHAL</div>
-        
-        <ul class="nav-links" list-style-type="none">
-            <div class="menu">
-                
-                <a href="http://localhost/public/projectleader/getinfo">Get Info</a>
-                <button id="create-project-btn">Create new project</button>
-                <button id="log-out-btn">Log Out</button>
-            </div>
-        </ul>
-    </nav>
-
-    <p>This is the project landing page of a project leader</p>
-
-    <script>
-        var jsonData = JSON.parse('<?= $data; ?>');
-    </script>
-    <script src="/View/js/project_leader/dashboard.js"></script>
-    
-</body>
-
-</html> -->

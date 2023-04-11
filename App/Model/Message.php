@@ -122,4 +122,30 @@ class Message implements Model
             throw $exception;
         }
     }
+
+    public function getAnnouncementHeading($condition, $table):object|array|bool
+    {
+        $sql = "SELECT heading FROM " . $table . " WHERE " . $condition;
+        try {
+            $result = $this->crud_util->execute($sql);
+            if ($result->getCount() > 0) {
+                return $result->getFirstResult();
+            } else {
+                return array();
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function deleteMessage(string $condition, string $table){
+        $sql = "DELETE FROM " .$table . " " . $condition;
+
+        try {
+            $this->crud_util->execute($sql);
+            return true;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }

@@ -6,6 +6,7 @@ use App\Controller\Authenticate\UserAuthController;
 use App\Controller\User\UserController;
 use App\Controller\Group\GroupController;
 use App\Controller\Message\MessageController;
+use App\Controller\Notification\NotificationController;
 use App\Model\ProjectMember;
 use App\Model\Notification;
 use App\Model\Task;
@@ -42,9 +43,14 @@ class ProjectMemberController extends UserController
     public function pickupTask(){
 
         $data = json_decode(file_get_contents('php://input'));
+
         $payload = $this->userAuth->getCredentials();
         $project_id = $_SESSION["project_id"];
         $user_id = $payload->id;
+
+        $task = new Task();
+        $project = new Project($user_id);
+        $notification = new Notification();
 
         $args = array(
             "status" => "ONGOING",
@@ -55,7 +61,6 @@ class ProjectMemberController extends UserController
         $updates = array("status", "memberId");
         $conditions = array("project_id", "task_name");
 
-        $task = new Task();
         $message = "";
 
         try {
@@ -65,33 +70,38 @@ class ProjectMemberController extends UserController
             // send notification to leader
             $date = date("Y-m-d H:i:s");
 
-            // now we have to send a notification as well 
+            // // now we have to send a notification as well 
             $notificationArgs = array(
                 "projectId" => $project_id,
                 "message" => "I pickup ". $data->task_name . ".",
                 "type" => "notification",
                 "senderId" => $user_id,
-                "sendTime" => $date
+                "sendTime" => $date,
+                "url" => "http://localhost/public/user/project?id=" . $project_id
             );
-            $notification = new Notification();
-            $notification->createNotification($notificationArgs);
+            $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
             
             $notifyConditions = array(
                 "projectId" => $project_id,
                 "senderId" => $user_id,
                 "sendTime" => $date
             );
-            $newNotification = $notification->getNotificationData($notifyConditions);
-            $newNotificationId = $newNotification[0]->id;
+            $newNotification = $notification->getNotification($notifyConditions, array("projectId", "senderId", "sendTime"));
+
+            $thisProject = $project->getProject(array('id' => $project_id));
 
             $notifyMemberArgs = array(
-                "notificationId" => $newNotificationId,
-                "memberId" => 1
+                "notificationId" => $newNotification->id,
+                "memberId" => $thisProject->created_by
             );
-            $notification->setNotifiedMembers($notifyMemberArgs);
+            $notification->setNotifiers($notifyMemberArgs, array("notificationId", "memberId"));
 
+            // set task refference 
+            $pickupedTask = $task->getTask(array("project_id" => $project_id, "task_name" => $data->task_name), array("project_id","task_name"));
+            $notification->addTaskRefference(array("notification_id" => $newNotification->id, "task_id" => $pickupedTask->task_id), array("notification_id", "task_id"));
         } catch (\Throwable $th) {
-            $message = "Failed to pick up";
+            $message = "Failed to pick up | " . $th->getMessage();
+            // throw $th;
         }
 
         $this->sendJsonResponse(
@@ -106,11 +116,17 @@ class ProjectMemberController extends UserController
         $data = json_decode(file_get_contents('php://input'));
 
         $projectId = $_SESSION['project_id'];
+        $payload = $this->userAuth->getCredentials();
+        $user_id = $payload->id;
+
+        $task = new Task();
+        $notification = new Notification();
+        $project = new Project($user_id);
+
         $taskArgs = array(
             "project_id" => $projectId,
             "task_name" => $data->task_name
         );
-        $task = new Task();
         $taskData = $task->getTask($taskArgs, array("project_id", "task_name"));
         // $taskData = $task->getTask($taskArgs);
 
@@ -135,7 +151,43 @@ class ProjectMemberController extends UserController
         );
         $task->updateTask($args, array("status"), array("project_id", "task_name"));
 
-        // send notification to infor the project leader 
+        // send notification to infor the project leader
+        try {
+            $date = date("Y-m-d H:i:s");
+
+            // // now we have to send a notification as well 
+            $notificationArgs = array(
+                "projectId" => $projectId,
+                "message" => $data->confirmation_message,
+                "type" => "notification",
+                "senderId" => $user_id,
+                "sendTime" => $date,
+                "url" => "http://localhost/public/user/project?id=" . $projectId
+            );
+            $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
+            
+            $notifyConditions = array(
+                "projectId" => $projectId,
+                "senderId" => $user_id,
+                "sendTime" => $date
+            );
+            $newNotification = $notification->getNotification($notifyConditions, array("projectId", "senderId", "sendTime"));
+
+            $thisProject = $project->getProject(array('id' => $projectId));
+
+            $notifyMemberArgs = array(
+                "notificationId" => $newNotification->id,
+                "memberId" => $thisProject->created_by
+            );
+            $notification->setNotifiers($notifyMemberArgs, array("notificationId", "memberId"));
+
+            // set task refference 
+            $completedTask = $task->getTask(array("project_id" => $projectId, "task_name" => $data->task_name), array("project_id","task_name"));
+            $notification->addTaskRefference(array("notification_id" => $newNotification->id, "task_id" => $completedTask->task_id), array("notification_id", "task_id"));
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
         
         $this->sendJsonResponse(
             status: "success",
@@ -198,6 +250,8 @@ class ProjectMemberController extends UserController
                         }
                         $groupData['userDetails'] = $userData->profile_picture;
                         $groupData['projectDetails'] = $project->getProject(array("id" => $_SESSION['project_id']))->project_name;
+
+                        $groupData += parent::getTaskDeadlines();
 
                         $this->sendResponse(
                             view: "/group_leader/dashboard.html",
@@ -264,17 +318,27 @@ class ProjectMemberController extends UserController
 
         $group = new Group();
         $groups = $group->getAllGroups(array("project_id" => $project_id), array("project_id"));
+        foreach($groups as $groupData){
+            if($group->getGroupMember(array("group_id" => $groupData->id, "member_id" => $user_id), array("group_id", "member_id"))){
+                $groupData->hasAccess = true;
+            }else {
+                $groupData->hasAccess = false;
+            }
+        }
 
         $user = new User();
         $data = array("groups" => $groups, "projectData" => $project->getProject(array("id" => $project_id)));
 
         // get project members' details
-        $projectMemberCondition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id AND role = :role)";
+        $projectLeaderCondition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id AND role = :role)";
+        $projectMemberCondition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id)";
         $groupLeaderCondition = "WHERE id IN (SELECT DISTINCT leader_id FROM groups WHERE project_id = :project_id)";
 
-        $data['projectLeader'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "LEADER"), $projectMemberCondition);
-        $data['projectMembers'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "MEMBER"), $projectMemberCondition);
+        $data['projectLeader'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "LEADER"), $projectLeaderCondition);
+        $data['projectMembers'] = $user->getAllUsers(array("project_id" => $project_id), $projectMemberCondition);
         $data['groupLeaders'] = $user->getAllUsers(array("project_id" => $project_id), $groupLeaderCondition);
+
+        $data += parent::getTaskDeadlines();
 
         $this->sendResponse(
             view: "/project_member/getProjectInfo.html",
@@ -288,8 +352,11 @@ class ProjectMemberController extends UserController
 
         $successMessage = "";
         $payload = $this->userAuth->getCredentials();
+
         $messageController = new MessageController();
         $message = new Message();
+        $task = new Task();
+        $project = new Project($payload->id);
 
         $date = date('Y-m-d H:i:s');
         $args = array(
@@ -302,7 +369,6 @@ class ProjectMemberController extends UserController
             $messageController->send($args, array("sender_id", "stamp", "message_type", "msg"));
 
             $newMessage = $message->getMessage(array("sender_id" => $payload->id, "stamp" => $date, "message_type" => "PROJECT_TASK_FEEDBACK_MESSAGE"), array("sender_id", "stamp", "message_type"));
-            // var_dump($newMessage);
             $messageTypeArgs = array(
                 "message_id" => $newMessage->id,
                 "project_id" => $_SESSION['project_id'],
@@ -312,10 +378,50 @@ class ProjectMemberController extends UserController
             $message->setMessageType($messageTypeArgs, array("message_id", "project_id", "task_id"), "project_task_feedback_message");
             $successMessage = "Message sent successfully";
         } catch (\Throwable $th) {
-            // $successMessage = "Message sent failed";
-            throw $th;
+            $successMessage = "Message sent failed | " . $th->getMessage();
         }
 
+        // set the reciver of the message
+        $thisProject = $project->getProject(array('id' => $_SESSION['project_id']));
+        $reciverId = $thisProject->created_by;
+
+        $thisTask = $task->getTask(array("task_id" => $data->task_id), array("task_id"));
+        if($thisTask->memberId != $payload->id){
+            $reciverId = $thisTask->memberId;
+        }
+        // send notification to reciever
+        try {
+            $notification = new Notification();
+            $date = date("Y-m-d H:i:s");
+
+            // // now we have to send a notification as well 
+            $notificationArgs = array(
+                "projectId" => $_SESSION['project_id'],
+                "message" => $data->feedbackMessage,
+                "type" => "notification",
+                "senderId" => $payload->id,
+                "sendTime" => $date,
+                "url" => "http://localhost/public/user/project?id=" . $_SESSION['project_id']
+            );
+            $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
+            
+            $notifyConditions = array(
+                "projectId" => $_SESSION['project_id'],
+                "senderId" => $payload->id,
+                "sendTime" => $date
+            );
+            $newNotification = $notification->getNotification($notifyConditions, array("projectId", "senderId", "sendTime"));
+
+            $notifyMemberArgs = array(
+                "notificationId" => $newNotification->id,
+                "memberId" => $reciverId
+            );
+            $notification->setNotifiers($notifyMemberArgs, array("notificationId", "memberId"));
+            $notification->addTaskRefference(array("notification_id" => $newNotification->id, "task_id" => $data->task_id), array("notification_id", "task_id"));
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
         $this->sendJsonResponse(
             status: "success",
             content: [
@@ -330,7 +436,7 @@ class ProjectMemberController extends UserController
             $task_id = $_GET['task'];
             $messageController = new MessageController();
 
-            $condition = "id IN(SELECT message_id FROM project_task_feedback_message WHERE task_id =" . $task_id . " AND project_id = " . $_SESSION['project_id'] .") ORDER BY `stamp` LIMIT 100 ";
+            $condition = "id IN(SELECT message_id FROM `project_task_feedback_message` WHERE task_id =" . $task_id . " AND project_id = " . $_SESSION['project_id'] .") ORDER BY `stamp` LIMIT 100";
             $feedbackMessages = $messageController->recieve($condition);
 
             foreach ($feedbackMessages as $feedback) {
@@ -354,7 +460,32 @@ class ProjectMemberController extends UserController
                 ]
             );
         } catch (\Throwable $th) {
-            var_dump($th);
+            throw $th;
         }
+    }
+    public function getProjectAnnouncements(){
+        $messageController = new MessageController();
+        $message = new Message();
+        $user = new User();
+
+        $condition = "id IN(SELECT message_id FROM `project_announcement` WHERE project_id = " . $_SESSION['project_id'] .") ORDER BY `stamp` LIMIT 100";
+    
+        $announcements = $messageController->recieve($condition);
+        foreach($announcements as $announcement){
+            // add sender profile and announcement heading
+            $sender = $user->readMember("id", $announcement->sender_id);
+            $announcement->profile = $sender->profile_picture;
+
+            $headingCondition = "project_id = " . $_SESSION['project_id'] . " AND message_id = " . $announcement->id;
+            $announcement->heading = $message->getAnnouncementHeading($headingCondition, 'project_announcement')->heading;
+            $announcement->senderType = 'project leader';
+        }
+        
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => $announcements
+            ]
+        );
     }
 }

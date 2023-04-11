@@ -18,81 +18,130 @@ class Notification implements Model
         }
     }
 
-    public function createNotification(array $args = array()){
-        if (!empty($args)) {
-            $sql_string = "INSERT INTO notifications(`projectId`, `message`, `type`, `senderId`, `sendTime`) VALUES (:projectId, :message, :type, :senderId, :sendTime)";
-
-            try {
-                $this->crud_util->execute($sql_string, $args);
-                
-                return true;
-            } catch (\Exception $exception) {
-                throw $exception;
-            }
-        }
-        return false;
-    }
-    public function setNotifiedMembers(array $args = array()){
-        if (!empty($args)) {
-            $sql_string = "INSERT INTO notification_recievers(`notificationId`, `memberId`) VALUES (:notificationId, :memberId)";
-
-            try {
-                $this->crud_util->execute($sql_string, $args);
-
-                return true;
-            } catch (\Exception $exception) {
-                throw $exception;
-            }
-        }
-        return false;
-    }
-
-    public function getNotificationData(array $conditions = array()){
-        $sql_string = "SELECT * FROM notifications";
-        if($conditions != []){
-
-            $sql_string .= " WHERE ";
-            $keys = array_keys($conditions);
-
-            for($i = 0; $i < count($keys); $i++){
-                $sql_string .= $keys[$i] . ' = :' . $keys[$i];
-                if($i != count($conditions) - 1){
-                    $sql_string .= ' AND ';
-                }
-            }
-        }
-
-        $result = $this->crud_util->execute($sql_string, $conditions);
-        if ($result->getCount() > 0) {
-            return $result->getResults();
-        } else {
-            return false;
-        }   
-    }
-
-    public function getNotificationsOfUser(array $args = array()){
-        $sql_string = "SELECT * FROM notifications WHERE id IN 
-        (SELECT notificationId FROM notification_recievers WHERE memberId = :memberId AND isRead = 0)";
-
-        $result = $this->crud_util->execute($sql_string, $args);
-        if ($result->getCount() > 0) {
-            return $result->getResults();
-        } else {
-            return false;
-        }   
-    }
-
-    public function getNotificationProjectDetails(array $args = array())
+    public function create(array $args, array $keys, string $table): bool
     {
-        $sql_string = "SELECT * project WHERE id = :id";
+        $keyCount = count($keys);
 
-        $result = $this->crud_util->execute($sql_string, $args);
-        if ($result->getCount() > 0) {
-            return $result->getResults();
-        } else {
-            return false;
-        }   
+        $sql = "INSERT INTO " . $table . " (";
+
+        for ($i = 0; $i < $keyCount; $i++) {
+            $key = $keys[$i];
+            $sql .= '`' . $key . '`';
+
+            if ($i != $keyCount - 1) {
+                $sql .= ", ";
+            }
+        }
+        $sql .= ") VALUES (";
+        for ($i = 0; $i < $keyCount; $i++) {
+            $key = $keys[$i];
+            $sql .= ':' . $key;
+
+            if ($i != $keyCount - 1) {
+                $sql .= ", ";
+            }
+        }
+        $sql .= ')';
+        // var_dump($sql);
+        try {
+            $this->crud_util->execute($sql, $args);
+            return true;
+        } catch (\Exception $exception) {
+            // return false;
+            throw $exception;
+        }
     }
+
+    public function createNotification(array $args, array $keys):bool
+    {
+        try {
+            $this->create($args, $keys, 'notifications');
+            return true;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addTaskRefference(array $args, array $keys):bool{
+        try {
+            $this->create($args, $keys, 'task_notification');
+            return true;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addMessageRefference(array $args, array $keys):bool{
+        try {
+            $this->create($args, $keys, 'message_notification');
+            return true;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function setNotifiers(array $args, array $keys):bool{
+
+        try {
+            $this->create($args, $keys, 'notification_recievers');
+            return true;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function getNotification(array $args, array $keys): object|bool|array
+    {
+        $keyCount = count($keys);
+
+        $sql = "SELECT * FROM notifications WHERE ";
+        for ($i = 0; $i < $keyCount; $i++) {
+            $key = $keys[$i];
+            $sql .= $key . " = :" . $key;
+
+            if ($i != $keyCount - 1) {
+                $sql .= " AND ";
+            }
+        }
+
+        try {
+            $result = $this->crud_util->execute($sql, $args);
+            if ($result->getCount() > 0) {
+                return $result->getFirstResult();
+            } else {
+                return array();
+            }
+        } catch (\Exception $exception) {
+            return array();
+        }
+    }
+
+    public function getNotifications($condition){
+        $sql  = "SELECT * FROM notifications " . $condition;
+
+        try {
+            $result = $this->crud_util->execute($sql);
+            if ($result->getCount() > 0) {
+                return $result->getResults();
+            } else {
+                return array();
+            }
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
+    public function deleteNotification(string $condition, string $table){
+        $sql = "DELETE FROM " .$table . " " . $condition;
+
+        try {
+            $this->crud_util->execute($sql);
+            return true;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+
 
     public function readNotification(array $args = array()){
 
