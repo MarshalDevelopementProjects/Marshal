@@ -130,7 +130,7 @@ class ProjectLeader implements Model
         // get all the messages in a project forum
         try {
             // $sql_string = "SELECT * FROM `message` WHERE `id` in (SELECT `message_id` FROM `project_message` WHERE `project_id` = :project_id)";
-            $sql_string  = "SELECT m.*, u.`profile_picture` AS `sender_profile_picture` FROM `message` m JOIN `user` u ON m.`sender_id` = u.`id` JOIN `project_message` pm ON m.`id` = pm.`message_id` WHERE pm.`project_id` = :project_id ORDER BY m.stamp";
+            $sql_string  = "SELECT m.*, u.`profile_picture` AS `sender_profile_picture` , u.`username` AS `sender_username` FROM `message` m JOIN `user` u ON m.`sender_id` = u.`id` JOIN `project_message` pm ON m.`id` = pm.`message_id` WHERE pm.`project_id` = :project_id ORDER BY m.stamp";
             $this->crud_util->execute($sql_string, array("project_id" => $this->project_data->id));
             if (!$this->crud_util->hasErrors()) {
                 $this->message_data = $this->crud_util->getResults();
