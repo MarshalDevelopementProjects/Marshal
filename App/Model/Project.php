@@ -11,7 +11,7 @@ class Project implements Model
     private CrudUtil $crud_util;
     private Object|array $project_data; // object or an array of object 
 
-    public function __construct(private string|int $member_id, string|int $project_id = null)
+    public function __construct(string|int $member_id = null, string|int $project_id = null)
     {
         try {
             $this->crud_util = new CrudUtil();
@@ -162,5 +162,108 @@ class Project implements Model
     public function getProjectData()
     {
         return $this->project_data;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function getAllMembersOfProject(string|int $project_id): bool
+    {
+        return false;
     }
 }
