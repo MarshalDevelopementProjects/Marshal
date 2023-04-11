@@ -1,10 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <style>
+        #videos{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2em;
+        }
+
+        .video-player{
+            background-color: black;
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+    <title>MDN Doc WebRTC</title>
 </head>
 <body>
-$END$
+
+<div id="controls">
+    <div>
+        <form id="connection-form">
+
+            <label for="localUsername">Enter your username:</label>
+            <input type="text" id="localUsername" name="localUsername">
+
+            <label for="remoteUsername">Enter your caller's username:</label>
+            <input type="text" id="remoteUsername" name="remoteUsername">
+
+            <button type="submit">Connect</button>
+
+        </form>
+
+    </div>
+    <button id="hangup" disabled onclick="hangUpCall();">Hang up</button>
+</div>
+
+<div id="videos">
+    <video id="local-video" class="video-player" autoplay playsinline muted></video>
+    <video id="remote-video"  class="video-player" autoplay playsinline muted></video>
+</div>
+<script src="/View/js/user/meeting.js"></script>
 </body>
 </html>
