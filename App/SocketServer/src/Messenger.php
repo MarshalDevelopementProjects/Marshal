@@ -102,10 +102,6 @@ class Messenger implements MessageComponentInterface
                             }
                             $this->channels[$args["category"]][$args["route"]][$args["group"]]["clients"]->attach($conn);
                             $this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"]++;
-                            /*var_dump(array_keys($this->channels[$args["category"]][$args["route"]]));
-                       var_dump(array_keys($this->channels[$args["category"]][$args["route"]]));
-                       var_dump(array_keys($this->channels[$args["category"]][$args["route"]][$args["group"]]));
-                       var_dump($this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"]);*/
                         }
                         break;
                     case "tasks": {
@@ -219,19 +215,16 @@ class Messenger implements MessageComponentInterface
             case "projects": {
                     $this->channels[$args["category"]][$args["route"]][$args["project"]]["clients"]->detach($conn);
                     $this->channels[$args["category"]][$args["route"]][$args["project"]]["client_count"]--;
-                    //var_dump($this->channels[$args["category"]][$args["route"]][$args["project"]]["client_count"]);
                 }
                 break;
             case "groups": {
                     $this->channels[$args["category"]][$args["route"]][$args["group"]]["clients"]->detach($conn);
                     $this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"]--;
-                    // var_dump($this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"]);
                 }
                 break;
             case "tasks": {
                     $this->channels[$args["category"]][$args["route"]][$args["task"]]["clients"]->detach($conn);
                     $this->channels[$args["category"]][$args["route"]][$args["task"]]["client_count"]--;
-                    // var_dump($this->channels[$args["category"]][$args["route"]][$args["task"]]["client_count"]);
                 }
                 break;
         }
