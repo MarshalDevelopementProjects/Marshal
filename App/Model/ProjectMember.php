@@ -10,7 +10,9 @@ class ProjectMember implements Model
 {
     private CrudUtil $crud_util;
     private array|object $project_data;
+    private array|object $project_member_data;
     private array|object|null $message_data = null;
+
 
     public function __construct(string|int $project_id)
     {
@@ -24,6 +26,242 @@ class ProjectMember implements Model
             throw $exception;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /*
      *
@@ -73,7 +311,7 @@ class ProjectMember implements Model
             // use a join between the messages table and the project table where ids are equal
             try {
                 // $sql_string = "SELECT * FROM `message` WHERE `id` in (SELECT `message_id` FROM `project_message` WHERE `project_id` = :project_id)";
-                $sql_string  = "SELECT m.*, u.`profile_picture` AS `sender_profile_picture` FROM `message` m JOIN `user` u ON m.`sender_id` = u.`id` JOIN `project_message` pm ON m.`id` = pm.`message_id` WHERE pm.`project_id` = :project_id ORDER BY m.stamp";
+                $sql_string  = "SELECT m.*, u.`profile_picture` AS `sender_profile_picture` , u.`username` AS `sender_username` FROM `message` m JOIN `user` u ON m.`sender_id` = u.`id` JOIN `project_message` pm ON m.`id` = pm.`message_id` WHERE pm.`project_id` = :project_id ORDER BY m.stamp";
                 $this->crud_util->execute($sql_string, array("project_id" => $this->project_data->id));
                 if (!$this->crud_util->hasErrors()) {
                     $this->message_data = $this->crud_util->getResults();
@@ -168,6 +406,36 @@ class ProjectMember implements Model
         } catch (\Exception $exception) {
             throw $exception;
         }
+    }
+
+    public function getProjectMembers(): bool
+    {
+        try {
+            $sql_string = "SELECT `user`.`username` AS `username`,
+                           `user`.user_status AS `status`,
+                           `user`.user_state AS `state`,
+                           `user`.profile_picture AS `profile_picture`,
+                           `project_join`.role AS `role`
+                            FROM `user`
+                            INNER JOIN
+                           `project_join` ON
+                           `project_join`.`project_id` = :project_id AND 
+                           `user`.`id` = `project_join`.`member_id`";
+            $this->crud_util->execute($sql_string, ["project_id" => $this->project_data->id]);
+            if (!$this->crud_util->hasErrors()) {
+                $this->project_member_data = $this->crud_util->getResults();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function getProjectMemberData(): array|null|object|bool
+    {
+        return $this->project_member_data;
     }
 
     public function getProjectData(): array|object|null|bool
