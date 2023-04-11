@@ -6,9 +6,9 @@
  *      then sort based on the priority of the task
 */
 
-todoBoard = document.querySelector('.todo .tasks'),
-ongoingBoard = document.querySelector('.ongoing .tasks'),
-reviewBoard = document.querySelector('.review .tasks'),
+todoBoard = document.querySelector('.todo .tasks');
+ongoingBoard = document.querySelector('.ongoing .tasks');
+reviewBoard = document.querySelector('.review .tasks');
 doneBoard = document.querySelector('.done .tasks');
 
 var todoTasks = jsonData['todoTasks'];
