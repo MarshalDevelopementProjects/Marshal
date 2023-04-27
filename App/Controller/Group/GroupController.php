@@ -42,7 +42,7 @@ class GroupController
                         $todoTasks[] = $task;
                         break;
                     case 'ONGOING':
-                        $userData = $user->readUser("id", $task->memberId);
+                        $userData = $user->readUser("id", $task->member_id);
                         $userData = $user->getUserData();
 
                         $task->profile = $userData->profile_picture;
@@ -51,7 +51,7 @@ class GroupController
                         $ongoingTasks[] = $task;
                         break;
                     case 'REVIEW':
-                        $userData = $user->readUser("id", $task->memberId);
+                        $userData = $user->readUser("id", $task->member_id);
                         $userData = $user->getUserData();
 
                         $task->profile = $userData->profile_picture;
@@ -60,14 +60,14 @@ class GroupController
                         // get completed data
 
                         // $taskData = $newTask->getTask(array("project_id" => $_SESSION['project_id'], "task_name" => "Build API")); 
-                        $completedData = $newTask->getTaskCompletedDetails(array("taskId" => $task->task_id));
+                        $completedData = $newTask->getTaskCompletedDetails(array("task_id" => $task->task_id));
                         $task->completeTime = $completedData->date . ' ' . $completedData->time;
                         $task->confirmationMessage = $completedData->confirmation_message;
 
                         $reviewTasks[] = $task;
                         break;
                     case 'DONE':
-                        $userData = $user->readUser("id", $task->memberId);
+                        $userData = $user->readUser("id", $task->member_id);
                         $userData = $user->getUserData();
 
                         $task->profile = $userData->profile_picture;

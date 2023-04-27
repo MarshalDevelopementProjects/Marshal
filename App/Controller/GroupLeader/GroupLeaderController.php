@@ -72,9 +72,9 @@ class GroupLeaderController extends ProjectMemberController
                         $args = array(
                             "message" => "You are assigned to " . $args['taskname'] . " by project leader",
                             "type" => "notification",
-                            "senderId" => $user_id,
+                            "sender_id" => $user_id,
                             "url" => "Location: http://localhost/public/projectmember/group?id=" . $_SESSION['group_id'],
-                            "reciveId" => $receivedUser->id
+                            "recive_id" => $receivedUser->id
                         );
                         
                         $notificationId = $notificationController->setNotification($args);
@@ -196,9 +196,9 @@ class GroupLeaderController extends ProjectMemberController
                 $args = array(
                     "message" => $data->announcementHeading,
                     "type" => "notification",
-                    "senderId" => $payload->id,
+                    "sender_id" => $payload->id,
                     "url" => "http://localhost/public/projectmember/group?id=" . $_SESSION['group_id'],
-                    "reciveId" => null
+                    "recive_id" => null
                 );
                 
                 $notificationId = $notificationController->setNotification($args);

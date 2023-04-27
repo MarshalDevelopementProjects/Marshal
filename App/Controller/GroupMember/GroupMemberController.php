@@ -150,8 +150,8 @@ class GroupMemberController extends ProjectMemberController
         $reciverId = $thisGroup->leader_id;
 
         $thisTask = $task->getTask(array("task_id" => $data->task_id), array("task_id"));
-        if($thisTask->memberId != $payload->id){
-            $reciverId = $thisTask->memberId;
+        if($thisTask->member_id != $payload->id){
+            $reciverId = $thisTask->member_id;
         }
         // send notification to reciever
         if($payload->id != $reciverId){
@@ -162,9 +162,9 @@ class GroupMemberController extends ProjectMemberController
                 $args = array(
                     "message" => $data->feedbackMessage,
                     "type" => "notification",
-                    "senderId" => $payload->id,
+                    "sender_id" => $payload->id,
                     "url" => "http://localhost/public/projectmember/group?id=" . $_SESSION['group_id'],
-                    "reciveId" => $reciverId
+                    "recive_id" => $reciverId
                 );
                 
                 $notificationId = $notificationController->setNotification($args);
