@@ -1,0 +1,38 @@
+{
+  "table" : "conference",
+  "conf_name": {
+    "required": true,
+    "min": 4,
+    "max": 255
+  },
+  "project_id": {
+    "required": true,
+    "exists": {
+      "table": "project",
+      "field": "id"
+    }
+  },
+  "leader_id": {
+    "required": true,
+    "exists": {
+      "table": "user",
+      "field": "id"
+    }
+  },
+  "client_id": {
+    "required": true,
+    "exists": {
+      "table": "user",
+      "field": "id"
+    }
+  },
+  "on": {
+    "required": true,
+    "date": {
+      "if_eq_time": "at"
+    }
+  },
+  "at": {
+    "required": true
+  }
+}

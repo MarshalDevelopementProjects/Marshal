@@ -1,0 +1,13 @@
+{
+  "conf_id": {
+    "required": true,
+    "exists": {
+      "table": "conference",
+      "field": "conf_id"
+    }
+  },
+  "status": {
+    "required": true,
+    "enum": ["PENDING", "DONE", "CANCELLED", "OVERDUE"]
+  }
+}
