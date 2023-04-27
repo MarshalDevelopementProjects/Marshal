@@ -9,7 +9,10 @@ use App\Model\Notification;
 use App\Model\User;
 use App\Model\Task;
 use App\Model\Group;
+use App\Controller\Conference\ConferenceController;
 use Exception;
+use http\Message;
+use Ratchet\App;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -17,6 +20,7 @@ class ProjectLeaderController extends ProjectMemberController
 {
     private ProjectLeader $projectLeader;
     private Project $project;
+    private ConferenceController $conferenceController;
 
     public function __construct()
     {
@@ -24,6 +28,7 @@ class ProjectLeaderController extends ProjectMemberController
             parent::__construct();
             if (array_key_exists("project_id", $_SESSION)) {
                 $this->projectLeader = new ProjectLeader($_SESSION["project_id"]);
+                $this->conferenceController = new ConferenceController();
             } else {
                 throw new Exception("Bad request missing arguments");
             }
@@ -547,10 +552,59 @@ class ProjectLeaderController extends ProjectMemberController
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * @throws Exception
      */
-    public function getForum()
+    public function getForum(): void
     {
         $this->sendResponse(
             view: "/project_leader/forum.html",
@@ -558,7 +612,8 @@ class ProjectLeaderController extends ProjectMemberController
             content: [
                 "project_id" => $_SESSION["project_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
-                "messages" => $this->projectLeader->getForumMessages() ? $this->projectLeader->getMessageData() : []
+                "messages" => $this->projectLeader->getForumMessages() ? $this->projectLeader->getMessageData() : [],
+                "members" =>  $this->projectLeader->getProjectMembers() ? $this->projectLeader->getProjectMemberData() : [],
             ]
         );
     }
@@ -566,7 +621,7 @@ class ProjectLeaderController extends ProjectMemberController
     // the following functions sends JSON responses
     // save the message to the project table
     // $args format {"message" => "message string"}
-    public function postMessageToProjectForum(array|object $args)
+    public function postMessageToProjectForum(array|object $args): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         // get the user id
@@ -590,7 +645,7 @@ class ProjectLeaderController extends ProjectMemberController
     }
 
     // get all the messages to the project table
-    public function getProjectForumMessages()
+    public function getProjectForumMessages(): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         try {
@@ -606,7 +661,7 @@ class ProjectLeaderController extends ProjectMemberController
 
     // save the message to the project table
     // $args format {"message" => "message string"}
-    public function postMessageToProjectFeedback(array|object $args)
+    public function postMessageToProjectFeedback(array|object $args): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         try {
@@ -628,7 +683,7 @@ class ProjectLeaderController extends ProjectMemberController
         }
     }
 
-    public function getProjectFeedbackMessages()
+    public function getProjectFeedbackMessages(): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         try {
@@ -644,7 +699,7 @@ class ProjectLeaderController extends ProjectMemberController
 
     // save the message to the task table
     // $args format {"task_id" => "TaskID", "message" => "message string"}
-    public function postMessageToProjectTaskFeedback(array|object $args)
+    public function postMessageToProjectTaskFeedback(array|object $args): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         try {
@@ -667,7 +722,7 @@ class ProjectLeaderController extends ProjectMemberController
     }
 
     // $args format {"task_id" => "TaskID"}
-    public function getProjectTaskFeedbackMessages(array $args)
+    public function getProjectTaskFeedbackMessages(array $args): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
@@ -691,7 +746,7 @@ class ProjectLeaderController extends ProjectMemberController
     // when these functions are called
     // $args must follow this format
     // $args = ["message" => "message string"];
-    public function postMessageToGroupFeedback(array|object $args)
+    public function postMessageToGroupFeedback(array|object $args): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
@@ -716,7 +771,7 @@ class ProjectLeaderController extends ProjectMemberController
     }
 
     // $args must follow this format
-    public function getGroupFeedbackMessages()
+    public function getGroupFeedbackMessages(): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
@@ -731,17 +786,189 @@ class ProjectLeaderController extends ProjectMemberController
             } else {
                 $this->sendJsonResponse("error", ["message" => "Invalid input format"]);
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
 
-    public function gotoConference()
+    /**
+     * ###Function description###
+     * Redirects a project leader to the meeting/conference page for video chatting
+     * Function returns nothing and accept no arguments
+     *
+     * The input array must be of the following format
+     *
+     * $args = [
+     *      "conf_id" => "ID of the conference the user wants to join",
+     * ]
+     *
+     * @throws Exception
+     */
+    public function gotoConference(array $args): void
     {
+        // TODO: Depending on the conference user want to join redirect him
         $this->sendResponse(
             view: "/user/meeting.html",
             status: "success",
-            content: []
+            // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
+            content: [
+                "user_data" => [
+                    "username" => $this->user->getUserData()->username,
+                    "profile_picture" => $this->user->getUserData()->profile_picture,
+                    "peer" => $this->projectLeader->getProjectMembersByRole($_SESSION["project_id"], "CLIENT")
+                ]
+            ]
         );
+    }
+
+    /**
+     * ###Function description###
+     * Redirects a project leader to the meeting/conference scheduling page to
+     * schedule a video conference or to check the conferences
+     * Function returns nothing and accept no arguments
+     * @throws Exception
+     */
+    public function gotoConferenceScheduler(): void
+    {
+        $this->sendResponse(
+            view: "/project_leader/conference_scheduler.html",
+            status: "success",
+            // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
+            content: [
+                "user_data" => [
+                    "username" => $this->user->getUserData()->username,
+                    "profile_picture" => $this->user->getUserData()->profile_picture
+                ],
+                "project_conference_details" => $this->conferenceController->getScheduledConferenceDetailsByProject(
+                    id: $this->user->getUserData()->id,
+                    project_id: $_SESSION["project_id"],
+                    initiator: "LEADER"
+                ),
+                "all_conference_details" => $this->conferenceController->getScheduledConferenceDetails(
+                    id: $this->user->getUserData()->id,
+                    initiator: "LEADER"
+                ),
+                "clients_of_the_project" => $this->projectLeader->getProjectMembersByRole(
+                    project_id: $_SESSION["project_id"],
+                    role: "CLIENT"
+                ) ? $this->projectLeader->getProjectData() : [],
+                "message" => "Successfully retrieved"
+            ]
+        );
+    }
+
+    /**
+     * ###Function description###
+     * Schedule a conference using the valid information provided by the
+     * project leader, if invalid information was provided the user will be
+     * informed
+     *
+     * The input array must be of the following format
+     *
+     * $args = [
+     *      "conf_name" => "name of the conference scheduled by the user",
+     *      "on" => "the date on which the conference will be held",
+     *      "at" => "at what time will be conference will be held",
+     * ]
+     *
+     * user ID will be added later here (leader_id)
+     * and since this is the project leader ultimately for a given project the client will be
+     * added to the args in this function as well (client_id)
+     * get the project_id from the session
+     *
+     * TODO: STILL THE SAME TIME AND DATE PROBLEM EXISTS
+     *
+     */
+    public function scheduleConference(array|object $args): void
+    {
+        try {
+            $args["leader_id"] = $this->user->getUserData()->id;
+            if($this->projectLeader->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "CLIENT")) {
+                if (!empty($this->projectLeader->getProjectData())) {
+                    $args["client_id"] = $this->projectLeader->getProjectData()[0]->id;
+                    $returned = $this->conferenceController->scheduleConference(args: $args);
+                    if (is_bool($returned) && $returned) {
+                        $this->sendJsonResponse(status: "success", content: [
+                            "message" => "Meeting was successfully added to the schedule",
+                        ]);
+                    } else {
+                        $this->sendJsonResponse(status: "error", content: [
+                            "message" => "Meeting cannot be successfully scheduled",
+                            "errors" => $returned
+                        ]);
+                    }
+                } else {
+                    $this->sendJsonResponse(status: "error", content: [
+                        "message" => "You don't have any client in this project, cannot schedule meetings yet!",
+                    ]);
+                }
+            } else {
+                $this->sendJsonResponse(status: "error", content: [
+                    "message" => "You don't have any client in this project, cannot schedule meetings yet!",
+                ]);
+            }
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+
+    /**
+     * ####Function description####
+     * Used to change the status code of a given Schedule
+     * Check the model of the conference controller to get an IDEA<br>
+     * ANY CONFERENCE WITH THE STATUS CODE "CANCELLED" CANNOT BE ALTERED
+     *
+     * The format of the args should be  => [
+     *                                          "conf_id" => "id of the conference that we are going to change the status of",
+     *                                          "status"  => "The new status"
+     *                                      ]
+     *
+     *
+     * */
+    public function setStatusOfSchedule(array $args): void
+    {
+        try {
+            $returned = $this->conferenceController->changeConferenceStatus($args);
+            if (is_bool($returned) && $returned) {
+                $this->sendJsonResponse("success", ["message" => "Status is successfully changed"]);
+            } else {
+                $this->sendJsonResponse("error", ["message"  => "Status cannot be changed", "errors" => $returned]);
+            }
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    /**
+     * ###Function description###
+     * Find conference details of a particular project leader(user id is taken from the JWT payload)
+     * (all the conference scheduled will be returned to the user regardless the project)
+     */
+    public function getScheduledConferenceDetails(): void
+    {
+        try {
+            $returned = $this->conferenceController->getScheduledConferenceDetails(
+                id: $this->user->getUserData()->id,
+                initiator: "LEADER"
+            );
+            $this->sendJsonResponse("success", ["message" => "Data retrieved", "conferences" => $returned]);
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function getScheduledConferenceDetailsOfProject(): void
+    {
+        try {
+            $returned = $this->conferenceController->getScheduledConferenceDetailsByProject(
+                id: $this->user->getUserData()->id,
+                project_id: $_SESSION["project_id"],
+                initiator: "LEADER"
+            );
+            $this->sendJsonResponse("success", ["message" => "Data retrieved", "conferences" => $returned]);
+        } catch (Exception $exception) {
+            throw $exception;
+        }
     }
 }
