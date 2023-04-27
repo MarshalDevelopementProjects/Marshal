@@ -153,7 +153,7 @@ class CrudUtil
      * 
      * If any errors occurred @var $_error
      * will be set to true. The value stored
-     * can be retrieve from this method
+     * can be retrieved from this method
      * @access public
      * @return bool 
      * 
