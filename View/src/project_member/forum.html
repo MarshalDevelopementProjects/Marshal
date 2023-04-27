@@ -44,9 +44,6 @@
                         <a href="http://localhost/public/user/profile">
                             <li class="profile">Profile</li>
                         </a>
-                        <a href="http://localhost/public/projectmember/forum">
-                            <li class="settings">Forum</li>
-                        </a>
                         <a href="http://localhost/public/user/sketch">
                             <li class="sketch-idea">Sketch idea</li>
                         </a>
@@ -113,6 +110,7 @@
 
     <script>
         var jsonData = JSON.parse('<?= $data; ?>');
+        console.log(jsonData);
     </script>
     <script src="/View/js/project_member/forum.js"></script>
     <script src="/View/js/user/sidebar.js"></script>
