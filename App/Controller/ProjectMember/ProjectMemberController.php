@@ -87,7 +87,7 @@ class ProjectMemberController extends UserController
                 "url" => "http://localhost/public/user/project?id=" . $project_id
             );
             $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
-            
+
             $notifyConditions = array(
                 "projectId" => $project_id,
                 "senderId" => $user_id,
@@ -104,7 +104,7 @@ class ProjectMemberController extends UserController
             $notification->setNotifiers($notifyMemberArgs, array("notificationId", "memberId"));
 
             // set task refference 
-            $pickupedTask = $task->getTask(array("project_id" => $project_id, "task_name" => $data->task_name), array("project_id","task_name"));
+            $pickupedTask = $task->getTask(array("project_id" => $project_id, "task_name" => $data->task_name), array("project_id", "task_name"));
             $notification->addTaskRefference(array("notification_id" => $newNotification->id, "task_id" => $pickupedTask->task_id), array("notification_id", "task_id"));
         } catch (\Throwable $th) {
             $message = "Failed to pick up | " . $th->getMessage();
@@ -173,7 +173,7 @@ class ProjectMemberController extends UserController
                 "url" => "http://localhost/public/user/project?id=" . $projectId
             );
             $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
-            
+
             $notifyConditions = array(
                 "projectId" => $projectId,
                 "senderId" => $user_id,
@@ -190,13 +190,12 @@ class ProjectMemberController extends UserController
             $notification->setNotifiers($notifyMemberArgs, array("notificationId", "memberId"));
 
             // set task refference 
-            $completedTask = $task->getTask(array("project_id" => $projectId, "task_name" => $data->task_name), array("project_id","task_name"));
+            $completedTask = $task->getTask(array("project_id" => $projectId, "task_name" => $data->task_name), array("project_id", "task_name"));
             $notification->addTaskRefference(array("notification_id" => $newNotification->id, "task_id" => $completedTask->task_id), array("notification_id", "task_id"));
-
         } catch (\Throwable $th) {
             throw $th;
         }
-        
+
         $this->sendJsonResponse(
             status: "success",
             content: [
@@ -571,10 +570,10 @@ class ProjectMemberController extends UserController
 
         $group = new Group();
         $groups = $group->getAllGroups(array("project_id" => $project_id), array("project_id"));
-        foreach($groups as $groupData){
-            if($group->getGroupMember(array("group_id" => $groupData->id, "member_id" => $user_id), array("group_id", "member_id"))){
+        foreach ($groups as $groupData) {
+            if ($group->getGroupMember(array("group_id" => $groupData->id, "member_id" => $user_id), array("group_id", "member_id"))) {
                 $groupData->hasAccess = true;
-            }else {
+            } else {
                 $groupData->hasAccess = false;
             }
         }
@@ -727,7 +726,7 @@ class ProjectMemberController extends UserController
         $reciverId = $thisProject->created_by;
 
         $thisTask = $task->getTask(array("task_id" => $data->task_id), array("task_id"));
-        if($thisTask->memberId != $payload->id){
+        if ($thisTask->memberId != $payload->id) {
             $reciverId = $thisTask->memberId;
         }
         // send notification to reciever
@@ -745,7 +744,7 @@ class ProjectMemberController extends UserController
                 "url" => "http://localhost/public/user/project?id=" . $_SESSION['project_id']
             );
             $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
-            
+
             $notifyConditions = array(
                 "projectId" => $_SESSION['project_id'],
                 "senderId" => $payload->id,
@@ -759,7 +758,6 @@ class ProjectMemberController extends UserController
             );
             $notification->setNotifiers($notifyMemberArgs, array("notificationId", "memberId"));
             $notification->addTaskRefference(array("notification_id" => $newNotification->id, "task_id" => $data->task_id), array("notification_id", "task_id"));
-
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -771,24 +769,25 @@ class ProjectMemberController extends UserController
         );
     }
 
-    public function getTaskFeedback(){
+    public function getTaskFeedback()
+    {
 
         try {
             $task_id = $_GET['task'];
             $messageController = new MessageController();
 
-            $condition = "id IN(SELECT message_id FROM `project_task_feedback_message` WHERE task_id =" . $task_id . " AND project_id = " . $_SESSION['project_id'] .") ORDER BY `stamp` LIMIT 100";
+            $condition = "id IN(SELECT message_id FROM `project_task_feedback_message` WHERE task_id =" . $task_id . " AND project_id = " . $_SESSION['project_id'] . ") ORDER BY `stamp` LIMIT 100";
             $feedbackMessages = $messageController->recieve($condition);
 
             foreach ($feedbackMessages as $feedback) {
-                if($feedback->sender_id != $this->user->getUserData()->id){
+                if ($feedback->sender_id != $this->user->getUserData()->id) {
                     $user = new User();
                     $user->readUser("id", $feedback->sender_id);
 
                     $sender = $user->getUserData();
                     $feedback->profile = $sender->profile_picture;
                     $feedback->type = "incoming";
-                }else{
+                } else {
                     $feedback->profile = null;
                     $feedback->type = "outgoing";
                 }
@@ -804,14 +803,13 @@ class ProjectMemberController extends UserController
             throw $th;
         }
     }
-<<<<<<< HEAD
 
     /**
      * ###Function description###
      * Redirects a project member to the meeting/conference page for video chatting
      * Function returns nothing and accept no arguments
      * #Currently not enabled#
-    */
+     */
     /*public function gotoConference(): void
     {
         $this->sendResponse(
@@ -820,16 +818,17 @@ class ProjectMemberController extends UserController
             content: []
         );
     }*/
-=======
-    public function getProjectAnnouncements(){
+
+    public function getProjectAnnouncements()
+    {
         $messageController = new MessageController();
         $message = new Message();
         $user = new User();
 
-        $condition = "id IN(SELECT message_id FROM `project_announcement` WHERE project_id = " . $_SESSION['project_id'] .") ORDER BY `stamp` LIMIT 100";
-    
+        $condition = "id IN(SELECT message_id FROM `project_announcement` WHERE project_id = " . $_SESSION['project_id'] . ") ORDER BY `stamp` LIMIT 100";
+
         $announcements = $messageController->recieve($condition);
-        foreach($announcements as $announcement){
+        foreach ($announcements as $announcement) {
             // add sender profile and announcement heading
             $sender = $user->readMember("id", $announcement->sender_id);
             $announcement->profile = $sender->profile_picture;
@@ -838,7 +837,7 @@ class ProjectMemberController extends UserController
             $announcement->heading = $message->getAnnouncementHeading($headingCondition, 'project_announcement')->heading;
             $announcement->senderType = 'project leader';
         }
-        
+
         $this->sendJsonResponse(
             status: "success",
             content: [
@@ -846,5 +845,4 @@ class ProjectMemberController extends UserController
             ]
         );
     }
->>>>>>> main
 }

@@ -43,6 +43,7 @@ class GroupMemberController extends ProjectMemberController
     {
         return parent::auth();
     }
+
     public function getGroupInfo()
     {
 

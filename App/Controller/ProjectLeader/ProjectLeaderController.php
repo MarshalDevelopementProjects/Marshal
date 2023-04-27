@@ -13,8 +13,6 @@ use App\Model\Group;
 use App\Controller\Conference\ConferenceController;
 use App\Model\Message;
 use Exception;
-use http\Message;
-use Ratchet\App;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -143,7 +141,6 @@ class ProjectLeaderController extends ProjectMemberController
 
     public function createTask($args)
     {
-
         if ($args['taskname'] && $args['taskdescription']) {
             $status = "TO-DO";
             if ($args['assignedMember']) {
@@ -212,6 +209,7 @@ class ProjectLeaderController extends ProjectMemberController
             header("Location: http://localhost/public/user/project?id=" . $_SESSION['project_id']);
         }
     }
+
 
     public function rearangeTask()
     {

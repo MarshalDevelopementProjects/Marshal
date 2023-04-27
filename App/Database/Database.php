@@ -47,7 +47,7 @@ class Database
             // $this->pdo = new \PDO('mysql:host=localhost;dbname=marshal', 'root', '');
 
             // database 2.0
-            $this->pdo = new \PDO('mysql:host=localhost;dbname=marshal2_0', 'root', '');
+            $this->pdo = new \PDO('mysql:host=localhost;dbname=marshal3_0', 'root', '');
 
             // enabling PDO errors	
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
