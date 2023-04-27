@@ -4,6 +4,7 @@ namespace App\Controller\ProjectLeader;
 
 use App\Controller\ProjectMember\ProjectMemberController;
 use App\Controller\Message\MessageController;
+use App\Controller\Notification\NotificationController;
 use App\Model\ProjectLeader;
 use App\Model\Project;
 use App\Model\Notification;
@@ -103,35 +104,45 @@ class ProjectLeaderController extends ProjectMemberController
                 $project_id = $_SESSION["project_id"];
                 $user_id = $payload->id;
 
-                $date = date("Y-m-d H:i:s");
+                $notificationController = new NotificationController();
 
                 $args = array(
-                    "projectId" => $project_id,
-                    "message" => "Invite to this peoject",
+                    "message" => "Invite you to the peoject.",
                     "type" => "request",
                     "senderId" => $user_id,
-                    "sendTime" => $date,
-                    "url" => "http://localhost/public/user/project?id=" . $project_id
+                    "url" => "http://localhost/public/user/project?id=" . $project_id,
+                    "reciveId" => $receivedUser->id
                 );
+                
+                $notificationId = $notificationController->setNotification($args);
+
+                // $args = array(
+                //     "projectId" => $project_id,
+                //     "message" => "Invite to this peoject",
+                //     "type" => "request",
+                //     "senderId" => $user_id,
+                //     "sendTime" => $date,
+                //     "url" => "http://localhost/public/user/project?id=" . $project_id
+                // );
             }
             // set notified members
             // get notification id
-            $notification = new Notification();
-            $notification->createNotification($args, array("projectId", "message", "type", "senderId", "sendTime", "url"));
+            // $notification = new Notification();
+            // $notification->createNotification($args, array("projectId", "message", "type", "senderId", "sendTime", "url"));
 
-            $conditions = array(
-                "projectId" => $project_id,
-                "senderId" => $user_id,
-                "sendTime" => $date
-            );
+            // $conditions = array(
+            //     "projectId" => $project_id,
+            //     "senderId" => $user_id,
+            //     "sendTime" => $date
+            // );
 
-            $newNotification = $notification->getNotification($conditions, array("projectId", "senderId", "sendTime"));
+            // $newNotification = $notification->getNotification($conditions, array("projectId", "senderId", "sendTime"));
 
-            $arguments = array(
-                "notificationId" => $newNotification->id,
-                "memberId" => $receivedUser->id
-            );
-            $notification->setNotifiers($arguments, array("notificationId", "memberId"));
+            // $arguments = array(
+            //     "notificationId" => $newNotification->id,
+            //     "memberId" => $receivedUser->id
+            // );
+            // $notification->setNotifiers($arguments, array("notificationId", "memberId"));
 
             echo (json_encode(array("message" => "Success")));
         } catch (\Throwable $th) {
@@ -160,32 +171,19 @@ class ProjectLeaderController extends ProjectMemberController
                         // get leader id
                         $payload = $this->userAuth->getCredentials();
                         $user_id = $payload->id;
-                        $date = date("Y-m-d H:i:s");
 
-                        // now we have to send a notification as well 
+                        $notificationController = new NotificationController();
+                        // $thisProject = $project->getProject(array('id' => $project_id));
+
                         $notificationArgs = array(
-                            "projectId" => $_SESSION['project_id'],
-                            "message" => "You are assigned to " . $args['taskname'] . " by project leader",
+                            "message" => "You are assigned to " . $args['taskname'] . " by project leader.",
                             "type" => "notification",
                             "senderId" => $user_id,
-                            "sendTime" => $date
+                            "url" => "http://localhost/public/user/project?id=" . $_SESSION['project_id'],
+                            "reciveId" => $receivedUser->id
                         );
-                        $notification = new Notification();
-                        $notification->createNotification($notificationArgs);
-
-                        $notifyConditions = array(
-                            "projectId" => $_SESSION['project_id'],
-                            "senderId" => $user_id,
-                            "sendTime" => $date
-                        );
-                        $newNotification = $notification->getNotificationData($notifyConditions);
-                        $newNotificationId = $newNotification[0]->id;
-
-                        $notifyMemberArgs = array(
-                            "notificationId" => $newNotificationId,
-                            "memberId" => $receivedUser->id
-                        );
-                        $notification->setNotifiedMembers($notifyMemberArgs);
+                        
+                        $notificationId = $notificationController->setNotification($notificationArgs);
                     }
                 }
             }
@@ -201,6 +199,18 @@ class ProjectLeaderController extends ProjectMemberController
 
             $task = new Task();
             if ($task->createTask($data, array("project_id", "description", "deadline", "task_name", "priority", "status"))) {
+
+                $args = array(
+                    "status" => "ONGOING",
+                    "memberId" => $receivedUser->id,
+                    "project_id" => $_SESSION['project_id'],
+                    "task_name" => $args['taskname']
+                );
+                $updates = array("status", "memberId");
+                $conditions = array("project_id", "task_name");
+
+                $task->updateTask($args, $updates, $conditions);
+                
                 header("Location: http://localhost/public/user/project?id=" . $_SESSION['project_id']);
             } else {
                 echo "Fail";
@@ -281,41 +291,31 @@ class ProjectLeaderController extends ProjectMemberController
             $task = new Task();
             $message = "";
 
+            $updates = array("status", "memberId");
+            $conditions = array("project_id", "task_name");
+
             try {
-                // $task->pickupTask($args);
+                $task->updateTask($args, $updates, $conditions);
                 $message = "Successfully handovered the task.";
 
-                // send notification to leader
-                $date = date("Y-m-d H:i:s");
+                // send notification to Member
+                $notificationController = new NotificationController();
 
-                // now we have to send a notification as well 
-                $notificationArgs = array(
-                    "projectId" => $project_id,
+                $args = array(
                     "message" => "Leader assigned you to " . $data->task_name . '.',
                     "type" => "notification",
                     "senderId" => $user_id,
-                    "sendTime" => $date,
-                    "url" => `http://localhost/public/user/project?id=${project_id}`
+                    "url" => "http://localhost/public/user/project?id=" . $project_id,
+                    "reciveId" => $receivedUser->id
                 );
-                $notification = new Notification();
-                $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
-
-                $notifyConditions = array(
-                    "projectId" => $project_id,
-                    "senderId" => $user_id,
-                    "sendTime" => $date
-                );
-                $newNotification = $notification->getNotification($notifyConditions);
-
-                $notifyMemberArgs = array(
-                    "notificationId" => $newNotification->id,
-                    "memberId" => $receivedUser->id
-                );
-                $notification->setNotifiers($notifyMemberArgs, array("notificationId", "memberId"));
+                
+                $notificationId = $notificationController->setNotification($args);
+                
             } catch (\Throwable $th) {
                 $message = "Failed to handover the task: " . $th->getMessage();
             }
-
+            // var_dump("HHHH");
+            header("Location: http://localhost/public/user/project?id=" . $_SESSION['project_id']);
             $this->sendJsonResponse(
                 status: "success",
                 content: [
@@ -324,6 +324,7 @@ class ProjectLeaderController extends ProjectMemberController
             );
         }
     }
+
     public function createGroup()
     {
         $data = $_POST;
@@ -421,40 +422,30 @@ class ProjectLeaderController extends ProjectMemberController
             $message->setMessageType($messageTypeArgs, array("message_id", "project_id", "heading"), "project_announcement");
             $successMessage = "Message sent successfully";
         } catch (\Throwable $th) {
-            // $successMessage = "Message sent failed";
-            throw $th;
+            $successMessage = "Message sent failed";
+            // throw $th;
         }
 
-        // set notifications
-        // try {
-        //     $date = date("Y-m-d H:i:s");
+        try {
+            $notificationController = new NotificationController();
 
-        //     $notificationArgs = array(
-        //         "projectId" => $_SESSION['project_id'],
-        //         "message" => $data->announcementHeading,
-        //         "type" => "notification",
-        //         "senderId" => $payload->id,
-        //         "sendTime" => $date,
-        //         "url" => "http://localhost/public/projectmember/getinfo"
-        //     );
+            $args = array(
+                "message" => $data->announcementHeading,
+                "type" => "notification",
+                "senderId" => $payload->id,
+                "url" => "http://localhost/public/projectmember/getinfo",
+                "reciveId" => null
+            );
+            
+            $notificationId = $notificationController->setNotification($args);
+            
+            $members = $project->getProjectUsers("WHERE project_id = " . $_SESSION['project_id'] . " AND `role` = 'MEMBER'");
+            $notificationController->boardcastNotification($notificationId, $members);
 
-        //     $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
-        //     $notifyConditions = array(
-        //         "projectId" => $_SESSION['project_id'],
-        //         "senderId" => $payload->id,
-        //         "sendTime" => $date
-        //     );
-        //     $newNotification = $notification->getNotification($notifyConditions, array("projectId", "senderId", "sendTime"));
+        } catch (\Throwable $th) {
+            $successMessage = $th->getMessage();
+        }
 
-        //     $members = $project->getProjectUsers("WHERE project_id = " . $_SESSION['project_id'] . " AND `role` = 'MEMBER'");
-
-        //     foreach($members as $member){
-        //         $notification->setNotifiers(array("notificationId" => $newNotification->id, "memberId" => $member->member_id), array("notificationId", "memberId"));
-        //     }
-
-        // } catch (\Throwable $th) {
-        //     throw $th;
-        // }
         $this->sendJsonResponse(
             status: "success",
             content: [

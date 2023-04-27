@@ -4,6 +4,7 @@ namespace App\Controller\GroupMember;
 
 use App\Controller\Authenticate\UserAuthController;
 use App\Controller\ProjectMember\ProjectMemberController;
+use App\Controller\Notification\NotificationController;
 use App\Controller\Message\MessageController;
 use App\Model\GroupMember;
 use App\Model\Message;
@@ -174,37 +175,24 @@ class GroupMemberController extends ProjectMemberController
             $reciverId = $thisTask->memberId;
         }
         // send notification to reciever
-        try {
-            $notification = new Notification();
-            $date = date("Y-m-d H:i:s");
+        if ($payload->id != $reciverId) {
+            try {
+                $notification = new Notification();
+                $notificationController = new NotificationController();
 
-            // // now we have to send a notification as well 
-            $notificationArgs = array(
-                "projectId" => $_SESSION['project_id'],
-                "message" => $data->feedbackMessage,
-                "type" => "notification",
-                "senderId" => $payload->id,
-                "sendTime" => $date,
-                "url" => "http://localhost/public/projectmember/group?id=" . $_SESSION['group_id']
+                $args = array(
+                    "message" => $data->feedbackMessage,
+                    "type" => "notification",
+                    "senderId" => $payload->id,
+                    "url" => "http://localhost/public/projectmember/group?id=" . $_SESSION['group_id'],
+                    "reciveId" => $reciverId
+                );
 
-            );
-            $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
-
-            $notifyConditions = array(
-                "projectId" => $_SESSION['project_id'],
-                "senderId" => $payload->id,
-                "sendTime" => $date
-            );
-            $newNotification = $notification->getNotification($notifyConditions, array("projectId", "senderId", "sendTime"));
-
-            $notifyMemberArgs = array(
-                "notificationId" => $newNotification->id,
-                "memberId" => $reciverId
-            );
-            $notification->setNotifiers($notifyMemberArgs, array("notificationId", "memberId"));
-            $notification->addTaskRefference(array("notification_id" => $newNotification->id, "task_id" => $data->task_id), array("notification_id", "task_id"));
-        } catch (\Throwable $th) {
-            throw $th;
+                $notificationId = $notificationController->setNotification($args);
+                $notification->addTaskRefference(array("notification_id" => $notificationId, "task_id" => $data->task_id), array("notification_id", "task_id"));
+            } catch (\Throwable $th) {
+                throw $th;
+            }
         }
         $this->sendJsonResponse(
             status: "success",

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marshal | File uploader</title>
+    <link rel="stylesheet" href="/View/styles/style_dashboard.css">
+    <link rel="stylesheet" href="/View/styles/user/calendar.css">
+    <link rel="stylesheet" href="/View/styles/project_member/file_uploader.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+    <div class="container">
+
+        <div class="navbar">
+            <div class="left-logo-area">
+                <a href="http://localhost/public/user/dashboard" style="text-decoration: none;">
+                    <img src="/View/images/logo.png" alt="logo" class="logo">
+                </a>
+            </div>
+            <div class="right-profile-area">
+                <!-- <button type="submit" class="navbar-new-project">+ New Project</button> -->
+                <i class="fa fa-bell-o  notification-bell-btn" aria-hidden="true"></i>
+                <i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i>
+                <img src="/View/images/dp.png" alt="profile picture" class="profile-image">
+            </div>
+        </div>
+
+        <div class="task-boards-container">
+
+            <div class="left-panel">
+                <div class="top-menus">
+                    <ul>
+                        
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/dashboard" style="text-align: none;">
+                            <li class="dashboard active">Dashboard</li>
+                        </a>
+                        <li class="new-project">New project</li>
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
+                            <li class="profile">Profile</li>
+                        </a>
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/projectmember/forum">
+                            <li class="sketch-idea">Forum</li>
+                        </a>
+                        <a style="text-decoration: none; color: black;" href="">
+                            <li class="sketch-idea">Upload file</li>
+                        </a>
+                    </ul>
+                </div>
+                <div class="middle-icon">
+                    <i class="fa fa-caret-left" aria-hidden="true"></i>
+                </div>
+
+                <div class="bottom-calender">
+                    <div class="top-month">
+                        <button type="submit" class="previous-month-btn"><i class="fa fa-caret-left" aria-hidden="true"></i></button>
+                        <p><span class="month"></span> <span class="year"></span></p>
+                        <button type="submit" class="next-month-btn"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="day-names">
+                        <p>Mon</p>
+                        <p>Tue</p>
+                        <p>Wed</p>
+                        <p>Thu</p>
+                        <p>Fri</p>
+                        <p>Sat</p>
+                        <p>Sun</p>
+                    </div>
+                    <div class="days">
+                        
+                    </div>
+                </div>
+                <div class="deadline-popup">
+                    <h3>Events</h3>
+                    <hr>
+                    <div class="events">
+                        <p>Build meeting API</p>
+                        <p>Design UI</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <p class="headingfileupload">Upload Files</p>
+                <hr id="fileUploadhr">
+
+                <div class="uploadContainer">
+                    <div class="uplodArea">
+                        <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+
+                        <form id="upload-file-form" enctype="multipart/form-data">
+                            <label for="uploadedfile">Upload your file here</label>
+                            <br>
+                            <input type="file" name="uploadedfile" id="uploadedfile">
+                            <br>
+                            <button type="submit">Upload File</button>
+                        </form>
+
+                    </div>
+                    <div class="uploadedFilesArea">
+                        <p class="uploadedfilesHeading">Uploaded Files</p>
+                        <div class="uploadedfiles">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        var jsonData = JSON.parse('<?= $data; ?>');
+    </script>
+    <script src="/View/js/user/logout.js"></script>
+    <!-- <script src="/View/js/user/calendar.js"></script> -->
+    <script src="/View/js/user/sidebar.js"></script>
+    <!-- <script src="/View/js/user/notification.js"></script> -->
+    <script src="/View/js/project_member/file_uploader.js"></script>
+</body>
+</html>

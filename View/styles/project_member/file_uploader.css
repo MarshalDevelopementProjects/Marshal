@@ -1,0 +1,101 @@
+.headingfileupload{
+    margin: 20px 0 10px 20px;
+    font-size: 27px;
+    font-weight: 800px;
+}
+
+#fileUploadhr{
+    margin: 0 20px 10px 20px;
+}
+.uploadContainer{
+    margin: 20px;
+    display: flex;
+}
+.uploadContainer .uplodArea{
+    border: 1px solid #666;
+    border-radius: 7px;
+    width: 35%;
+    height: 560px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.uplodArea i{
+    font-size: 130px;
+    color: #73a6db;
+}
+.uploadContainer form label{
+    font-size: 20px;
+    margin-left: 0px;
+}
+.uploadContainer form input[type="file"]{
+    color: transparent;
+    font-size: 16px;
+    width: 102px;
+    margin: 8px 0 10px 40px;
+    cursor: pointer;
+}
+.uploadContainer form button{
+    width: 200px;
+    height: 40px;
+    font-size: 18px;
+    background-color: #6a6f8d;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    margin-top: 50px;
+    cursor: pointer;
+}
+
+.uploadedFilesArea{
+    width: 60%;
+    margin-left: 25px;
+}
+.uploadedFilesArea .uploadedfilesHeading{
+    font-size: 20px;
+}
+.uploadedfiles{
+    margin-top: 10px;
+    height: 526px;
+    overflow-y: scroll;
+}
+.uploadedfile{
+    border:  1px solid #ddd;
+    display: flex;
+    margin: 5px 20px 8px 20px;
+    padding: 5px;
+    border-radius: 8px;
+    background-color: #eee;
+}
+.uploadedfile img{
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    margin: 0 10px;
+}
+.uploadedFileDetails{
+    margin: 5px 8px;
+}
+.uploadedFileDetails .fileName{
+    font-size: 17px;
+    font-weight: 540;
+    margin-bottom: 12px;
+}
+.uploadedFileDetails .uploaderDetails{
+    display: flex;
+    justify-content: space-between;
+    width: 540px;
+}
+.uploaderDetails .uploderName{
+    font-size: 14px;
+    margin-right: 100px;
+}
+.uploaderDetails .uploadedDate{
+    font-size: 12px;
+}
+
+a:-webkit-any-link {
+    color: black;
+    cursor: pointer;
+}

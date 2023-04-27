@@ -12,8 +12,10 @@ use App\Model\Task;
 use App\Model\Project;
 use App\Model\Group;
 use App\Model\User;
+use App\Model\File;
 use App\Model\Message;
 use Core\Validator\Validator;
+use Core\FileUploader;
 use Exception;
 use Throwable;
 
@@ -75,37 +77,23 @@ class ProjectMemberController extends UserController
             $message = "Successfully picked";
 
             // send notification to leader
-            $date = date("Y-m-d H:i:s");
 
-            // // now we have to send a notification as well 
-            $notificationArgs = array(
-                "projectId" => $project_id,
+            $notificationController = new NotificationController();
+            $thisProject = $project->getProject(array('id' => $project_id));
+
+            $args = array(
                 "message" => "I pickup " . $data->task_name . ".",
                 "type" => "notification",
                 "senderId" => $user_id,
-                "sendTime" => $date,
-                "url" => "http://localhost/public/user/project?id=" . $project_id
+                "url" => "http://localhost/public/user/project?id=" . $project_id,
+                "reciveId" => $thisProject->created_by
             );
-            $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
 
-            $notifyConditions = array(
-                "projectId" => $project_id,
-                "senderId" => $user_id,
-                "sendTime" => $date
-            );
-            $newNotification = $notification->getNotification($notifyConditions, array("projectId", "senderId", "sendTime"));
-
-            $thisProject = $project->getProject(array('id' => $project_id));
-
-            $notifyMemberArgs = array(
-                "notificationId" => $newNotification->id,
-                "memberId" => $thisProject->created_by
-            );
-            $notification->setNotifiers($notifyMemberArgs, array("notificationId", "memberId"));
+            $notificationId = $notificationController->setNotification($args);
 
             // set task refference 
             $pickupedTask = $task->getTask(array("project_id" => $project_id, "task_name" => $data->task_name), array("project_id", "task_name"));
-            $notification->addTaskRefference(array("notification_id" => $newNotification->id, "task_id" => $pickupedTask->task_id), array("notification_id", "task_id"));
+            $notification->addTaskRefference(array("notification_id" => $notificationId, "task_id" => $pickupedTask->task_id), array("notification_id", "task_id"));
         } catch (\Throwable $th) {
             $message = "Failed to pick up | " . $th->getMessage();
             // throw $th;
@@ -161,37 +149,25 @@ class ProjectMemberController extends UserController
 
         // send notification to infor the project leader
         try {
+
             $date = date("Y-m-d H:i:s");
 
-            // // now we have to send a notification as well 
-            $notificationArgs = array(
-                "projectId" => $projectId,
+            $notificationController = new NotificationController();
+            $thisProject = $project->getProject(array('id' => $projectId));
+
+            $args = array(
                 "message" => $data->confirmation_message,
                 "type" => "notification",
                 "senderId" => $user_id,
-                "sendTime" => $date,
-                "url" => "http://localhost/public/user/project?id=" . $projectId
+                "url" => "http://localhost/public/user/project?id=" . $projectId,
+                "reciveId" => $thisProject->created_by
             );
-            $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
 
-            $notifyConditions = array(
-                "projectId" => $projectId,
-                "senderId" => $user_id,
-                "sendTime" => $date
-            );
-            $newNotification = $notification->getNotification($notifyConditions, array("projectId", "senderId", "sendTime"));
-
-            $thisProject = $project->getProject(array('id' => $projectId));
-
-            $notifyMemberArgs = array(
-                "notificationId" => $newNotification->id,
-                "memberId" => $thisProject->created_by
-            );
-            $notification->setNotifiers($notifyMemberArgs, array("notificationId", "memberId"));
+            $notificationId = $notificationController->setNotification($args);
 
             // set task refference 
             $completedTask = $task->getTask(array("project_id" => $projectId, "task_name" => $data->task_name), array("project_id", "task_name"));
-            $notification->addTaskRefference(array("notification_id" => $newNotification->id, "task_id" => $completedTask->task_id), array("notification_id", "task_id"));
+            $notification->addTaskRefference(array("notification_id" => $notificationId, "task_id" => $completedTask->task_id), array("notification_id", "task_id"));
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -305,239 +281,6 @@ class ProjectMemberController extends UserController
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * @throws Exception
      */
@@ -597,6 +340,98 @@ class ProjectMemberController extends UserController
             status: "success",
             content: $project->readProjectsOfUser($user_id, $project_id) ? $data : array()
         );
+    }
+
+    // file uploader
+    public function getFileUploadPage()
+    {
+        $fileModel = new File();
+        $user = new User();
+
+        $condition = "projectId = " . $_SESSION['project_id'];
+        $files = $fileModel->getFiles($condition);
+
+        foreach ($files as $file) {
+            $uploadedUser = $user->readMember("id", $file->uploaderId);
+            $file->uploaderName = $uploadedUser->first_name . " " . $uploadedUser->last_name;
+            $file->profile = $uploadedUser->profile_picture;
+        }
+
+        $this->sendResponse(
+            view: "/project_member/file_uploader.html",
+            status: "success",
+            content: $files
+        );
+    }
+
+    private function getFileType($extension)
+    {
+
+        if ($extension == "txt") {
+            return "text";
+        } else if ($extension == "docx" || $extension == "doc" || $extension == "odt") {
+            return "document";
+        } else if ($extension == "xlsx" || $extension == "xls" || $extension == "csv") {
+            return "spreadsheet";
+        } else if ($extension == "pptx" || $extension == "ppt" || $extension == "odp") {
+            return "presentation";
+        } else if ($extension == "jpg" || $extension == "jpeg" || $extension == "png") {
+            return "image";
+        } else if ($extension == "mp3" || $extension == "wav") {
+            return "audio";
+        } else if ($extension == "mp4" || $extension == "mkv") {
+            return "video";
+        } else if ($extension == "pdf") {
+            return "pdf";
+        } else {
+            return "unknown";
+        }
+    }
+    public function fileUpload()
+    {
+
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $payload = $this->userAuth->getCredentials();
+
+        $pathinfo = pathinfo($_FILES['uploadedfile']["name"]);
+        $base = $pathinfo["filename"];
+        $base = preg_replace("/[^\w-]/", "_", $base);
+        $filename = $base . "." . $pathinfo["extension"];
+
+        $type = $this->getFileType($pathinfo["extension"]);
+        $sql = "INSERT INTO `files` (`fileName`, `fileType`, `projectId`, `uploaderId`, `filePath`) VALUES ('" . $filename . "', '" . $type . "', " . $_SESSION['project_id'] . ", " . $payload->id . ", :uploadedfile)";
+        var_dump($sql);
+        $result = FileUploader::upload(
+            allowed_file_types: array("image/jpg", "image/png", "image/gif", "image/jpeg", "document/pdf"),
+            fields: array(
+                "uploadedfile" => array(
+                    "upload_to" => "/App/Database/Uploads/Files",
+                    "upload_as" => "",
+                    "query" => $sql,
+                    "max_cap" => 102400000 // file size in binary bytes
+                )
+            )
+        );
+
+        // $data = json_decode(file_get_contents('php://input'));
+        // var_dump($data);
+
+        if ($result) {
+            $this->sendJsonResponse(
+                status: "success",
+                content: [
+                    "message" => "Profile picture successfully updated"
+                ]
+            );
+        } else {
+            $this->sendResponse(
+                view: "/errors/500.html",
+                status: "error",
+                content: [
+                    "message" => "Image cannot be uploaded"
+                ]
+            );
+        }
     }
 
     // the following functions sends JSON responses
@@ -726,41 +561,33 @@ class ProjectMemberController extends UserController
         $reciverId = $thisProject->created_by;
 
         $thisTask = $task->getTask(array("task_id" => $data->task_id), array("task_id"));
-        if ($thisTask->memberId != $payload->id) {
+        if ($payload->id == $thisProject->created_by) {
             $reciverId = $thisTask->memberId;
         }
         // send notification to reciever
-        try {
-            $notification = new Notification();
-            $date = date("Y-m-d H:i:s");
 
-            // // now we have to send a notification as well 
-            $notificationArgs = array(
-                "projectId" => $_SESSION['project_id'],
-                "message" => $data->feedbackMessage,
-                "type" => "notification",
-                "senderId" => $payload->id,
-                "sendTime" => $date,
-                "url" => "http://localhost/public/user/project?id=" . $_SESSION['project_id']
-            );
-            $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
+        if ($thisTask->memberId != $thisProject->created_by) {
+            try {
+                $notification = new Notification();
+                $notificationController = new NotificationController();
 
-            $notifyConditions = array(
-                "projectId" => $_SESSION['project_id'],
-                "senderId" => $payload->id,
-                "sendTime" => $date
-            );
-            $newNotification = $notification->getNotification($notifyConditions, array("projectId", "senderId", "sendTime"));
+                $date = date("Y-m-d H:i:s");
 
-            $notifyMemberArgs = array(
-                "notificationId" => $newNotification->id,
-                "memberId" => $reciverId
-            );
-            $notification->setNotifiers($notifyMemberArgs, array("notificationId", "memberId"));
-            $notification->addTaskRefference(array("notification_id" => $newNotification->id, "task_id" => $data->task_id), array("notification_id", "task_id"));
-        } catch (\Throwable $th) {
-            throw $th;
+                $args = array(
+                    "message" => $data->feedbackMessage,
+                    "type" => "notification",
+                    "senderId" => $payload->id,
+                    "url" =>  "http://localhost/public/user/project?id=" . $_SESSION['project_id'],
+                    "reciveId" => $reciverId
+                );
+
+                $notificationId = $notificationController->setNotification($args);
+                $notification->addTaskRefference(array("notification_id" => $notificationId, "task_id" => $data->task_id), array("notification_id", "task_id"));
+            } catch (\Throwable $th) {
+                throw $th;
+            }
         }
+
         $this->sendJsonResponse(
             status: "success",
             content: [
