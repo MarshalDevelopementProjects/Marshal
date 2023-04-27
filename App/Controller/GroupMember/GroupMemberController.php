@@ -44,8 +44,22 @@ class GroupMemberController extends ProjectMemberController
         );
     }
 
-    public function goToGroupForum(): void
+    /**
+     * @throws Exception
+     */
+    public function getForum(): void
     {
+        $this->sendResponse(
+            view: "/group_member/forum.html",
+            status: "success",
+            content: [
+                "project_id" => $_SESSION["project_id"],
+                "group_id" => $_SESSION["group_id"],
+                "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
+                "messages" => $this->groupMember->getGroupForumMessages(project_id: $_SESSION["project_id"]) ? $this->groupMember->getMessageData() : [],
+                "members" =>  $this->groupMember->getGroupMembers() ? $this->groupMember->getGroupMemberData() : [],
+            ]
+        );
     }
 
     // $args must follow this format
@@ -74,7 +88,7 @@ class GroupMemberController extends ProjectMemberController
     public function getGroupForumMessages()
     {
         try {
-            if ($this->groupMember->getGroupMessages(project_id: $_SESSION["project_id"])) {
+            if ($this->groupMember->getGroupForumMessages(project_id: $_SESSION["project_id"])) {
                 $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupMember->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
