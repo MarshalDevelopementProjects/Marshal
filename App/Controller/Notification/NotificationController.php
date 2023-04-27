@@ -31,28 +31,28 @@ class NotificationController extends Controller{
             $projectId = $_SESSION['project_id'];
 
             $notificationArgs = array(
-                "projectId" => $projectId,
+                "project_id" => $projectId,
                 "message" => $args['message'],
                 "type" => $args['type'],
-                "senderId" => $args['senderId'],
-                "sendTime" => $date,
+                "sender_id" => $args['sender_id'],
+                "send_time" => $date,
                 "url" => $args['url']
             );
             $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
             
             $notifyConditions = array(
-                "projectId" => $projectId,
-                "senderId" => $args['senderId'],
-                "sendTime" => $date
+                "project_id" => $projectId,
+                "sender_id" => $args['sender_id'],
+                "send_time" => $date
             );
             $newNotification = $notification->getNotification($notifyConditions, array("projectId", "senderId", "sendTime"));
 
-            if($args['reciveId']){
+            if($args['recive_id']){
                 $notifyMemberArgs = array(
-                    "notificationId" => $newNotification->id,
-                    "memberId" => $args['reciveId']
+                    "notification_id" => $newNotification->id,
+                    "member_id" => $args['recive_id']
                 );
-                $notification->setNotifiers($notifyMemberArgs, array("notificationId", "memberId"));
+                $notification->setNotifiers($notifyMemberArgs, array("notification_id", "member_id"));
             }
 
             return $newNotification->id;
@@ -67,7 +67,7 @@ class NotificationController extends Controller{
         $notification = new Notification();
         try {
             foreach($members as $member){
-                $notification->setNotifiers(array("notificationId" => $notificationId, "memberId" => $member->member_id), array("notificationId", "memberId"));
+                $notification->setNotifiers(array("notification_id" => $notificationId, "member_id" => $member->member_id), array("notification_id", "member_id"));
             }
             return true;
         } catch (\Throwable $th) {

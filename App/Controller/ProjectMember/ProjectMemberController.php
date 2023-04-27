@@ -63,11 +63,11 @@ class ProjectMemberController extends UserController
 
         $args = array(
             "status" => "ONGOING",
-            "memberId" => $user_id,
+            "member_id" => $user_id,
             "project_id" => $project_id,
             "task_name" => $data->task_name
         );
-        $updates = array("status", "memberId");
+        $updates = array("status", "member_id");
         $conditions = array("project_id", "task_name");
 
         $message = "";
@@ -84,9 +84,9 @@ class ProjectMemberController extends UserController
             $args = array(
                 "message" => "I pickup " . $data->task_name . ".",
                 "type" => "notification",
-                "senderId" => $user_id,
+                "sender_id" => $user_id,
                 "url" => "http://localhost/public/user/project?id=" . $project_id,
-                "reciveId" => $thisProject->created_by
+                "recive_id" => $thisProject->created_by
             );
 
             $notificationId = $notificationController->setNotification($args);
@@ -131,7 +131,7 @@ class ProjectMemberController extends UserController
         }
 
         $args = array(
-            "taskId" => $taskId,
+            "task_id" => $taskId,
             "confirmation_type" => $data->confirmation_type,
             "confirmation_message" => $data->confirmation_message,
             "date" => $data->date,
@@ -158,9 +158,9 @@ class ProjectMemberController extends UserController
             $args = array(
                 "message" => $data->confirmation_message,
                 "type" => "notification",
-                "senderId" => $user_id,
+                "sender_id" => $user_id,
                 "url" => "http://localhost/public/user/project?id=" . $projectId,
-                "reciveId" => $thisProject->created_by
+                "recive_id" => $thisProject->created_by
             );
 
             $notificationId = $notificationController->setNotification($args);
@@ -348,11 +348,11 @@ class ProjectMemberController extends UserController
         $fileModel = new File();
         $user = new User();
 
-        $condition = "projectId = " . $_SESSION['project_id'];
+        $condition = "project_id = " . $_SESSION['project_id'];
         $files = $fileModel->getFiles($condition);
 
         foreach ($files as $file) {
-            $uploadedUser = $user->readMember("id", $file->uploaderId);
+            $uploadedUser = $user->readMember("id", $file->uploader_id);
             $file->uploaderName = $uploadedUser->first_name . " " . $uploadedUser->last_name;
             $file->profile = $uploadedUser->profile_picture;
         }
@@ -399,7 +399,7 @@ class ProjectMemberController extends UserController
         $filename = $base . "." . $pathinfo["extension"];
 
         $type = $this->getFileType($pathinfo["extension"]);
-        $sql = "INSERT INTO `files` (`fileName`, `fileType`, `projectId`, `uploaderId`, `filePath`) VALUES ('" . $filename . "', '" . $type . "', " . $_SESSION['project_id'] . ", " . $payload->id . ", :uploadedfile)";
+        $sql = "INSERT INTO `files` (`fileName`, `fileType`, `project_id`, `uploader_id`, `filePath`) VALUES ('" . $filename . "', '" . $type . "', " . $_SESSION['project_id'] . ", " . $payload->id . ", :uploadedfile)";
         var_dump($sql);
         $result = FileUploader::upload(
             allowed_file_types: array("image/jpg", "image/png", "image/gif", "image/jpeg", "document/pdf"),
@@ -562,11 +562,11 @@ class ProjectMemberController extends UserController
 
         $thisTask = $task->getTask(array("task_id" => $data->task_id), array("task_id"));
         if ($payload->id == $thisProject->created_by) {
-            $reciverId = $thisTask->memberId;
+            $reciverId = $thisTask->member_id;
         }
         // send notification to reciever
 
-        if ($thisTask->memberId != $thisProject->created_by) {
+        if ($thisTask->member_id != $thisProject->created_by) {
             try {
                 $notification = new Notification();
                 $notificationController = new NotificationController();
@@ -576,9 +576,9 @@ class ProjectMemberController extends UserController
                 $args = array(
                     "message" => $data->feedbackMessage,
                     "type" => "notification",
-                    "senderId" => $payload->id,
+                    "sender_id" => $payload->id,
                     "url" =>  "http://localhost/public/user/project?id=" . $_SESSION['project_id'],
-                    "reciveId" => $reciverId
+                    "recive_id" => $reciverId
                 );
 
                 $notificationId = $notificationController->setNotification($args);

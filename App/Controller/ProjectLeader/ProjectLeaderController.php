@@ -113,9 +113,9 @@ class ProjectLeaderController extends ProjectMemberController
                 $args = array(
                     "message" => "Invite you to the peoject.",
                     "type" => "request",
-                    "senderId" => $user_id,
+                    "sender_id" => $user_id,
                     "url" => "http://localhost/public/user/project?id=" . $project_id,
-                    "reciveId" => $receivedUser->id
+                    "recive_id" => $receivedUser->id
                 );
                 
                 $notificationId = $notificationController->setNotification($args);
@@ -182,9 +182,9 @@ class ProjectLeaderController extends ProjectMemberController
                         $notificationArgs = array(
                             "message" => "You are assigned to " . $args['taskname'] . " by project leader.",
                             "type" => "notification",
-                            "senderId" => $user_id,
+                            "sender_id" => $user_id,
                             "url" => "http://localhost/public/user/project?id=" . $_SESSION['project_id'],
-                            "reciveId" => $receivedUser->id
+                            "recive_id" => $receivedUser->id
                         );
                         
                         $notificationId = $notificationController->setNotification($notificationArgs);
@@ -206,11 +206,11 @@ class ProjectLeaderController extends ProjectMemberController
 
                 $args = array(
                     "status" => "ONGOING",
-                    "memberId" => $receivedUser->id,
+                    "member_id" => $receivedUser->id,
                     "project_id" => $_SESSION['project_id'],
                     "task_name" => $args['taskname']
                 );
-                $updates = array("status", "memberId");
+                $updates = array("status", "member_id");
                 $conditions = array("project_id", "task_name");
 
                 $task->updateTask($args, $updates, $conditions);
@@ -245,8 +245,8 @@ class ProjectLeaderController extends ProjectMemberController
         $successMessage = "";
 
         if ($data->new_board === "TO-DO") {
-            $args['memberId'] = NULL;
-            $updates[] = "memberId";
+            $args['member_id'] = NULL;
+            $updates[] = "member_id";
 
             // we have to delete all messages as well related to that task
             $rearrangedTask = $task->getTask(array("project_id" => $project_id, "task_name" => $data->task_name), array("project_id", "task_name"));
@@ -287,7 +287,7 @@ class ProjectLeaderController extends ProjectMemberController
         if ($receivedUser) {
             $args = array(
                 "status" => "ONGOING",
-                "memberId" => $receivedUser->id,
+                "member_id" => $receivedUser->id,
                 "project_id" => $project_id,
                 "task_name" => $data->task_name
             );
@@ -295,7 +295,7 @@ class ProjectLeaderController extends ProjectMemberController
             $task = new Task();
             $message = "";
 
-            $updates = array("status", "memberId");
+            $updates = array("status", "member_id");
             $conditions = array("project_id", "task_name");
 
             try {
@@ -308,9 +308,9 @@ class ProjectLeaderController extends ProjectMemberController
                 $args = array(
                     "message" => "Leader assigned you to " . $data->task_name . '.',
                     "type" => "notification",
-                    "senderId" => $user_id,
+                    "sender_id" => $user_id,
                     "url" => "http://localhost/public/user/project?id=" . $project_id,
-                    "reciveId" => $receivedUser->id
+                    "recive_id" => $receivedUser->id
                 );
                 
                 $notificationId = $notificationController->setNotification($args);
@@ -360,7 +360,7 @@ class ProjectLeaderController extends ProjectMemberController
             "priority" => "high",
             "status" => "ONGOING",
             "assign_type" => "group",
-            "memberId" => $user_id,
+            "member_id" => $user_id,
         );
 
         $group = new Group();
@@ -369,7 +369,7 @@ class ProjectLeaderController extends ProjectMemberController
         $message = "";
         try {
             $group->createGroup($args, $keys);
-            $task->createTask($taskArgs, array("project_id", "description", "task_name", "priority", "status", "assign_type", "memberId"));
+            $task->createTask($taskArgs, array("project_id", "description", "task_name", "priority", "status", "assign_type", "member_id"));
 
             // until project leader add a new group leader, he or she will be the group leader
             $newGroup = $group->getGroup(array("group_name" => $data['group_name'], "project_id" => $project_id,), array("group_name", "project_id"));
@@ -436,9 +436,9 @@ class ProjectLeaderController extends ProjectMemberController
             $args = array(
                 "message" => $data->announcementHeading,
                 "type" => "notification",
-                "senderId" => $payload->id,
+                "sender_id" => $payload->id,
                 "url" => "http://localhost/public/projectmember/getinfo",
-                "reciveId" => null
+                "recive_id" => null
             );
             
             $notificationId = $notificationController->setNotification($args);

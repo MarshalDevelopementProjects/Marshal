@@ -148,7 +148,7 @@ class Notification implements Model
 
         $sql_string = "UPDATE notification_recievers
         SET isRead = 1
-        WHERE notificationId = :notificationId AND memberId = :memberId";
+        WHERE notification_id = :notification_id AND member_id = :member_id";
 
         try {
             $this->crud_util->execute($sql_string, $args);

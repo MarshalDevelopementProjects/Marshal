@@ -44,7 +44,7 @@ class ProjectController
                         break;
                     case 'ONGOING':
 
-                        $userData = $user->readUser("id", $task->memberId);
+                        $userData = $user->readUser("id", $task->member_id);
                         $userData = $user->getUserData();
 
                         if ($userData) {
@@ -56,7 +56,7 @@ class ProjectController
                         break;
                     case 'REVIEW':
 
-                        $userData = $user->readUser("id", $task->memberId);
+                        $userData = $user->readUser("id", $task->member_id);
                         $userData = $user->getUserData();
 
                         if ($userData) {
@@ -68,14 +68,14 @@ class ProjectController
                         // get completed data
 
                         // $taskData = $newTask->getTask(array("project_id" => $_SESSION['project_id'], "task_name" => "Build API")); 
-                        $completedData = $newTask->getTaskCompletedDetails(array("taskId" => $task->task_id));
+                        $completedData = $newTask->getTaskCompletedDetails(array("task_id" => $task->task_id));
                         $task->completeTime = $completedData->date . ' ' . $completedData->time;
                         $task->confirmationMessage = $completedData->confirmation_message;
 
                         $reviewTasks[] = $task;
                         break;
                     case 'DONE':
-                        $userData = $user->readUser("id", $task->memberId);
+                        $userData = $user->readUser("id", $task->member_id);
                         $userData = $user->getUserData();
 
                         if ($userData) {

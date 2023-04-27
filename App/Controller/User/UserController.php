@@ -426,7 +426,7 @@ class UserController extends Controller
 
         // set as read the notification 
 
-        if ($project->joinProject($args) && $this->readNotification(array("notificationId" => $notificationId, "memberId" => $userId))) {
+        if ($project->joinProject($args) && $this->readNotification(array("notification_id" => $notificationId, "member_id" => $userId))) {
             $this->sendResponse(
                 view: "/user/login.html",
                 status: "success"
@@ -447,7 +447,7 @@ class UserController extends Controller
 
         // set the notification as read 
         $notification = new Notification();
-        $notification->readNotification(array("notificationId" => $notification_id, "memberId" => $payload->id));
+        $notification->readNotification(array("notification_id" => $notification_id, "member_id" => $payload->id));
 
         // redirect to notification URL
         $clickedNotification = $notification->getNotification(array("id" => $notification_id), array("id"));
@@ -545,7 +545,7 @@ class UserController extends Controller
         $project = new Project($payload->id);
         $payload = $this->userAuth->getCredentials();
 
-        $condition = " WHERE id IN (SELECT notificationId FROM notification_recievers WHERE memberId = " .$payload->id. " AND isRead = 0)";
+        $condition = " WHERE id IN (SELECT notification_id FROM notification_recievers WHERE member_id = " .$payload->id. " AND isRead = 0)";
         $notifications = [];
         try {
             $notifications = $notification->getNotifications($condition);
@@ -556,10 +556,10 @@ class UserController extends Controller
 
         if($notifications){
             foreach($notifications as $notification) {
-                $user->readUser("id", $notification->senderId);
+                $user->readUser("id", $notification->sender_id);
                 $sender = $user->getUserData();
                 $notification->sender_name = $sender->first_name . " " . $sender->last_name;
-                $notification->project_name = $project->getProject(array("id" => $notification->projectId))->project_name;
+                $notification->project_name = $project->getProject(array("id" => $notification->project_id))->project_name;
                 $notification->sender_profile = $sender->profile_picture;
             }
         }
@@ -576,7 +576,7 @@ class UserController extends Controller
         $payload = $this->userAuth->getCredentials();
 
         $task = new Task();
-        $tasks = $task->getTasks(array("status" => "ONGOING", "memberId" => $payload->id), array("status", "memberId"));
+        $tasks = $task->getTasks(array("status" => "ONGOING", "member_id" => $payload->id), array("status", "member_id"));
         // var_dump($tasks);
         $deadlines = [];
         if($tasks){

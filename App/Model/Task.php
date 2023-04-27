@@ -154,7 +154,7 @@ class Task implements Model
 
     public function completeTask(array $args = array()): bool
     {
-        $sql_string = "INSERT INTO completedtask (`taskId`, `confirmation_type`, `confirmation_message`, `date`, `time`) VALUES (:taskId, :confirmation_type, :confirmation_message, :date, :time)";
+        $sql_string = "INSERT INTO completedtask (`task_id`, `confirmation_type`, `confirmation_message`, `date`, `time`) VALUES (:task_id, :confirmation_type, :confirmation_message, :date, :time)";
 
         try {
             $this->crud_util->execute($sql_string, $args);
@@ -166,7 +166,7 @@ class Task implements Model
 
     public function getTaskCompletedDetails(array $args = array()): object|bool|array
     {
-        $sql_string = "SELECT * FROM completedtask WHERE taskId = :taskId";
+        $sql_string = "SELECT * FROM completedtask WHERE task_id = :task_id";
 
         $result = $this->crud_util->execute($sql_string, $args);
         if ($result->getCount() > 0) {
