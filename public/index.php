@@ -4,7 +4,7 @@ require __DIR__ . "/../vendor/autoload.php";
 
 header("Access-Control-Allow-Origin: http://localhost");
 header("Access-Control-Allow-Credentials: true");
-header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Authorization, Origin, IMAGE_TYPE, IMAGE_NAME');
+header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Authorization, Origin, IMAGE_TYPE, IMAGE_NAME, FILE_NAME, FILE_TYPE');
 header('Access-Control-Allow-Methods:  POST, PUT, GET, DELETE');
 
 use Core\Request;
@@ -92,6 +92,8 @@ $router->get('/projectmember/getinfo', ProjectMemberController::class . '::getPr
 $router->post('/projectleader/invite', ProjectLeaderController::class . '::sendProjectInvitation');
 $router->post('/projectleader/createtask', ProjectLeaderController::class . '::createTask');
 $router->post('/projectleader/group', ProjectLeaderController::class . '::createGroup');
+$router->get('/projectmember/fileupload', ProjectMemberController::class . '::getFileUploadPage');
+$router->post('/projectmember/fileupload', ProjectMemberController::class . '::fileUpload');
 
 $router->get('/user/profile', UserController::class . '::viewProfile');
 $router->put('/user/profile/edit', UserController::class . '::editProfile');
