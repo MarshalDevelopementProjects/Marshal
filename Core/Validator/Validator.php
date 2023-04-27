@@ -5,6 +5,8 @@ namespace Core\Validator;
 require __DIR__ . "/../../vendor/autoload.php";
 
 use App\CrudUtil\CrudUtil;
+use DateTime;
+use DateTimeZone;
 use Exception;
 
 /**
@@ -37,7 +39,6 @@ class Validator
 
     /**
      * @access public
-     * @return Validator
      * @throws Exception
      */
     public function __construct()
@@ -117,7 +118,54 @@ class Validator
                                     }
                                     break;
                                 case 'exists': {
+                                        /*
+                                         * Format
+                                         * "exists": {
+                                         *              "table" : "name of the table to check",
+                                         *              "field": "field to look for (make use these fields only apply for either unique of primary key fields) this is optional"
+                                         *            }
+                                         * */
                                         // check whether the property exists
+                                        if ($rule_value) {
+                                            $sql_string = "SELECT {$key} FROM {$rule_value["table"]} WHERE {$key} = :{$key}";
+                                            if (array_key_exists("field", $rule_value)) {
+                                                $sql_string = "SELECT {$rule_value["field"]} FROM {$rule_value["table"]} WHERE {$rule_value["field"]} = :{$key}";
+                                            }
+                                            $result = $this->crud_util->execute($sql_string, array("{$key}" => $value));
+                                            if (!$result->getCount()) {
+                                                $this->errors[] = str_replace('_', ' ', $key) . " does not exists";
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case 'time_stamp': {
+                                    // check whether a given date is valid(if the date is today's date then check the time)
+                                        if ($rule_value) {
+                                           $against = strtotime($value);
+                                           $now = strtotime("now");
+                                           if ($now >= $against) {
+                                               $this->errors[] = "The date and times you entered aren't valid please check again and try";
+                                           }
+                                        }
+                                    }
+                                    break;
+                                case 'date': {
+                                    // check whether a given date is valid
+                                        $now = (new DateTime('now', new DateTimeZone("Asia/Colombo")))->format('Y-m-d');
+                                        $against = (new DateTime($value, new DateTimeZone("Asia/Colombo")))->format('Y-m-d');
+                                        if ($now > $against) {
+                                            $this->errors[] = "The date that you provided is not a valid date please check again";
+                                        } else if ($now == $against) {
+                                            if (array_key_exists("if_eq_time", $rule_value)) {
+                                                $time_now = (new DateTime('now', new DateTimeZone("Asia/Colombo")))->format("H:i:s");
+                                                var_dump($time_now);
+                                                $time_against = DateTime::createFromFormat('H:i:s', $values[$rule_value["if_eq_time"]])->format("H:i:s");
+                                                var_dump($time_against);
+                                                if ($time_now >= $time_against) {
+                                                    $this->errors[] = "The date and time values that you provided are not valid please check the date and time values again";
+                                                }
+                                            }
+                                        }
                                     }
                                     break;
                                 case 'enum': {
