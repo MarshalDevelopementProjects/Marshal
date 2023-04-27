@@ -32,6 +32,13 @@ function testGetProjectFeedbackMessages(): void
     $project_leader_controller->getProjectFeedbackMessages();
 }
 
+function testScheduleConference() {
+    $project_leader_controller = new ProjectLeaderController();
+    echo "<pre>";
+    $project_leader_controller->scheduleConference([]);
+    echo "</pre>";
+}
+
 // the following two functions can only be tested much later
 /*function testPostMessageToGroupFeedback(): void
 {
@@ -53,3 +60,5 @@ function testGetProjectFeedbackMessages(): void
 // testGetProjectFeedbackMessages();
 // testPostMessageToGroupFeedback();
 // testGetGroupFeedbackMessages();
+
+testScheduleConference();
