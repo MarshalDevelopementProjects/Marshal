@@ -29,7 +29,7 @@ function testGetGroupMessages() {
     echo "<pre>";
     echo "Testing the getGroupMessages() method\n";
     echo "<br>";
-    $group_member->getGroupMessages(1, 1);
+    $group_member->getGroupForumMessages(1, 1);
     var_dump($group_member->getMessageData());
     echo "</pre>";
 }

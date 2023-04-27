@@ -28,7 +28,7 @@ function testGetGroupMessages() {
     echo "<pre>";
     echo "Testing the getGroupMessages() method\n";
     echo "<br>";
-    $group_leader->getGroupMessages(1, 1);
+    $group_leader->getGroupForumMessages(1, 1);
     var_dump($group_leader->getMessageData());
     echo "</pre>";
 }
@@ -48,7 +48,7 @@ function testGetGroupFeedbackMessages() {
     echo "<pre>";
     echo "Testing the getGroupFeedbackMessages() method\n";
     echo "<br>";
-    $group_leader->getGroupFeedbackMessages(1);
+    $group_leader->getGroupFeedbackForumMessages(1);
     var_dump($group_leader->getMessageData());
     echo "</pre>";
 }
