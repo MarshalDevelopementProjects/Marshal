@@ -92,7 +92,7 @@ class UserController extends Controller
                 $projectData->memberProfiles = $user->getUserProfiles(array("project_id" => $projectData->id, "role" => "MEMBER", "role2" => "LEADER"), $condition);
 
             }
-            
+              
         }
         $data += array("projects" => $Projects);
 
@@ -282,7 +282,8 @@ class UserController extends Controller
                         "user_status" => $user_data->user_status,
                         "position" => $user_data->position,
                         "display_picture" => $user_data->profile_picture,
-                        "bio" => $user_data->bio
+                        "bio" => $user_data->bio,
+                        "commits"=> $this->user->getCommit($user_data->id)
                     ),
                     "other_info" => array()
                 )

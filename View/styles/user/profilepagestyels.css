@@ -43,7 +43,7 @@ body {
 }
 
 #user-name {
-    font-size: 10px;
+    font-size: 13px;
     margin-left: 9px;
     margin-top: 4px;
 }
@@ -62,9 +62,9 @@ body {
 .left-panel {
     position: fixed;
     z-index: 1;
-    margin: 135px 0 0 3px;
+    margin: 100px 0 0 3px;
     width: 240px;
-    height: 550px;
+    height: 630px;
     border-radius: 12px;
     padding: 10px;
     background-color: #fff;
@@ -110,7 +110,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 10px 0px 0 auto;
+    margin: 100px 0px 0 auto;
     /*60*/
     background-color: #ddd;
     color: #333;
@@ -118,7 +118,7 @@ body {
 }
 
 .bottom-calender {
-    margin-top: 10px;
+    margin-top: 40px;
     /* border: 1px solid black; */
     height: 250px;
 }
@@ -236,7 +236,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: -102px;
+    margin-top: 12px;
     margin-right: -15px;
 }
 
@@ -271,6 +271,13 @@ body {
 
 .top-menus .menu.active {
     display: none;
+}
+
+.top-menus ul a li{
+    list-style: none;
+}
+.top-menus ul a{
+    text-decoration: none;
 }
 
 
@@ -448,6 +455,7 @@ select {
 
 .user-pwd-area {
     margin-top: 20px;
+    margin-bottom :-180px;
     width: 1000px;
     height: 250px;
 }
