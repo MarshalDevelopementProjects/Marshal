@@ -4,13 +4,10 @@ namespace App\SocketServer\src;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
-use App\Model\Group;
-use Exception;
-use App\Model\User;
-use App\Model\project;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use SplObjectStorage;
+use Exception;
 
 // TODO: INCLUDE DOCS FOR SIGNALING SERVER ROUTES
 
@@ -24,7 +21,7 @@ class SignalingServer implements MessageComponentInterface
         $this->clients = new SplObjectStorage();
     }
 
-    function onOpen(ConnectionInterface $conn)
+    function onOpen(ConnectionInterface $conn): void
     {
         // TODO: Implement onOpen() method.
 
@@ -37,7 +34,7 @@ class SignalingServer implements MessageComponentInterface
         $conn->send(json_encode(["status" => "success", "message" => "connection established"]));
     }
 
-    function onClose(ConnectionInterface $conn)
+    function onClose(ConnectionInterface $conn): void
     {
         // TODO: Implement onClose() method.
 
@@ -48,7 +45,7 @@ class SignalingServer implements MessageComponentInterface
         $conn->send(json_encode(["status" => "success", "message" => "connection terminated"]));
     }
 
-    function onError(ConnectionInterface $conn, Exception $e)
+    function onError(ConnectionInterface $conn, Exception $e): void
     {
         // TODO: Implement onError() method.
 
@@ -59,7 +56,7 @@ class SignalingServer implements MessageComponentInterface
         $conn->send(json_encode(["status" => "error", "message" => "an error occurred"]));
     }
 
-    function onMessage(ConnectionInterface $from, $msg)
+    function onMessage(ConnectionInterface $from, $msg): void
     {
         // TODO: Implement onMessage() method.
 
