@@ -44,6 +44,10 @@ class GroupMemberController extends ProjectMemberController
         );
     }
 
+    public function goToGroupForum(): void
+    {
+    }
+
     // $args must follow this format
     // ["message" => "content of the message"]
     public function postMessageToGroupForum(array $args)
