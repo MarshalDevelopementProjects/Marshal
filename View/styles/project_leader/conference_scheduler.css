@@ -1,0 +1,256 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f7f7;
+}
+
+.container {
+    width: 98%;
+    margin-top: 10px;
+}
+
+.container .navbar {
+    position: fixed;
+    width: 98%;
+    height: 60px;
+    background-color: #F83B3B;
+    border: none;
+    outline: none;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.navbar .left-logo-area {
+    flex: 1;
+}
+
+.navbar .logo {
+    width: 60px;
+    height: 60px;
+    margin-left: 12px;
+    margin-right: auto;
+    cursor: pointer;
+}
+
+.container .right-profile-area {
+    /* border: 1px solid #fff; */
+    display: flex;
+}
+
+.right-profile-area img {
+    width: 50px;
+    height: 50px;
+    margin: 5px 25px 0 0;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 3px solid #e7e7e7;
+}
+
+.right-profile-area i {
+    color: #f7f7f7;
+    font-size: 20px;
+    margin: 20px 15px 20px 5px;
+    cursor: pointer;
+}
+
+.right-profile-area i:hover {
+    font-weight: 600;
+    color: #514848;
+}
+
+.right-profile-area button {
+    background-color: #fff;
+    font-size: 13px;
+    /* font-weight: 545; */
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    color: #514848;
+    margin: 15px 10px 0 0;
+    height: 30px;
+    width: 120px;
+    cursor: pointer;
+}
+
+.right-profile-area button:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.projects-container {
+    margin-top: 5px;
+    display: flex;
+}
+
+.left-panel {
+    position: fixed;
+    /* border: 1px solid black; */
+    margin: 75px 0 0 3px;
+    width: 240px;
+    height: 630px;
+    border-radius: 12px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.left-panel .top-menus {
+    margin: 0px;
+    text-decoration: none;
+    padding: 2px 15px 15px 15px;
+}
+
+.top-menus ul {
+    text-decoration: none;
+    list-style: none;
+}
+
+.top-menus ul a {
+    text-decoration: none;
+}
+
+.top-menus ul li {
+    background-color: #f7f7f7;
+    margin: 8px 3px;
+    height: 30px;
+    border-radius: 8px;
+    text-align: center;
+    padding-top: 6px;
+    font-size: 15px;
+    color: #031738;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.top-menus ul li:hover {
+    background-color: #dbd7d7;
+}
+
+.top-menus ul li.active {
+    background-color: #F83B3B;
+    color: #fff;
+}
+
+.left-panel .middle-icon {
+    /* border: 1px solid black; */
+    width: 15px;
+    height: 36px;
+    border-radius: 4px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0px 0 auto;
+    /*60*/
+    background-color: #ddd;
+    color: #333;
+    cursor: pointer;
+}
+
+.bottom-calender {
+    margin-top: 125px;
+    /* border: 1px solid black; */
+    height: 250px;
+}
+
+.bottom-calender .top-month {
+    display: flex;
+    height: 30px;
+    justify-content: space-around;
+    /* border: 1px solid black; */
+}
+
+.top-month p {
+    padding-top: 5px;
+    font-weight: 550;
+    color: #F83B3B;
+}
+
+.top-month button {
+    padding-top: 0;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    color: #514848;
+    font-size: x-large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.bottom-calender .day-names {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0 5px;
+    margin-top: 5px;
+}
+
+.day-names p {
+    width: 25px;
+    font-size: 11px;
+    text-align: center;
+    color: #555;
+}
+
+.bottom-calender .days {
+    margin-top: 15px;
+}
+
+.days .days-line {
+    display: flex;
+    justify-content: space-between;
+    height: 25px;
+    margin-bottom: 7px;
+    padding: 0 5px;
+}
+
+.days-line p {
+    /* border: 1px solid black; */
+    width: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: small;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+.days-line .day.today {
+    background-color: #F83B3B;
+    color: #fff;
+}
+
+.days-line .day.deadline {
+    background-color: #031738;
+    color: #fff;
+    cursor: pointer;
+}
+
+.days-line .inactive {
+    color: #dbd7d7;
+}
+
+.days-line .today {
+    background-color: #0a4fa3;
+    color: #fff;
+}
+
+.days-line .deadline {
+    background-color: #F83B3B;
+    color: #fff;
+    cursor: pointer;
+}
