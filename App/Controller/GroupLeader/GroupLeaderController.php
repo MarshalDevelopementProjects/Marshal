@@ -4,6 +4,7 @@ namespace App\Controller\GroupLeader;
 
 use App\Controller\Authenticate\UserAuthController;
 use App\Controller\ProjectMember\ProjectMemberController;
+use App\Controller\Notification\NotificationController;
 use App\Controller\Message\MessageController;
 use App\Model\GroupLeader;
 use App\Model\User;
@@ -64,32 +65,19 @@ class GroupLeaderController extends ProjectMemberController
                         // get leader id
                         $payload = $this->userAuth->getCredentials();
                         $user_id = $payload->id;
-                        $date = date("Y-m-d H:i:s");
-
-                        // now we have to send a notification as well 
-                        // $notificationArgs = array(
-                        //     "projectId" => $_SESSION['project_id'],
-                        //     "message" => "You are assigned to " . $args['taskname'] . " by project leader",
-                        //     "type" => "notification",
-                        //     "senderId" => $user_id,
-                        //     "sendTime" => $date
-                        // );
-                        // $notification = new Notification();
-                        // $notification->createNotification($notificationArgs);
-
-                        // $notifyConditions = array(
-                        //     "projectId" => $_SESSION['project_id'],
-                        //     "senderId" => $user_id,
-                        //     "sendTime" => $date
-                        // );
-                        // $newNotification = $notification->getNotificationData($notifyConditions);
-                        // $newNotificationId = $newNotification[0]->id;
-
-                        // $notifyMemberArgs = array(
-                        //     "notificationId" => $newNotificationId,
-                        //     "memberId" => $receivedUser->id
-                        // );
-                        // $notification->setNotifiedMembers($notifyMemberArgs);
+                        
+                        $notification = new Notification();
+                        $notificationController = new NotificationController();
+            
+                        $args = array(
+                            "message" => "You are assigned to " . $args['taskname'] . " by project leader",
+                            "type" => "notification",
+                            "senderId" => $user_id,
+                            "url" => "Location: http://localhost/public/projectmember/group?id=" . $_SESSION['group_id'],
+                            "reciveId" => $receivedUser->id
+                        );
+                        
+                        $notificationId = $notificationController->setNotification($args);
                     }
                 }
             }
@@ -198,10 +186,36 @@ class GroupLeaderController extends ProjectMemberController
             );
 
             $message->setMessageType($messageTypeArgs, array("message_id", "project_id", "heading"), "group_announcement");
+
+            // send notifications
+            try {
+                $notification = new Notification();
+                $group = new Group();
+                $notificationController = new NotificationController();
+    
+                $args = array(
+                    "message" => $data->announcementHeading,
+                    "type" => "notification",
+                    "senderId" => $payload->id,
+                    "url" => "http://localhost/public/projectmember/group?id=" . $_SESSION['group_id'],
+                    "reciveId" => null
+                );
+                
+                $notificationId = $notificationController->setNotification($args);
+                
+                $condition = "WHERE id IN (SELECT member_id FROM group_join WHERE group_id = :group_id)";
+                $members = $user->getAllUsers(array("group_id" => $_SESSION['group_id']), $groupMemberCondition);
+                
+                $notificationController->boardcastNotification($notificationId, $members);
+    
+            } catch (\Throwable $th) {
+                $successMessage = $th->getMessage();
+            }
+
             $successMessage = "Message sent successfully";
         } catch (\Throwable $th) {
-            // $successMessage = "Message sent failed";
-            throw $th;
+            $successMessage = "Message sent failed";
+            // throw $th;
         }
 
         
