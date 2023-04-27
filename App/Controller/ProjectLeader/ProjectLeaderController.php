@@ -80,6 +80,10 @@ class ProjectLeaderController extends ProjectMemberController
             $data += array("profile" => $user->getUserData()->profile_picture);
         }
 
+        if ($this->projectLeader->getProjectFeedbackMessages()) {
+            $data["feedback_messages"] = $this->projectLeader->getMessageData();
+        }
+
         $this->sendResponse(
             view: "/project_leader/getProjectInfo.html",
             status: "success",
