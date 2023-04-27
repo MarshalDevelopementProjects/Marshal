@@ -1,5 +1,53 @@
 // Define the contribution levels and colors
-var levels = [  { value: 0, color: '#ebedf0', text: 'No contributions' },  { value: 1, color: '#c6e48b', text: '1 contribution' },  { value: 3, color: '#7bc96f', text: '3 contributions' },  { value: 6, color: '#239a3b', text: '6 contributions' },  { value: 9, color: '#196127', text: '9 contributions' }];
+var levels = [  
+                { value: 0, color: '#ebedf0', text: 'No contributions' }, 
+                { value: 1, color: '#c6e48b', text: '1 contribution' },
+                { value: 2, color: '#c6e48b', text: '1 contribution' },
+                { value: 3, color: '#7bc96f', text: '3 contributions' },
+                { value: 4, color: '#7bc96f', text: '3 contributions' },
+                { value: 5, color: '#7bc96f', text: '3 contributions' },
+                { value: 6, color: '#239a3b', text: '6 contributions' },
+                { value: 7, color: '#239a3b', text: '6 contributions' },
+                { value: 8, color: '#239a3b', text: '6 contributions' },
+                { value: 9, color: '#196127', text: '9 contributions' }
+];
+
+var level_legend = [
+  { value: 0, color: '#ebedf0', text: 'No contributions' },
+  { value: 1, color: '#c6e48b', text: '1 < 3 contribution' },
+  { value: 3, color: '#7bc96f', text: '3 < 6 contributions' },
+  { value: 6, color: '#239a3b', text: '6 < 9 contributions' },
+  { value: 9, color: '#196127', text: '9 < contributions' }
+];
+
+console.log(jsonData.user_info.commits);
+var tasks = jsonData.user_info.commits;
+// extract date information and group tasks by date
+const tasksByDate = tasks.reduce((acc, task) => {
+  const date = task.date;
+  acc[date] = acc[date] || [];
+  acc[date].push(task);
+  return acc;
+}, {});
+
+// count tasks by date and create array of objects with date and count
+const result = Object.entries(tasksByDate).map(([date, tasks]) => {
+  return { date, count: tasks.length };
+});
+
+var myData = result.map(function(item) {
+  var count = item.count;
+  if (count > 0 && count < 3) {
+    count = 1;
+  } else if (count >= 3 && count < 6) {
+    count = 3;
+  } else if (count >= 6 && count < 9) {
+    count = 6;
+  } else if (count >= 9) {
+    count = 9;
+  }
+  return { date: item.date, count: count };
+});
 
 // Get the current year
 var year = moment().year();
@@ -30,22 +78,57 @@ for (var i = 0; i < 12; i++) {
   monthCell.classList.add('monthCalender');
   row.appendChild(monthCell);
 
-  // Add the commit squares for the month
+  // Add the commit squares for the month using your own data
   for (var j = 1; j <= 31; j++) {
     var cell = document.createElement('td');
     cell.style.textAlign = 'center';
-
+  
     if (j > month.daysInMonth()) {
       cell.innerHTML = '';
     } else {
-      var count = Math.floor(Math.random() * levels.length);
+      // Find the data for the current date
+      var data = myData.find(function(item) {
+        return item.date === year + '-' + month.format('MM') + '-' + j.toString().padStart(2, '0');
+      });
+      var count = data ? data.count : 0;
       var active = month.isSame(moment(), 'monthCalender') && j === moment().date();
-      cell.innerHTML = '<div class="commit' + (active ? ' active' : '') + '" style="background-color: ' + levels[count].color + ';"></div>';
-    }
+      var commitSquare = document.createElement('div');
+      commitSquare.classList.add('commit');
+      commitSquare.style.backgroundColor = levels[count].color;
+      if (active) {
+        commitSquare.classList.add('active');
+      }
+      commitSquare.dataset.date = `${year}-${month.format('MM')}-${j.toString().padStart(2, '0')}`;
 
+      commitSquare.addEventListener('mouseenter', function(event) {
+        var tooltip = document.createElement('div');
+        tooltip.innerText = event.target.dataset.date;
+        tooltip.style.position = 'absolute';
+        tooltip.style.top = (event.pageY + 10) + 'px';
+        tooltip.style.left = (event.pageX + 10) + 'px';
+        tooltip.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        tooltip.style.color = '#fff';
+        tooltip.style.padding = '5px';
+        tooltip.style.borderRadius = '5px';
+        tooltip.style.fontSize = '10px';
+        tooltip.style.zIndex = 999;
+        document.body.appendChild(tooltip);
+        commitSquare.tooltip = tooltip;
+      });
+      
+      commitSquare.addEventListener('mouseleave', function(event) {
+        if (commitSquare.tooltip) {
+          commitSquare.tooltip.parentNode.removeChild(commitSquare.tooltip);
+          commitSquare.tooltip = null;
+        }
+      });
+      
+      cell.appendChild(commitSquare);
+    }
+  
     row.appendChild(cell);
   }
-
+  
   table.appendChild(row);
 }
 
@@ -54,8 +137,8 @@ var legend = document.createElement('div');
 legend.classList.add('legend');
 legend.style.display = 'flex';
 legend.style.marginTop = '1rem';
-for (var k = 0; k < levels.length; k++) {
-  var level = levels[k];
+for (var k = 0; k < level_legend.length; k++) {
+  var level = level_legend[k];
   var legendItem = document.createElement('div');
   legendItem.style.flex = 1;
   legendItem.style.textAlign = 'center';
@@ -66,5 +149,3 @@ for (var k = 0; k < levels.length; k++) {
 var commit_container = document.getElementById('commit_container');
 commit_container.appendChild(table);
 commit_container.appendChild(legend);
-
-
