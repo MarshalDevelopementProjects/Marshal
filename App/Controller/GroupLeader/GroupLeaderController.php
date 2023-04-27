@@ -115,22 +115,54 @@ class GroupLeaderController extends ProjectMemberController
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function getGroupInfo()
     {
         $this->sendResponse(
             view: "/group_leader/groupInfo.html",
             status: "success",
+            content: [
+                "messages" => $this->groupLeader->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"]) ? $this->groupLeader->getMessageData() : [],
+            ]
         );
     }
 
-    public function goToGroupForum(): void
+    /**
+     * @throws Exception
+     */
+    public function getForum(): void
     {
+        $this->sendResponse(
+            view: "/group_leader/forum.html",
+            status: "success",
+            content: [
+                "project_id" => $_SESSION["project_id"],
+                "group_id" => $_SESSION["group_id"],
+                "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture],
+                "messages" => $this->groupLeader->getGroupForumMessages(project_id: $_SESSION["project_id"]) ? $this->groupLeader->getMessageData() : [],
+                "members" =>  $this->groupLeader->getGroupMembers() ? $this->groupLeader->getGroupMemberData() : [],
+            ]
+        );
     }
 
-    public function goToGroupFeedbackForum(): void
+    /**
+     * @throws Exception
+     */
+    public function getGroupFeedbackForum(): void
     {
+        $this->sendResponse(
+            view: "/group_leader/feedback_forum.html",
+            status: "success",
+            content: [
+                "project_id" => $_SESSION["project_id"],
+                "group_id" => $_SESSION["group_id"],
+                "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture],
+                "messages" => $this->groupLeader->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"]) ? $this->groupLeader->getMessageData() : [],
+            ]
+        );
     }
-
 
     // $args = ["message" => "message string"];
     public function postMessageToGroupFeedback(array|object $args)
@@ -163,7 +195,7 @@ class GroupLeaderController extends ProjectMemberController
         // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
         // TODO: SO THAT YOU WILL BE ABLE TO RETURN THE GROUP CANNOT BE FOUND ERROR
         try {
-            if ($this->groupLeader->getGroupFeedbackMessages($_SESSION["project_id"])) {
+            if ($this->groupLeader->getGroupFeedbackForumMessages($_SESSION["project_id"])) {
                 $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupLeader->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
@@ -199,7 +231,7 @@ class GroupLeaderController extends ProjectMemberController
     public function getGroupForumMessages()
     {
         try {
-            if ($this->groupLeader->getGroupMessages(project_id: $_SESSION["project_id"])) {
+            if ($this->groupLeader->getGroupForumMessages(project_id: $_SESSION["project_id"])) {
                 $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupLeader->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
