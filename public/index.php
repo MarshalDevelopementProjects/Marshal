@@ -129,16 +129,11 @@ $router->post('/group/member/task/feedback/messages', GroupMemberController::cla
 $router->get('/project/client/project/feedback/messages', ClientController::class . '::getProjectFeedbackMessages');
 $router->post('/project/client/project/feedback/messages', ClientController::class . '::postMessageToProjectFeedback');
 
+$router->get('/project/leader/conference/scheduler', ProjectLeaderController::class . '::gotoConferenceScheduler');
 $router->get('/project/leader/conference', ProjectLeaderController::class . '::gotoConference');
-// $router->get('/project/leader/conference/schedule', ProjectLeaderController::class . '::');
-// $router->post('/project/leader/conference/schedule', ProjectLeaderController::class . '::');
 
-$router->get('/group/leader/conference', ProjectMemberController::class . '::gotoConference');
-// $router->get('/group/leader/conference/schedule', ProjectMemberController::class . '::');
-
-$router->get('/project/client/conference', ProjectMemberController::class . '::gotoConference');
-// $router->get('/project/client/conference/schedule', ProjectMemberController::class . '::');
-// $router->post('/project/client/conference/schedule', ProjectMemberController::class . '::');
+$router->get('/project/client/conference/scheduler', ClientController::class . '::gotoConferenceScheduler');
+$router->get('/project/client/conference', ClientController::class . '::gotoConference');
 
 // sanitize the uri
 $uri = htmlspecialchars(
