@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2023 at 11:09 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Apr 27, 2023 at 11:49 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `marshal2_0`
+-- Database: `marshal5_0`
 --
 
 -- --------------------------------------------------------
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `addmessagerefference` (
                                         `message_id` int(11) NOT NULL,
                                         `notification_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -50,7 +50,7 @@ CREATE TABLE `admin` (
                          `password` varchar(136) NOT NULL,
                          `phone_number` varchar(20) NOT NULL,
                          `joined_datetime` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin`
@@ -58,14 +58,6 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `first_name`, `last_name`, `username`, `email_address`, `street_address`, `city`, `country`, `password`, `phone_number`, `joined_datetime`) VALUES
     (0, 'Adam', 'West', 'SysAdmin', 'adam_west@gmail.com', 'No. 23, Top street', 'York City', 'England', '$argon2id$v=19$m=65536,t=4,p=1$Vkg2Skx6MERFR0JUZ05kZQ$xvR7jk/Yo5waSWOV6/OUC3scLeNVZ2hs1mZ2YMD0xFI', '0709078923', '2023-01-22 12:20:28');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `client_feedback`
---
--- Error reading structure for table marshal2_0.client_feedback: #1932 - Table &#039;marshal2_0.client_feedback&#039; doesn&#039;t exist in engine
--- Error reading data for table marshal2_0.client_feedback: #1064 - You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near &#039;FROM `marshal2_0`.`client_feedback`&#039; at line 1
 
 -- --------------------------------------------------------
 
@@ -79,7 +71,7 @@ CREATE TABLE `completedtask` (
                                  `confirmation_message` varchar(100) NOT NULL,
                                  `date` date NOT NULL,
                                  `time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `completedtask`
@@ -90,6 +82,23 @@ INSERT INTO `completedtask` (`task_id`, `confirmation_type`, `confirmation_messa
                                                                                                          (18, 'message', 'I have completed', '2023-02-28', '04:35:51'),
                                                                                                          (21, 'message', 'done', '2023-04-25', '04:00:31'),
                                                                                                          (25, 'message', 'I have done it', '2023-04-25', '03:59:57');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `conference`
+--
+
+CREATE TABLE `conference` (
+                              `conf_id` int(11) NOT NULL,
+                              `conf_name` varchar(255) NOT NULL,
+                              `project_id` int(11) NOT NULL,
+                              `leader_id` int(11) NOT NULL,
+                              `client_id` int(11) NOT NULL,
+                              `on` date NOT NULL,
+                              `at` time NOT NULL,
+                              `status` enum('PENDING','OVERDUE','DONE','CANCELLED') NOT NULL DEFAULT 'PENDING'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -105,7 +114,7 @@ CREATE TABLE `files` (
                          `project_id` int(11) NOT NULL,
                          `uploader_id` int(11) NOT NULL,
                          `filePath` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `files`
@@ -116,7 +125,9 @@ INSERT INTO `files` (`id`, `fileName`, `fileType`, `date`, `project_id`, `upload
                                                                                                         (2, 'R__1_.jpeg', 'image', '2023-04-27 02:29:14', 4, 1, '/App/Database/Uploads/Files/R__1_.jpeg'),
                                                                                                         (3, 'OIP__2_.jpeg', 'image', '2023-04-27 02:46:33', 4, 1, '/App/Database/Uploads/Files/OIP__2_.jpeg'),
                                                                                                         (4, 'R__3_.jpeg', 'image', '2023-04-27 02:47:35', 4, 1, '/App/Database/Uploads/Files/R__3_.jpeg'),
-                                                                                                        (5, 'WhatsApp_Image_2023-04-02_at_21_18_54.jpg', 'image', '2023-04-27 03:44:23', 4, 4, '/App/Database/Uploads/Files/WhatsApp_Image_2023-04-02_at_21_18_54.jpg');
+                                                                                                        (5, 'WhatsApp_Image_2023-04-02_at_21_18_54.jpg', 'image', '2023-04-27 03:44:23', 4, 4, '/App/Database/Uploads/Files/WhatsApp_Image_2023-04-02_at_21_18_54.jpg'),
+                                                                                                        (6, 'MrNoMbre_a_gigantic_beautiful_sinkhole_landscape_w', 'image', '2023-04-27 09:43:46', 1, 1, '/App/Database/Uploads/Files/MrNoMbre_a_gigantic_beautiful_sinkhole_landscape_with_lot_of_ve_f1b369c9-ef6d-475b-8673-426f8d3943bb.png'),
+                                                                                                        (7, 'MrNoMbre_a_gigantic_beautiful_sinkhole_landscape_w', 'image', '2023-04-27 09:44:16', 1, 1, '/App/Database/Uploads/Files/MrNoMbre_a_gigantic_beautiful_sinkhole_landscape_with_lot_of_ve_f1b369c9-ef6d-475b-8673-426f8d3943bb.png');
 
 -- --------------------------------------------------------
 
@@ -132,7 +143,7 @@ CREATE TABLE `groups` (
                           `project_id` int(11) NOT NULL,
                           `leader_id` int(11) NOT NULL,
                           `start_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `groups`
@@ -152,7 +163,7 @@ CREATE TABLE `group_announcement` (
                                       `message_id` int(11) NOT NULL,
                                       `project_id` int(11) NOT NULL,
                                       `heading` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `group_announcement`
@@ -174,7 +185,7 @@ CREATE TABLE `group_join` (
                               `member_id` int(11) NOT NULL,
                               `role` varchar(10) NOT NULL,
                               `joined` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `group_join`
@@ -193,7 +204,7 @@ INSERT INTO `group_join` (`group_id`, `member_id`, `role`, `joined`) VALUES
 CREATE TABLE `group_task` (
                               `task_id` int(11) NOT NULL,
                               `group_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `group_task`
@@ -215,7 +226,7 @@ CREATE TABLE `group_task_feedback_message` (
                                                `project_id` int(11) NOT NULL,
                                                `task_id` int(11) NOT NULL,
                                                `group_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `group_task_feedback_message`
@@ -237,7 +248,7 @@ CREATE TABLE `message` (
                            `stamp` datetime NOT NULL,
                            `message_type` enum('PROJECT_MESSAGE','PROJECT_FEEDBACK_MESSAGE','GROUP_MESSAGE','GROUP_FEEDBACK_MESSAGE','PROJECT_TASK_FEEDBACK_MESSAGE','PROJECT_ANNOUNCEMENT','GROUP_ANNOUNCEMENT','GROUP_TASK_FEEDBACK_MESSAGE') NOT NULL,
                            `msg` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `message`
@@ -304,14 +315,6 @@ INSERT INTO `message` (`id`, `sender_id`, `stamp`, `message_type`, `msg`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `message_notification`
---
--- Error reading structure for table marshal2_0.message_notification: #1932 - Table &#039;marshal2_0.message_notification&#039; doesn&#039;t exist in engine
--- Error reading data for table marshal2_0.message_notification: #1064 - You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near &#039;FROM `marshal2_0`.`message_notification`&#039; at line 1
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `notifications`
 --
 
@@ -324,7 +327,7 @@ CREATE TABLE `notifications` (
                                  `sendTime` datetime(6) NOT NULL,
                                  `sender_id` int(11) NOT NULL,
                                  `url` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `notifications`
@@ -389,7 +392,7 @@ CREATE TABLE `notification_recievers` (
                                           `notification_id` int(11) NOT NULL,
                                           `member_id` int(11) NOT NULL,
                                           `isRead` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `notification_recievers`
@@ -472,7 +475,7 @@ CREATE TABLE `project` (
                            `start_on` timestamp NOT NULL DEFAULT current_timestamp(),
                            `end_on` timestamp NOT NULL DEFAULT current_timestamp(),
                            `created_on` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `project`
@@ -503,7 +506,7 @@ CREATE TABLE `project_announcement` (
                                         `message_id` int(11) NOT NULL,
                                         `project_id` int(11) NOT NULL,
                                         `heading` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `project_announcement`
@@ -524,6 +527,17 @@ INSERT INTO `project_announcement` (`message_id`, `project_id`, `heading`) VALUE
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `project_feedback_message`
+--
+
+CREATE TABLE `project_feedback_message` (
+                                            `message_id` int(11) NOT NULL,
+                                            `project_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `project_join`
 --
 
@@ -532,7 +546,7 @@ CREATE TABLE `project_join` (
                                 `member_id` int(11) NOT NULL,
                                 `role` enum('LEADER','MEMBER','CLIENT') DEFAULT 'MEMBER',
                                 `joined` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `project_join`
@@ -548,6 +562,17 @@ INSERT INTO `project_join` (`project_id`, `member_id`, `role`, `joined`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `project_message`
+--
+
+CREATE TABLE `project_message` (
+                                   `message_id` int(11) NOT NULL,
+                                   `project_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `project_task_feedback_message`
 --
 
@@ -555,7 +580,7 @@ CREATE TABLE `project_task_feedback_message` (
                                                  `message_id` int(11) NOT NULL,
                                                  `project_id` int(11) NOT NULL,
                                                  `task_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `project_task_feedback_message`
@@ -590,7 +615,7 @@ CREATE TABLE `task` (
                         `priority` varchar(6) NOT NULL DEFAULT 'low',
                         `project_id` int(11) NOT NULL,
                         `task_type` varchar(7) NOT NULL DEFAULT 'project'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `task`
@@ -620,7 +645,7 @@ INSERT INTO `task` (`task_id`, `status`, `description`, `deadline`, `task_name`,
 CREATE TABLE `task_notification` (
                                      `notification_id` int(11) NOT NULL,
                                      `task_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `task_notification`
@@ -670,15 +695,15 @@ CREATE TABLE `user` (
                         `access` enum('ENABLED','DISABLED') NOT NULL,
                         `verified` enum('TRUE','FALSE') NOT NULL DEFAULT 'FALSE',
                         `verification_code` varchar(100) NOT NULL DEFAULT '_'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `email_address`, `first_name`, `last_name`, `password`, `user_status`, `phone_number`, `position`, `bio`, `user_state`, `joined_datetime`, `profile_picture`, `access`, `verified`, `verification_code`) VALUES
-                                                                                                                                                                                                                                                   (1, 'kylo_ren', 'kylo_ren@gmail.com', 'Kylo', 'Solo', '$argon2id$v=19$m=65536,t=4,p=1$T29TaEFWUmxMNFcwdk5xRw$fGa/V3uIzKUPWqvjhGgf0b8JH0seEruV8URDiLgwBBA', 'Busy', '0789902124', 'System architect', 'I am Kylo Ren, I work at Amazon and I am system architect there. Interested in creating well documented secure systems. And believe it or not I love Rust and Haskell.', 'ONLINE', '2023-01-24 07:39:21', '/App/Database/Uploads/ProfilePictures/St_Con_3D_logo_of_African_baby_fireman_putting_out_a_fire__ff8b2c6a-8171-402a-aee0-c2b03bf3c01f.png', 'ENABLED', 'TRUE', '_'),
-                                                                                                                                                                                                                                                   (2, 'ed_north', 'ed_north@gmail.com', 'Edward', 'North', '$argon2id$v=19$m=65536,t=4,p=1$RTE0aEVKUjdGb3JoSHpYTA$mMVMajgYnmFXgf6a1ET+GnUX7KNsblCLlqiwnSPPm0M', 'Idle', '0789905105', 'System Architect', 'I am Edward North, I work at Amazon and I am devops engineer there.\r\n                  Interested in creating well documented secure systems.\r\n                  And believe it or not I love Rust and Haskell', 'ONLINE', '2023-01-24 07:39:35', '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg', 'DISABLED', 'TRUE', '_'),
+                                                                                                                                                                                                                                                   (1, 'kylo_ren', 'kylo_ren@gmail.com', 'Kylo', 'Solo', '$argon2id$v=19$m=65536,t=4,p=1$T29TaEFWUmxMNFcwdk5xRw$fGa/V3uIzKUPWqvjhGgf0b8JH0seEruV8URDiLgwBBA', 'Busy', '0789902124', 'System architect', 'I am Kylo Ren, I work at Amazon and I am system architect there. Interested in creating well documented secure systems. And believe it or not I love Rust and Haskell.', 'ONLINE', '2023-01-24 07:39:21', '/App/Database/Uploads/ProfilePictures/unvicio_Ugly_chicken_squab_sun_glasses_aviator_under_a_shower_o_d952513b-4b2a-48eb-8ff4-b84521096986.png', 'ENABLED', 'TRUE', '_'),
+                                                                                                                                                                                                                                                   (2, 'ed_north', 'ed_north@gmail.com', 'Edward', 'North', '$argon2id$v=19$m=65536,t=4,p=1$RTE0aEVKUjdGb3JoSHpYTA$mMVMajgYnmFXgf6a1ET+GnUX7KNsblCLlqiwnSPPm0M', 'Idle', '0789905105', 'System Architect', 'I am Edward North, I work at Amazon and I am system architect there. Interested in creating well documented secure systems. And believe it or not I love Rust and Haskell.', 'OFFLINE', '2023-01-24 07:39:35', '/App/Database/Uploads/ProfilePictures/unvicio_squab_sun_glasses_aviator_under_a_shower_of_bubbles_Fra_c90eabc9-2980-4f3d-91f4-efe65adafcdb.png', 'ENABLED', 'TRUE', '_'),
                                                                                                                                                                                                                                                    (3, 'mrgunawardane@gmail.com', 'mrgunawardane@gmail.com', 'Harsha', 'gunawardane', '$argon2id$v=19$m=65536,t=4,p=1$OVp5MWlIcE55dWR5ajdrQg$WY57q9g9iz1D2gSQXWlKhoWmEKoVPRwn5Aw7Hn3ZIdI', 'Available', '', 'position(s) that you hold', '', 'ONLINE', '2023-02-27 23:03:19', '/App/Database/Uploads/ProfilePictures/picture3.png', 'ENABLED', 'TRUE', '495191'),
                                                                                                                                                                                                                                                    (4, 'chathuraharsha09@gmail.com', 'chathuraharsha09@gmail.com', 'Harsha', 'Gunawardane', '$argon2id$v=19$m=65536,t=4,p=1$c0l6MFRaRW1MWURLSlFQNA$nFtpwl/YfusCzhJwfUS6m3cv3Af6PrYFGbzXEkpsSVo', 'Available', '', 'position(s) that you hold', '', 'OFFLINE', '2023-03-03 11:40:43', '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg', 'ENABLED', 'TRUE', '657532');
 
@@ -711,10 +736,21 @@ ALTER TABLE `completedtask`
     ADD PRIMARY KEY (`task_id`);
 
 --
+-- Indexes for table `conference`
+--
+ALTER TABLE `conference`
+    ADD PRIMARY KEY (`conf_id`),
+    ADD KEY `project_id` (`project_id`),
+    ADD KEY `leader_id` (`leader_id`),
+    ADD KEY `client_id` (`client_id`);
+
+--
 -- Indexes for table `files`
 --
 ALTER TABLE `files`
-    ADD PRIMARY KEY (`id`);
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `files_ibfk_1` (`project_id`),
+    ADD KEY `files_ibfk_2` (`uploader_id`);
 
 --
 -- Indexes for table `groups`
@@ -787,6 +823,13 @@ ALTER TABLE `project_announcement`
     ADD KEY `project_id` (`project_id`);
 
 --
+-- Indexes for table `project_feedback_message`
+--
+ALTER TABLE `project_feedback_message`
+    ADD PRIMARY KEY (`message_id`),
+    ADD KEY `project_id` (`project_id`);
+
+--
 -- Indexes for table `project_join`
 --
 ALTER TABLE `project_join`
@@ -794,6 +837,13 @@ ALTER TABLE `project_join`
     ADD KEY `member_id` (`member_id`),
     ADD KEY `role_index` (`role`),
     ADD KEY `joined_index` (`joined`);
+
+--
+-- Indexes for table `project_message`
+--
+ALTER TABLE `project_message`
+    ADD PRIMARY KEY (`message_id`),
+    ADD KEY `project_id` (`project_id`);
 
 --
 -- Indexes for table `project_task_feedback_message`
@@ -833,10 +883,16 @@ ALTER TABLE `admin`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `conference`
+--
+ALTER TABLE `conference`
+    MODIFY `conf_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `files`
 --
 ALTER TABLE `files`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `groups`
@@ -892,6 +948,14 @@ ALTER TABLE `addmessagerefference`
     ADD CONSTRAINT `addmessagerefference_ibfk_2` FOREIGN KEY (`notification_id`) REFERENCES `notifications` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `conference`
+--
+ALTER TABLE `conference`
+    ADD CONSTRAINT `conference_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `conference_ibfk_2` FOREIGN KEY (`leader_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE,
+    ADD CONSTRAINT `conference_ibfk_3` FOREIGN KEY (`client_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
+
+--
 -- Constraints for table `files`
 --
 ALTER TABLE `files`
@@ -926,6 +990,20 @@ ALTER TABLE `message`
 ALTER TABLE `project_announcement`
     ADD CONSTRAINT `project_announcement_ibfk_1` FOREIGN KEY (`message_id`) REFERENCES `message` (`id`) ON UPDATE CASCADE,
     ADD CONSTRAINT `project_announcement_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `project_feedback_message`
+--
+ALTER TABLE `project_feedback_message`
+    ADD CONSTRAINT `project_feedback_message_ibfk_1` FOREIGN KEY (`message_id`) REFERENCES `message` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `project_feedback_message_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `project_message`
+--
+ALTER TABLE `project_message`
+    ADD CONSTRAINT `project_message_ibfk_1` FOREIGN KEY (`message_id`) REFERENCES `message` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `project_message_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `project_task_feedback_message`
