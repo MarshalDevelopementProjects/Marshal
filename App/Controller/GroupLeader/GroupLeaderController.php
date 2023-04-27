@@ -123,6 +123,14 @@ class GroupLeaderController extends ProjectMemberController
         );
     }
 
+    public function goToGroupForum(): void
+    {
+    }
+
+    public function goToGroupFeedbackForum(): void
+    {
+    }
+
 
     // $args = ["message" => "message string"];
     public function postMessageToGroupFeedback(array|object $args)
