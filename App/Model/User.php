@@ -93,7 +93,21 @@ class User implements Model
             throw $exception;
         }
     }
-
+    public function readMember(string $key, string|int $value)
+    {
+        // example format => "SELECT * FROM users WHERE id = :id";
+        $sql_string = "SELECT * FROM `user` WHERE `" . $key . "` = :" . $key;
+        try {
+            $result = $this->crud_util->execute($sql_string, array($key => $value));
+            if ($result->getCount() > 0) {
+                return $result->getFirstResult();
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
     public function getAllUsers(array $args, string $condition)
     {
 
@@ -192,6 +206,27 @@ class User implements Model
             return true;
         } catch (\Throwable $th) {
             throw $th;
+        }
+    }
+    public function getCommit(string|int $id)
+    {
+        $sql_string = "SELECT *
+        FROM `completedtask`
+        WHERE `task_id` IN (
+          SELECT `task_id`
+          FROM `task`
+          WHERE `member_id` = $id AND `status` = 'REVIEW'
+        )";
+        try {
+            $result = $this->crud_util->execute($sql_string);
+            if ($result->getCount() > 0) {
+                return $result->getResults();
+                
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
         }
     }
 }

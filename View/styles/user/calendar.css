@@ -1,0 +1,115 @@
+.bottom-calender{
+    margin-top: 40px;
+    /* border: 1px solid black; */
+    height: 250px;
+}
+.bottom-calender .top-month{
+    display: flex;
+    height: 30px;
+    justify-content: space-around;
+    /* border: 1px solid black; */
+}
+.top-month p{
+    padding-top: 5px;
+    font-weight: 550;
+    color: #F83B3B;
+}
+.top-month button{
+    padding-top: 0;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    color: #514848;
+    font-size: x-large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+.bottom-calender .day-names{
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0 5px;
+    margin-top: 5px;
+}
+.day-names p{
+    width: 25px;
+    font-size: 11px;
+    text-align: center;
+    color: #555;
+}
+.bottom-calender .days{
+    margin-top: 15px;
+}
+.days .days-line{
+    display: flex;
+    justify-content: space-between;
+    height: 25px;
+    margin-bottom: 7px;
+    padding: 0 5px;
+}
+.days-line p{
+    /* border: 1px solid black; */
+    width: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: small;
+    background-color: #f7f7f7;
+    color: #333;
+}
+.days-line .day.today{
+    background-color: #F83B3B;
+    color: #fff;
+}
+.days-line .day.deadline{
+    background-color: #031738;
+    color: #fff;
+    cursor: pointer;
+}
+.days-line .inactive{
+    color: #dbd7d7;
+}
+.days-line .today{
+    background-color: #0a4fa3;
+    color: #fff;
+}
+.days-line .deadline{
+    background-color: #F83B3B;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+
+/* // deadlinePopup/ */
+.deadline-popup{
+    background-color: #F83B3B;
+    border-radius: 6px;
+    margin: -200px 0 200px 10px;
+    position: absolute;
+    max-width: 200px;
+    padding: 10px 15px;
+    display: none;
+    transition: all 2s ease;
+}
+.deadline-popup h3{
+    color: #fff;
+    font-size: 15px;
+}
+.deadline-popup hr{
+    margin: 5px 0 10px 0;
+    height: 0.2px;
+    border: 1px solid #eee;
+}
+
+.events p{
+    color: #f1f1f1;
+    font-size: 12px;
+    font-weight: 550;
+}

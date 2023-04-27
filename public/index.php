@@ -48,26 +48,38 @@ $router->get('/projectleader/dashboard', ProjectLeaderController::class . '::def
 $router->get('/projectmember/dashboard', ProjectMemberController::class . '::defaultAction');
 $router->get('/groupleader/dashboard', GroupLeaderController::class . '::defaultAction');
 $router->post('/groupleader/task', GroupLeaderController::class . '::createTask');
-$router->get('/groupleader/group', GroupLeaderController::class . '::getGroupInfo');
+$router->get('/groupleader/group', GroupLeaderController::class. '::getGroupInfo');
+$router->post('/groupleader/announcement', GroupLeaderController::class. '::addAnnouncement');
+$router->get('/groupmember/announcement', GroupMemberController::class. '::getGroupAnnouncements');
 $router->get('/groupmember/group', GroupMemberController::class . '::getGroupInfo');
 
 $router->get('/groupmember/dashboard', GroupMemberController::class . '::defaultAction');
 
 $router->get('/projectleader/forum', ProjectLeaderController::class . '::getForum');
 $router->get('/projectmember/forum', ProjectMemberController::class . '::getForum');
+$router->post('/projectmember/taskfeedback', ProjectMemberController::class. '::sendTaskFeedback');
+$router->get('/projectmember/taskfeedback', ProjectMemberController::class. '::getTaskFeedback');
+$router->post('/groupmember/taskfeedback', GroupMemberController::class. '::sendTaskFeedback');
+$router->get('/groupmember/taskfeedback', GroupMemberController::class. '::getTaskFeedback');
 $router->get('/projectmember/group', ProjectMemberController::class . '::goToGroup');
 
 $router->post('/projectmember/pickuptask', ProjectMemberController::class . '::pickupTask');
 $router->post('/projectmember/sendconfirmation', ProjectMemberController::class . '::sendConfirmation');
 $router->post('/projectleader/rearangetask', ProjectLeaderController::class . '::rearangeTask');
 $router->post('/projectleader/assigntask', ProjectLeaderController::class . '::assignTask');
+$router->post('/projectleader/announcement', ProjectLeaderController::class . '::addAnnouncement');
+$router->post('/projectleader/clientfeedback', ProjectLeaderController::class . '::sendMessageToClient');
+$router->get('/projectmember/announcement', ProjectMemberController::class . '::getProjectAnnouncements');
 
 $router->post('/user/logout', UserAuthController::class . '::logout');
 $router->post('/admin/logout', AdminAuthController::class . '::logout');
 $router->post('/admin/users/addnewuser', AdminController::class . '::createNewUser');
+$router->put('/admin/users/userblock', AdminController::class . '::blockUser');
+$router->put('/admin/users/userunblock', AdminController::class . '::grantAccessToUser');
 $router->get('/admin/users/all', AdminController::class . '::viewAllUsers');
 $router->get('/admin/users/active', AdminController::class . '::viewActiveUsers');
 $router->get('/admin/users/blocked', AdminController::class . '::viewBlockedUsers');
+$router->get('/admin/users/offline', AdminController::class . '::viewOfflineUsers');
 
 $router->get('/user/projects', UserController::class . '::viewProjects');
 $router->post('/user/projects', UserController::class . '::createProject');

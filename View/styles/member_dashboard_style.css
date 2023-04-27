@@ -117,15 +117,17 @@ body{
     background-color: #F83B3B;
     color: #fff;
 }
-.left-panel .middle-icon{
+.left-panel .middle-icon,
+.left-panel .middle-icon2 {
     /* border: 1px solid black; */
     width: 15px;
     height: 36px;
     border-radius: 4px;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
-    margin: 10px 0px 0 auto; /*60*/
+    margin: 100px 0px 0 auto;
+    /*60*/
     background-color: #ddd;
     color: #333;
     cursor: pointer;
@@ -217,12 +219,87 @@ body{
     cursor: pointer;
 }
 
+.left-panel.active {
+    transition: all .5s ease-in-out;
+    display: inline-block;
+    width: 70px;
+}
+
+.bottom-calender.active {
+    display: none;
+}
+
+.left-panel .middle-icon2 {
+    display: none;
+}
+
+.left-panel .middle-icon2.active {
+    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    margin-right: -15px;
+}
+
+.left-panel .middle-icon.active {
+    display: none;
+}
+
+.top-menus .menu-icon {
+    transition: all .5s ease-in-out;
+    display: none;
+}
+
+.top-menus .menu-icon li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    margin: 10px
+}
+
+.top-menus .menu-icon li i {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+}
+
+.top-menus .menu-icon.active {
+    transition: all .2s ease-in-out;
+    margin-left: -20px;
+    display: block;
+}
+
+.top-menus .menu.active {
+    display: none;
+}
+.top-menus ul a li{
+    list-style: none;
+}
+.top-menus ul a{
+    text-decoration: none;
+}
+
+
+
+
 .right-panel{
     /* position: fixed; */
     margin: 60px 0 0 250px;
     height: 100%;
     width: 1250px;
+    transition: all 1s ease-in-out;
 }
+.right-panel.active {
+    position: fixed;
+    margin: 60px 0 0 110px;
+    height: 100%;
+    width: 90vw;
+    transition: all 1s ease-in-out;
+    /* border: 1px solid black; */
+}
+
 .search-bar{
     /* border: 1px solid black; */
     height: 60x;
@@ -289,6 +366,8 @@ body{
     display: block;
 }
 
+
+
 .TO-DO-task-details .top-bar{
     display: flex;
     justify-content: space-between;
@@ -348,10 +427,71 @@ body{
     width: 400px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
-.task-feedbacks form{
-    /* border:  1px solid black; */
-    margin-top: 167px;
+
+
+
+.task-feedbacks .task-feedback-messages{
+    height: 167px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column-reverse;
+    overflow-y: scroll;
 }
+.incomming-feedback{
+    display: flex;
+}
+.incomming-feedback-sender{
+    display: flex;
+    margin: auto 0 0 0;
+}
+.incomming-feedback-sender img{
+    height: 25px;
+    border-radius: 50%;
+}
+.incomming-feedback-message{
+    background-color: #f0f0fb;
+    max-width: 250px;
+    width: fit-content;
+    margin: 2px 0 2px 5px;
+    padding: 8px 12px 8px 10px;
+    border-radius: 10px;
+    border-bottom-left-radius: 0px;
+    display: flex;
+}
+
+.incomming-feedbacks{
+    font-size: 13px;
+}
+.incomming-time{
+    font-size: 9px;
+    margin: auto 0 0 15px;
+    color: #222;
+}
+
+.outgoing-feedback{
+    display: flex;
+}
+.outgoing-feedback-message{
+    display: flex;
+    background-color: #b9dccb;
+    max-width: 250px;
+    width: fit-content;
+    margin: 2px 0 2px auto;
+    padding: 8px 12px 8px 10px;
+    border-radius: 10px;
+    border-bottom-right-radius: 0px;
+}
+.outgoing-feedbacks{
+    font-size: 13px;
+}
+.outgoing-time{
+    font-size: 9px;
+    margin: auto 0 0 15px;
+    color: #333;
+}
+
+
+
 .task-feedbacks form input{
     height: 30px;
     border: none;

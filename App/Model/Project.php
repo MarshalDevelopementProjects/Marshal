@@ -149,6 +149,22 @@ class Project implements Model
         }
     }
 
+    public function getProjectUsers(string $condition){
+        $sql = "SELECT * FROM project_join " . $condition;
+
+        // var_dump($sql);
+        try {
+            $result = $this->crud_util->execute($sql);
+            if ($result->getCount() > 0) {
+                return $result->getResults();
+            } else {
+                return array();
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
     public function update(string $_id = null, array $_array = array())
     {
         throw new \Exception("Not implemented yet");

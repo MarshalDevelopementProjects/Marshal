@@ -72,8 +72,15 @@ class UserController extends Controller
 
             foreach($Projects as $projectData) {
                 // get ongoing tasks
-                $ongoingTasks = $task->getTasks(array("project_id" => $projectData->id, "status" => "ONGOING"), array("project_id", "status"));
+                $ongoingTasks = [];
+                $tasks = $task->getTasks(array("project_id" => $projectData->id, "status" => "ONGOING"), array("project_id", "status"));
                 
+                if($tasks){
+                    foreach($tasks as $taskData) {
+                        
+                        array_push($ongoingTasks, $taskData);
+                    }
+                }
                 if($ongoingTasks){
                     $projectData->tasks = $ongoingTasks;
                 }else{
@@ -85,7 +92,7 @@ class UserController extends Controller
                 $projectData->memberProfiles = $user->getUserProfiles(array("project_id" => $projectData->id, "role" => "MEMBER", "role2" => "LEADER"), $condition);
 
             }
-            
+              
         }
         $data += array("projects" => $Projects);
 
@@ -95,6 +102,7 @@ class UserController extends Controller
         }
         $profile = $userData->profile_picture;
         $data += array("profile" => $profile);
+        $data += $this->getTaskDeadlines();
 
         $this->sendResponse(
             view: "/user/dashboard.html",
@@ -189,6 +197,7 @@ class UserController extends Controller
                         if($user->readUser("id", $payload->id)){
                             $data += array("profile" => $user->getUserData()->profile_picture);
                         }
+                        $data += $this->getTaskDeadlines();
 
                         $this->sendResponse(
                             view: "/project_leader/dashboard.html",
@@ -208,26 +217,38 @@ class UserController extends Controller
                         break;
                     case 'MEMBER':
 
+                        $data = array();
                         $args = array(
                             "project_id" => $_SESSION['project_id'],
                             "task_type" => "project"
                         );
                         $projectController = new ProjectController();
+                        
+                        $data['tasks'] = $projectController->getProjectTasks($args, $payload->id);
+                        $data += $this->getTaskDeadlines();
+
+                         // get project details as well
+                         $projectData = array();
+                         if($project->readProjectData($_SESSION['project_id'])){
+                             $projectData = $project->getProjectData();
+                         }
+                         $data['projectName'] = $projectData[0]->project_name;
+ 
 
                         $this->sendResponse(
                             view: "/project_member/dashboard.html",
                             status: "success",
-                            content: $projectController->getProjectTasks($args, $payload->id)
+                            content: $data
                         );
                         break;
                     default: {
-                            unset($_SESSION["project_id"]);
-                            $this->sendResponse(
-                                view: "/errors/403.html",
-                                status: "unauthorized",
-                                content: array("message" => "User cannot access this project")
-                            );
-                        }
+                        unset($_SESSION["project_id"]);
+                        $this->sendResponse(
+                            view: "/errors/403.html",
+                            status: "unauthorized",
+                            content: array("message" => "User cannot access this project")
+                        );
+                    }
                 }
             } else {
                 $this->sendResponse(
@@ -261,7 +282,8 @@ class UserController extends Controller
                         "user_status" => $user_data->user_status,
                         "position" => $user_data->position,
                         "display_picture" => $user_data->profile_picture,
-                        "bio" => $user_data->bio
+                        "bio" => $user_data->bio,
+                        "commits"=> $this->user->getCommit($user_data->id)
                     ),
                     "other_info" => array()
                 )
@@ -383,40 +405,7 @@ class UserController extends Controller
         }
         return null;
     }
-    public function getNotifications()
-    {
 
-        $payload = $this->userAuth->getCredentials();
-        $userId = $payload->id;
-
-        $notification = new Notification();
-        $args = array(
-            "memberId" => $userId
-        );
-        $notifications = $notification->getNotificationsOfUser($args);
-
-        foreach ($notifications as $notification) {
-            $senderId = $notification->senderId;
-
-            // get sender name
-            $sender = new User($senderId);
-            $sendername = $sender->getUserData()->first_name . ' ' . $sender->getUserData()->last_name;
-            $notification->senderId = $sendername;
-            $notification->sendTime = explode(' ', $notification->sendTime)[0];
-        }
-
-        // $projectId = $notifications[0]->projectId;
-
-        // $args = array(
-        //     "id" => $projectId
-        // );
-
-        if ($notifications) {
-            echo (json_encode(array("message" => $notifications)));
-        } else {
-            echo (json_encode(array("message" => null)));
-        }
-    }
 
     public function userJoinOnProject()
     {
@@ -437,7 +426,7 @@ class UserController extends Controller
 
         // set as read the notification 
 
-        if ($project->joinProject($args) && $this->readNotification($notificationId)) {
+        if ($project->joinProject($args) && $this->readNotification(array("notificationId" => $notificationId, "memberId" => $userId))) {
             $this->sendResponse(
                 view: "/user/login.html",
                 status: "success"
@@ -452,87 +441,19 @@ class UserController extends Controller
         $this->sendResponseNotification($notificationId, $projectId);
     }
 
-    public function clickOnNotification()
-    {
-        $notificationId = $_GET['data'];
-        $this->readNotification($notificationId);
-
-        // $this->defaultAction();
-
-    }
-
-    public function readNotification($notificationId)
-    {
-
+    public function clickOnNotification(){
+        $notification_id = $_GET['data'];
         $payload = $this->userAuth->getCredentials();
-        $userId = $payload->id;
 
+        // set the notification as read 
         $notification = new Notification();
-        $conditions = array(
-            "notificationId" => $notificationId,
-            "memberId" => $userId
-        );
+        $notification->readNotification(array("notificationId" => $notification_id, "memberId" => $payload->id));
 
-        if ($notification->readNotification($conditions)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function sendResponseNotification($notificationId, $projectId)
-    {
-        try {
-            $notification = new Notification();
-            $args = array(
-                "id" => $notificationId
-            );
-            $notificationData = $notification->getNotificationData($args);
-
-            // get received user id
-            // $user = new User();
-            // $user->readUser("id", $notificationData['senderId']);
-            // $receivedUser = $user->getUserData();
-
-
-            $payload = $this->userAuth->getCredentials();
-            $user_id = $payload->id;
-
-            $date = date("Y-m-d H:i:s");
-
-            $args = array(
-                "projectId" => $projectId,
-                "message" => "I accept your invitation, So now I will a member of your project",
-                "type" => "notification",
-                "senderId" => $user_id,
-                "sendTime" => $date
-            );
-
-            // set notified members
-            // get notification id
-            $notification = new Notification();
-            $notification->createNotification($args);
-
-            $conditions = array(
-                "projectId" => $projectId,
-                "senderId" => $user_id,
-                "sendTime" => $date
-            );
-
-            $newNotification = $notification->getNotificationData($conditions);
-            $newNotificationId = $newNotification[0]->id;
-
-            $receivedUserId = 1;
-            $arguments = array(
-                "notificationId" => $newNotificationId,
-                "memberId" => $receivedUserId
-            );
-            $notification->setNotifiedMembers($arguments);
-
-            echo (json_encode(array("message" => "Success")));
-        } catch (\Throwable $th) {
-            echo (json_encode(array("message" => $th)));
-        }
+        // redirect to notification URL
+        $clickedNotification = $notification->getNotification(array("id" => $notification_id), array("id"));
+        // var_dump($clickedNotification);
+        header("Location: " . $clickedNotification->url);
+        exit();
     }
 
     public function sketch()
@@ -613,5 +534,59 @@ class UserController extends Controller
                 content: array("message" => "Bad request")
             );
         }
+    }
+
+    public function getNotifications():array|object
+    {
+        $payload = $this->userAuth->getCredentials();
+
+        $notification = new Notification();
+        $user = new User();
+        $project = new Project($payload->id);
+        $payload = $this->userAuth->getCredentials();
+
+        $condition = " WHERE id IN (SELECT notificationId FROM notification_recievers WHERE memberId = " .$payload->id. " AND isRead = 0)";
+        $notifications = [];
+        try {
+            $notifications = $notification->getNotifications($condition);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        if($notifications){
+            foreach($notifications as $notification) {
+                $user->readUser("id", $notification->senderId);
+                $sender = $user->getUserData();
+                $notification->sender_name = $sender->first_name . " " . $sender->last_name;
+                $notification->project_name = $project->getProject(array("id" => $notification->projectId))->project_name;
+                $notification->sender_profile = $sender->profile_picture;
+            }
+        }
+
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => $notifications
+            ]
+        );
+    }
+
+    public function getTaskDeadlines(){
+        $payload = $this->userAuth->getCredentials();
+
+        $task = new Task();
+        $tasks = $task->getTasks(array("status" => "ONGOING", "memberId" => $payload->id), array("status", "memberId"));
+        // var_dump($tasks);
+        $deadlines = [];
+        if($tasks){
+            foreach($tasks as $taskData) {
+                if( explode(" ", $taskData->deadline)[0] != "0000-00-00"){
+                    $deadlines[] = array("deadline" => explode(" ", $taskData->deadline)[0], "task_name" => $taskData->task_name);
+                }
+            }
+        }
+
+        return array("taskDeadlines" => $deadlines);
     }
 }

@@ -85,11 +85,13 @@ body{
     /* border: 1px solid black; */
     margin: 75px 0 0 3px;
     width: 240px;
-    height: 630px;
+    height: 640px;
     border-radius: 12px;
     padding: 10px;
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    z-index: 2;
+    transition: all 1.2s ease-in;
 }
 .left-panel .top-menus{
     margin: 0px;
@@ -122,21 +124,25 @@ body{
     background-color: #F83B3B;
     color: #fff;
 }
-.left-panel .middle-icon{
+
+.left-panel .middle-icon,
+.left-panel .middle-icon2 {
     /* border: 1px solid black; */
     width: 15px;
     height: 36px;
     border-radius: 4px;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
-    margin: 10px 0px 0 auto; /*60*/
+    margin: 100px 0px 0 auto;
+    /*60*/
     background-color: #ddd;
     color: #333;
     cursor: pointer;
 }
+
 .bottom-calender{
-    margin-top: 125px;
+    margin-top: 50px;
     /* border: 1px solid black; */
     height: 250px;
 }
@@ -221,11 +227,84 @@ body{
     color: #fff;
     cursor: pointer;
 }
+
+.left-panel.active {
+    transition: all .5s ease-in-out;
+    display: inline-block;
+    width: 70px;
+}
+
+.bottom-calender.active {
+    display: none;
+}
+
+.left-panel .middle-icon2 {
+    display: none;
+}
+
+.left-panel .middle-icon2.active {
+    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0px;
+    margin-right: -15px;
+}
+
+.left-panel .middle-icon.active {
+    display: none;
+}
+
+.top-menus .menu-icon {
+    transition: all .5s ease-in-out;
+    display: none;
+}
+
+.top-menus .menu-icon li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    margin: 10px
+}
+
+.top-menus .menu-icon li i {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+}
+
+.top-menus .menu-icon.active {
+    transition: all .2s ease-in-out;
+    margin-left: -20px;
+    display: block;
+}
+
+.top-menus .menu.active {
+    display: none;
+}
+.top-menus ul a li{
+    list-style: none;
+}
+.top-menus ul a{
+    text-decoration: none;
+}
+
+
 .right-panel{
     position: fixed;
     margin: 60px 0 0 250px;
     height: 100%;
     width: 81vw;
+    transition: all 1s ease-in-out;
+    /* border: 1px solid black; */
+}
+.right-panel.active {
+    position: fixed;
+    margin: 60px 0 0 110px;
+    height: 100%;
+    width: 90vw;
+    transition: all 1s ease-in-out;
     /* border: 1px solid black; */
 }
 
@@ -275,6 +354,21 @@ body{
     padding-left: 20px;
     padding-bottom: 200px;
 }
+
+.projects.active{
+    width: 99%;
+    height: 100%;
+    position: relative;
+    overflow-y: scroll;
+    background-color: #f7f7f7;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    grid-template-rows: repeat(2, 300px);
+    padding-left: 20px;
+    padding-bottom: 200px;
+    transition: all 1s ease-in;
+}
+
 .clickable-project{
     text-decoration: none;
 }
@@ -287,6 +381,7 @@ body{
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     background-color: #fff;
     padding: 20px;
+    transition: all 1s ease-in;
 }
 .project-card .project-field{
     /* border: 1px solid black; */
@@ -332,7 +427,9 @@ body{
     list-style: none;
     margin: 10px 0 0 25px;
     /* border: 1px solid black; */
-    height: 60px;
+    /* height: 60px; */
+    max-height: 55px;
+    overflow-y: hidden;
 }
 .tasks ul li{
     font-size: 12px;
@@ -491,7 +588,7 @@ div::-webkit-scrollbar {
 .notification-popup{
     width: 310px;
     /* border: 1px solid black; */
-    max-height: 500px;
+    max-height: 640px;
     overflow-y: scroll;
     position: fixed;
     background-color: #fff;
@@ -594,12 +691,14 @@ div::-webkit-scrollbar {
 .sender-and-project h4{
     text-align: left;
     margin-left: 10px;
-    /* justify-content: center; */
     display: flex;
     align-items: center;
     font-size: 14px;
     /* border: 1px solid black; */
+    overflow-x: hidden;
     flex: 5;
+    text-decoration: none;
+    color: #031738
 }
 .sender-and-project p{
     display: flex;
@@ -609,6 +708,8 @@ div::-webkit-scrollbar {
     flex: 3;
     overflow-x: hidden;
     overflow-y: hidden;
+    text-decoration: none;
+
 }
 .content .notification-content{
     /* border: 1px solid black; */
@@ -616,20 +717,30 @@ div::-webkit-scrollbar {
     padding: 4px 8px 0 12px;
     height: 30px;
     overflow-y: hidden;
+    overflow-x: hidden;
     color: #555;
+    text-decoration: none;
+
 }
 .content .date-and-project{
     display: flex;
     justify-content: space-between;
     font-size: 10px;
     margin-top: 2px;
+    /* padding-top: 5px; */
+    height: 12px;
+    overflow-y: hidden;
+    text-decoration: none;
+    color: #222;
+    /* border: 1px solid black; */
+    width: 220px;
 }
 
 .date-and-project .notification-project{
-    /* border: 1px solid black; */
     width: 90px;
     height: 13px;
     margin-right: 10px;
+    margin-left: auto;
     font-weight: 550;
     color: #444;
     overflow-y: hidden;
@@ -733,3 +844,32 @@ div::-webkit-scrollbar {
 }
 
 
+
+
+
+/* // deadlinePopup/ */
+.deadline-popup{
+    background-color: #F83B3B;
+    border-radius: 6px;
+    margin: -200px 0 200px 10px;
+    position: absolute;
+    max-width: 200px;
+    padding: 10px 15px;
+    display: none;
+    transition: all 2s ease;
+}
+.deadline-popup h3{
+    color: #fff;
+    font-size: 15px;
+}
+.deadline-popup hr{
+    margin: 5px 0 10px 0;
+    height: 0.2px;
+    border: 1px solid #eee;
+}
+
+.events p{
+    color: #f1f1f1;
+    font-size: 12px;
+    font-weight: 550;
+}

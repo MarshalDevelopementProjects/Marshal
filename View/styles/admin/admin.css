@@ -53,6 +53,9 @@ body{
 #all-Users.active{
     border-left: 4px solid #fff;
 }
+#users-Analyst.active{
+    border-left: 4px solid #fff;
+}
 
 #menu .items li i{
     color: rgb(134, 141, 151);
@@ -210,6 +213,9 @@ body{
 #all-users-div.active{
     background-color: #444a53;
 }
+#offline-users-div.active{
+    background-color: #444a53;
+}
 
 .board{
     width: 94%;
@@ -246,6 +252,12 @@ table{
 tr{
     border-bottom: 1px solid #eef0f3;
 }
+.row:hover{
+    cursor: pointer;
+    background-color: #7e7e81;
+    color:#fff;
+    transition: all 0.4s ease-in-out;
+}
 thead td{
     font-size: 14px;
     text-transform: uppercase;
@@ -271,3 +283,24 @@ tbody tr td{
 .status .red{
     color:red;
 }
+.chart{
+    width:800px;
+    margin: auto;
+    margin-top: 50px;
+    display:none;
+}
+.chart.active{
+    display: block;
+}
+
+#overlay{
+    position: fixed;
+    top: 0;
+    left: 300px;
+    width: 85%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 9999; 
+    display: none; 
+  }
+  

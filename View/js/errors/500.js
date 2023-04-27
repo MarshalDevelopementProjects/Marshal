@@ -1,2 +1,3 @@
-let jsonData = JSON.parse('<?= $data; ?>');
-alert(jsonData);
+// let jsonData = JSON.parse('<?= $data; ?>');
+// alert(jsonData);
+console.log(jsonData)

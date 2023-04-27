@@ -1,8 +1,3 @@
-
-
-
-
-
 // calendor 
 
 function lastMondayOfMonth(month, year) {
@@ -130,26 +125,26 @@ const renderCalendar = (year, month) => {
 };
 renderCalendar(year, month);
 
-let number = document.getElementById("number");
-let count = 0;
-setInterval(() => {
-    if(count == 65){
-        clearInterval();
-    }else{
-        count += 1;
-        number.innerHTML = count + "%";
-    }
-    
-},30);
-
-let number2 = document.getElementById("number2");
-let count2 = 0;
-setInterval(() => {
-    if(count2 == 55){
-        clearInterval();
-    }else{
-        count2 += 1;
-        number2.innerHTML = count2 + "%";
-    }
-    
-},30);
+// let number = document.getElementById("number");
+// let count = 0;
+// setInterval(() => {
+    // if(count == 65){
+        // clearInterval();
+    // }else{
+        // count += 1;
+        // number.innerHTML = count + "%";
+    // }
+    // 
+// },30);
+// 
+// let number2 = document.getElementById("number2");
+// let count2 = 0;
+// setInterval(() => {
+    // if(count2 == 55){
+        // clearInterval();
+    // }else{
+        // count2 += 1;
+        // number2.innerHTML = count2 + "%";
+    // }
+    // 
+// },30);

@@ -1,0 +1,56 @@
+.wrapper-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 80%;
+  top: 20%;
+  transform: translate(-40%, 70%);
+  display: none;
+  z-index: 1000;
+}
+
+.wrapper {
+  position: relative;
+  width: 430px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 30px;
+  box-shadow: 7px 7px 12px rgba(0, 0, 0, 0.05);
+}
+
+.submit-btn-div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+#submitButton{
+  display: none;
+}
+
+.wrapper form {
+  height: 167px;
+  display: flex;
+  cursor: pointer;
+  margin: 30px 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 2px dashed #F83B3B;
+}
+
+form :where(i, p) {
+  color: #F83B3B;
+}
+
+form i {
+  font-size: 50px;
+}
+
+form p {
+  margin-top: 15px;
+  font-size: 16px;
+}

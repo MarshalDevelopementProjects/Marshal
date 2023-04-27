@@ -14,7 +14,10 @@
         <div class="form signup">
             <form action="http://localhost/public/admin/login" method="POST" name="form" onsubmit="return validated()">
                 <h2 class="title-login">login into marshal</h2>
-                <div class="input-field"">
+                <div id="error">
+                    <p id="error_msg"></p>
+                </div>
+                <div class="input-field">
                     <div class="icon-container">
                         <i class="fa fa-envelope"></i>
                     </div>
@@ -23,8 +26,8 @@
                         <input type="text" placeholder="Username" name="username" id="username" required>
                     </div>
                 </div>
-                <div id="email_error"></div>
-                <div class="input-field"">
+                
+                <div class="input-field">
                     <div class="icon-container">
                         <i class="fa fa-lock"></i>
                     </div>
@@ -33,7 +36,6 @@
                         <input type="password" placeholder="Password" name="password" id="password" required>
                     </div>
                 </div>
-                <div id="email_error"></div>
                 <div class="input-field button">
                     <div class="icon-container into">
                         <i class="fa fa-right-to-bracket"></i>
@@ -45,11 +47,6 @@
                 <div class="login-signup">
                     <div class="line"></div>
                     <br>
-                    <div>
-                        <span class="text ">
-                            <a href="#" class="text login-link">Forgot Password</a>
-                        </span>
-                    </div>
                 </div>
             </form>
         </div>

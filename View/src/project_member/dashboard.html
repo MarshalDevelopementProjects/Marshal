@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task board</title>
     <link rel="stylesheet" href="/View/styles/member_dashboard_style.css">
+    <link rel="stylesheet" href="/View/styles/user/calendar.css">
+    <link rel="stylesheet" href="/View/styles/project_member/todoTaskPopup.css">
+    <link rel="stylesheet" href="/View/styles/project_member/ongoingTaskPopup.css">
+    <link rel="stylesheet" href="/View/styles/project_member/reviewTaskPopup.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
@@ -25,30 +29,51 @@
                 <img src="/View/images/dp.png" alt="profile picture" class="profile-image">
             </div>
         </div>
-
+    
         <div class="task-boards-container">
 
             <div class="left-panel">
                 <div class="top-menus">
-                    <ul>
+                    <ul class="menu">
                         
-                        <a href="http://localhost/public/user/dashboard" style="text-align: none;">
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/dashboard" style="text-align: none;">
                             <li class="dashboard active">Dashboard</li>
                         </a>
-                        <li class="new-project">New project</li>
-                        <a href="http://localhost/public/user/profile">
+                       
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
                             <li class="profile">Profile</li>
                         </a>
-                        <a href="http://localhost/public/projectmember/forum">
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/projectmember/forum">
                             <li class="sketch-idea">Forum</li>
                         </a>
-                        <a href="http://localhost/public/user/sketch">
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/sketch">
                             <li class="sketch-idea">Sketch idea</li>
                         </a>
+                    </ul>
+                     <ul class="menu-icon">
+                        <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
+                            <li class="dashboard active"><i class="fa fa-address-book" aria-hidden="true"></i></li>
+                        </a>
+
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
+                           <li class="profile"><i class="fa fa-user" aria-hidden="true"></i></li>
+                        </a>
+
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/projectmember/forum">
+                            <li class="settings"><i class="fa fa-forumbee"></i></li>
+                        </a>
+
+                        <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333;">
+                            <li class="sketch-idea"><i class="fa fa-paint-brush" aria-hidden="true"></i></li>
+                        </a>
+                        <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
                     </ul>
                 </div>
                 <div class="middle-icon">
                     <i class="fa fa-caret-left" aria-hidden="true"></i>
+                </div>
+                <div class="middle-icon2">
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
                 </div>
 
                 <div class="bottom-calender">
@@ -70,6 +95,14 @@
                         
                     </div>
                 </div>
+                <div class="deadline-popup">
+                    <h3>Events</h3>
+                    <hr>
+                    <div class="events">
+                        <p>Build meeting API</p>
+                        <p>Design UI</p>
+                    </div>
+                </div>
             </div>
 
             <div class="right-panel">
@@ -77,35 +110,117 @@
 
                     <div class="search-box">
                         <input type="text" placeholder="Search your project tasks ...">
-                        <i class="fa fa-filter" aria-hidden="true"></i>
+                        <!-- <i class="fa fa-filter" aria-hidden="true"></i> -->
                     </div>
-                    <a href="http://localhost/public/projectmember/getinfo"><p>Mentcare Web App</p></a>
+                    <a href="http://localhost/public/projectmember/getinfo"><p class="project-name">Mentcare Web App</p></a>
                 </div>
 
                 <div class="TO-DO-task-details">
-                    <div class="top-bar">
-                        <h3>Design UI for login page</h3>
-                        <p class="High">High</p>
+
+                    <div class="todo-top-bar">
+                        <h3></h3>
+                        <p class=""></p>
                     </div>
-                    <p class="task-details-description">Gathering and evaluating user requirements, in collaboration with product managers and engineers. 
+                    <p class="todo-task-details-description"></p>
+                    <p class="todo-task-details-deadline"></p>
 
-                        Illustrating design ideas using storyboards, process flows and sitemaps. Designing graphic user interface elements, like menus, tabs and widgets.</p>
-                    <p class="task-details-deadline">Deadline : 10-01-2023</p>
-
-                    <div class="task-feedbacks">
-                        <p class="incomming-feedbacks"></p>
-                        <p class="outgoing-feedbacks"></p>
+                    <div class="todo-task-feedbacks">
+                        <div class="todo-task-feedback-area"></div>
                         <form action="#" method="post">
                             <label for="feedbackMessage"></label>
                             <input type="text" name="feedbackMessage" placeholder="Send something ..." disabled>
                             <button disabled type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
                         </form>
                     </div>
+
                     <div class="buttons">
-                        <a id="cancel-task-details" href="#">Cancel</a>
-                        <a href="#">PickUp</a>
+                        <p id="cancel-todo-task-details">Cancel</p>
+                        <p id="pickup-task-btn">PickUp</p>
+                    </div>
+
+                </div>
+
+                <div class="Ongoing-task-details">
+                    <div class="ongoing-top-bar">
+                        <h3></h3>
+                        <p class=""></p>
+                    </div>
+                    <p class="ongoing-task-details-description"></p>
+                    <p class="ongoing-task-details-deadline"></p>
+
+                    <div class="ongoing-task-feedbacks">
+                        <div id="ongoing-task-feedback-messages" class="ongoing-task-feedback-messages">
+                            <div class="ongoing-incomming-feedback">
+                                <div class="ongoing-incomming-feedback-sender">
+                                    <img src="" alt="">
+                                </div>
+                                <div class="ongoing-incomming-feedback-message">
+                                    <p class="ongoing-incomming-feedbacks"></p>
+                                    <p class="ongoing-incomming-time"></p>
+                                </div>
+                            </div>
+
+                            <div class="ongoing-outgoing-feedback">
+                                <div class="ongoing-outgoing-feedback-message">
+                                    <p class="ongoing-outgoing-feedbacks"></p>
+                                    <p class="ongoing-outgoing-time"></p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <form id="ongoing-task-feedback-form" method="post">
+                            <label for="feedbackMessage"></label>
+                            <input id="ongoing-task-feedback-form-input" type="text" name="feedbackMessage" placeholder=" Send task feedback ...">
+                            <button id="ongoing-feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                        </form>
+                        
+                    </div>
+                    <div class="buttons">
+                        <p id="cancel-ongoing-task-details">Cancel</p>
+                        <p id="finishTaskBtn">Finish</p>
                     </div>
                 </div>
+
+                <div class="Review-task-details">
+                    <div class="review-top-bar">
+                        <h3></h3>
+                        <p class=""></p>
+                    </div>
+                    <p class="review-task-details-description"></p>
+                    <p class="review-task-details-deadline"></p>
+
+                    <div class="review-task-feedbacks">
+                        <div class="review-task-feedback-messages">
+                            <div class="review-incomming-feedback">
+                                <div class="review-incomming-feedback-sender">
+                                    <img src="/View/images/dp.png" alt="">
+                                </div>
+                                <div class="review-incomming-feedback-message">
+                                    <p class="review-incomming-feedbacks"></p>
+                                    <p class="review-incomming-time"></p>
+                                </div>
+                            </div>
+
+                            <div class="review-outgoing-feedback">
+                                <div class="review-outgoing-feedback-message">
+                                    <p class="review-outgoing-feedbacks"></p>
+                                    <p class="review-outgoing-time"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <form id="review-task-feedback-form" method="post">
+                            <label for="feedbackMessage"></label>
+                            <input id="review-task-feedback-form-input" type="text" name="feedbackMessage" placeholder=" Send task feedback ...">
+                            <button id="review-feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                        </form>
+                    </div>
+                    <div class="buttons">
+                        <p id="completedMessage"></p>
+                        <p id="continueBtn" style="margin-left: 100px">Continue</p>
+                    </div>
+                </div>
+
 
                 <div class="confirmation-popup">
                     <div class="close-area"><i class="fa fa-times" aria-hidden="true"></i></div>
@@ -152,5 +267,7 @@
     <script src="/View/js/user/calendar.js"></script>
     <script src="/View/js/user/createProject.js"></script>
     <script src="/View/js/user/sidebar.js"></script>
+    <script src="/View/js/user/notification.js"></script>
+
 </body>
 </html>
