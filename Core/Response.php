@@ -72,7 +72,7 @@ class Response
     {
         http_response_code(Status::getStatusCode($status));
         header("Content-Type: application/json");
-        echo json_encode($content);
+        echo json_encode($content, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
         exit;
     }
 }
