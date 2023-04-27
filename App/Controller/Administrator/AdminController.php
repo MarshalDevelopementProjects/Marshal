@@ -61,19 +61,36 @@ class AdminController extends Controller
         try {
 
             $data = array();
-            $this->admin->readAllUsers();
-            $data["user_details"] = $this->admin->getQueryResults();
-            $data["all_user_count"] = sizeof($data["user_details"]);
+            if($this->admin->readAllUsers() == "0"){
+                $data["all_user_count"] = 0;
+            }else{
+                $data["user_details"] = $this->admin->getQueryResults();
+                $data["all_user_count"] = sizeof($data["user_details"]);
+            }
+            
             $data["admin_data"] = $this->admin->getAdminData();
 
-            $this->admin->getBlockedUsers();
             $count = array();
-            $count["block_users"] = $this->admin->getQueryResults();
-            $data["block_user_count"] = sizeof($count["block_users"]);
+            if($this->admin->getBlockedUsers() == "0"){
+                $data["block_user_count"] = 0;
+            }else{
+                $count["block_users"] = $this->admin->getQueryResults();
+                $data["block_user_count"] = sizeof($count["block_users"]);
+            }
 
-            $this->admin->getActiveUsers();
-            $count["active_users"] = $this->admin->getQueryResults();
-            $data["active_user_count"] = sizeof($count["active_users"]);
+            if($this->admin->getActiveUsers() == "0"){
+                $data["active_user_count"] = 0;
+            }else{
+                $count["active_users"] = $this->admin->getQueryResults();
+                $data["active_user_count"] = sizeof($count["active_users"]);
+            }
+           
+            if($this->admin->getOfflineUsers() == "0"){
+                $data["offline_user_count"] = 0;
+            }else{
+                $count["offline_users"] = $this->admin->getQueryResults();
+                $data["offline_user_count"] = sizeof($count["offline_users"]);
+            }
 
             $this->sendResponse(
                 view: "/admin/dashboard.html",
@@ -281,6 +298,29 @@ class AdminController extends Controller
     // all or a single user of the system
     public function sendEmailsToUsers(array $args)
     {
+    }
+    public function viewOfflineUsers()
+    {
+        try {
+            if ($this->admin->getOfflineUsers()) {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "Offline users successfully retrieved",
+                        "Offline_users" => $this->admin->getQueryResults()
+                    )
+                );
+            } else {
+                $this->sendJsonResponse(
+                    status: "success",
+                    content: array(
+                        "message" => "Offline users cannot be retrieved",
+                    )
+                );
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
     }
 
     // after notification is fixed

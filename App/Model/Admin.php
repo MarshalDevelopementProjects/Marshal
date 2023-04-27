@@ -150,7 +150,7 @@ class Admin implements Model
     public function readAllUsers()
     {
         // $sql_string = "SELECT `id`, `username`, `email_address` FROM `user`";
-        $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture`,`user_state` FROM `user`";
+        $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture`,`user_state`,`phone_number`,`position`,`first_name`,`last_name` FROM `user`";
 
         try {
             $result = $this->crud_util->execute($sql_string);
@@ -175,6 +175,22 @@ class Admin implements Model
     public function getActiveUsers()
     {
         $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture`,`user_state` FROM `user` WHERE `user_state` = 'ONLINE'";
+        try {
+            $result = $this->crud_util->execute($sql_string);
+            if ($result->getCount() > 0) {
+                $this->query_results = $result->getResults();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function getOfflineUsers()
+    {
+        $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture`,`user_state` FROM `user` WHERE `user_state` = 'OFFLINE'";
         try {
             $result = $this->crud_util->execute($sql_string);
             if ($result->getCount() > 0) {

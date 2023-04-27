@@ -32,16 +32,62 @@
                 <a href="http://localhost/public/user/profile"><img src="/View/images/dp.png" alt="" class="profile-image"></a>
             </div>
         </div>
+        <div class="create-project-container">
+            <div class="create-project-popup">
+                <div class="create-project-top">
+                    <div class="create-project-header">
+                        <h3>Let's create a workspace.</h3>
+                        <p>Make it simpler for everyone to access boards in one place to increase productivity.</p>
+                    </div>
+                    <i class="fa fa-times create-project-popup-close" aria-hidden="true"></i>
+                </div>
+                <div class="create-project-details">
+                    <div class="create-project-form">
+                        <form action="http://localhost/public/user/projects" method="post">
+                            <label for="projec_name">Project Name</label>
+                            <br>
+                            <input type="text" name="project_name" placeholder="Enter project name ...">
+                            <br>
+                            <p>Your business, group, or organization's name is here.</p>
+
+                            <label for="field">Project Type</label>
+                            <br>
+                            <input type="text" name="field" placeholder="Enter project type ...">
+
+                            <br>
+                            <label for="description">Project Description</label>
+                            <br>
+                            <input type="text" id="description" name="description" placeholder="Please enter something on your project ... ">
+
+                            <br>
+                            <button type="submit">CREATE</button>
+                        </form>
+                    </div>
+                    <img src="/View/images/project_create.png" alt="project_create">
+                </div>
+            </div>
+        </div>
+        <div class="notification-popup-container">
+            <div class="notification-popup">
+                <div class="notification-popup-top">
+                    <h3>Notifications</h3>
+                    <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
+                </div>
+                <div class="notifications">
+                    
+                </div>
+            </div>
+        </div>
 
         <div class="task-boards-container">
 
             <div class="left-panel">
                 <div class="top-menus">
-                    <ul>
+                    <ul class="menu">
                         <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
-                            <li class="dashboard active">Dashboard</li>
+                            <li class="dashboard">Dashboard</li>
                         </a>
-                        <li class="new-project">New project</li>
+
                         <a href="http://localhost/public/user/profile" style="text-decoration: none; color: #333;">
                             <li class="profile">Profile</li>
                         </a>
@@ -52,9 +98,30 @@
                             <li class="sketch-idea">Upload File</li>
                         </a>
                     </ul>
+                    <ul class="menu-icon">
+                        <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
+                            <li class="dashboard"><i class="fa fa-address-book" aria-hidden="true"></i></li>
+                        </a>
+
+                        <a href="http://localhost/public/user/profile" style="text-decoration: none; color: #333;">
+                            <li class="profile"><i class="fa fa-user" aria-hidden="true"></i></li>
+                        </a>
+
+                        <a href="http://localhost/public/projectleader/forum" style="text-decoration: none; color: #333;">
+                            <li class="settings"><i class="fa fa-forumbee"></i></li>
+                        </a>
+
+                        <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333;">
+                            <li class="sketch-idea"><i class="fa fa-paint-brush" aria-hidden="true"></i></li>
+                        </a>
+                        <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
+                    </ul>
                 </div>
                 <div class="middle-icon">
                     <i class="fa fa-caret-left" aria-hidden="true"></i>
+                </div>
+                <div class="middle-icon2">
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
                 </div>
 
                 <div class="bottom-calender">
@@ -278,7 +345,6 @@
                                 <p class="deadline">13-11-2022</p>
                             </div>
                             
-                            
                         </div>
                     </div>
                     <div class="review board">
@@ -333,53 +399,8 @@
 
         </div>
 
-        <div class="notification-popup-container">
-            <div class="notification-popup">
-                <div class="notification-popup-top">
-                    <h3>Notifications</h3>
-                    <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
-                </div>
-                <div class="notifications">
-                    
-                </div>
-            </div>
-        </div>
-        <div class="create-project-container">
-            <div class="create-project-popup">
-                <div class="create-project-top">
-                    <div class="create-project-header">
-                        <h3>Let's create a workspace.</h3>
-                        <p>Make it simpler for everyone to access boards in one place to increase productivity.</p>
-                    </div>
-                    <i class="fa fa-times create-project-popup-close" aria-hidden="true"></i>
-                </div>
-                <div class="create-project-details">
-                    <div class="create-project-form">
-                        <form action="http://localhost/public/user/projects" method="post">
-                            <label for="projec_name">Project Name</label>
-                            <br>
-                            <input type="text" name="project_name" placeholder="Enter project name ...">
-                            <br>
-                            <p>Your business, group, or organization's name is here.</p>
-
-                            <label for="field">Project Type</label>
-                            <br>
-                            <input type="text" name="field" placeholder="Enter project type ...">
-
-                            <br>
-                            <label for="description">Project Description</label>
-                            <br>
-                            <input type="text" id="description" name="description" placeholder="Please enter something on your project ... ">
-
-                            <br>
-                            <button type="submit">CREATE</button>
-                        </form>
-                    </div>
-                    <img src="/View/images/project_create.png" alt="project_create">
-                </div>
-            </div>
-        </div>
-
+        
+       
     </div>
 
     <script>

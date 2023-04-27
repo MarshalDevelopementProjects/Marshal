@@ -208,4 +208,25 @@ class User implements Model
             throw $th;
         }
     }
+    public function getCommit(string|int $id)
+    {
+        $sql_string = "SELECT *
+        FROM `completedtask`
+        WHERE `task_id` IN (
+          SELECT `task_id`
+          FROM `task`
+          WHERE `member_id` = $id AND `status` = 'REVIEW'
+        )";
+        try {
+            $result = $this->crud_util->execute($sql_string);
+            if ($result->getCount() > 0) {
+                return $result->getResults();
+                
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
 }

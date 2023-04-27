@@ -149,3 +149,20 @@ searchInput.addEventListener('input', () =>{
 })
 
 
+/*------------------------------------------------------*/ 
+const Project = document.querySelector('.projects')
+const middle_ = document.querySelector('.middle-icon');
+const middle_2 = document.querySelector('.middle-icon2');
+
+middle_.addEventListener('click', function(){
+    setTimeout(function() {
+        Project.classList.add('active');
+      }, 1000); // wait 1 second (1000 milliseconds)   
+});
+
+middle_2.addEventListener('click', function(){
+    setTimeout(function() {
+        Project.classList.remove('active');
+      }, 1000); // wait 1 second (1000 milliseconds)   
+});
+/*------------------------------------------------------*/ 
