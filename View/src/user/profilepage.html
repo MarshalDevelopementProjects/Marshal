@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/View/styles/user/user_commit_calendar.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="/View/styles/user/profilepagestyels.css" />
 </head>
 
 <body>
@@ -33,20 +34,30 @@
             <div class="left-panel">
                 <div class="top-menus">
                     <ul class="menu">
-                        <li class="dashboard active">
-                            </i>Dashboard</li>
-                        <li class="new-project">New project</li>
-                        <li class="profile">Profile</li>
-                        <li class="sketch-idea">Sketch idea</li>
-                        <li class="settings">Settings</li>
+                        <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
+                            <li class="dashboard">Dashboard</li>
+                        </a>
+                        <a href="http://localhost/public/user/profile" style="text-decoration: none; color: #333;">
+                            <li class="profile active">Profile</li>
+                        </a>
+                        <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333;">
+                            <li class="sketch-idea">Sketch idea</li>
+                        </a>
+                        <li id="log-out-btn">Logout</li>
+                        
                     </ul>
                     <ul class="menu-icon">
-                        <li class="dashboard active"><i class="fa fa-address-book-o" aria-hidden="true"></i></li>
-                        <li class="new-project"><i class="fa fa-plus-square" aria-hidden="true"></i></li>
-                        <li class="profile"><i class="fa fa-user" aria-hidden="true"></i></li>
-                        <li class="sketch-idea"><i class="fa fa-paint-brush" aria-hidden="true"></i></li>
-                        <li class="settings"><i class="fa fa-cog" aria-hidden="true"></i></li>
+                        <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
+                            <li class="dashboard"><i class="fa fa-address-book" aria-hidden="true"></i></li>
+                        </a>
+
+                        <li class="profile active"><i class="fa fa-user" aria-hidden="true"></i></li>
+
+                        <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333;">
+                            <li class="sketch-idea"><i class="fa fa-paint-brush" aria-hidden="true"></i></li>
+                        </a>
                         <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
+                        <li id="log-out-btn-icon"><i class="fa fa-sign-out" aria-hidden="true"></i></li>
                     </ul>
                 </div>
                 <div class="middle-icon">
@@ -174,16 +185,19 @@
 
                             <div id="verify-password-form-div">
                                 <form id="verify-password-form">
-                                    <input type="password" id="old_password" name="old_password" placeholder="Enter your current password" required>
+                                    <input type="password" id="old_password" name="old_password"
+                                        placeholder="Enter your current password" required>
                                     <button type="submit">Verify</button>
                                 </form>
                             </div>
                             <div class="inputs" id="update-password-form-div" style="display: none;">
                                 <form id="update-password-form">
                                     <label for="new_password"></label>
-                                    <input type="password" id="new_password" name="new_password" placeholder="Enter the new password" required>
+                                    <input type="password" id="new_password" name="new_password"
+                                        placeholder="Enter the new password" required>
                                     <label for="re_entered_new_password"></label>
-                                    <input type="password" id="re_entered_new_password" name="re_entered_new_password" placeholder="Re-enter the new password" required>
+                                    <input type="password" id="re_entered_new_password" name="re_entered_new_password"
+                                        placeholder="Re-enter the new password" required>
                                     <button id="Update-pwd-btn" type="submit">Update</button>
                                 </form>
                             </div>
@@ -198,7 +212,8 @@
             <div class="wrapper-container" style="display: none;">
                 <div class="wrapper">
                     <form id="edit-profile-picture-form" enctype="multipart/form-data">
-                        <input type="file" class="file-input" name="profile_picture" id="profile-picture" style="display: none;">
+                        <input type="file" class="file-input" name="profile_picture" id="profile-picture"
+                            style="display: none;">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <p>Browse File to Upload</p>
                     </form>
@@ -216,7 +231,7 @@
         <script src="/View/js/user/script_user_profile.js"></script>
         <script src="/View/js/user/sidebar.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-	    <script src="/View/js/user/commit_calendar.js"></script>
+        <script src="/View/js/user/commit_calendar.js"></script>
 </body>
 
 </html>
