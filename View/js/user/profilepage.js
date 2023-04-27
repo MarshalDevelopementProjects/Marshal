@@ -1,4 +1,5 @@
 const LogOutButton = document.getElementById("log-out-btn");
+const LogOutButtonIcon = document.getElementById("log-out-btn-icon");
 const EditProfilePictureForm = document.getElementById("edit-profile-picture-form");
 const EditProfileFrom = document.getElementById("edit-profile-form");
 const EditProfileBtn = document.getElementById("edit-profile-btn");
@@ -107,33 +108,41 @@ CancelChangesBtn.addEventListener('click', function(event) {
 });
 // ==============================================================
 
-// LogOutButton.addEventListener("click", () => {
-//     fetch("http://localhost/public/user/logout", {
-//             withCredentials: true,
-//             credentials: "include",
-//             mode: "cors",
-//             method: "POST",
-//         })
-//         .then((response) => {
-//             if (response.ok) {
-//                 window.location.replace("http://localhost/public/user/login");
-//                 return;
-//             }
-//             if (!response.ok) {
-//                 response.json();
-//             }
-//         })
-//         .then((data) => {
-//             if (data.message != undefined && data.message != undefined) {
-//                 alert(data.message);
-//             } else {
-//                 alert(data.message);
-//             }
-//         })
-//         .catch((error) => {
-//             console.error(error)
-//         });
-// });
+LogOutButton.addEventListener("click", () => {
+    logout()
+});
+LogOutButtonIcon.addEventListener("click", () => {
+    logout()
+});
+
+function logout(){
+
+    fetch("http://localhost/public/user/logout", {
+            withCredentials: true,
+            credentials: "include",
+            mode: "cors",
+            method: "POST",
+        })
+        .then((response) => {
+            if (response.ok) {
+                window.location.replace("http://localhost/public/user/login");
+                return;
+            }
+            if (!response.ok) {
+                response.json();
+            }
+        })
+        .then((data) => {
+            if (data.message != undefined && data.message != undefined) {
+                alert(data.message);
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch((error) => {
+            console.error(error)
+        });
+}
 
 fileInput = document.querySelector(".file-input"),
 
