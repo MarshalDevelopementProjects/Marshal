@@ -430,10 +430,64 @@ class ProjectMemberController extends UserController
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * @throws Exception
      */
-    public function getForum()
+    public function getForum(): void
     {
         $this->sendResponse(
             view: "/project_member/forum.html",
@@ -599,12 +653,18 @@ class ProjectMemberController extends UserController
         }
     }
 
-    public function gotoConference()
+    /**
+     * ###Function description###
+     * Redirects a project member to the meeting/conference page for video chatting
+     * Function returns nothing and accept no arguments
+     * #Currently not enabled#
+    */
+    /*public function gotoConference(): void
     {
         $this->sendResponse(
             view: "/user/meeting.html",
             status: "success",
             content: []
         );
-    }
+    }*/
 }
