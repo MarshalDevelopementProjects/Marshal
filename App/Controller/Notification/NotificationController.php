@@ -6,7 +6,7 @@ use App\Controller\Authenticate\UserAuthController;
 use App\Controller\Controller;
 use App\Model\Notification;
 
-class NotificationController extends Controller{
+class NotificationController{
     
     public function defaultAction(Object|array|string|int $optional = null){
     }
@@ -38,14 +38,14 @@ class NotificationController extends Controller{
                 "send_time" => $date,
                 "url" => $args['url']
             );
-            $notification->createNotification($notificationArgs, array("projectId", "message", "type", "senderId", "sendTime", "url"));
+            $notification->createNotification($notificationArgs, array("project_id", "message", "type", "sender_id", "send_time", "url"));
             
             $notifyConditions = array(
                 "project_id" => $projectId,
                 "sender_id" => $args['sender_id'],
                 "send_time" => $date
             );
-            $newNotification = $notification->getNotification($notifyConditions, array("projectId", "senderId", "sendTime"));
+            $newNotification = $notification->getNotification($notifyConditions, array("project_id", "sender_id", "send_time"));
 
             if($args['recive_id']){
                 $notifyMemberArgs = array(

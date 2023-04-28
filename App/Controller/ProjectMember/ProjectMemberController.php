@@ -110,6 +110,7 @@ class ProjectMemberController extends UserController
     public function sendConfirmation()
     {
         $data = json_decode(file_get_contents('php://input'));
+        // var_dump($data);
 
         $projectId = $_SESSION['project_id'];
         $payload = $this->userAuth->getCredentials();

@@ -279,7 +279,7 @@ class ProjectLeaderController extends ProjectMemberController
         $data = json_decode(file_get_contents('php://input'));
 
         $user = new User();
-        // $notificationController = new NotificationController();
+        $notificationController = new NotificationController();
 
         $user->readUser("username", $data->member_username);
         $receivedUser = $user->getUserData();
@@ -308,15 +308,15 @@ class ProjectLeaderController extends ProjectMemberController
 
                 // send notification to Member
 
-                // $notificationArgs = array(
-                //     "message" => "Leader assigned you to " . $data->task_name . '.',
-                //     "type" => "notification",
-                //     "sender_id" => $user_id,
-                //     "url" => "http://localhost/public/user/project?id=" . $project_id,
-                //     "recive_id" => $receivedUser->id
-                // );
+                $notificationArgs = array(
+                    "message" => "Leader assigned you to " . $data->task_name . '.',
+                    "type" => "notification",
+                    "sender_id" => $user_id,
+                    "url" => "http://localhost/public/user/project?id=" . $project_id,
+                    "recive_id" => $receivedUser->id
+                );
                 
-                // $notificationId = $notificationController->setNotification($notificationArgs);
+                $notificationId = $notificationController->setNotification($notificationArgs);
                 
             } catch (\Throwable $th) {
                 $message = "Failed to handover the task: " . $th->getMessage();

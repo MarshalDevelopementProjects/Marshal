@@ -244,50 +244,51 @@ tasks.forEach(task => {
                 });
             }else if(newBoard == "REVIEW" && oldBoard == "ONGOING"){
 
-                var taskDetails = getTaskDetails(ongoingTasks, draggedTaskName);
-                if(taskDetails['memberId'] == taskDetails['userId']){
-                    const confirmationPopup = document.querySelector('.confirmation-popup')
-                    const confirmationPopupCloseBtn = document.querySelector('.confirmation-popup .close-area i')
+                // var taskDetails = getTaskDetails(ongoingTasks, draggedTaskName);
+                // if(taskDetails['memberId'] == taskDetails['userId']){
+                //     const confirmationPopup = document.querySelector('.confirmation-popup')
+                //     const confirmationPopupCloseBtn = document.querySelector('.confirmation-popup .close-area i')
         
-                    const sendConfirmation = document.querySelector('.confirmation-popup .input-area button')
-                    const confirmationMessage = document.getElementById('confirmationMessage')
+                //     const sendConfirmation = document.querySelector('.confirmation-popup .input-area button')
+                //     const confirmationMessage = document.getElementById('confirmationMessage')
         
-                    confirmationPopup.classList.add('active')
+                //     confirmationPopup.classList.add('active')
 
-                    var message = ""
+                //     var message = ""
         
-                    /**
-                     * get current date and time
-                     */            
-                    var date = new Date();
-                    var year = date.getFullYear();
-                    var month = (date.getMonth() + 1).toString().padStart(2, '0');
-                    var day = date.getDate().toString().padStart(2, '0');
-                    var formattedDate = year + '-' + month + '-' + day;
+                //     /**
+                //      * get current date and time
+                //      */            
+                //     var date = new Date();
+                //     var year = date.getFullYear();
+                //     var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                //     var day = date.getDate().toString().padStart(2, '0');
+                //     var formattedDate = year + '-' + month + '-' + day;
         
-                    var time = date.toLocaleTimeString();
+                //     var time = date.toLocaleTimeString();
         
-                    confirmationMessage.addEventListener('input', () => {
-                        message = confirmationMessage.value
-                    })
+                //     confirmationMessage.addEventListener('input', () => {
+                //         message = confirmationMessage.value
+                //     })
         
         
-                    sendConfirmation.addEventListener('click', () => {
-                        sendConfirmationFunction(draggedTaskName, message, formattedDate, time)
-                    })
-                    confirmationMessage.addEventListener('keyup', (event) =>{
-                        if(event.keyCode === 13){
-                            sendConfirmationFunction(draggedTaskName, message, formattedDate, time)
-                        }
-                    })
+                //     sendConfirmation.addEventListener('click', () => {
+                //         sendConfirmationFunction(draggedTaskName, message, formattedDate, time)
+                //     })
+                //     confirmationMessage.addEventListener('keyup', (event) =>{
+                //         if(event.keyCode === 13){
+                //             sendConfirmationFunction(draggedTaskName, message, formattedDate, time)
+                //         }
+                //     })
         
         
                     
-                    confirmationPopupCloseBtn.addEventListener('click', () => {
-                        confirmationPopup.classList.remove('active')
-                        location.reload();
-                    })
-                }
+                //     confirmationPopupCloseBtn.addEventListener('click', () => {
+                //         confirmationPopup.classList.remove('active')
+                //         location.reload();
+                //     })
+                // }
+                showConfirmationPopup(draggedTaskName)
 
                 
             }else if(newBoard == "DONE" && oldBoard == "REVIEW"){
@@ -381,7 +382,7 @@ async function getFeedbacks(taskDetails, board){
 
 let popped = false;
 
-function showConfirmationPopup(){
+function showConfirmationPopup(taskName){
 
     const confirmationPopup = document.querySelector('.confirmation-popup'),
         confirmationPopupCloseBtn = document.querySelector('.confirmation-popup .close-area i'),
@@ -407,6 +408,7 @@ function showConfirmationPopup(){
 
     if(message != null){
         sendConfirmation.addEventListener('click', () => {
+            console.log("OOOOOO")
             sendConfirmationFunction(taskName, message, formattedDate, time)
             return
         })
@@ -709,7 +711,7 @@ function showOngoingPopup(taskDetails){
 
     finishBtn.addEventListener('click', () => {
         popped = false
-        showConfirmationPopup()
+        showConfirmationPopup(taskDetails['task_name'])
     })
     cancelBtn.addEventListener('click', () => {
         popped = false;
