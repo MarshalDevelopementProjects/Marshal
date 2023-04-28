@@ -204,16 +204,18 @@ class ProjectLeaderController extends ProjectMemberController
             $task = new Task();
             if ($task->createTask($data, array("project_id", "description", "deadline", "task_name", "priority", "status"))) {
 
-                $args = array(
-                    "status" => "ONGOING",
-                    "member_id" => $receivedUser->id,
-                    "project_id" => $_SESSION['project_id'],
-                    "task_name" => $args['taskname']
-                );
-                $updates = array("status", "member_id");
-                $conditions = array("project_id", "task_name");
-
-                $task->updateTask($args, $updates, $conditions);
+                if($args['assignedMember']){
+                    $args = array(
+                        "status" => "ONGOING",
+                        "member_id" => $receivedUser->id,
+                        "project_id" => $_SESSION['project_id'],
+                        "task_name" => $args['taskname']
+                    );
+                    $updates = array("status", "member_id");
+                    $conditions = array("project_id", "task_name");
+    
+                    $task->updateTask($args, $updates, $conditions);
+                }
                 
                 header("Location: http://localhost/public/user/project?id=" . $_SESSION['project_id']);
             } else {
@@ -277,6 +279,8 @@ class ProjectLeaderController extends ProjectMemberController
         $data = json_decode(file_get_contents('php://input'));
 
         $user = new User();
+        // $notificationController = new NotificationController();
+
         $user->readUser("username", $data->member_username);
         $receivedUser = $user->getUserData();
 
@@ -303,23 +307,21 @@ class ProjectLeaderController extends ProjectMemberController
                 $message = "Successfully handovered the task.";
 
                 // send notification to Member
-                $notificationController = new NotificationController();
 
-                $args = array(
-                    "message" => "Leader assigned you to " . $data->task_name . '.',
-                    "type" => "notification",
-                    "sender_id" => $user_id,
-                    "url" => "http://localhost/public/user/project?id=" . $project_id,
-                    "recive_id" => $receivedUser->id
-                );
+                // $notificationArgs = array(
+                //     "message" => "Leader assigned you to " . $data->task_name . '.',
+                //     "type" => "notification",
+                //     "sender_id" => $user_id,
+                //     "url" => "http://localhost/public/user/project?id=" . $project_id,
+                //     "recive_id" => $receivedUser->id
+                // );
                 
-                $notificationId = $notificationController->setNotification($args);
+                // $notificationId = $notificationController->setNotification($notificationArgs);
                 
             } catch (\Throwable $th) {
                 $message = "Failed to handover the task: " . $th->getMessage();
             }
-            // var_dump("HHHH");
-            header("Location: http://localhost/public/user/project?id=" . $_SESSION['project_id']);
+
             $this->sendJsonResponse(
                 status: "success",
                 content: [
@@ -331,8 +333,9 @@ class ProjectLeaderController extends ProjectMemberController
 
     public function createGroup()
     {
+        $user = new User();
+
         $data = $_POST;
-        // var_dump($data);
         $project_id = $_SESSION['project_id'];
 
         $payload = $this->userAuth->getCredentials();
@@ -340,7 +343,11 @@ class ProjectLeaderController extends ProjectMemberController
 
         $leaderId = $user_id;
         if ($data['assignMember']) {
-            $leaderId = $data['assignMember'];
+
+            $assignedMember = $user->readMember("username", $data['assignMember']);
+            if($assignedMember){
+                $leaderId = $assignedMember->id;
+            }
         }
 
         $args = array(
@@ -360,7 +367,8 @@ class ProjectLeaderController extends ProjectMemberController
             "priority" => "high",
             "status" => "ONGOING",
             "assign_type" => "group",
-            "member_id" => $user_id,
+            "member_id" => $leaderId,
+            "deadline" => $data['deadline']
         );
 
         $group = new Group();
@@ -369,29 +377,37 @@ class ProjectLeaderController extends ProjectMemberController
         $message = "";
         try {
             $group->createGroup($args, $keys);
-            $task->createTask($taskArgs, array("project_id", "description", "task_name", "priority", "status", "assign_type", "member_id"));
+            $task->createTask($taskArgs, array("project_id", "description", "task_name", "priority", "status", "assign_type", "member_id", "deadline"));
 
             // until project leader add a new group leader, he or she will be the group leader
             $newGroup = $group->getGroup(array("group_name" => $data['group_name'], "project_id" => $project_id,), array("group_name", "project_id"));
             $addMemberArgs = array(
                 "group_id" => $newGroup->id,
-                "member_id" => $user_id,
+                "member_id" => $leaderId,
                 "role" => "LEADER",
                 "joined" => date("Y-m-d H:i:s")
             );
 
             $group->addGroupMember($addMemberArgs, array("group_id", "member_id", "role", "joined"));
+
+            // if project leader assign a member to lead the group then project leader also become just a group member
+            if ($assignedMember){
+                $memberArgs = array(
+                    "group_id" => $newGroup->id,
+                    "member_id" => $user_id,
+                    "role" => "MEMBER",
+                    "joined" => date("Y-m-d H:i:s")
+                );
+                $group->addGroupMember($memberArgs, array("group_id", "member_id", "role", "joined"));
+            }
+
             $message = "Successfully created";
         } catch (\Throwable $th) {
             $message = $th->getMessage();
+            // throw $th;
         }
 
-        $this->sendJsonResponse(
-            status: "success",
-            content: [
-                "message" => $message
-            ]
-        );
+        header("Location: http://localhost/public/projectleader/getinfo");
     }
 
     public function addAnnouncement()
