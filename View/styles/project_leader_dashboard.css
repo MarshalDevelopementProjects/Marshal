@@ -974,6 +974,7 @@ body{
     /* display: flex; */
     margin: 115px 0 0 300px;
     transition: all 2s ease;
+    z-index: 999;
 }
 .create-project-container.active{
     display: block;
