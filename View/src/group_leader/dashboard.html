@@ -5,17 +5,64 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task board</title>
-    <link rel="stylesheet" href="/View/styles/group_leader/dashboard.css">
     <link rel="stylesheet" href="/View/styles/user/calendar.css">
+    <link rel="stylesheet" href="/View/styles/project_leader_dashboard.css">
+    <link rel="stylesheet" href="/View/styles/group_leader/dashboard.css">
     <link rel="stylesheet" href="/View/styles/project_member/todoTaskPopup.css">
     <link rel="stylesheet" href="/View/styles/project_member/ongoingTaskPopup.css">
     <link rel="stylesheet" href="/View/styles/project_member/reviewTaskPopup.css">
+    <link rel="stylesheet" href="/View/styles/user/notification.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
     <div class="container">
-
+        <div class="notification-popup-container">
+            <div class="notification-popup">
+                <div class="notification-popup-top">
+                    <h3>Notifications</h3>
+                    <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
+                </div>
+                <div class="notifications">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="create-project-container">
+            <div class="create-project-popup">
+                <div class="create-project-top">
+                    <div class="create-project-header">
+                        <h3>Let's create a workspace.</h3>
+                        <p>Make it simpler for everyone to access boards in one place to increase productivity.</p>
+                    </div>
+                    <i class="fa fa-times create-project-popup-close" aria-hidden="true"></i>
+                </div>
+                <div class="create-project-details">
+                    <div class="create-project-form">
+                        <form action="#" method="post">
+                            <label for="projectName">Project Name</label>
+                            <br>
+                            <input type="text" name="projectName" placeholder="Enter project name ...">
+                            <br>
+                            <p>Your business, group, or organization's name is here.</p>
+    
+                            <label for="projectType">Project Type</label>
+                            <br>
+                            <input type="text" name="projectType" placeholder="Enter project type ...">
+    
+                            <br>
+                            <label for="projectDescription">Project Description</label>
+                            <br>
+                            <input type="text" id="projectDescription" name="projectDescription" placeholder="Please enter something on your project ... ">
+    
+                            <br>
+                            <button type="submit">CREATE</button>
+                        </form>
+                    </div>
+                    <img src="/View/images/project_create.png" alt="project_create">
+                </div>
+            </div>
+        </div>
         <div class="navbar">
             <div class="left-logo-area">
                 <a href="http://localhost/public/user/dashboard" style="text-decoration: none;">
@@ -34,12 +81,12 @@
 
             <div class="left-panel">
                 <div class="top-menus">
-                    <ul>
+                    <ul class="menu">
 
                         <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
-                            <li class="dashboard active">Dashboard</li>
+                            <li class="dashboard">Dashboard</li>
                         </a>
-                        <li class="new-project">New project</li>
+                      
                         <a href="http://localhost/public/user/profile" style="text-decoration: none; color: #333;">
                             <li class="profile">Profile</li>
                         </a>
@@ -50,9 +97,29 @@
                             <li class="sketch-idea">Sketch idea</li>
                         </a>
                     </ul>
+                    <ul class="menu-icon">
+
+                        <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
+                            <li class="dashboard"><i class="fa fa-address-book" aria-hidden="true"></i></li>
+                        </a>
+                      
+                        <a href="http://localhost/public/user/profile" style="text-decoration: none; color: #333;">
+                            <li class="profile"><i class="fa fa-user" aria-hidden="true"></i></li>
+                        </a>
+                        <a href="http://localhost/public/projectmember/forum" style="text-decoration: none; color: #333;">
+                            <li class="forum"><i class="fa fa-forumbee"></i></li>
+                        </a>
+                        <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333;">
+                            <li class="sketch-idea"><i class="fa fa-paint-brush" aria-hidden="true"></i></li>
+                        </a>
+                        <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
+                    </ul>
                 </div>
                 <div class="middle-icon">
                     <i class="fa fa-caret-left" aria-hidden="true"></i>
+                </div>
+                <div class="middle-icon2">
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
                 </div>
 
                 <div class="bottom-calender">
@@ -380,7 +447,8 @@
     <script src="/View/js/group_leader/dashboard.js"></script>
     <script src="/View/js/user/logout.js"></script>
     <script src="/View/js/user/calendar.js"></script>
-    <!-- <script src="/View/js/user/createProject.js"></script> -->
+    <script src="/View/js/user/createProject.js"></script>
     <script src="/View/js/user/sidebar.js"></script>
+    <script src="/View/js/user/notification.js"></script>
 </body>
 </html>
