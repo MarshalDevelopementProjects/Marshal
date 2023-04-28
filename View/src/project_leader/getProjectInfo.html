@@ -5,8 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects | Dashboard</title>
-    <link rel="stylesheet" href="/View/styles/project_leader/project_info.css">
     <link rel="stylesheet" href="/View/styles/user/calendar.css">
+    <link rel="stylesheet" href="/View/styles/project_leader/project_info.css">
+    <link rel="stylesheet" href="/View/styles/user/notification.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -30,16 +31,47 @@
         <div class="projects-container">
             <div class="left-panel">
                 <div class="top-menus">
-                    <ul>
-                        <li class="dashboard active">Dashboard</li>
-                        <li class="new-project">New project</li>
-                        <li class="profile">Profile</li>
-                        <li class="settings">Settings</li>
-                        <li class="sketch-idea">Sketch idea</li>
+                    <ul class="menu">
+                        <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
+                            <li class="dashboard">Dashboard</li>
+                        </a>
+
+                        <a href="http://localhost/public/user/profile" style="text-decoration: none; color: #333;">
+                            <li class="profile">Profile</li>
+                        </a>
+                        <a href="http://localhost/public/projectleader/forum" style="text-decoration: none; color: #333;">
+                            <li class="forum">Forum</li>
+                        </a>
+
+                        <a href="http://localhost/public/project/leader/conference/scheduler" style="text-decoration: none; color: #333;">
+                            <li class="conference">Conferences</li>
+                        </a>
+                        <li class="sketch-idea" style="display: none;"></li>
+                    </ul>
+                    <ul class="menu-icon">
+                        <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
+                            <li class="dashboard"><i class="fa fa-address-book" aria-hidden="true"></i></li>
+                        </a>
+
+                        <a href="http://localhost/public/user/profile" style="text-decoration: none; color: #333;">
+                            <li class="profile"><i class="fa fa-user" aria-hidden="true"></i></li>
+                        </a>
+
+                        <a href="http://localhost/public/projectleader/forum" style="text-decoration: none; color: #333;">
+                            <li class="forum"><i class="fa fa-forumbee"></i></li>
+                        </a>
+
+                        <a href="http://localhost/public/project/leader/conference/scheduler" style="text-decoration: none; color: #333;">
+                            <li class="conference"><i class="fa fa-camera"></i></li>
+                        </a>
+                        <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
                     </ul>
                 </div>
                 <div class="middle-icon">
                     <i class="fa fa-caret-left" aria-hidden="true"></i>
+                </div>
+                <div class="middle-icon2">
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
                 </div>
 
                 <div class="bottom-calender">
@@ -278,150 +310,11 @@
                     <h3>Notifications</h3>
                     <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
                 </div>
-
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture5.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="notifications">
+                    
                 </div>
-
-                <div class="request-notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture5.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <div class="request-content">
-                                <h5>Project invite</h5>
-                                <p class="request-message">Look for tasks that are associated with you, How about the progress of them ?</p>
-
-                                <div class="responses">
-                                    <button type="submit" id="rejectInviteBtn">Reject</button>
-                                    <button type="submit" id="acceptInviteBtn">Accept</button>
-                                </div>
-                            </div>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture5.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture5.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture1.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture1.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture1.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture1.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
             </div>
         </div>
-
         <div class="create-project-container">
             <div class="create-project-popup">
                 <div class="create-project-top">
@@ -508,8 +401,9 @@
     <script src="/View/js/user/logout.js"></script>
     <script src="/View/js/user/calendar.js"></script>
     <script src="/View/js/user/createProject.js"></script>
-    <!--<script src="/View/js/user/sidebar.js"></script>-->
-    <!--<script src="/View/js/user/notification.js"></script>-->
+    <script src="https://kit.fontawesome.com/0ecc390bb7.js" crossorigin="anonymous"></script>
+    <script src="/View/js/user/sidebar.js"></script>
+    <script src="/View/js/user/notification.js"></script>
 
 </body>
 </html>
