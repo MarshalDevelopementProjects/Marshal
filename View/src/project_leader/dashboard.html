@@ -29,7 +29,8 @@
                 <button type="submit" class="navbar-new-project">+ New Project</button>
                 <i class="fa fa-bell-o  notification-bell-btn" aria-hidden="true"></i>
                 <i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i>
-                <a href="http://localhost/public/user/profile"><img src="/View/images/dp.png" alt="" class="profile-image"></a>
+                <a href="http://localhost/public/user/profile"><img src="/View/images/dp.png" alt=""
+                        class="profile-image"></a>
             </div>
         </div>
         <div class="create-project-container">
@@ -57,7 +58,8 @@
                             <br>
                             <label for="description">Project Description</label>
                             <br>
-                            <input type="text" id="description" name="description" placeholder="Please enter something on your project ... ">
+                            <input type="text" id="description" name="description"
+                                placeholder="Please enter something on your project ... ">
 
                             <br>
                             <button type="submit">CREATE</button>
@@ -74,7 +76,7 @@
                     <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
                 </div>
                 <div class="notifications">
-                    
+
                 </div>
             </div>
         </div>
@@ -91,13 +93,16 @@
                         <a href="http://localhost/public/user/profile" style="text-decoration: none; color: #333;">
                             <li class="profile">Profile</li>
                         </a>
-                        <a href="http://localhost/public/projectleader/forum" style="text-decoration: none; color: #333;">
+                        <a href="http://localhost/public/projectleader/forum"
+                            style="text-decoration: none; color: #333;">
                             <li class="forum">Forum</li>
                         </a>
-                        <a style="text-decoration: none; color: black;" href="http://localhost/public/projectmember/fileupload">
+                        <a style="text-decoration: none; color: black;"
+                            href="http://localhost/public/projectmember/fileupload">
                             <li class="upload-file">Upload File</li>
                         </a>
-                        <a href="http://localhost/public/project/leader/conference/scheduler" style="text-decoration: none; color: #333;">
+                        <a href="http://localhost/public/project/leader/conference/scheduler"
+                            style="text-decoration: none; color: #333;">
                             <li class="conference">Conferences</li>
                         </a>
                     </ul>
@@ -110,17 +115,21 @@
                             <li class="profile"><i class="fa fa-user" aria-hidden="true"></i></li>
                         </a>
 
-                        <a href="http://localhost/public/projectleader/forum" style="text-decoration: none; color: #333;">
+                        <a href="http://localhost/public/projectleader/forum"
+                            style="text-decoration: none; color: #333;">
                             <li class="forum"><i class="fa fa-forumbee"></i></li>
                         </a>
 
-                        <a style="text-decoration: none; color: black;" href="http://localhost/public/projectmember/fileupload">
+                        <a style="text-decoration: none; color: black;"
+                            href="http://localhost/public/projectmember/fileupload">
                             <li class="upload-file"><i class="fa fa-file-arrow-up"></i></li>
                         </a>
 
-                        <a href="http://localhost/public/project/leader/conference/scheduler" style="text-decoration: none; color: #333;">
+                        <a href="http://localhost/public/project/leader/conference/scheduler"
+                            style="text-decoration: none; color: #333;">
                             <li class="conference"><i class="fa fa-camera"></i></li>
                         </a>
+                        <li class="sketch-idea" style="display: none;"></li>
                         <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
                     </ul>
                 </div>
@@ -133,9 +142,11 @@
 
                 <div class="bottom-calender">
                     <div class="top-month">
-                        <button type="submit" class="previous-month-btn"><i class="fa fa-caret-left" aria-hidden="true"></i></button>
+                        <button type="submit" class="previous-month-btn"><i class="fa fa-caret-left"
+                                aria-hidden="true"></i></button>
                         <p><span class="month"></span> <span class="year"></span></p>
-                        <button type="submit" class="next-month-btn"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                        <button type="submit" class="next-month-btn"><i class="fa fa-caret-right"
+                                aria-hidden="true"></i></button>
                     </div>
                     <div class="day-names">
                         <p>Mon</p>
@@ -171,7 +182,7 @@
                     </a>
                 </div>
 
-                
+
 
                 <div class="TO-DO-task-details">
 
@@ -187,18 +198,20 @@
                         <form action="#" method="post">
                             <label for="feedbackMessage"></label>
                             <input type="text" name="feedbackMessage" placeholder="Send something ..." disabled>
-                            <button disabled type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                            <button disabled type="submit"><i class="fa fa-chevron-circle-right"
+                                    aria-hidden="true"></i></button>
                         </form>
                     </div>
 
                     <div class="buttons">
-                        <input type="text" name="assignedMember" class="assign-member-for-task" placeholder="Assign member ...">
+                        <input type="text" name="assignedMember" class="assign-member-for-task"
+                            placeholder="Assign member ...">
                         <p id="cancel-todo-task-details">Cancel</p>
                         <p id="pickup-task-btn">PickUp</p>
                     </div>
 
 
-                    
+
                 </div>
 
                 <div class="Ongoing-task-details">
@@ -232,10 +245,12 @@
 
                         <form id="ongoing-task-feedback-form" method="post">
                             <label for="feedbackMessage"></label>
-                            <input id="ongoing-task-feedback-form-input" type="text" name="feedbackMessage" placeholder=" Send task feedback ...">
-                            <button id="ongoing-feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                            <input id="ongoing-task-feedback-form-input" type="text" name="feedbackMessage"
+                                placeholder=" Send task feedback ...">
+                            <button id="ongoing-feedback-message-btn" type="submit"><i
+                                    class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
                         </form>
-                        
+
                     </div>
                     <div class="buttons">
                         <p id="cancel-ongoing-task-details">Cancel</p>
@@ -272,8 +287,10 @@
                         </div>
                         <form id="review-task-feedback-form" method="post">
                             <label for="feedbackMessage"></label>
-                            <input id="review-task-feedback-form-input" type="text" name="feedbackMessage" placeholder=" Send task feedback ...">
-                            <button id="review-feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                            <input id="review-task-feedback-form-input" type="text" name="feedbackMessage"
+                                placeholder=" Send task feedback ...">
+                            <button id="review-feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right"
+                                    aria-hidden="true"></i></button>
                         </form>
                     </div>
                     <div class="buttons">
@@ -298,11 +315,13 @@
 
                                     <input type="text" name="taskname" id="taskname" placeholder="Task name ...">
                                     <label for="taskdescription">Description</label>
-                                    <input type="text" name="taskdescription" id="taskdescription" placeholder="Task description ...">
+                                    <input type="text" name="taskdescription" id="taskdescription"
+                                        placeholder="Task description ...">
                                     <label for="taskdeadline">Deadline</label>
                                     <input type="date" name="taskdeadline" id="taskdeadline">
                                     <label for="assignedMember">Assign a member</label>
-                                    <input type="text" name="assignedMember" id="assignedMember" placeholder="Enter username or email...">
+                                    <input type="text" name="assignedMember" id="assignedMember"
+                                        placeholder="Enter username or email...">
 
                                 </div>
                                 <div class="priority">
@@ -318,7 +337,8 @@
                                     <br>
 
                                     <div class="finish-created-task">
-                                        <button type="submit" id="create-task-btn"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                        <button type="submit" id="create-task-btn"><i class="fa fa-check"
+                                                aria-hidden="true"></i></button>
                                         <p id="cancel-task-btn"><i class="fa fa-times" aria-hidden="true"></i></p>
                                     </div>
                                 </div>
@@ -327,17 +347,18 @@
                         </div>
 
                         <div class="tasks">
-                            
-                            
+
+
                             <div class="task" draggable="true">
                                 <div class="top-task">
                                     <h4>Develop API 4</h4>
                                     <p>High</p>
                                 </div>
-                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site
+                                    Built an API for meeting site</p>
                                 <p class="deadline">13-11-2022</p>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="ongoing board">
@@ -348,10 +369,11 @@
                                     <h4>Develop API 6</h4>
                                     <p>High</p>
                                 </div>
-                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site
+                                    Built an API for meeting site</p>
                                 <p class="deadline">13-11-2022</p>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="review board">
@@ -362,11 +384,12 @@
                                     <h4>Develop API 6</h4>
                                     <p>High</p>
                                 </div>
-                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site
+                                    Built an API for meeting site</p>
                                 <p class="deadline">13-11-2022</p>
                             </div>
-                            
-                            
+
+
                         </div>
                     </div>
                     <div class="done board">
@@ -377,11 +400,12 @@
                                     <h4>Develop API</h4>
                                     <p>High</p>
                                 </div>
-                                <p class="task-description">Built an API for meeting site Built an API for meeting site Built an API for meeting site</p>
+                                <p class="task-description">Built an API for meeting site Built an API for meeting site
+                                    Built an API for meeting site</p>
                                 <p class="deadline">13-11-2022</p>
                             </div>
-                            
-                            
+
+
                         </div>
                     </div>
                 </div>
@@ -393,7 +417,8 @@
                     </div>
                     <div class="input-area">
 
-                        <input id="confirmationMessage" type="text" name="confirmationMessage" placeholder="Type confirmation message...">
+                        <input id="confirmationMessage" type="text" name="confirmationMessage"
+                            placeholder="Type confirmation message...">
                         <label for="confirmationFile"><i class="fa fa-file" aria-hidden="true"></i></label>
                         <input id="confirmationFile" type="file" name="confirmationFile" style="display: none;">
                         <button type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
@@ -406,8 +431,8 @@
 
         </div>
 
-        
-       
+
+
     </div>
 
     <script>
@@ -419,11 +444,9 @@
     <script src="/View/js/user/createProject.js"></script>
     <script src="/View/js/user/sidebar.js"></script>
     <script src="/View/js/user/notification.js"></script>
+    <script src="/View/js/user/notificationPopup.js"></script>
     <script src="https://kit.fontawesome.com/0ecc390bb7.js" crossorigin="anonymous"></script>
 
 </body>
 
 </html>
-
-
-
