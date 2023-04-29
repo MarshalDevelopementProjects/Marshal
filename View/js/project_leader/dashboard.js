@@ -12,16 +12,16 @@ var ongoingTasks = jsonData['tasks']['ongoingTasks'];
 var reviewTasks = jsonData['tasks']['reviewTasks'];
 var doneTasks = jsonData['tasks']['doneTasks'];
 /*--------------------------------------------------------------------------------------*/ 
-const notificationPopupBtn = document.querySelector('.notification-bell-btn')
-const notificationPopup = document.querySelector('.notification-popup-container');
-const notificationPopupCloseBtn = document.querySelector('.notification-popup-close-btn');
-const notificationPopupContainer = document.querySelector('.notification-popup-container');
-const container = document.querySelector('.container');
+// const notificationPopupBtn = document.querySelector('.notification-bell-btn')
+// const notificationPopup = document.querySelector('.notification-popup-container');
+// const notificationPopupCloseBtn = document.querySelector('.notification-popup-close-btn');
+// const notificationPopupContainer = document.querySelector('.notification-popup-container');
+// const container = document.querySelector('.container');
 
-notificationPopupBtn.addEventListener('click', () => notificationPopup.classList.add('active'));
-notificationPopupCloseBtn.addEventListener('click', () => notificationPopup.classList.remove('active'));
-// notificationPopup.addEventListener('click', () => notificationPopup.classList.remove('active'))
-$notifications = [];
+// notificationPopupBtn.addEventListener('click', () => notificationPopup.classList.add('active'));
+// notificationPopupCloseBtn.addEventListener('click', () => notificationPopup.classList.remove('active'));
+// // notificationPopup.addEventListener('click', () => notificationPopup.classList.remove('active'))
+// $notifications = [];
 /*--------------------------------------------------------------------------------------*/ 
 
 let priorities = { "high": 3, "medium": 2, "low": 1 };
