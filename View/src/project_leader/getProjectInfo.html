@@ -31,11 +31,16 @@
             <div class="left-panel">
                 <div class="top-menus">
                     <ul>
-                        <li class="dashboard active">Dashboard</li>
+                        <a href="http://localhost/public/user/dashboard">
+                            <li class="dashboard active">Dashboard</li>
+                        </a>
                         <li class="new-project">New project</li>
-                        <li class="profile">Profile</li>
-                        <li class="settings">Settings</li>
-                        <li class="sketch-idea">Sketch idea</li>
+                        <a href="http://localhost/public/user/profile">
+                            <li class="profile">Profile</li>
+                        </a>
+                        <a href="http://localhost/public/user/sketch">
+                            <li class="sketch-idea">Sketch idea</li>
+                        </a>
                     </ul>
                 </div>
                 <div class="middle-icon">
@@ -127,26 +132,16 @@
                             </div>
 
                             <div class="client-feedback-area">
-                                <div class="project-feedback-messages">
-                                    <div class="incomming-feedback">
-                                        <img src="/View/images/dp.png" alt="">
-                                        <div class="incomming-feedback-message">
-                                            <p class="incomming-feedbacks">Hello How are you</p>
-                                            <p class="incomming-time">4.14 PM</p>
-                                        </div>
-                                    </div>
-        
-                                    <div class="outgoing-feedback">
-                                        <p class="outgoing-feedbacks">Hello How are you</p>
-                                        <p class="outgoing-time">4.14 PM</p>
-                                    </div>
-        
+                                <div id="feedback-message-container" class="project-feedback-messages">
+
+                                   <!-- Feedback message goes here -->
+
                                 </div>
-        
-                                <form id="client-feedback-form" method="post">
+
+                                <form id="client-feedback-form">
                                     <label for="feedbackMessage"></label>
-                                    <input type="text" name="feedbackMessage" placeholder=" Type something...">
-                                    <button id="feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                                    <input type="text" id="feedbackMessage" name="feedbackMessage" placeholder=" Type something...">
+                                    <button type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
                                 </form>
                             </div>
                                                   
@@ -506,6 +501,7 @@
 
     <script src="/View/js/project_leader/getProjectInfo.js"></script>
     <script src="/View/js/user/logout.js"></script>
+    <script src="/View/js/project_leader/project_feedback.js"></script>
     <script src="/View/js/user/calendar.js"></script>
     <script src="/View/js/user/createProject.js"></script>
     <!--<script src="/View/js/user/sidebar.js"></script>-->
