@@ -130,6 +130,7 @@ invitationSendBtn.addEventListener('click', function () {
           .then(response => response.json())
             .then(data => {
                 console.log(JSON.stringify(data));
+                invitePopup.classList.remove('active')
             })
           .catch(function(error){console.log(error)})
     }else{

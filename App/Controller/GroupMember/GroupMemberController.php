@@ -48,7 +48,10 @@ class GroupMemberController extends ProjectMemberController
     public function getGroupInfo()
     {
 
+        $payload = $this->userAuth->getCredentials();
         $group = new Group();
+        $project = new Project();
+        $task = new Task();
         $groupData = array();
 
         // get group details
@@ -74,6 +77,13 @@ class GroupMemberController extends ProjectMemberController
         $groupData['userDetails'] = $userData->profile_picture;
         $groupData['projectDetails'] = $project->getProject(array("id" => $_SESSION['project_id']))->project_name;
 
+         // get group members
+         $condition = "WHERE id IN (SELECT member_id FROM group_join WHERE group_id = :group_id AND role = :role)";
+         $groupMemberCondition = "WHERE id IN (SELECT member_id FROM group_join WHERE group_id = :group_id)";
+ 
+         $groupData['groupLeader'] = $user->getAllUsers(array("group_id" => $_SESSION['group_id'], "role" => "LEADER"), $condition);
+         $groupData['groupMembers'] = $user->getAllUsers(array("group_id" => $_SESSION['group_id']), $groupMemberCondition);
+ 
         $groupData += parent::getTaskDeadlines();
 
         $this->sendResponse(
@@ -107,7 +117,7 @@ class GroupMemberController extends ProjectMemberController
         $message = new Message();
         $user = new User();
 
-        $condition = "id IN(SELECT message_id FROM `group_announcement` WHERE project_id = " . $_SESSION['project_id'] . ") ORDER BY `stamp` LIMIT 100";
+        $condition = "id IN(SELECT message_id FROM `group_announcement` WHERE project_id = " . $_SESSION['project_id'] . " AND group_id = " . $_SESSION['group_id'] . ") ORDER BY `stamp` LIMIT 100";
 
         $announcements = $messageController->recieve($condition);
         foreach ($announcements as $announcement) {
@@ -115,7 +125,7 @@ class GroupMemberController extends ProjectMemberController
             $sender = $user->readMember("id", $announcement->sender_id);
             $announcement->profile = $sender->profile_picture;
 
-            $headingCondition = "project_id = " . $_SESSION['project_id'] . " AND message_id = " . $announcement->id;
+            $headingCondition = "project_id = " . $_SESSION['project_id'] . " AND message_id = " . $announcement->id . " AND group_id = " . $_SESSION['group_id'];
             $announcement->heading = $message->getAnnouncementHeading($headingCondition, 'group_announcement')->heading;
             $announcement->senderType = 'group leader';
         }

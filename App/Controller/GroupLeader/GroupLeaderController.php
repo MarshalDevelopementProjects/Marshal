@@ -187,10 +187,11 @@ class GroupLeaderController extends ProjectMemberController
             $messageTypeArgs = array(
                 "message_id" => $newMessage->id,
                 "project_id" => $_SESSION['project_id'],
+                "group_id" => $_SESSION['group_id'],
                 "heading" => $data->announcementHeading
             );
 
-            $message->setMessageType($messageTypeArgs, array("message_id", "project_id", "heading"), "group_announcement");
+            $message->setMessageType($messageTypeArgs, array("message_id", "project_id", "group_id", "heading"), "group_announcement");
 
             // send notifications
             try {
@@ -384,6 +385,54 @@ class GroupLeaderController extends ProjectMemberController
             }
         } catch (Exception $exception) {
             throw $exception;
+        }
+    }
+
+    public function sendGroupInvitation()
+    {
+        try {
+            // get receiver user name
+            $data = file_get_contents('php://input');
+
+            // first check receiver is valid user or not
+            // get received user id
+            $user = new User();
+            $group = new Group();
+
+            $user->readUser("username", $data);
+            $receivedUser = $user->getUserData();
+
+            if ($receivedUser) {
+                $payload = $this->userAuth->getCredentials();
+                $project_id = $_SESSION["project_id"];
+                $user_id = $payload->id;
+
+                $groupDetails = $group->getGroup(array("id" => $_SESSION['group_id']), array("id"));
+
+                $memberArgs = array(
+                    "group_id" => $_SESSION['group_id'],
+                    "member_id" => $receivedUser->id,
+                    "role" => "MEMBER",
+                    "joined" => date("Y-m-d H:i:s")
+                );
+                $group->addGroupMember($memberArgs, array("group_id", "member_id", "role", "joined"));
+
+                $notificationController = new NotificationController();
+
+                $args = array(
+                    "message" => "You are a member of the group " . $groupDetails->group_name . ".",
+                    "type" => "request",
+                    "sender_id" => $user_id,
+                    "url" => "http://localhost/public/projectmember/group?id=" . $_SESSION['group_id'],
+                    "recive_id" => $receivedUser->id
+                );
+                
+                $notificationId = $notificationController->setNotification($args);
+            }
+           
+            echo (json_encode(array("message" => "Success")));
+        } catch (\Throwable $th) {
+            echo (json_encode(array("message" => $th)));
         }
     }
 }

@@ -199,7 +199,15 @@ class ProjectMemberController extends UserController
                     "group_id" => $data['id'],
                     "member_id" => $payload->id
                 );
-                switch ($group->getGroupMember($args, array("group_id", "member_id"))->role) {
+                $role = $group->getGroupMember($args, array("group_id", "member_id"))->role;
+
+                // project leader also has group leader features
+                $projectDetails = $project->getProject(array("id" => $_SESSION['project_id']));
+                if($projectDetails->created_by == $payload->id){
+                    $role = 'LEADER';
+                }
+                
+                switch ($role) {
                     case 'LEADER':
                         $args = array(
                             "group_id" => $data['id'],
@@ -314,11 +322,13 @@ class ProjectMemberController extends UserController
 
         $group = new Group();
         $groups = $group->getAllGroups(array("project_id" => $project_id), array("project_id"));
-        foreach ($groups as $groupData) {
-            if ($group->getGroupMember(array("group_id" => $groupData->id, "member_id" => $user_id), array("group_id", "member_id"))) {
-                $groupData->hasAccess = true;
-            } else {
-                $groupData->hasAccess = false;
+        if($groups){
+            foreach ($groups as $groupData) {
+                if ($group->getGroupMember(array("group_id" => $groupData->id, "member_id" => $user_id), array("group_id", "member_id"))) {
+                    $groupData->hasAccess = true;
+                } else {
+                    $groupData->hasAccess = false;
+                }
             }
         }
 

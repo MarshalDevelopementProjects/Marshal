@@ -119,35 +119,8 @@ class ProjectLeaderController extends ProjectMemberController
                 );
                 
                 $notificationId = $notificationController->setNotification($args);
-
-                // $args = array(
-                //     "projectId" => $project_id,
-                //     "message" => "Invite to this peoject",
-                //     "type" => "request",
-                //     "senderId" => $user_id,
-                //     "sendTime" => $date,
-                //     "url" => "http://localhost/public/user/project?id=" . $project_id
-                // );
             }
-            // set notified members
-            // get notification id
-            // $notification = new Notification();
-            // $notification->createNotification($args, array("projectId", "message", "type", "senderId", "sendTime", "url"));
-
-            // $conditions = array(
-            //     "projectId" => $project_id,
-            //     "senderId" => $user_id,
-            //     "sendTime" => $date
-            // );
-
-            // $newNotification = $notification->getNotification($conditions, array("projectId", "senderId", "sendTime"));
-
-            // $arguments = array(
-            //     "notificationId" => $newNotification->id,
-            //     "memberId" => $receivedUser->id
-            // );
-            // $notification->setNotifiers($arguments, array("notificationId", "memberId"));
-
+           
             echo (json_encode(array("message" => "Success")));
         } catch (\Throwable $th) {
             echo (json_encode(array("message" => $th)));

@@ -93,6 +93,7 @@ $router->get('/user/sketch', UserController::class . '::sketch');
 $router->get('/projectleader/getinfo', ProjectLeaderController::class . '::getProjectInfo');
 $router->get('/projectmember/getinfo', ProjectMemberController::class . '::getProjectInfo');
 $router->post('/projectleader/invite', ProjectLeaderController::class . '::sendProjectInvitation');
+$router->post('/group/leader/invite', GroupLeaderController::class . '::sendGroupInvitation');
 $router->post('/projectleader/createtask', ProjectLeaderController::class . '::createTask');
 $router->post('/projectleader/group', ProjectLeaderController::class . '::createGroup');
 $router->get('/projectmember/fileupload', ProjectMemberController::class . '::getFileUploadPage');

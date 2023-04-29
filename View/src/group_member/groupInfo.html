@@ -7,6 +7,7 @@
     <title>Projects | Dashboard</title>
     <link rel="stylesheet" href="/View/styles/group_member/groupInfo.css">
     <link rel="stylesheet" href="/View/styles/user/calendar.css">
+    <link rel="stylesheet" href="/View/styles/project_member/announcement.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -73,11 +74,13 @@
             <div class="right-panel">
 
                 <div class="project-info">
+                    
+
                     <div class="project-info-top">
-                        <h2><span id="groupIdentifier">#</span> Medicare App Development <span>Web App development</span></h2>
-                        
+                        <h2><span id="groupIdentifier"></h2>
+                        <p id="invite-member-btn"><i class="fa fa-user-plus" aria-hidden="true"></i> Invite member</p>
                     </div>
-                    <p>mHealth apps  between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals.
+                    <p id="group-description">mHealth apps  between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals.
                         <br> convenience of their own homes without visiting hospitals.</p>
 
                     <div class="progress-bar">
@@ -88,19 +91,28 @@
 
                     <div class="feedbacks-and-groups">
                         <div class="feedbacks">
-                            <h3>Feedback Form</h3>
-                            <div class="feedback-form">
-                                <p class="outgoing-feedback">How is Going</p>
-                                <p class="outgoing-feedback">Yes, you have written the first thing first, but after that it becomes muddled. Your next step is to go back to your plan and check your numbering of the order of the events as they happened.</p>
-
-                                <p class="incoming-feedback">Yes, you have written the first thing first, but after that it becomes muddled. Your next step is to go back to your plan and check your numbering of the order of the events as they happened.</p>
+                            
+                            <div class="feedbacks-headers">
+                                <h3 id="group-announcements">Group Announcements</h3>
                             </div>
-                            <form action="#" method="post">
-                                <label for="feedback"></label>
-                                <input type="text" name="feedback" id="feedback" placeholder="Type feedback ...">
+                            
+                            <div class="group-announcement-area">
+                                <div class="feedback-form">
                                 
-                                <button type="submit"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
-                            </form>
+                                    <div class="announcement">
+                                        <img src="" alt="">
+                                        <div class="announcement-details">
+                                            <div class="announcement-detail-heading">
+                                                <p class="announcement-heading-line"></p>
+                                                <p class="announcement-sent-time"></p>
+                                            </div>
+                                            <p class="announcement-detail-message"></p>
+                                        </div>
+                                    </div>
+    
+                                </div>
+                            </div>
+
                         </div>
                         
                     </div>
@@ -108,7 +120,7 @@
 
                 <div class="member-list">
                     <h3>Group Leader</h3>
-                    <div class="member-card">
+                    <div class="member-card" id="group-leader">
                         <div class="profile-image">
                             <img src="/View/images/dp.png" alt="">
                             <i class="fa fa-circle" aria-hidden="true"></i>

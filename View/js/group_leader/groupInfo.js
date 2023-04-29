@@ -31,7 +31,7 @@ invitationSendBtn.addEventListener('click', function () {
     // console.log(userEnteredData)
     if(input.value){
         fetch(
-            "http://localhost/public/projectleader/invite",
+            "http://localhost/public/group/leader/invite",
             {
               withCredentials: true,
               credentials: "include",
@@ -46,6 +46,8 @@ invitationSendBtn.addEventListener('click', function () {
           .then(response => response.json())
             .then(data => {
                 console.log(JSON.stringify(data));
+                invitePopup.classList.remove('active')
+                location.reload();
             })
           .catch(function(error){console.log(error)})
     }else{
