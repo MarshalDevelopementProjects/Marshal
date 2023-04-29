@@ -1,13 +1,32 @@
-const ConnectionForm = document.getElementById("connection-form");
+// Controllers and buttons
+const JoinCallBtn = document.getElementById("join-call-btn");
+const LeaveCallBtn = document.getElementById("leave-btn");
+const AudioOnDiv = document.getElementById("mic-on-div");
+const AudioOffDiv = document.getElementById("mic-off-div");
+const VideoOnDiv = document.getElementById("cam-on-div");
+const VideoOffDiv = document.getElementById("cam-off-div");
 
+// const ConnectionForm = document.getElementById("connection-form");
+console.log(jsonData);
+
+// Properties
 let peerConnection;
 let ws;
-let localUsername;
-let remoteUsername;
-const projectId = 1;
+let localUsername = jsonData.user_data.username;
+let remoteUsername = jsonData.peer.username;
+const projectId = jsonData.project_id;
 
-function createWsConnection(username) {
-    ws = new WebSocket(`ws://localhost:8080/signal/projects/feedback?user=${username}&project=${projectId}`);
+let localStream = null;
+
+document.body.onload = async () => {await onLoad();};
+
+// The start-up function
+async function onLoad() {
+    createWsConnection(localUsername, projectId);
+}
+
+function createWsConnection(localUsername, project_id) {
+    ws = new WebSocket(`ws://localhost:8080/signal/projects/feedback?user=${localUsername}&project=${project_id}`);
     ws.onopen = (event) => wsOnOpen(event);
     ws.onclose = (event) =>  wsOnClose(event);
     ws.onmessage = (event) => wsOnMessage(event);
@@ -61,35 +80,46 @@ function sendToServer(message) {
 
 
 // What we want to get from the local browser
+// These are the controls
+// by default you get nothing form the browser
 const mediaConstraints = {
     audio: true,
     video: true
 };
 
+/*
 ConnectionForm.addEventListener('submit', event => {
         event.preventDefault();
-        invite(event);
+        invite();
     }
 );
+*/
 
 // start a call to another user
-function invite(event) {
+function invite(localUsername, remoteUsername) {
     if(peerConnection) {
         alert("You are already on a call, you cannot start another call");
     } else {
-        let formData = new FormData(ConnectionForm);
+
+        // No need to have the form in here
+        /*let formData = new FormData(ConnectionForm);
         let formObj = Object.fromEntries(formData);
         if (formObj.remoteUsername === formObj.localUsername) {
             alert("You cannot call yourself.");
             return;
-        }
+        }*/
 
-        localUsername = formObj.localUsername;
-        remoteUsername = formObj.remoteUsername;
+        /*localUsername = formObj.localUsername;
+        remoteUsername = formObj.remoteUsername;*/
+
+        if (remoteUsername === localUsername) {
+            alert("You cannot call yourself.");
+            return;
+        }
 
         createPeerConnection();
          navigator.mediaDevices.getUserMedia(mediaConstraints).then((stream) => {
-             let localStream = stream;
+             localStream = stream;
              document.getElementById("local-video").srcObject = localStream;
              localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
          }).catch (handleGetUserMediaError);
@@ -175,7 +205,7 @@ function handleNewICECandidateMsg(msg) {
 // handling the incoming invitation +> called from the WebSocket's onmessage()
 function handleVideOfferMsg(msg){
     console.log("*** Call recipient received the offer");
-    let localStream = null;
+    localStream = null;
     remoteUsername = msg.name;
     createPeerConnection();
     const description = new RTCSessionDescription(msg.sdp);
@@ -205,7 +235,7 @@ function handleVideOfferMsg(msg){
 // handling a new track being added
 function handleTrackEvent(event) {
     document.getElementById("remote-video").srcObject = event.streams[0];
-    document.getElementById("hangup").disabled = false;
+   /* document.getElementById("hangup").disabled = false;*/
 }
 
 // handling a new track being removed
@@ -269,18 +299,30 @@ function handleSignalingStateChangeEvent(event) {
     }
 }
 
+
 function handleHangUpMsg(msg) {
-    closeVideoCall();
+    // closeVideoCall();
+    closeVideoCallOfRemote();
 }
 
 // hanging up a call and performing clean up
 function hangUpCall() {
-    closeVideoCall();
-    sendToServer({
-        name: localUsername,
-        target: remoteUsername,
-        type: "hang-up",
-    });
+    if (peerConnection) {
+        closeVideoCall();
+        sendToServer({
+            name: localUsername,
+            target: remoteUsername,
+            type: "hang-up",
+        });
+    } else {
+        const localVideo = document.getElementById("local-video");
+        if (localVideo.srcObject) {
+            localVideo.srcObject.getTracks().forEach((track) => track.stop());
+        }
+        localVideo.removeAttribute("src");
+        localVideo.removeAttribute("srcObject");
+    }
+
 }
 
 // closing the streams(or stopping the streams), cleaning up and disposing of the RTCPeerConnection object
@@ -311,11 +353,40 @@ function closeVideoCall() {
     remoteVideo.removeAttribute("src");
     remoteVideo.removeAttribute("srcObject");
     localVideo.removeAttribute("src");
+    localVideo.removeAttribute("srcObject");
+
+    /*document.getElementById("hangup").disabled = true;
+    remoteUsername = null;*/
+}
+
+function closeVideoCallOfRemote() {
+    const remoteVideo = document.getElementById("remote-video");
+
+    if(peerConnection) {
+        peerConnection.ontrack = null;
+        peerConnection.onremovetrack = null;
+        peerConnection.onicecandidate = null;
+        peerConnection.oniceconnectionstatechange = null;
+        peerConnection.onsignalingstatechange = null;
+        peerConnection.onicegatheringstatechange = null;
+        peerConnection.onnegotiationneeded = null;
+
+        if (remoteVideo.srcObject) {
+            remoteVideo.srcObject.getTracks().forEach((track) => track.stop());
+        }
+
+
+        peerConnection.close();
+        peerConnection = null;
+    }
+
+    remoteVideo.removeAttribute("src");
     remoteVideo.removeAttribute("srcObject");
 
-    document.getElementById("hangup").disabled = true;
-    remoteUsername = null;
+    /*document.getElementById("hangup").disabled = true;
+    remoteUsername = null;*/
 }
+
 
 // reporting errors
 function reportError(errMessage) {
@@ -324,7 +395,42 @@ function reportError(errMessage) {
 
 function log_error(text) {
     let time = new Date();
-
     console.trace("[" + time.toLocaleTimeString() + "] " + text);
 }
 
+JoinCallBtn.addEventListener('click', async (event) => {
+    console.log("called");
+    event.preventDefault();
+    invite(localUsername, remoteUsername);
+    const LocalVideo = document.getElementById("local-video");
+    // LocalVideo.setAttribute("z-index", "100");
+    // LocalVideo.setAttribute("background-color", "red");
+    // const RemoteVideo = document.getElementById("local-video");
+    // TODO: JOIN THE USER TO THE MEETING WITH THE PEER(DON'T TURN ON THE VIDEO AND THE AUDIO)
+});
+
+LeaveCallBtn.addEventListener('click', async (event) => {
+    event.preventDefault();
+    hangUpCall();
+});
+
+AudioOnDiv.addEventListener('click',async () => {
+    // TODO: TURN THE AUDIO STREAM ON
+    if (localStream) localStream.getAudioTracks()[0].enabled = true;
+});
+
+AudioOffDiv.addEventListener('click',async () => {
+    // TODO: TURN THE AUDIO STREAM OFF
+    // TODO: TURN THE VIDEO STREAM OFF
+    if (localStream) localStream.getAudioTracks()[0].enabled = false;
+});
+
+VideoOnDiv.addEventListener('click', async () => {
+    // TODO: TURN THE VIDEO STREAM ON
+    if (localStream) localStream.getVideoTracks()[0].enabled = true;
+});
+
+VideoOffDiv.addEventListener('click', async () => {
+    // TODO: TURN THE VIDEO STREAM OFF
+    if (localStream) localStream.getVideoTracks()[0].enabled = false;
+});
