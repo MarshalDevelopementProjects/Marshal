@@ -44,25 +44,43 @@
 
             <div class="left-panel">
                 <div class="top-menus">
-                    <ul>
+                    <ul class="menu">
                         
                         <a style="text-decoration: none; color: black;" href="http://localhost/public/user/dashboard" style="text-align: none;">
-                            <li class="dashboard active">Dashboard</li>
+                            <li class="dashboard">Dashboard</li>
                         </a>
-                        <li class="new-project">New project</li>
                         <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
                             <li class="profile">Profile</li>
                         </a>
                         <a style="text-decoration: none; color: black;" href="http://localhost/public/projectmember/forum">
-                            <li class="sketch-idea">Forum</li>
+                            <li class="forum">Forum</li>
                         </a>
                         <a style="text-decoration: none; color: black;" href="">
-                            <li class="sketch-idea">Upload file</li>
+                            <li class="Upload-file  active">Upload file</li>
                         </a>
+                    </ul>
+                    <ul class="menu-icon">
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/dashboard" style="text-align: none;">
+                            <li class="dashboard"><i class="fa fa-address-book" aria-hidden="true"></i></li>
+                        </a>
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
+                            <li class="profile"><i class="fa fa-user" aria-hidden="true"></i></li>
+                        </a>
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/projectmember/forum">
+                            <li class="forum"><i class="fa fa-forumbee"></i></li>
+                        </a>
+                        <a style="text-decoration: none; color: black;" href="">
+                            <li class="Upload-file active"><i class="fa fa-file-arrow-up" aria-hidden="true"></i></li>
+                        </a>
+                        <li class="sketch-idea" style="display: none;"></li>
+                        <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
                     </ul>
                 </div>
                 <div class="middle-icon">
                     <i class="fa fa-caret-left" aria-hidden="true"></i>
+                </div>
+                <div class="middle-icon2">
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
                 </div>
 
                 <div class="bottom-calender">
@@ -127,9 +145,10 @@
     </script>
     <script src="/View/js/user/logout.js"></script>
     <!-- <script src="/View/js/user/calendar.js"></script> -->
-    <!-- <script src="/View/js/user/sidebar.js"></script> -->
+    <script src="/View/js/user/sidebar.js"></script>
     <script src="/View/js/user/notification.js"></script>
     <script src="/View/js/user/notificationPopup.js"></script>
     <script src="/View/js/project_member/file_uploader.js"></script>
+    <script src="https://kit.fontawesome.com/0ecc390bb7.js" crossorigin="anonymous"></script>
 </body>
 </html>
