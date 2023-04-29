@@ -4,12 +4,17 @@ namespace App\Model;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
+// TODO: ADD A METHOD TO CALCULATE THE PROJECT PROGRESS
+// TODO: ADD SOME DETAILS TO THIS PROGRESS AS WELL
+
 use App\CrudUtil\CrudUtil;
+use Exception;
 
 class Project implements Model
 {
     private CrudUtil $crud_util;
-    private Object|array $project_data; // object or an array of object 
+    private Object|array $project_data; // object or an array of object
+    private object|array|null $project_member_data;
 
     public function __construct(string|int $member_id = null, string|int $project_id = null)
     {
@@ -278,8 +283,36 @@ class Project implements Model
 
 
 
-    public function getAllMembersOfProject(string|int $project_id): bool
+    /**
+     * @throws Exception
+     */
+    public function getProjectMembers(string|int|null $project_id = null): bool
     {
-        return false;
+        try {
+            $sql_string = "SELECT `user`.`username` AS `username`,
+                           `user`.user_status AS `status`,
+                           `user`.user_state AS `state`,
+                           `user`.profile_picture AS `profile_picture`,
+                           `project_join`.role AS `role`
+                            FROM `user`
+                            INNER JOIN
+                           `project_join` ON
+                           `project_join`.`project_id` = :project_id AND 
+                           `user`.`id` = `project_join`.`member_id`";
+            $this->crud_util->execute($sql_string, ["project_id" => $project_id !== null ? $project_id : $this->project_data->id]);
+            if (!$this->crud_util->hasErrors()) {
+                $this->project_member_data = $this->crud_util->getResults();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function getProjectMemberData(): array|null|object|bool
+    {
+        return $this->project_member_data;
     }
 }
