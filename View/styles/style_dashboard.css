@@ -581,6 +581,7 @@ div::-webkit-scrollbar {
     position: fixed;
     background-color: rgba(0, 0, 0, 0);
     transition: all 2s ease;
+    z-index:999;
 }
 .notification-popup-container.active{
     display: block;
