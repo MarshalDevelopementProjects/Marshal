@@ -7,3 +7,7 @@ const container = document.querySelector('.container');
 notificationPopupBtn.addEventListener('click', () => notificationPopup.classList.add('active'));
 notificationPopupCloseBtn.addEventListener('click', () => notificationPopup.classList.remove('active'));
 notificationPopup.addEventListener('click', () => notificationPopup.classList.remove('active'))
+
+notificationPopup.addEventListener('click', () => {
+    notificationPopup.classList.remove('active');
+});
