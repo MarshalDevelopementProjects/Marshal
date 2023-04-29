@@ -1,11 +1,13 @@
-const MessageContainerDiv = document.getElementById('messages-container-div');
-const MessageInputForm = document.getElementById('message-input-form');
-console.log(jsonData);
+// Message container and other functions
+const FeedbackMessageContainerDiv = document.getElementById('feedback-message-container');
+const FeedbackMessageInputForm = document.getElementById('client-feedback-form');
+
 let projectID = jsonData.project_id;
+console.log(projectID);
 let userData = jsonData.user_data;
 let date = new Date();
 
-// document.body.onload = async () => { await onSlideLoad();};
+document.body.onload = async () => { await onSlideLoad();};
 
 // For today's date;
 Date.prototype.today = function () {
@@ -51,19 +53,18 @@ projectLeaderFeedbackForumConnection.onmessage = (event) => {
         if(message_data.date_time!== undefined) console.log(message_data.date_time);
         if(message_data.message !== undefined)console.log(message_data.message);*/
         if(message_data.sender_username !== undefined)
-            appendMessage('IN', MessageContainerDiv, message_data);
+            appendMessage('IN', FeedbackMessageContainerDiv, message_data);
     }
     onMessage(event.data);
 }
 
-let msgObj = {
-    username:   userData.username,
-    profile_picture: userData.profile_picture,
-};
-
 // have to get the message data from the backend and then load them to the
 // chat forum use the GET end points
 async function onSlideLoad() {
+    await createFeedbackMessageForum();
+}
+
+async function createFeedbackMessageForum() {
     // TODO: GET ALL THE  MESSAGES FROM THE APPROPRIATE END POINT(ASYNC)
     let url = "http://localhost/public/project/leader/project/feedback/messages";
     try {
@@ -74,7 +75,7 @@ async function onSlideLoad() {
             method: "GET",
         });
         if (response.ok) {
-            let data = response.json();
+            let data = await response.json();
             // TODO: ATTACH THE MESSAGES TO THE FORUM
             if (data.messages.length > 0) {
                 data.messages.forEach(
@@ -82,9 +83,9 @@ async function onSlideLoad() {
                         // TODO: ATTACH THE MESSAGES TO THE FORUM
                         // check whether the messages are incoming messages or outgoing messages
                         if (message.sender_username !== userData.username) {
-                            appendMessage('IN', MessageContainerDiv, message);
+                            appendMessage('IN', FeedbackMessageContainerDiv, message);
                         } else {
-                            appendMessage('OUT', MessageContainerDiv, message);
+                            appendMessage('OUT', FeedbackMessageContainerDiv, message);
                         }
                     }
                 );
@@ -114,30 +115,38 @@ function closeConnection() {
 //      message: "BODY MESSAGE "
 // }
 
-MessageInputForm.addEventListener('submit', async (event) => {
+FeedbackMessageInputForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    let formObj = Object.fromEntries(new FormData(MessageInputForm));
-    if (formObj.message !=="") {
-        await sendMessages(formObj.message);
+    let formObj = Object.fromEntries(new FormData(FeedbackMessageInputForm));
+    console.log(formObj);
+    if (formObj.feedbackMessage !=="") {
+        await sendMessages(formObj.feedbackMessage);
     }
-    MessageInputForm.reset();
+    FeedbackMessageInputForm.reset();
 });
 
 
 async function sendMessages(msg) {
     // TODO: ATTACH THE MESSAGE TO THE MESSAGING FORUM
 
-    msgObj.message = msg;
-    msgObj.date_time = `${date.today()} ${date.timeNow()}`;
+    // creating the message object
+    let msgObj = {
+        sender_username: userData.username,
+        sender_profile_picture: userData.profile_picture,
+    };
+
+    msgObj.msg = msg;
+    msgObj.stamp = `${date.today()} ${date.timeNow()}`;
+
     // TODO: SEND THE MESSAGE
     projectLeaderFeedbackForumConnection.send(JSON.stringify(msgObj));
-    appendMessage('OUT', MessageContainerDiv, message);
+    appendMessage('OUT', FeedbackMessageContainerDiv, msgObj);
     console.log(msgObj);
 
     // TODO: SEND THE MESSAGE TO THE APPROPRIATE END POINT(ASYNC)
     let url = "http://localhost/public/project/leader/project/feedback/messages";
     let requestBody = {
-        message: msgObj.message
+        message: msgObj.msg
     };
     try {
         let response = await fetch(url, {
@@ -157,42 +166,89 @@ async function sendMessages(msg) {
     }
 }
 
+/*
+ <!-- THIS IS THE FORMAT OF AN INCOMING MESSAGE -->
+ <div class="incomming-feedback">
+     <img src="/View/images/dp.png" alt="">
+     <div class="incomming-feedback-message">
+         <p class="incomming-feedbacks">Hello How are you</p>
+         <p class="incomming-time">4.14 PM</p>
+     </div>
+ </div>
+
+ <!-- THIS IS THE FORMAT OF AN OUTGOING MESSAGE -->
+ <div class="outgoing-feedback">
+     <p class="outgoing-feedbacks">Hello How are you</p>
+     <p class="outgoing-time">4.14 PM</p>
+ </div>
+
+    <div class="incomming-feedback-message">
+         <p class="incomming-feedbacks">Hello How are you</p>
+         <p class="incomming-time">4.14 PM</p>
+     </div>
+
+*/
+
 function appendMessage(type, parent_div, message) {
 
+
+    console.log(message);
     let message_div = document.createElement('div'); // message
 
+    // main div
     if (type === 'OUT') {
-        message_div.setAttribute('class', 'outgoing-message');
+        message_div.setAttribute('class', 'outgoing-feedback');
+
+        let sender_username = document.createElement('h5'); // sender user name heading
+        sender_username.innerText = message.sender_username;
+
+        let sender_profile_picture = document.createElement('img'); // sender profile picture img tag
+        sender_profile_picture.src = message.sender_profile_picture;
+
+        let date_time = document.createElement('p'); // date time paragraph tag
+        date_time.setAttribute('class', 'outgoing-time'); // date time paragraph tag
+        date_time.innerText = message.stamp;
+
+        let message_content = document.createElement('p'); // message content
+        message_content.setAttribute('class', 'outgoing-feedbacks');
+        message_content.innerText = message.msg;
+
+        // adding elements
+        // message_div.appendChild(sender_profile_picture);
+        // message_div.appendChild(sender_username);
+        message_div.appendChild(message_content);
+        message_div.appendChild(date_time);
+
     } else if (type === 'IN') {
-        message_div.setAttribute('class', 'incoming-message');
+        message_div.setAttribute('class', 'incomming-feedback');
+
+        let sender_username = document.createElement('h5'); // sender user name heading
+        sender_username.innerText = message.sender_username;
+
+        let sender_profile_picture = document.createElement('img'); // sender profile picture img tag
+        sender_profile_picture.src = message.sender_profile_picture;
+
+        let inner_message_div = document.createElement('div'); // message
+        inner_message_div.setAttribute('class', 'incomming-feedback-message');
+
+        let date_time = document.createElement('p'); // date time paragraph tag
+        date_time.setAttribute('class', 'incomming-time'); // date time paragraph tag
+        date_time.innerText = message.stamp;
+
+        let message_content = document.createElement('p'); // message content
+        message_content.setAttribute('class', 'incomming-feedbacks');
+        message_content.innerText = message.msg;
+
+        // adding elements
+        inner_message_div.appendChild(message_content);
+        inner_message_div.appendChild(date_time);
+        message_div.appendChild(sender_profile_picture);
+        message_div.appendChild(sender_username);
+        message_div.appendChild(inner_message_div);
     } else {
         console.error('NOT A VALID MESSAGE TYPE');
         message_div = undefined;
         return;
     }
-
-    let sender_details = document.createElement('div'); // sender details div
-    sender_details.setAttribute('class', 'sender-details');
-
-    let sender_profile_picture = document.createElement('img'); // sender profile picture img tag
-    sender_profile_picture.src = message.sender_profile_picture;
-
-    let sender_username = document.createElement('h5'); // sender user name heading
-    sender_username.innerText = message.sender_username;
-
-    let date_time = document.createElement('p'); // date time paragraph tag
-    date_time.innerText = message.stamp;
-
-    let message_content = document.createElement('p'); // message content
-    message_content.setAttribute('class', 'message-content');
-    message_content.innerText = message.msg;
-
-    // adding elements
-    sender_details.appendChild(sender_profile_picture);
-    sender_details.appendChild(sender_username);
-    sender_details.appendChild(date_time);
-
-    message_div.appendChild(sender_details);
-    message_div.appendChild(message_content);
     parent_div.insertAdjacentElement("afterbegin", message_div);
 }
