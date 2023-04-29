@@ -509,6 +509,7 @@ body{
 .incomming-feedback img{
     width: 30px;
     height: 30px;
+    border-radius: 30px;
     margin-top: auto;
 }
 .incomming-feedback .incomming-feedback-message{
@@ -550,6 +551,7 @@ body{
     max-width: 360px;
     width: fit-content;
 }
+
 .outgoing-feedback .outgoing-time{
     margin: 0px;
     height: fit-content;
@@ -1383,4 +1385,6 @@ div::-webkit-scrollbar {
     cursor: pointer;
 }
 
-
+.project-feedback-messages {
+    overflow-y: scroll;
+}
