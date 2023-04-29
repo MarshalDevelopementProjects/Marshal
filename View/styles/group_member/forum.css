@@ -366,7 +366,7 @@ body {
     overflow-y: scroll;
 }
 
-.member-list .project-members {
+.member-list .group-members {
     /* border: 1px solid black; */
     height: 220px;
     overflow-y: scroll;

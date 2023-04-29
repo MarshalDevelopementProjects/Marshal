@@ -126,6 +126,8 @@ $router->post('/project/member/project/forum/messages', ProjectMemberController:
 $router->get('/project/member/task/feedback/messages', ProjectMemberController::class . '::getProjectTaskFeedbackMessages');
 $router->post('/project/member/task/feedback/messages', ProjectMemberController::class . '::postMessageToProjectTaskFeedback');
 
+$router->get('/group/leader/group/forum', GroupLeaderController::class . '::getForum');
+
 $router->get('/group/leader/group/forum/messages', GroupLeaderController::class . '::getGroupForumMessages');
 $router->post('/group/leader/group/forum/messages', GroupLeaderController::class . '::postMessageToGroupForum');
 $router->get('/group/leader/group/feedback/messages', ProjectLeaderController::class . '::getGroupFeedbackMessages');
@@ -134,14 +136,17 @@ $router->post('/group/leader/group/feedback/messages', ProjectLeaderController::
 $router->get('/group/leader/task/feedback/messages', ProjectLeaderController::class . '::getGroupTaskFeedbackMessages');
 $router->post('/group/leader/task/feedback/messages', ProjectLeaderController::class . '::postMessageToGroupTaskFeedback');
 
-$router->get('/group/member/group/forum/messages', GroupMemberController::class . '::getGroupForumMessages');
-$router->post('/group/member/group/forum/messages', GroupMemberController::class . '::postMessageToGroupForum');
+$router->get('/group/member/forum', GroupMemberController::class . '::getForum');
+
+$router->get('/group/member/forum/messages', GroupMemberController::class . '::getGroupForumMessages');
+$router->post('/group/member/forum/messages', GroupMemberController::class . '::postMessageToGroupForum');
 
 $router->get('/group/member/task/feedback/messages', GroupMemberController::class . '::getGroupTaskFeedbackMessages');
 $router->post('/group/member/task/feedback/messages', GroupMemberController::class . '::postMessageToGroupTaskFeedback');
 
 $router->get('/project/client/project/feedback/messages', ClientController::class . '::getProjectFeedbackMessages');
 $router->post('/project/client/project/feedback/messages', ClientController::class . '::postMessageToProjectFeedback');
+$router->get('/project/client/report', ClientController::class . '::generateProjectReport');
 
 $router->get('/project/leader/conference/scheduler', ProjectLeaderController::class . '::gotoConferenceScheduler');
 $router->get('/project/leader/conference', ProjectLeaderController::class . '::gotoConference');

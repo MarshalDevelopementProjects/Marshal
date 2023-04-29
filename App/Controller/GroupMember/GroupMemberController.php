@@ -266,7 +266,7 @@ class GroupMemberController extends ProjectMemberController
             if ($this->groupMember->getGroupForumMessages(project_id: $_SESSION["project_id"])) {
                 $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupMember->getMessageData() ?? []]);
             } else {
-                $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
+                $this->sendJsonResponse("error", ["message" => ""]);
             }
         } catch (Exception $exception) {
             throw $exception;

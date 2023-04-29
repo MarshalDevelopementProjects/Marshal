@@ -1,12 +1,13 @@
 const MessageContainerDiv = document.getElementById('messages-container-div');
 const MessageInputForm = document.getElementById('message-input-form');
-console.log(jsonData);
 let projectID = jsonData.project_id;
 let groupID = jsonData.group_id;
 let userData = jsonData.user_data;
 let date = new Date();
 
-document.body.onload = async () => { await onStartUp();};
+console.log(userData);
+
+document.body.onload = async () => { await onLoad();};
 
 // For today's date;
 Date.prototype.today = function () {
@@ -42,10 +43,8 @@ groupMemberForumConnection.onmessage = (event) => {
     //      message: "BODY MESSAGE "
     // }
     // TODO: ATTACH THE INCOMING DATA TO THE FORUM
-    console.log(event.data);
     function onMessage(messageData) {
         let message_data = JSON.parse(messageData); // parse the incoming JSON encoded message
-        console.log(message_data);
         /*if(message_data.status !== undefined) console.log(message_data.status);
         if(message_data.username !== undefined) console.log(message_data.username);
         if(message_data.profile_picture !== undefined) console.log(message_data.profile_picture);
@@ -57,16 +56,16 @@ groupMemberForumConnection.onmessage = (event) => {
     onMessage(event.data);
 }
 
-let msgObj = {
-    username:   userData.username,
-    profile_picture: userData.profile_picture,
-};
-
 // have to get the message data from the backend and then load them to the
 // chat forum use the GET end points
-async function onStartUp() {
-    // TODO: GET ALL THE  MESSAGES FROM THE APPROPRIATE END POINT(ASYNC)
-    let url = "http://localhost/public/group/member/group/forum/messages";
+async function onLoad() {
+    await createForumMessages();
+    createGroupMemberList(jsonData);
+}
+
+async function createForumMessages() {
+// TODO: GET ALL THE  MESSAGES FROM THE APPROPRIATE END POINT(ASYNC)
+    let url = "http://localhost/public/group/member/forum/messages";
     try {
         let response = await fetch(url, {
             withCredentials: true,
@@ -75,7 +74,7 @@ async function onStartUp() {
             method: "GET",
         });
         if (response.ok) {
-            let data = response.json();
+            let data = await response.json();
             // TODO: ATTACH THE MESSAGES TO THE FORUM
             if (data.messages.length > 0) {
                 data.messages.forEach(
@@ -128,17 +127,26 @@ MessageInputForm.addEventListener('submit', async (event) => {
 async function sendMessages(msg) {
     // TODO: ATTACH THE MESSAGE TO THE MESSAGING FORUM
 
-    msgObj.message = msg;
-    msgObj.date_time = `${date.today()} ${date.timeNow()}`;
+    console.log(userData);
+
+    // creating the message object
+    let msgObj = {
+        sender_username: userData.username,
+        sender_profile_picture: userData.profile_picture,
+    };
+
+    msgObj.msg = msg;
+    msgObj.stamp = `${date.today()} ${date.timeNow()}`;
+
     // TODO: SEND THE MESSAGE
     groupMemberForumConnection.send(JSON.stringify(msgObj));
     appendMessage('OUT', MessageContainerDiv, msgObj);
     console.log(msgObj);
 
     // TODO: SEND THE MESSAGE TO THE APPROPRIATE END POINT(ASYNC)
-    let url = "http://localhost/public/group/member/group/forum/messages";
+    let url = "http://localhost/public/group/member/forum/messages";
     let requestBody = {
-        message: msgObj.message
+        message: msgObj.msg
     };
     try {
         let response = await fetch(url, {
@@ -159,6 +167,8 @@ async function sendMessages(msg) {
 }
 
 function appendMessage(type, parent_div, message) {
+
+    console.log(message);
 
     let message_div = document.createElement('div'); // message
 
@@ -196,4 +206,77 @@ function appendMessage(type, parent_div, message) {
     message_div.appendChild(sender_details);
     message_div.appendChild(message_content);
     parent_div.insertAdjacentElement("afterbegin", message_div);
+}
+
+
+console.log(jsonData);
+const GroupLeaderListDiv = document.getElementById('group-leaders-list-container-div');
+const GroupMemberListDiv = document.getElementById('group-members-list-container-div');
+
+function createGroupMemberList(args) {
+    if (args.members !== undefined) {
+        args.members.forEach((member) => {
+            console.log(member);
+            if (member.role === 'LEADER') {
+                appendGroupMember(GroupLeaderListDiv, member);
+            } else {
+                appendGroupMember(GroupMemberListDiv, member);
+            }
+        });
+    } else {
+        console.error('JSON Data did not return the member data');
+    }
+}
+
+function appendGroupMember(parent_div, member_details) {
+    if (member_details !== undefined) {
+
+        let memberCard = document.createElement('div');
+        memberCard.setAttribute('class', 'member-card');
+
+        let profilePictureDiv = document.createElement('div');
+        profilePictureDiv.setAttribute('class', 'profile-image');
+
+        memberCard.appendChild(profilePictureDiv);
+
+        let profileImage = document.createElement('img');
+        profileImage.setAttribute('src', member_details.profile_picture);
+
+        profilePictureDiv.appendChild(profileImage);
+
+        let statusIcon = document.createElement('i');
+        statusIcon.setAttribute('class', 'fa fa-circle');
+        statusIcon.setAttribute('aria-hidden', 'true'); // need to ask about this
+
+        profilePictureDiv.appendChild(profileImage);
+
+        if (member_details.state === "ONLINE") {
+            statusIcon.setAttribute('style', 'color: green');
+        } else {
+            statusIcon.setAttribute('style', 'color: red');
+        }
+
+        profilePictureDiv.appendChild(statusIcon);
+
+        let memberInfoDiv = document.createElement('div');
+        memberInfoDiv.setAttribute('class', 'member-info');
+
+        memberCard.appendChild(memberInfoDiv);
+
+        let memberUsername = document.createElement('h6');
+        memberUsername.innerText = member_details.username;
+
+        memberInfoDiv.appendChild(memberUsername);
+
+        let memberStatus = document.createElement('p');
+        memberStatus.innerText = member_details.status;
+
+        memberInfoDiv.appendChild(memberStatus);
+
+        // parent_div.appendChild(memberDiv);
+        parent_div.appendChild(memberCard);
+
+    } else {
+        console.error('empty fields given');
+    }
 }

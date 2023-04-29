@@ -168,6 +168,7 @@ class GroupLeaderController extends ProjectMemberController
         $payload = $this->userAuth->getCredentials();
         $messageController = new MessageController();
         $message = new Message();
+        $user = new User();
         $notification =  new Notification();
         $project = new Project($payload->id);
 
@@ -207,8 +208,9 @@ class GroupLeaderController extends ProjectMemberController
                 
                 $notificationId = $notificationController->setNotification($args);
                 
-                $condition = "WHERE id IN (SELECT member_id FROM group_join WHERE group_id = :group_id)";
-                $members = $user->getAllUsers(array("group_id" => $_SESSION['group_id']), $groupMemberCondition);
+                // $condition = "WHERE id IN (SELECT member_id FROM group_join WHERE group_id = :group_id)";
+                // $members = $user->getAllUsers(array("group_id" => $_SESSION['group_id']), $condition);
+                $members = $group->getGroupMembers(array("group_id" => $_SESSION['group_id']), array("group_id"));
                 
                 $notificationController->boardcastNotification($notificationId, $members);
     
@@ -336,7 +338,7 @@ class GroupLeaderController extends ProjectMemberController
             if ($this->groupLeader->getGroupForumMessages(project_id: $_SESSION["project_id"])) {
                 $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupLeader->getMessageData() ?? []]);
             } else {
-                $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
+                $this->sendJsonResponse("error", ["message" => ""]);
             }
         } catch (Exception $exception) {
             throw $exception;

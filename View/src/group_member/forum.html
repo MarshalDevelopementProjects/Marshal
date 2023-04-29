@@ -40,7 +40,6 @@
                         <a href="http://localhost/public/user/dashboard">
                             <li class="dashboard active">Dashboard</li>
                         </a>
-                        <li class="new-project">New project</li>
                         <a href="http://localhost/public/user/profile">
                             <li class="profile">Profile</li>
                         </a>
@@ -92,104 +91,15 @@
                 </div>
 
                 <div class="member-list">
-                    <h3>Project Leader</h3>
-                    <div id="projectLeaderCard" class="member-card">
-                        <div class="profile-image">
-                            <img src="/View/images/dp.png" alt="">
-                            <i class="fa fa-circle" aria-hidden="true"></i>
-                        </div>
-                        <div class="member-info">
-                            <h6>Harsha Gunawardane</h6>
-                            <p>Frontend Developer</p>
-                        </div>
-                    </div>
-                    <h3>Group Leaders</h3>
-                    <div class="group-leaders">
-                        <div class="member-card">
-                            <div class="profile-image">
-                                <img src="/View/images/dp.png" alt="">
-                                <i class="fa fa-circle" aria-hidden="true"></i>
-                            </div>
-                            <div class="member-info">
-                                <h6>Harsha Gunawardane</h6>
-                                <p>Frontend Developer</p>
-                            </div>
-                        </div>
-                        <div class="member-card">
-                            <div class="profile-image">
-                                <img src="/View/images/dp.png" alt="">
-                                <i class="fa fa-circle" aria-hidden="true"></i>
-                            </div>
-                            <div class="member-info">
-                                <h6>Harsha Gunawardane</h6>
-                                <p>Frontend Developer</p>
-                            </div>
-                        </div>
-                        <div class="member-card">
-                            <div class="profile-image">
-                                <img src="/View/images/dp.png" alt="">
-                                <i class="fa fa-circle" aria-hidden="true"></i>
-                            </div>
-                            <div class="member-info">
-                                <h6>Harsha Gunawardane</h6>
-                                <p>Frontend Developer</p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3>Project Members</h3>
-                    <div class="project-members">
-                        <div class="member-card">
-                            <div class="profile-image">
-                                <img src="/View/images/dp.png" alt="">
-                                <i class="fa fa-circle" aria-hidden="true"></i>
-                            </div>
-                            <div class="member-info">
-                                <h6>Harsha Gunawardane</h6>
-                                <p>Frontend Developer</p>
-                            </div>
-                        </div>
-                        <div class="member-card">
-                            <div class="profile-image">
-                                <img src="/View/images/dp.png" alt="">
-                                <i class="fa fa-circle" aria-hidden="true"></i>
-                            </div>
-                            <div class="member-info">
-                                <h6>Harsha Gunawardane</h6>
-                                <p>Frontend Developer</p>
-                            </div>
-                        </div>
-                        <div class="member-card">
-                            <div class="profile-image">
-                                <img src="/View/images/dp.png" alt="">
-                                <i class="fa fa-circle" aria-hidden="true"></i>
-                            </div>
-                            <div class="member-info">
-                                <h6>Harsha Gunawardane</h6>
-                                <p>Frontend Developer</p>
-                            </div>
-                        </div>
-                        <div class="member-card">
-                            <div class="profile-image">
-                                <img src="/View/images/dp.png" alt="">
-                                <i class="fa fa-circle" aria-hidden="true"></i>
-                            </div>
-                            <div class="member-info">
-                                <h6>Harsha Gunawardane</h6>
-                                <p>Frontend Developer</p>
-                            </div>
-                        </div>
-                        <div class="member-card">
-                            <div class="profile-image">
-                                <img src="/View/images/dp.png" alt="">
-                                <i class="fa fa-circle" aria-hidden="true"></i>
-                            </div>
-                            <div class="member-info">
-                                <h6>Harsha Gunawardane</h6>
-                                <p>Frontend Developer</p>
-                            </div>
-                        </div>
+                    <div id="group-leaders-list-container-div" class="group-members">
+                        <h3>Group Leader</h3>
+                        <!-- add the leaders here -->
                     </div>
 
+                    <div id="group-members-list-container-div" class="group-members">
+                        <h3>Group Members</h3>
+                        <!-- add the members here -->
+                    </div>
                 </div>
 
             </div>
@@ -348,7 +258,7 @@
     <script>
         var jsonData = JSON.parse('<?= $data; ?>');
     </script>
-    <script src="/View/js/project_leader/forum.js"></script>
+    <script src="/View/js/group_member/forum.js"></script>
     <script src="/View/js/user/sidebar.js"></script>
 </body>
 

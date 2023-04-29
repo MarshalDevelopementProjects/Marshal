@@ -582,6 +582,7 @@ body{
 .incomming-feedback img{
     width: 30px;
     height: 30px;
+    border-radius: 30px;
     margin-top: auto;
 }
 .incomming-feedback .incomming-feedback-message{
@@ -623,6 +624,7 @@ body{
     max-width: 360px;
     width: fit-content;
 }
+
 .outgoing-feedback .outgoing-time{
     margin: 0px;
     height: fit-content;
@@ -788,7 +790,7 @@ body{
     margin: 160px 0 0 0;
     position: relative;
     width: 420px;
-    height: 350px;
+    height: 400px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
@@ -1456,4 +1458,6 @@ div::-webkit-scrollbar {
     cursor: pointer;
 }
 
-
+.project-feedback-messages {
+    overflow-y: scroll;
+}
