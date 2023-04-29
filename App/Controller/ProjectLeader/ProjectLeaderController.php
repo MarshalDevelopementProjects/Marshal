@@ -84,6 +84,13 @@ class ProjectLeaderController extends ProjectMemberController
             $data["feedback_messages"] = $this->projectLeader->getMessageData();
         }
 
+        $data["user_data"] = [
+            "username" => $this->user->getUserData()->username,
+            "profile_picture" => $this->user->getUserData()->profile_picture,
+        ];
+
+        $data["project_id"] = $_SESSION["project_id"];
+
         $this->sendResponse(
             view: "/project_leader/getProjectInfo.html",
             status: "success",
