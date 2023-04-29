@@ -5,11 +5,12 @@ namespace App\Model;
 require __DIR__ . '/../../vendor/autoload.php';
 
 use App\CrudUtil\CrudUtil;
+use Exception;
 
 class Client implements Model
 {
     private CrudUtil $crud_util;
-    private object|int $project_data;
+    private object|array|int $project_data;
     private object|array $message_data;
 
     public function __construct(string|int $project_id = null)
@@ -71,7 +72,7 @@ class Client implements Model
             // use a join between the messages table and the project table where ids are equal
             try {
                 // $sql_string = "SELECT * FROM `message` WHERE `id` in (SELECT `message_id` FROM `project_feedback_message` WHERE `project_id` = :project_id)";
-                $sql_string  = "SELECT m.*, u.`profile_picture` AS `sender_profile_picture` FROM `message` m JOIN `user` u ON m.`sender_id` = u.`id` JOIN `project_feedback_message` pfm ON m.`id` = pfm.`message_id` WHERE pfm.`project_id` = :project_id ORDER BY m.stamp";
+                $sql_string  = "SELECT m.*, u.`username` AS `sender_username`, u.`profile_picture` AS `sender_profile_picture` FROM `message` m JOIN `user` u ON m.`sender_id` = u.`id` JOIN `project_feedback_message` pfm ON m.`id` = pfm.`message_id` WHERE pfm.`project_id` = :project_id ORDER BY m.stamp";
                 $this->crud_util->execute($sql_string, array("project_id" => $this->project_data->id));
                 if (!$this->crud_util->hasErrors()) {
                     $this->message_data = $this->crud_util->getResults();
@@ -132,6 +133,75 @@ class Client implements Model
             }
         }
         return false;
+    }
+
+    public function getPDFData(string|int $project_id): bool
+    {
+        try {
+//             SELECT p.`created_by` AS `creator`, p.`project_name` AS `project_name`, p.`description` AS `description`,
+//                    p.`field` AS `project_field`, p.`start_on` AS `start_date`, p.`end_on` AS `end_date`,
+//                    p.`created_on` AS `created_on` FROM project p WHERE p.`id` = :project_id;
+
+//             SELECT t.`task_name` AS `name`, t.`description` AS `description`, t.`status` AS `status`, t.`task_type`
+//                    AS `type`, t_c.`date` AS `completed_date`, t_c.`time` AS `completed_time` FROM task t JOIN
+//             completedtask t_c ON t_c.`task_id` = t.`task_id` WHERE t.`project_id` = :project_id;
+
+            $project_data_sql_string = "SELECT
+                    p.`project_name` AS `project_name`,
+                    p.`description` AS `project_description`,
+                    p.`field` AS `project_field`,
+                    DATE(p.`start_on`) AS `start_date`,
+                    TIME(p.`start_on`) AS `start_time`,
+                    DATE(p.`end_on`) AS `end_date`,
+                    TIME(p.`end_on`) AS `end_time`,
+                    p.`created_on` AS `created_on`,
+                    CONCAT(u.`first_name`, ' ', u.`last_name`) AS `project_creator`,
+                    u.`position` AS `project_creator_position`
+                    FROM project p
+                    JOIN user u
+                    ON p.`created_by` = u.`id`
+                    WHERE p.`id` = :project_id";
+
+            $task_data_sql_string = "SELECT
+                    t.`task_name` AS `task_name`,
+                    t.`description` AS `task_description`,
+                    t.`status` AS `task_status`,
+                    t.`task_type` AS `task_type`,
+                    t_c.`date` AS `task_completed_date`,
+                    t_c.`time` AS `task_completed_time`
+                    FROM task t
+                    JOIN completedtask t_c
+                    ON t_c.`task_id` = t.`task_id`
+                    WHERE t.`project_id` = :project_id";
+
+            $data = [];
+            $this->crud_util->execute($project_data_sql_string, ["project_id" => $project_id]);
+
+            if (!$this->crud_util->hasErrors()) {
+
+                $data["project_data"] = (array) $this->crud_util->getFirstResult();
+                $this->crud_util->execute($task_data_sql_string, ["project_id" => $project_id]);
+
+                if (!$this->crud_util->hasErrors()) {
+
+                    $data["task_data"] = $this->crud_util->getResults();
+
+                    foreach ($data["task_data"] as $key => $task) {
+                        $data["task_data"][$key] = (array) $task;
+                    }
+
+                    $this->project_data = $data;
+                    return true;
+
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (Exception $exception) {
+            throw $exception;
+        }
     }
 
     public function getProjectData(): array|object|null
