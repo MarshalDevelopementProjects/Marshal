@@ -110,6 +110,7 @@ class ProjectMemberController extends UserController
     public function sendConfirmation()
     {
         $data = json_decode(file_get_contents('php://input'));
+        // var_dump($data);
 
         $projectId = $_SESSION['project_id'];
         $payload = $this->userAuth->getCredentials();
@@ -400,7 +401,7 @@ class ProjectMemberController extends UserController
 
         $type = $this->getFileType($pathinfo["extension"]);
         $sql = "INSERT INTO `files` (`fileName`, `fileType`, `project_id`, `uploader_id`, `filePath`) VALUES ('" . $filename . "', '" . $type . "', " . $_SESSION['project_id'] . ", " . $payload->id . ", :uploadedfile)";
-        var_dump($sql);
+        // var_dump($sql);
         $result = FileUploader::upload(
             allowed_file_types: array("image/jpg", "image/png", "image/gif", "image/jpeg", "document/pdf"),
             fields: array(

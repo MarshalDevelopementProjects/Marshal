@@ -1,0 +1,176 @@
+.feedbacks-and-groups{
+    margin-top: 25px;
+    height: 460px;
+    display: flex;
+}
+.feedbacks-and-groups .feedbacks{
+    width: 700px;
+    margin-left: 10px;
+}
+.feedbacks .feedbacks-headers{
+    display: flex;
+    width: 685px;
+    margin-left: 13px;
+    cursor: pointer;
+}
+#project-announcements{
+    text-decoration: underline gray;
+}
+#project-announcements.active{
+    text-decoration: none;
+}
+#client-feedback{
+    text-decoration: none;
+}
+#client-feedback.active{
+    text-decoration: underline gray;
+}
+
+.feedbacks .project-announcement-area{
+    display: block;
+    margin-top: 10px;
+}
+.project-announcement-area.active{
+    display: none;
+}
+
+.feedbacks-headers h3{
+    font-size: 18px;
+    color: #031738;
+    /* text-decoration: underline; */
+}
+.project-announcement-area .feedback-form{
+    height: 380px;
+    width: 685px;
+    justify-content: center;
+    overflow-y: scroll;
+    margin-left: 13px;
+    padding: 10px 10px 10px 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    background-color: #fff;
+}
+.project-announcement-area .feedback-form.active{
+    height: 260px;
+}
+.project-announcement-area .show-send-announcement-form{
+    margin: 0px;
+    height: 35px;
+    width: 685px;
+    margin-left: 13px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: #031738;
+    font-weight: 550;
+    cursor: pointer;
+}
+.project-announcement-area .show-send-announcement-form.active{
+    display: none;
+}
+.announcement{
+    width: 640px;
+    display: flex;
+    height: fit-content;
+    padding: 15px 0 20px 10px;
+    border-bottom: 1px solid #ccc;
+    margin: 0 0 5px 12.5px;
+    background-color: #fff;
+}
+.announcement img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.announcement-details{
+    margin-left: 3px;
+}
+.announcement-detail-heading{
+    width: fit-content;
+}
+.announcement-detail-heading .announcement-heading-line{
+    margin: 0px;
+    height: fit-content;
+    width: fit-content;
+    max-width: 580px;
+    font-size: 18px;
+    font-weight: 550;
+    color: #333;
+    padding: 2px 0 2px 5px;
+}
+.announcement-detail-heading .announcement-sent-time{
+    margin: 0px;
+    height: fit-content;
+    max-width: 580px;
+    width: fit-content;
+    font-size: 11px;
+    color: #444;
+    padding-left: 15px;
+}
+.announcement-details .announcement-detail-message{
+    margin: 15px 5px 3px 15px;
+    overflow-y: auto;
+    max-width: 550px;
+    width: fit-content;
+    height: fit-content;
+    font-size: 12px;
+    color: #222;
+}
+
+.project-announcements-form{
+    height: 0px;
+    background-color: #f1f1f1;
+    width: 685px;
+    margin-left: 13px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    padding: 0px;
+    overflow-y: hidden;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top: 1px solid #d1d1d1;
+}
+.project-announcements-form.active{
+    height: 160px;
+    padding: 10px 0;
+    overflow-y: auto;
+}
+.project-announcements-form label{
+    font-size: 13px;
+    font-weight: 550;
+    margin: 5px 0 0 10px;
+}
+
+.project-announcements-form input{
+    height: 30px;
+    width: 400px;
+    margin: 3px 0 2px 20px;
+    border-radius: 8px;
+    border: 1px solid #777;
+    padding-left: 5px;
+    background-color: #fff;
+}
+#announcement-message{
+    width: 610px;
+    height: 50px;
+    margin-bottom: 5px;
+}
+.project-announcements-form button{
+    border: none;
+    background: none;
+    width: 40px;
+    height: 60px;
+    cursor: pointer;
+}
+.project-announcements-form button i{
+    font-size: 28px;
+    color: #2F984A;
+}
+#announcement-down{
+    margin-left: 175px;
+    color: #222;
+    cursor: pointer;
+}

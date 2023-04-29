@@ -161,4 +161,31 @@ class Group implements Model
             throw $th;
         }
     }
+
+    public function getGroupMembers(array $args, array $keys): bool|object|array
+    {
+        $keyCount = count($keys);
+        $sql = "SELECT * FROM group_join WHERE ";
+
+        for ($i = 0; $i < $keyCount; $i++) {
+            $key = $keys[$i];
+            $sql .= $key . " = :" . $key;
+
+            if ($i != $keyCount - 1) {
+                $sql .= " AND ";
+            }
+        }
+
+        try {
+            $result = $this->crud_util->execute($sql, $args);
+            if ($result->getCount() > 0) {
+                return $result->getResults();
+            } else {
+                return false;
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    
 }

@@ -70,7 +70,7 @@ var ongoingTasksCode = "";
 if(ongoingTasks){
     ongoingTasks.forEach(task => {
         let access = ""
-        if(task['memberId'] != task['userId']){
+        if(task['member_id'] != task['userId']){
             access = ' style="pointer-events: none"'
         }
         ongoingTasksCode += `<div class="task" draggable="true"${access}>
@@ -93,7 +93,7 @@ var reviewTasksCode = "";
 if(reviewTasks){
     reviewTasks.forEach(task => {
         let access = ""
-        if(task['memberId'] != task['userId']){
+        if(task['member_id'] != task['userId']){
             access = ' style="pointer-events: none"'
         }
         reviewTasksCode += `<div class="task" draggable="true"${access}>

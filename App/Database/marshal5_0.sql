@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2023 at 05:09 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Apr 29, 2023 at 04:10 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `addmessagerefference` (
-                                      `message_id` int(11) NOT NULL,
-                                      `notification_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `message_id` int(11) NOT NULL,
+  `notification_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -39,18 +39,18 @@ CREATE TABLE `addmessagerefference` (
 --
 
 CREATE TABLE `admin` (
-                       `id` int(11) NOT NULL,
-                       `first_name` varchar(40) NOT NULL,
-                       `last_name` varchar(40) NOT NULL,
-                       `username` varchar(40) NOT NULL,
-                       `email_address` varchar(100) NOT NULL,
-                       `street_address` varchar(100) NOT NULL,
-                       `city` varchar(50) NOT NULL,
-                       `country` varchar(50) NOT NULL,
-                       `password` varchar(136) NOT NULL,
-                       `phone_number` varchar(20) NOT NULL,
-                       `joined_datetime` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int(11) NOT NULL,
+  `first_name` varchar(40) NOT NULL,
+  `last_name` varchar(40) NOT NULL,
+  `username` varchar(40) NOT NULL,
+  `email_address` varchar(100) NOT NULL,
+  `street_address` varchar(100) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `country` varchar(50) NOT NULL,
+  `password` varchar(136) NOT NULL,
+  `phone_number` varchar(20) NOT NULL,
+  `joined_datetime` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin`
@@ -66,22 +66,28 @@ INSERT INTO `admin` (`id`, `first_name`, `last_name`, `username`, `email_address
 --
 
 CREATE TABLE `completedtask` (
-                               `task_id` int(11) NOT NULL,
-                               `confirmation_type` varchar(10) NOT NULL,
-                               `confirmation_message` varchar(100) NOT NULL,
-                               `date` date NOT NULL,
-                               `time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `task_id` int(11) NOT NULL,
+  `confirmation_type` varchar(10) NOT NULL,
+  `confirmation_message` varchar(100) NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `completedtask`
 --
 
 INSERT INTO `completedtask` (`task_id`, `confirmation_type`, `confirmation_message`, `date`, `time`) VALUES
-                                                                                                       (17, 'message', 'ok', '2023-03-04', '12:30:07'),
-                                                                                                       (18, 'message', 'I have completed', '2023-02-28', '04:35:51'),
-                                                                                                       (21, 'message', 'done', '2023-04-25', '04:00:31'),
-                                                                                                       (25, 'message', 'I have done it', '2023-04-25', '03:59:57');
+(17, 'message', 'ok', '2023-03-04', '12:30:07'),
+(18, 'message', 'I have completed', '2023-02-28', '04:35:51'),
+(20, 'message', 'gggg', '2023-04-28', '09:12:25'),
+(21, 'message', 'done', '2023-04-25', '04:00:31'),
+(24, 'message', 'I am done it', '2023-04-28', '10:22:12'),
+(25, 'message', 'I have done it', '2023-04-25', '03:59:57'),
+(30, 'message', 'ok', '2023-04-28', '09:13:31'),
+(31, 'message', 'kk', '2023-04-28', '09:34:36'),
+(66, 'message', 'i am done it', '2023-04-28', '06:48:55'),
+(69, 'message', 'good it', '2023-04-28', '09:31:32');
 
 -- --------------------------------------------------------
 
@@ -90,15 +96,15 @@ INSERT INTO `completedtask` (`task_id`, `confirmation_type`, `confirmation_messa
 --
 
 CREATE TABLE `conference` (
-                            `conf_id` int(11) NOT NULL,
-                            `conf_name` varchar(255) NOT NULL,
-                            `project_id` int(11) NOT NULL,
-                            `leader_id` int(11) NOT NULL,
-                            `client_id` int(11) NOT NULL,
-                            `on` date NOT NULL,
-                            `at` time NOT NULL,
-                            `status` enum('PENDING','OVERDUE','DONE','CANCELLED') NOT NULL DEFAULT 'PENDING'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `conf_id` int(11) NOT NULL,
+  `conf_name` varchar(255) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `leader_id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `on` date NOT NULL,
+  `at` time NOT NULL,
+  `status` enum('PENDING','OVERDUE','DONE','CANCELLED') NOT NULL DEFAULT 'PENDING'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -107,27 +113,30 @@ CREATE TABLE `conference` (
 --
 
 CREATE TABLE `files` (
-                       `id` int(11) NOT NULL,
-                       `fileName` varchar(50) NOT NULL,
-                       `fileType` varchar(10) NOT NULL,
-                       `date` timestamp NOT NULL DEFAULT current_timestamp(),
-                       `project_id` int(11) NOT NULL,
-                       `uploader_id` int(11) NOT NULL,
-                       `filePath` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int(11) NOT NULL,
+  `fileName` varchar(50) NOT NULL,
+  `fileType` varchar(10) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `project_id` int(11) NOT NULL,
+  `uploader_id` int(11) NOT NULL,
+  `filePath` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `files`
 --
 
 INSERT INTO `files` (`id`, `fileName`, `fileType`, `date`, `project_id`, `uploader_id`, `filePath`) VALUES
-                                                                                                      (1, 'IMG-20230402-WA0048.jpg', 'image', '2023-04-27 01:42:43', 4, 1, '/App/Database/Uploads/Files/IMG-20230402-WA0048.jpg'),
-                                                                                                      (2, 'R__1_.jpeg', 'image', '2023-04-27 02:29:14', 4, 1, '/App/Database/Uploads/Files/R__1_.jpeg'),
-                                                                                                      (3, 'OIP__2_.jpeg', 'image', '2023-04-27 02:46:33', 4, 1, '/App/Database/Uploads/Files/OIP__2_.jpeg'),
-                                                                                                      (4, 'R__3_.jpeg', 'image', '2023-04-27 02:47:35', 4, 1, '/App/Database/Uploads/Files/R__3_.jpeg'),
-                                                                                                      (5, 'WhatsApp_Image_2023-04-02_at_21_18_54.jpg', 'image', '2023-04-27 03:44:23', 4, 4, '/App/Database/Uploads/Files/WhatsApp_Image_2023-04-02_at_21_18_54.jpg'),
-                                                                                                      (6, 'MrNoMbre_a_gigantic_beautiful_sinkhole_landscape_w', 'image', '2023-04-27 09:43:46', 1, 1, '/App/Database/Uploads/Files/MrNoMbre_a_gigantic_beautiful_sinkhole_landscape_with_lot_of_ve_f1b369c9-ef6d-475b-8673-426f8d3943bb.png'),
-                                                                                                      (7, 'MrNoMbre_a_gigantic_beautiful_sinkhole_landscape_w', 'image', '2023-04-27 09:44:16', 1, 1, '/App/Database/Uploads/Files/MrNoMbre_a_gigantic_beautiful_sinkhole_landscape_with_lot_of_ve_f1b369c9-ef6d-475b-8673-426f8d3943bb.png');
+(1, 'IMG-20230402-WA0048.jpg', 'image', '2023-04-27 01:42:43', 4, 1, '/App/Database/Uploads/Files/IMG-20230402-WA0048.jpg'),
+(2, 'R__1_.jpeg', 'image', '2023-04-27 02:29:14', 4, 1, '/App/Database/Uploads/Files/R__1_.jpeg'),
+(3, 'OIP__2_.jpeg', 'image', '2023-04-27 02:46:33', 4, 1, '/App/Database/Uploads/Files/OIP__2_.jpeg'),
+(4, 'R__3_.jpeg', 'image', '2023-04-27 02:47:35', 4, 1, '/App/Database/Uploads/Files/R__3_.jpeg'),
+(5, 'WhatsApp_Image_2023-04-02_at_21_18_54.jpg', 'image', '2023-04-27 03:44:23', 4, 4, '/App/Database/Uploads/Files/WhatsApp_Image_2023-04-02_at_21_18_54.jpg'),
+(6, 'MrNoMbre_a_gigantic_beautiful_sinkhole_landscape_w', 'image', '2023-04-27 09:43:46', 1, 1, '/App/Database/Uploads/Files/MrNoMbre_a_gigantic_beautiful_sinkhole_landscape_with_lot_of_ve_f1b369c9-ef6d-475b-8673-426f8d3943bb.png'),
+(7, 'MrNoMbre_a_gigantic_beautiful_sinkhole_landscape_w', 'image', '2023-04-27 09:44:16', 1, 1, '/App/Database/Uploads/Files/MrNoMbre_a_gigantic_beautiful_sinkhole_landscape_with_lot_of_ve_f1b369c9-ef6d-475b-8673-426f8d3943bb.png'),
+(8, 'Screenshot_2023-04-01_173214.png', 'image', '2023-04-27 09:59:05', 4, 1, '/App/Database/Uploads/Files/Screenshot_2023-04-01_173214.png'),
+(9, 'Picture1.jpg', 'image', '2023-04-27 10:00:52', 4, 1, '/App/Database/Uploads/Files/Picture1.jpg'),
+(10, 'wallpaperflare_com_wallpaper__1_.jpg', 'image', '2023-04-28 05:29:33', 4, 4, '/App/Database/Uploads/Files/wallpaperflare_com_wallpaper__1_.jpg');
 
 -- --------------------------------------------------------
 
@@ -136,14 +145,14 @@ INSERT INTO `files` (`id`, `fileName`, `fileType`, `date`, `project_id`, `upload
 --
 
 CREATE TABLE `groups` (
-                        `id` int(11) NOT NULL,
-                        `group_name` varchar(50) NOT NULL,
-                        `task_name` varchar(50) NOT NULL,
-                        `description` varchar(100) NOT NULL,
-                        `project_id` int(11) NOT NULL,
-                        `leader_id` int(11) NOT NULL,
-                        `start_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int(11) NOT NULL,
+  `group_name` varchar(50) NOT NULL,
+  `task_name` varchar(50) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `leader_id` int(11) NOT NULL,
+  `start_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `groups`
@@ -160,10 +169,10 @@ INSERT INTO `groups` (`id`, `group_name`, `task_name`, `description`, `project_i
 --
 
 CREATE TABLE `group_announcement` (
-                                    `message_id` int(11) NOT NULL,
-                                    `project_id` int(11) NOT NULL,
-                                    `heading` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `message_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `heading` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `group_announcement`
@@ -172,7 +181,16 @@ CREATE TABLE `group_announcement` (
 INSERT INTO `group_announcement` (`message_id`, `project_id`, `heading`) VALUES
                                                                            (39, 4, 'Medicare App Development'),
                                                                            (40, 4, 'Web App development'),
-                                                                           (74, 4, 'App Development');
+                                                                           (74, 4, 'App Development'),
+                                                                           (90, 4, 'Connect conference'),
+(91, 4, 'Connect conference'),
+(92, 4, 'Connect conference'),
+(93, 4, 'Connect conference 2'),
+(94, 4, 'meeting'),
+(95, 4, 'Message forum'),
+(96, 4, 'Hello'),
+(98, 4, 'Hello world'),
+(99, 4, 'Hello world');;
 
 -- --------------------------------------------------------
 
@@ -193,11 +211,11 @@ CREATE TABLE `group_feedback_message` (
 --
 
 CREATE TABLE `group_join` (
-                            `group_id` int(11) NOT NULL,
-                            `member_id` int(11) NOT NULL,
-                            `role` varchar(10) NOT NULL,
-                            `joined` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `group_id` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `role` varchar(10) NOT NULL,
+  `joined` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `group_join`
@@ -254,9 +272,9 @@ INSERT INTO `group_message` (`message_id`, `project_id`, `group_id`) VALUES
 --
 
 CREATE TABLE `group_task` (
-                            `task_id` int(11) NOT NULL,
-                            `group_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `task_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `group_task`
@@ -274,19 +292,34 @@ INSERT INTO `group_task` (`task_id`, `group_id`) VALUES
 --
 
 CREATE TABLE `group_task_feedback_message` (
-                                             `message_id` int(11) NOT NULL,
-                                             `project_id` int(11) NOT NULL,
-                                             `task_id` int(11) NOT NULL,
-                                             `group_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `message_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `group_task_feedback_message`
 --
 
 INSERT INTO `group_task_feedback_message` (`message_id`, `project_id`, `task_id`, `group_id`) VALUES
-                                                                                                (44, 4, 23, 1),
-                                                                                                (47, 4, 23, 1);
+(44, 4, 23, 1),
+(47, 4, 23, 1),
+(80, 4, 31, 2),
+(87, 4, 31, 2),
+(88, 4, 31, 2),
+(100, 4, 31, 2),
+(102, 4, 24, 1),
+(104, 4, 71, 2),
+(105, 4, 71, 2),
+(106, 4, 23, 1),
+(107, 4, 23, 1),
+(108, 4, 24, 1),
+(109, 4, 23, 1),
+(110, 4, 23, 1),
+(111, 4, 24, 1),
+(112, 4, 24, 1),
+(114, 4, 23, 1);
 
 -- --------------------------------------------------------
 
@@ -295,12 +328,12 @@ INSERT INTO `group_task_feedback_message` (`message_id`, `project_id`, `task_id`
 --
 
 CREATE TABLE `message` (
-                         `id` int(11) NOT NULL,
-                         `sender_id` int(11) NOT NULL,
-                         `stamp` datetime NOT NULL,
-                         `message_type` enum('PROJECT_MESSAGE','PROJECT_FEEDBACK_MESSAGE','GROUP_MESSAGE','GROUP_FEEDBACK_MESSAGE','PROJECT_TASK_FEEDBACK_MESSAGE','PROJECT_ANNOUNCEMENT','GROUP_ANNOUNCEMENT','GROUP_TASK_FEEDBACK_MESSAGE') NOT NULL,
-                         `msg` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `stamp` datetime NOT NULL,
+  `message_type` enum('PROJECT_MESSAGE','PROJECT_FEEDBACK_MESSAGE','GROUP_MESSAGE','GROUP_FEEDBACK_MESSAGE','PROJECT_TASK_FEEDBACK_MESSAGE','PROJECT_ANNOUNCEMENT','GROUP_ANNOUNCEMENT','GROUP_TASK_FEEDBACK_MESSAGE') NOT NULL,
+  `msg` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `message`
@@ -430,67 +463,100 @@ INSERT INTO `message` (`id`, `sender_id`, `stamp`, `message_type`, `msg`) VALUES
 --
 
 CREATE TABLE `notifications` (
-                               `id` int(11) NOT NULL,
-                               `project_id` int(11) NOT NULL,
-                               `message` varchar(255) NOT NULL,
-                               `type` varchar(10) NOT NULL,
-                               `sendStatus` int(11) NOT NULL DEFAULT 0,
-                               `sendTime` datetime(6) NOT NULL,
-                               `sender_id` int(11) NOT NULL,
-                               `url` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  `sendStatus` int(11) NOT NULL DEFAULT 0,
+  `send_time` datetime(6) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `url` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `notifications`
 --
 
-INSERT INTO `notifications` (`id`, `project_id`, `message`, `type`, `sendStatus`, `sendTime`, `sender_id`, `url`) VALUES
-                                                                                                                    (2, 4, 'I pickup Sketch the circuit design.', 'notificati', 0, '2023-03-03 13:24:25.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (3, 4, 'ok', 'notificati', 0, '2023-03-03 20:00:10.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (4, 4, 'I pickup Build circuit for night rider light set.', 'notificati', 0, '2023-03-03 20:03:18.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (10, 4, 'hi', 'notificati', 0, '2023-03-04 12:47:48.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (11, 4, 'hi', 'notificati', 0, '2023-03-04 12:47:48.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (12, 4, 'hi', 'notificati', 0, '2023-03-04 12:47:48.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (14, 4, 'hi', 'notificati', 0, '2023-03-08 10:15:32.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
-                                                                                                                    (15, 4, 'gm', 'notificati', 0, '2023-03-08 23:24:09.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
-                                                                                                                    (16, 4, 'hi', 'notificati', 0, '2023-03-08 23:25:03.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
-                                                                                                                    (17, 4, 'gm', 'notificati', 0, '2023-03-08 23:26:39.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
-                                                                                                                    (19, 4, 'hi', 'notificati', 0, '2023-03-09 06:09:22.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
-                                                                                                                    (21, 4, 'I pickup Design the model of robot.', 'notificati', 0, '2023-04-09 05:35:30.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (26, 4, 'hmm', 'notificati', 0, '2023-04-25 04:41:41.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (29, 4, 'I pickup Analysis the metal of robot.', 'notificati', 0, '2023-04-25 09:51:23.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (30, 4, 'I pickup Analysis the metal of robot.', 'notificati', 0, '2023-04-25 09:52:31.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (31, 4, 'I pickup Design the cleaning hand of the rovot.', 'notificati', 0, '2023-04-25 11:56:02.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (33, 4, 'I have done it', 'notificati', 0, '2023-04-25 12:29:41.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (34, 4, 'I have done it', 'notificati', 0, '2023-04-25 12:30:01.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (35, 4, 'I have done it', 'notificati', 0, '2023-04-25 12:30:02.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (36, 4, 'I have done it', 'notificati', 0, '2023-04-25 12:30:03.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (37, 4, 'I have done it', 'notificati', 0, '2023-04-25 12:30:03.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (38, 4, 'done', 'notificati', 0, '2023-04-25 12:30:37.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (39, 4, 'I pickup Design the cleaning hand of the rovot.', 'notificati', 0, '2023-04-25 12:49:08.000000', 4, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (40, 4, 'check', 'notificati', 0, '2023-04-25 12:52:58.000000', 4, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (41, 4, 'You are assigned to Responsive pages by project leader.', 'notificati', 0, '2023-04-25 13:34:09.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (42, 4, 'You are assigned to Responsive pages by project leader.', 'notificati', 0, '2023-04-25 13:35:17.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (43, 1, 'I pickup ABC.', 'notificati', 0, '2023-04-25 15:02:32.000000', 1, 'http://localhost/public/user/project?id=1'),
-                                                                                                                    (44, 4, 'You are assigned to Complete meeting feature by project leader.', 'notificati', 0, '2023-04-26 04:46:50.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (45, 4, 'You are assigned to pdf generator by project leader.', 'notificati', 0, '2023-04-26 05:16:18.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (46, 4, 'Develop cleaning', 'notificati', 0, '2023-04-26 06:36:45.000000', 1, 'http://localhost/public/projectmember/getinfo'),
-                                                                                                                    (47, 4, 'Develop cleaning', 'notificati', 0, '2023-04-26 06:36:58.000000', 1, 'http://localhost/public/projectmember/getinfo'),
-                                                                                                                    (48, 4, '#3 Bug fixing is urgent', 'notificati', 0, '2023-04-26 06:38:17.000000', 1, 'http://localhost/public/projectmember/getinfo'),
-                                                                                                                    (49, 4, '#3 Bug fixing is urgent', 'notificati', 0, '2023-04-26 06:39:08.000000', 1, 'http://localhost/public/projectmember/getinfo'),
-                                                                                                                    (50, 4, '#4 Bug fixing is urgent', 'notificati', 0, '2023-04-26 06:39:26.000000', 1, 'http://localhost/public/projectmember/getinfo'),
-                                                                                                                    (51, 2, 'Welcome you all', 'notificati', 0, '2023-04-26 06:42:24.000000', 1, 'http://localhost/public/projectmember/getinfo'),
-                                                                                                                    (52, 2, 'Welcome you all', 'notificati', 0, '2023-04-26 06:42:53.000000', 1, 'http://localhost/public/projectmember/getinfo'),
-                                                                                                                    (53, 2, 'good morning', 'notificati', 0, '2023-04-26 06:44:36.000000', 1, 'http://localhost/public/projectmember/getinfo'),
-                                                                                                                    (54, 4, 'HI', 'notificati', 0, '2023-04-26 07:29:11.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (55, 4, 'hi', 'notificati', 0, '2023-04-26 07:29:19.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (57, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:36:33.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (58, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:37:15.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (59, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:37:59.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (60, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:40:14.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (61, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:40:21.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (62, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:40:23.000000', 1, 'http://localhost/public/user/project?id=4'),
-                                                                                                                    (63, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:40:25.000000', 1, 'http://localhost/public/user/project?id=4');
+INSERT INTO `notifications` (`id`, `project_id`, `message`, `type`, `sendStatus`, `send_time`, `sender_id`, `url`) VALUES
+(2, 4, 'I pickup Sketch the circuit design.', 'notificati', 0, '2023-03-03 13:24:25.000000', 1, 'http://localhost/public/user/project?id=4'),
+(3, 4, 'ok', 'notificati', 0, '2023-03-03 20:00:10.000000', 1, 'http://localhost/public/user/project?id=4'),
+(4, 4, 'I pickup Build circuit for night rider light set.', 'notificati', 0, '2023-03-03 20:03:18.000000', 1, 'http://localhost/public/user/project?id=4'),
+(10, 4, 'hi', 'notificati', 0, '2023-03-04 12:47:48.000000', 1, 'http://localhost/public/user/project?id=4'),
+(11, 4, 'hi', 'notificati', 0, '2023-03-04 12:47:48.000000', 1, 'http://localhost/public/user/project?id=4'),
+(12, 4, 'hi', 'notificati', 0, '2023-03-04 12:47:48.000000', 1, 'http://localhost/public/user/project?id=4'),
+(14, 4, 'hi', 'notificati', 0, '2023-03-08 10:15:32.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
+(15, 4, 'gm', 'notificati', 0, '2023-03-08 23:24:09.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
+(16, 4, 'hi', 'notificati', 0, '2023-03-08 23:25:03.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
+(17, 4, 'gm', 'notificati', 0, '2023-03-08 23:26:39.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
+(19, 4, 'hi', 'notificati', 0, '2023-03-09 06:09:22.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
+(26, 4, 'hmm', 'notificati', 0, '2023-04-25 04:41:41.000000', 1, 'http://localhost/public/user/project?id=4'),
+(29, 4, 'I pickup Analysis the metal of robot.', 'notificati', 0, '2023-04-25 09:51:23.000000', 1, 'http://localhost/public/user/project?id=4'),
+(30, 4, 'I pickup Analysis the metal of robot.', 'notificati', 0, '2023-04-25 09:52:31.000000', 1, 'http://localhost/public/user/project?id=4'),
+(31, 4, 'I pickup Design the cleaning hand of the rovot.', 'notificati', 0, '2023-04-25 11:56:02.000000', 1, 'http://localhost/public/user/project?id=4'),
+(33, 4, 'I have done it', 'notificati', 0, '2023-04-25 12:29:41.000000', 1, 'http://localhost/public/user/project?id=4'),
+(34, 4, 'I have done it', 'notificati', 0, '2023-04-25 12:30:01.000000', 1, 'http://localhost/public/user/project?id=4'),
+(35, 4, 'I have done it', 'notificati', 0, '2023-04-25 12:30:02.000000', 1, 'http://localhost/public/user/project?id=4'),
+(36, 4, 'I have done it', 'notificati', 0, '2023-04-25 12:30:03.000000', 1, 'http://localhost/public/user/project?id=4'),
+(37, 4, 'I have done it', 'notificati', 0, '2023-04-25 12:30:03.000000', 1, 'http://localhost/public/user/project?id=4'),
+(38, 4, 'done', 'notificati', 0, '2023-04-25 12:30:37.000000', 1, 'http://localhost/public/user/project?id=4'),
+(41, 4, 'You are assigned to Responsive pages by project leader.', 'notificati', 0, '2023-04-25 13:34:09.000000', 1, 'http://localhost/public/user/project?id=4'),
+(42, 4, 'You are assigned to Responsive pages by project leader.', 'notificati', 0, '2023-04-25 13:35:17.000000', 1, 'http://localhost/public/user/project?id=4'),
+(43, 1, 'I pickup ABC.', 'notificati', 0, '2023-04-25 15:02:32.000000', 1, 'http://localhost/public/user/project?id=1'),
+(44, 4, 'You are assigned to Complete meeting feature by project leader.', 'notificati', 0, '2023-04-26 04:46:50.000000', 1, 'http://localhost/public/user/project?id=4'),
+(45, 4, 'You are assigned to pdf generator by project leader.', 'notificati', 0, '2023-04-26 05:16:18.000000', 1, 'http://localhost/public/user/project?id=4'),
+(46, 4, 'Develop cleaning', 'notificati', 0, '2023-04-26 06:36:45.000000', 1, 'http://localhost/public/projectmember/getinfo'),
+(47, 4, 'Develop cleaning', 'notificati', 0, '2023-04-26 06:36:58.000000', 1, 'http://localhost/public/projectmember/getinfo'),
+(48, 4, '#3 Bug fixing is urgent', 'notificati', 0, '2023-04-26 06:38:17.000000', 1, 'http://localhost/public/projectmember/getinfo'),
+(49, 4, '#3 Bug fixing is urgent', 'notificati', 0, '2023-04-26 06:39:08.000000', 1, 'http://localhost/public/projectmember/getinfo'),
+(50, 4, '#4 Bug fixing is urgent', 'notificati', 0, '2023-04-26 06:39:26.000000', 1, 'http://localhost/public/projectmember/getinfo'),
+(51, 2, 'Welcome you all', 'notificati', 0, '2023-04-26 06:42:24.000000', 1, 'http://localhost/public/projectmember/getinfo'),
+(52, 2, 'Welcome you all', 'notificati', 0, '2023-04-26 06:42:53.000000', 1, 'http://localhost/public/projectmember/getinfo'),
+(53, 2, 'good morning', 'notificati', 0, '2023-04-26 06:44:36.000000', 1, 'http://localhost/public/projectmember/getinfo'),
+(57, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:36:33.000000', 1, 'http://localhost/public/user/project?id=4'),
+(58, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:37:15.000000', 1, 'http://localhost/public/user/project?id=4'),
+(59, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:37:59.000000', 1, 'http://localhost/public/user/project?id=4'),
+(60, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:40:14.000000', 1, 'http://localhost/public/user/project?id=4'),
+(61, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:40:21.000000', 1, 'http://localhost/public/user/project?id=4'),
+(62, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:40:23.000000', 1, 'http://localhost/public/user/project?id=4'),
+(63, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-26 07:40:25.000000', 1, 'http://localhost/public/user/project?id=4'),
+(64, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-28 04:47:41.000000', 1, 'http://localhost/public/user/project?id=4'),
+(65, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-28 04:50:01.000000', 1, 'http://localhost/public/user/project?id=4'),
+(66, 4, 'Leader assigned you to pdf generator.', 'notificati', 0, '2023-04-28 04:50:36.000000', 1, 'http://localhost/public/user/project?id=4'),
+(67, 4, 'fix #8 bug', 'notificati', 0, '2023-04-28 04:53:28.000000', 1, 'http://localhost/public/projectmember/getinfo'),
+(68, 4, 'gggg', 'notificati', 0, '2023-04-28 05:42:29.000000', 1, 'http://localhost/public/user/project?id=4'),
+(69, 4, 'ok', 'notificati', 0, '2023-04-28 05:43:34.000000', 1, 'http://localhost/public/user/project?id=4'),
+(70, 4, 'Good morning', 'notificati', 0, '2023-04-28 05:59:29.000000', 1, 'http://localhost/public/user/project?id=4'),
+(71, 4, 'good it', 'notificati', 0, '2023-04-28 06:01:38.000000', 1, 'http://localhost/public/user/project?id=4'),
+(72, 4, 'kk', 'notificati', 0, '2023-04-28 06:04:47.000000', 1, 'http://localhost/public/user/project?id=4'),
+(74, 4, 'gm', 'notificati', 0, '2023-04-28 06:46:26.000000', 4, 'http://localhost/public/user/project?id=4'),
+(75, 4, 'Connect conference', 'notificati', 0, '2023-04-28 10:25:53.000000', 1, 'http://localhost/public/projectmember/group?id=2'),
+(76, 4, 'Connect conference', 'notificati', 0, '2023-04-28 10:26:07.000000', 1, 'http://localhost/public/projectmember/group?id=2'),
+(77, 4, 'Connect conference', 'notificati', 0, '2023-04-28 10:30:22.000000', 1, 'http://localhost/public/projectmember/group?id=2'),
+(78, 4, 'Connect conference 2', 'notificati', 0, '2023-04-28 10:30:59.000000', 1, 'http://localhost/public/projectmember/group?id=2'),
+(79, 4, 'meeting', 'notificati', 0, '2023-04-28 10:36:00.000000', 1, 'http://localhost/public/projectmember/group?id=2'),
+(80, 4, 'Message forum', 'notificati', 0, '2023-04-28 10:52:33.000000', 1, 'http://localhost/public/projectmember/group?id=2'),
+(81, 4, 'Hello', 'notificati', 0, '2023-04-28 10:56:33.000000', 1, 'http://localhost/public/projectmember/group?id=2'),
+(82, 4, 'Hello world', 'notificati', 0, '2023-04-28 11:13:24.000000', 1, 'http://localhost/public/projectmember/group?id=2'),
+(83, 4, 'Hello world', 'notificati', 0, '2023-04-28 11:13:51.000000', 1, 'http://localhost/public/projectmember/group?id=2'),
+(84, 2, 'I pickup fix issues.', 'notificati', 0, '2023-04-28 11:23:31.000000', 1, 'http://localhost/public/user/project?id=2'),
+(86, 4, 'I pickup Design the model of robot.', 'notificati', 0, '2023-04-28 14:51:36.000000', 1, 'http://localhost/public/user/project?id=4'),
+(87, 4, 'i am done it', 'notificati', 0, '2023-04-28 15:19:01.000000', 4, 'http://localhost/public/user/project?id=4'),
+(88, 4, 'hi', 'notificati', 0, '2023-04-28 15:19:09.000000', 4, 'http://localhost/public/user/project?id=4'),
+(89, 4, 'GE', 'notificati', 0, '2023-04-28 15:25:17.000000', 4, 'http://localhost/public/projectmember/group?id=1'),
+(90, 4, 'hi', 'notificati', 0, '2023-04-28 15:36:26.000000', 1, 'http://localhost/public/user/project?id=4'),
+(91, 4, 'I pickup create meeting page.', 'notificati', 0, '2023-04-28 17:18:56.000000', 1, 'http://localhost/public/user/project?id=4'),
+(92, 4, 'hi', 'notificati', 0, '2023-04-28 18:04:42.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
+(93, 4, 'hmm', 'notificati', 0, '2023-04-28 18:04:48.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
+(94, 4, 'hi', 'notificati', 0, '2023-04-28 18:05:42.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
+(95, 4, 'hey', 'notificati', 0, '2023-04-28 18:06:04.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
+(96, 4, 'Good night', 'notificati', 0, '2023-04-28 18:47:21.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
+(97, 4, 'I am done it', 'notificati', 0, '2023-04-28 18:49:45.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
+(98, 4, 'I am done it', 'notificati', 0, '2023-04-28 18:52:19.000000', 1, 'http://localhost/public/user/project?id=4'),
+(99, 4, 'hmm', 'notificati', 0, '2023-04-28 18:52:27.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
+(100, 4, 'good morning', 'notificati', 0, '2023-04-29 02:29:48.000000', 1, 'http://localhost/public/user/project?id=4'),
+(101, 4, 'gm', 'notificati', 0, '2023-04-29 03:25:19.000000', 1, 'http://localhost/public/projectmember/group?id=1'),
+(102, 4, 'Invite you to the peoject.', 'request', 0, '2023-04-29 03:29:09.000000', 1, 'http://localhost/public/user/project?id=4'),
+(103, 4, 'Invite you to the peoject.', 'request', 0, '2023-04-29 03:30:59.000000', 1, 'http://localhost/public/user/project?id=4');
 
 -- --------------------------------------------------------
 
@@ -499,77 +565,111 @@ INSERT INTO `notifications` (`id`, `project_id`, `message`, `type`, `sendStatus`
 --
 
 CREATE TABLE `notification_recievers` (
-                                        `id` int(11) NOT NULL,
-                                        `notification_id` int(11) NOT NULL,
-                                        `member_id` int(11) NOT NULL,
-                                        `isRead` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int(11) NOT NULL,
+  `notification_id` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `isRead` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `notification_recievers`
 --
 
 INSERT INTO `notification_recievers` (`id`, `notification_id`, `member_id`, `isRead`) VALUES
-                                                                                        (1, 1, 4, 1),
-                                                                                        (2, 2, 1, 1),
-                                                                                        (3, 3, 1, 1),
-                                                                                        (4, 4, 1, 1),
-                                                                                        (5, 5, 1, 0),
-                                                                                        (6, 6, 1, 1),
-                                                                                        (7, 7, 1, 0),
-                                                                                        (8, 8, 4, 0),
-                                                                                        (9, 9, 1, 0),
-                                                                                        (10, 9, 4, 0),
-                                                                                        (11, 9, 1, 0),
-                                                                                        (12, 9, 4, 0),
-                                                                                        (13, 13, 1, 1),
-                                                                                        (14, 14, 1, 1),
-                                                                                        (15, 15, 1, 1),
-                                                                                        (16, 16, 1, 1),
-                                                                                        (17, 17, 1, 1),
-                                                                                        (18, 18, 1, 0),
-                                                                                        (19, 19, 1, 1),
-                                                                                        (20, 20, 1, 0),
-                                                                                        (21, 21, 1, 1),
-                                                                                        (22, 22, 1, 0),
-                                                                                        (23, 23, 1, 0),
-                                                                                        (24, 24, 1, 0),
-                                                                                        (25, 25, 1, 0),
-                                                                                        (26, 26, 1, 1),
-                                                                                        (27, 27, 1, 0),
-                                                                                        (28, 28, 1, 1),
-                                                                                        (29, 30, 1, 0),
-                                                                                        (30, 31, 1, 0),
-                                                                                        (31, 32, 1, 0),
-                                                                                        (32, 33, 1, 0),
-                                                                                        (33, 34, 1, 0),
-                                                                                        (34, 35, 1, 0),
-                                                                                        (35, 36, 1, 0),
-                                                                                        (36, 36, 1, 0),
-                                                                                        (37, 38, 1, 0),
-                                                                                        (38, 39, 1, 0),
-                                                                                        (39, 40, 1, 1),
-                                                                                        (40, 41, 4, 0),
-                                                                                        (41, 42, 4, 0),
-                                                                                        (42, 43, 1, 1),
-                                                                                        (43, 44, 1, 0),
-                                                                                        (44, 45, 1, 0),
-                                                                                        (45, 48, 3, 0),
-                                                                                        (46, 48, 4, 1),
-                                                                                        (47, 49, 3, 0),
-                                                                                        (48, 49, 4, 0),
-                                                                                        (49, 50, 3, 0),
-                                                                                        (50, 50, 4, 0),
-                                                                                        (51, 54, 4, 0),
-                                                                                        (52, 55, 4, 0),
-                                                                                        (53, 56, 1, 0),
-                                                                                        (54, 57, 1, 0),
-                                                                                        (55, 58, 1, 0),
-                                                                                        (56, 59, 1, 0),
-                                                                                        (57, 60, 1, 1),
-                                                                                        (58, 61, 1, 0),
-                                                                                        (59, 62, 1, 0),
-                                                                                        (60, 63, 1, 0);
+(1, 1, 4, 1),
+(2, 2, 1, 1),
+(3, 3, 1, 1),
+(4, 4, 1, 1),
+(5, 5, 1, 0),
+(6, 6, 1, 1),
+(7, 7, 1, 0),
+(8, 8, 4, 0),
+(9, 9, 1, 0),
+(10, 9, 4, 0),
+(11, 9, 1, 0),
+(12, 9, 4, 0),
+(13, 13, 1, 1),
+(14, 14, 1, 1),
+(15, 15, 1, 1),
+(16, 16, 1, 1),
+(17, 17, 1, 1),
+(18, 18, 1, 0),
+(19, 19, 1, 1),
+(20, 20, 1, 0),
+(21, 21, 1, 1),
+(22, 22, 1, 0),
+(23, 23, 1, 0),
+(24, 24, 1, 0),
+(25, 25, 1, 0),
+(26, 26, 1, 1),
+(27, 27, 1, 0),
+(28, 28, 1, 1),
+(29, 30, 1, 0),
+(30, 31, 1, 0),
+(31, 32, 1, 0),
+(32, 33, 1, 0),
+(33, 34, 1, 0),
+(34, 35, 1, 0),
+(35, 36, 1, 0),
+(36, 36, 1, 0),
+(37, 38, 1, 1),
+(38, 39, 1, 0),
+(39, 40, 1, 1),
+(40, 41, 4, 0),
+(41, 42, 4, 0),
+(42, 43, 1, 1),
+(43, 44, 1, 0),
+(44, 45, 1, 0),
+(45, 48, 3, 0),
+(46, 48, 4, 1),
+(47, 49, 3, 0),
+(48, 49, 4, 0),
+(49, 50, 3, 0),
+(50, 50, 4, 0),
+(51, 54, 4, 0),
+(52, 55, 4, 0),
+(53, 56, 1, 0),
+(54, 57, 1, 0),
+(55, 58, 1, 0),
+(56, 59, 1, 0),
+(57, 60, 1, 1),
+(58, 61, 1, 0),
+(59, 62, 1, 0),
+(60, 63, 1, 0),
+(61, 64, 1, 0),
+(62, 65, 1, 0),
+(63, 66, 1, 0),
+(64, 67, 3, 0),
+(65, 67, 4, 0),
+(66, 68, 1, 0),
+(67, 69, 1, 0),
+(68, 70, 4, 0),
+(69, 71, 1, 0),
+(70, 72, 1, 0),
+(71, 73, 1, 0),
+(72, 74, 1, 0),
+(73, 82, 1, 0),
+(74, 83, 1, 0),
+(75, 84, 1, 0),
+(76, 85, 1, 0),
+(77, 86, 1, 0),
+(78, 87, 1, 0),
+(79, 88, 1, 0),
+(80, 89, 1, 0),
+(81, 90, 4, 0),
+(82, 91, 1, 0),
+(83, 92, 4, 0),
+(84, 93, 4, 0),
+(85, 94, 4, 0),
+(86, 95, 4, 0),
+(87, 96, 4, 0),
+(88, 97, 4, 0),
+(89, 98, 1, 0),
+(90, 99, 4, 0),
+(91, 100, 4, 0),
+(92, 101, 4, 0),
+(93, 102, 3, 0),
+(94, 103, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -578,15 +678,15 @@ INSERT INTO `notification_recievers` (`id`, `notification_id`, `member_id`, `isR
 --
 
 CREATE TABLE `project` (
-                         `id` int(11) NOT NULL,
-                         `created_by` int(11) NOT NULL,
-                         `project_name` varchar(60) NOT NULL,
-                         `description` varchar(255) NOT NULL,
-                         `field` varchar(20) NOT NULL,
-                         `start_on` timestamp NOT NULL DEFAULT current_timestamp(),
-                         `end_on` timestamp NOT NULL DEFAULT current_timestamp(),
-                         `created_on` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `project_name` varchar(60) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `field` varchar(20) NOT NULL,
+  `start_on` timestamp NOT NULL DEFAULT current_timestamp(),
+  `end_on` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_on` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `project`
@@ -614,26 +714,30 @@ DELIMITER ;
 --
 
 CREATE TABLE `project_announcement` (
-                                      `message_id` int(11) NOT NULL,
-                                      `project_id` int(11) NOT NULL,
-                                      `heading` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `message_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `heading` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `project_announcement`
 --
 
 INSERT INTO `project_announcement` (`message_id`, `project_id`, `heading`) VALUES
-                                                                             (26, 4, 'Develop cleaning robot'),
-                                                                             (46, 4, 'cleaning robot'),
-                                                                             (66, 4, 'Develop cleaning'),
-                                                                             (67, 4, 'Develop cleaning'),
-                                                                             (68, 4, '#3 Bug fixing is urgent'),
-                                                                             (69, 4, '#3 Bug fixing is urgent'),
-                                                                             (70, 4, '#4 Bug fixing is urgent'),
-                                                                             (71, 2, 'Welcome you all'),
-                                                                             (72, 2, 'Welcome you all'),
-                                                                             (73, 2, 'good morning');
+(26, 4, 'Develop cleaning robot'),
+(46, 4, 'cleaning robot'),
+(66, 4, 'Develop cleaning'),
+(67, 4, 'Develop cleaning'),
+(68, 4, '#3 Bug fixing is urgent'),
+(69, 4, '#3 Bug fixing is urgent'),
+(70, 4, '#4 Bug fixing is urgent'),
+(71, 2, 'Welcome you all'),
+(72, 2, 'Welcome you all'),
+(73, 2, 'good morning'),
+(82, 4, 'Join meeting soon'),
+(83, 4, 'Join meeting soon'),
+(84, 4, 'fix #7 bug'),
+(85, 4, 'fix #8 bug');
 
 -- --------------------------------------------------------
 
@@ -642,9 +746,9 @@ INSERT INTO `project_announcement` (`message_id`, `project_id`, `heading`) VALUE
 --
 
 CREATE TABLE `project_feedback_message` (
-                                          `message_id` int(11) NOT NULL,
-                                          `project_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `message_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `project_feedback_message`
@@ -694,11 +798,11 @@ INSERT INTO `project_feedback_message` (`message_id`, `project_id`) VALUES
 --
 
 CREATE TABLE `project_join` (
-                              `project_id` int(11) NOT NULL,
-                              `member_id` int(11) NOT NULL,
-                              `role` enum('LEADER','MEMBER','CLIENT') DEFAULT 'MEMBER',
-                              `joined` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `project_id` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `role` enum('LEADER','MEMBER','CLIENT') DEFAULT 'MEMBER',
+  `joined` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `project_join`
@@ -720,9 +824,16 @@ INSERT INTO `project_join` (`project_id`, `member_id`, `role`, `joined`) VALUES
 --
 
 CREATE TABLE `project_message` (
-                                 `message_id` int(11) NOT NULL,
-                                 `project_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `message_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `project_message`
+--
+
+INSERT INTO `project_message` (`message_id`, `project_id`) VALUES
+(97, 4);
 
 --
 -- Dumping data for table `project_message`
@@ -739,10 +850,10 @@ INSERT INTO `project_message` (`message_id`, `project_id`) VALUES
 --
 
 CREATE TABLE `project_task_feedback_message` (
-                                               `message_id` int(11) NOT NULL,
-                                               `project_id` int(11) NOT NULL,
-                                               `task_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `message_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `project_task_feedback_message`
@@ -767,36 +878,40 @@ INSERT INTO `project_task_feedback_message` (`message_id`, `project_id`, `task_i
 --
 
 CREATE TABLE `task` (
-                      `task_id` int(11) NOT NULL,
-                      `status` varchar(20) NOT NULL DEFAULT 'TO-DO',
-                      `description` varchar(255) NOT NULL,
-                      `deadline` datetime NOT NULL,
-                      `task_name` varchar(100) NOT NULL,
-                      `assign_type` varchar(20) NOT NULL DEFAULT 'member',
-                      `member_id` int(11) DEFAULT NULL,
-                      `priority` varchar(6) NOT NULL DEFAULT 'low',
-                      `project_id` int(11) NOT NULL,
-                      `task_type` varchar(7) NOT NULL DEFAULT 'project'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `task_id` int(11) NOT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'TO-DO',
+  `description` varchar(255) NOT NULL,
+  `deadline` datetime NOT NULL,
+  `task_name` varchar(100) NOT NULL,
+  `assign_type` varchar(20) NOT NULL DEFAULT 'member',
+  `member_id` int(11) DEFAULT NULL,
+  `priority` varchar(6) NOT NULL DEFAULT 'low',
+  `project_id` int(11) NOT NULL,
+  `task_type` varchar(7) NOT NULL DEFAULT 'project'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `task`
 --
 
 INSERT INTO `task` (`task_id`, `status`, `description`, `deadline`, `task_name`, `assign_type`, `member_id`, `priority`, `project_id`, `task_type`) VALUES
-                                                                                                                                                      (17, 'REVIEW', 'Complete project info UI. And combine it with the backend part with getting support', '2023-02-28 00:00:00', 'Sketch the circuit design', 'member', 1, 'high', 4, 'project'),
-                                                                                                                                                      (18, 'DONE', 'Complete project info UI. And combine it with the backend part with getting support', '2023-02-27 00:00:00', 'Design the shape of robot', 'member', 3, 'medium', 4, 'project'),
-                                                                                                                                                      (19, 'ONGOING', 'Complete project info UI. And combine it with the backend part with getting support', '2023-02-27 00:00:00', 'Design the cleaning hand of the rovot', 'member', 4, 'low', 4, 'project'),
-                                                                                                                                                      (20, 'ONGOING', 'Complete project info UI. And combine it with the backend part with getting support', '2023-02-27 00:00:00', 'Analysis the metal of robot', 'member', 1, 'high', 4, 'project'),
-                                                                                                                                                      (21, 'REVIEW', 'Complete project info UI. And combine it with the backend part with getting support', '2023-02-27 00:00:00', 'Build prototype from tinkercad using arduino board', 'member', 1, 'low', 4, 'project'),
-                                                                                                                                                      (22, 'ONGOING', 'Build prototype from rasberipi circuit. Because we have to use little bit more power than arduino board', '0000-00-00 00:00:00', 'Build prototype from rasberipi', 'group', 1, 'high', 4, 'project'),
-                                                                                                                                                      (23, 'ONGOING', 'Build circuit for night rider light set using ardiuno uno board', '2023-03-26 00:00:00', 'Build circuit for night rider light set', 'member', 1, 'medium', 4, 'group'),
-                                                                                                                                                      (24, 'ONGOING', 'Design the model of robot with in next two days', '2023-03-22 00:00:00', 'Design the model of robot', 'member', 1, 'high', 4, 'group'),
-                                                                                                                                                      (25, 'REVIEW', 'Deploy the APP', '2023-03-15 00:00:00', 'Deploy the APP', 'member', 1, 'low', 4, 'project'),
-                                                                                                                                                      (26, 'ONGOING', 'cs', '0000-00-00 00:00:00', 'ss', 'group', 1, 'high', 4, 'project'),
-                                                                                                                                                      (28, 'ONGOING', 'A', '2023-04-28 00:00:00', 'ABC', 'member', 1, 'low', 1, 'project'),
-                                                                                                                                                      (30, 'ONGOING', 'create PDF generator', '2023-04-28 00:00:00', 'pdf generator', 'member', 1, 'low', 4, 'project'),
-                                                                                                                                                      (31, 'TO-DO', 'Start your daily routine', '2023-04-27 00:00:00', 'Start your daily routine', 'member', NULL, 'low', 4, 'group');
+(17, 'REVIEW', 'Complete project info UI. And combine it with the backend part with getting support', '2023-02-28 00:00:00', 'Sketch the circuit design', 'member', 1, 'high', 4, 'project'),
+(18, 'DONE', 'Complete project info UI. And combine it with the backend part with getting support', '2023-02-27 00:00:00', 'Design the shape of robot', 'member', 3, 'medium', 4, 'project'),
+(19, 'ONGOING', 'Complete project info UI. And combine it with the backend part with getting support', '2023-02-27 00:00:00', 'Design the cleaning hand of the rovot', 'member', 4, 'low', 4, 'project'),
+(20, 'DONE', 'Complete project info UI. And combine it with the backend part with getting support', '2023-02-27 00:00:00', 'Analysis the metal of robot', 'member', 1, 'high', 4, 'project'),
+(21, 'DONE', 'Complete project info UI. And combine it with the backend part with getting support', '2023-02-27 00:00:00', 'Build prototype from tinkercad using arduino board', 'member', 1, 'low', 4, 'project'),
+(23, 'ONGOING', 'Build circuit for night rider light set using ardiuno uno board', '2023-03-26 00:00:00', 'Build circuit for night rider light set', 'member', 1, 'medium', 4, 'group'),
+(24, 'REVIEW', 'Design the model of robot with in next two days', '2023-03-22 00:00:00', 'Design the model of robot', 'member', 1, 'high', 4, 'group'),
+(25, 'DONE', 'Deploy the APP', '2023-03-15 00:00:00', 'Deploy the APP', 'member', 1, 'low', 4, 'project'),
+(28, 'ONGOING', 'A', '2023-04-28 00:00:00', 'ABC', 'member', 1, 'low', 1, 'project'),
+(30, 'REVIEW', 'create PDF generator', '2023-04-28 00:00:00', 'pdf generator', 'member', 1, 'low', 4, 'project'),
+(31, 'REVIEW', 'Start your daily routine', '2023-04-27 00:00:00', 'Start your daily routine', 'member', 1, 'low', 4, 'group'),
+(66, 'REVIEW', 'We have to complete all pages as responsive', '2023-04-30 00:00:00', 'Make Responsive', 'group', 4, 'high', 4, 'project'),
+(67, 'ONGOING', 'Connect conference app to the main branch and test it', '2023-04-30 00:00:00', 'Connect conference', 'group', 1, 'high', 4, 'project'),
+(69, 'ONGOING', 'fix the bug in create task', '2023-04-29 00:00:00', '#3 bug fix', 'member', 1, 'low', 4, 'project'),
+(70, 'ONGOING', 'fix the 4th bug', '2023-04-29 00:00:00', '#4 bug fix', 'member', 4, 'low', 4, 'project'),
+(71, 'ONGOING', 'create meeting page make sure it so responsive', '2023-04-29 00:00:00', 'create meeting page', 'member', 1, 'medium', 4, 'group'),
+(72, 'ONGOING', 'fix issues with in nex two days', '2023-04-30 00:00:00', 'fix issues', 'member', 1, 'low', 2, 'project');
 
 -- --------------------------------------------------------
 
@@ -805,34 +920,52 @@ INSERT INTO `task` (`task_id`, `status`, `description`, `deadline`, `task_name`,
 --
 
 CREATE TABLE `task_notification` (
-                                   `notification_id` int(11) NOT NULL,
-                                   `task_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `notification_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `task_notification`
 --
 
 INSERT INTO `task_notification` (`notification_id`, `task_id`) VALUES
-                                                                 (2, 17),
-                                                                 (3, 17),
-                                                                 (26, 17),
-                                                                 (39, 19),
-                                                                 (40, 19),
-                                                                 (54, 19),
-                                                                 (55, 19),
-                                                                 (38, 21),
-                                                                 (4, 23),
-                                                                 (14, 23),
-                                                                 (15, 23),
-                                                                 (16, 23),
-                                                                 (17, 23),
-                                                                 (19, 23),
-                                                                 (21, 24),
-                                                                 (34, 25),
-                                                                 (35, 25),
-                                                                 (36, 25),
-                                                                 (43, 28);
+(2, 17),
+(3, 17),
+(26, 17),
+(70, 19),
+(74, 19),
+(90, 19),
+(68, 20),
+(38, 21),
+(4, 23),
+(14, 23),
+(15, 23),
+(16, 23),
+(17, 23),
+(19, 23),
+(92, 23),
+(93, 23),
+(95, 23),
+(96, 23),
+(101, 23),
+(86, 24),
+(89, 24),
+(94, 24),
+(97, 24),
+(98, 24),
+(99, 24),
+(34, 25),
+(35, 25),
+(36, 25),
+(43, 28),
+(69, 30),
+(72, 31),
+(87, 66),
+(88, 66),
+(71, 69),
+(100, 70),
+(91, 71),
+(84, 72);
 
 -- --------------------------------------------------------
 
@@ -1071,7 +1204,7 @@ ALTER TABLE `conference`
 -- AUTO_INCREMENT for table `files`
 --
 ALTER TABLE `files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `groups`
@@ -1083,19 +1216,19 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT for table `message`
 --
 ALTER TABLE `message`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT for table `notification_recievers`
 --
 ALTER TABLE `notification_recievers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `project`
@@ -1107,7 +1240,7 @@ ALTER TABLE `project`
 -- AUTO_INCREMENT for table `task`
 --
 ALTER TABLE `task`
-  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `user`

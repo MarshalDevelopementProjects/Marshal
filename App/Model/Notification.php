@@ -44,6 +44,7 @@ class Notification implements Model
         }
         $sql .= ')';
         // var_dump($sql);
+        // var_dump($args);
         try {
             $this->crud_util->execute($sql, $args);
             return true;

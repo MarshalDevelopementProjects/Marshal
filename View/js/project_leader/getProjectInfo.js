@@ -20,7 +20,10 @@ const groups = document.querySelector('.groups');
 var groupsCode = "";
 
 if(jsonData['groups']){
-    jsonData['groups'].forEach(group => {
+    let createdGroups = jsonData['groups']
+    createdGroups.reverse()
+
+    createdGroups.forEach(group => {
         groupsCode += `<a href="http://localhost/public/projectmember/group?id=${group['id']}"><p class="group">${group['group_name']}</p></a>`
     })
 }
