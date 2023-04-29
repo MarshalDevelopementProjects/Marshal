@@ -172,3 +172,39 @@ if(jsonData['projectMembers']){
 }
 projectMembersCards.innerHTML = projectMemberCode;
 
+const announcementForum = document.querySelector('.feedback-form');
+
+function setProjectAnnouncements(){
+
+  fetch("http://localhost/public/projectmember/announcement", {
+    withCredentials: true,
+      credentials: "include",
+      mode: "cors",
+      method: "GET"
+  })
+  .then(response => response.json())
+  .then(data => {
+        let announcementForumCode = ``
+        console.log(data['message'])
+        data['message'] = data['message'].reverse()
+        data['message'].forEach(announcement => {
+          announcementForumCode += `<div class="announcement">
+                                      <img src="${announcement['profile']}" alt="">
+                                      <div class="announcement-details">
+                                          <div class="announcement-detail-heading">
+                                              <p class="announcement-heading-line">${announcement['heading']}</p>
+                                              <p class="announcement-sent-time"><span style="color: #031738; font-size: 13px; font-weight: 550">${announcement['senderType']}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;${announcement['stamp']}</p>
+                                          </div>
+                                          <p class="announcement-detail-message">${announcement['msg']}</p>
+                                      </div>
+                                  </div>`
+        })
+        announcementForum.innerHTML = announcementForumCode
+  })
+  .catch((error) => {
+      console.error(error)
+  })
+
+}
+
+setProjectAnnouncements()

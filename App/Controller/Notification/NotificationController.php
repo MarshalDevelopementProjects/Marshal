@@ -67,6 +67,7 @@ class NotificationController{
         $notification = new Notification();
         try {
             foreach($members as $member){
+                // var_dump($member);
                 $notification->setNotifiers(array("notification_id" => $notificationId, "member_id" => $member->member_id), array("notification_id", "member_id"));
             }
             return true;
