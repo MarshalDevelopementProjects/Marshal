@@ -7,13 +7,24 @@
     <title>Marshal | File uploader</title>
     <link rel="stylesheet" href="/View/styles/style_dashboard.css">
     <link rel="stylesheet" href="/View/styles/user/calendar.css">
+    <link rel="stylesheet" href="/View/styles/user/notification.css">
     <link rel="stylesheet" href="/View/styles/project_member/file_uploader.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
     <div class="container">
+        <div class="notification-popup-container">
+            <div class="notification-popup">
+                <div class="notification-popup-top">
+                    <h3>Notifications</h3>
+                    <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
+                </div>
+                <div class="notifications">
+                    
+                </div>
+            </div>
+        </div>
 
         <div class="navbar">
             <div class="left-logo-area">
@@ -25,7 +36,7 @@
                 <!-- <button type="submit" class="navbar-new-project">+ New Project</button> -->
                 <i class="fa fa-bell-o  notification-bell-btn" aria-hidden="true"></i>
                 <i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i>
-                <img src="/View/images/dp.png" alt="profile picture" class="profile-image">
+                <a href="http://localhost/public/user/profile"><img src="/View/images/dp.png" alt="profile picture" class="profile-image"></a>
             </div>
         </div>
 
@@ -116,8 +127,9 @@
     </script>
     <script src="/View/js/user/logout.js"></script>
     <!-- <script src="/View/js/user/calendar.js"></script> -->
-    <script src="/View/js/user/sidebar.js"></script>
-    <!-- <script src="/View/js/user/notification.js"></script> -->
+    <!-- <script src="/View/js/user/sidebar.js"></script> -->
+    <script src="/View/js/user/notification.js"></script>
+    <script src="/View/js/user/notificationPopup.js"></script>
     <script src="/View/js/project_member/file_uploader.js"></script>
 </body>
 </html>
