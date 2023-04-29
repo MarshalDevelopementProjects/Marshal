@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task board</title>
+    <link rel="stylesheet" href="./task_board_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+    <div class="container">
+
+        <div class="navbar">
+            <div class="left-logo-area">
+                <img src="./images/logo.png" alt="logo" class="logo">
+            </div>
+            <div class="right-profile-area">
+                <img src="./images/dp.png" alt="profile picture" class="profile-image">
+            </div>
+        </div>
+        <div class="small-container">
+            <div class="container-1">
+                <div class="video-container-1">
+                    <div class="icon">
+                        <div class="dots" onclick="this.classList.toggle('active');">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="list">
+                              <ul>
+                                <li id="full-screen-btn">
+                                  Full Screen
+                                </li>
+                                <li id="normal-screen-btn">
+                                  Normal View
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="dot"></div>
+                          </div>
+                          <div class="cursor"
+                               onclick="document.querySelector('.dots').classList.toggle('active');"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-2">
+                <div class="video-container-2"></div>
+            </div>
+        </div>
+      <div class="btn-container">
+        <div class="left-btn-container">
+            <div class="video-div">
+                <div class="mic-on">
+                    <i class="fa-solid fa-microphone"></i>
+                </div>
+                <div class="mic-off">
+                    <i class="fa-solid fa-microphone-slash"></i>
+                </div>
+                
+            </div>
+            <div class="mic-div">
+                <div class="cam-on"><i class="fa-solid fa-video"></i></div>
+                <div class="cam-off"><i class="fa-solid fa-video-slash"></i></div>
+            </div>
+        </div>
+        <div class="right-btn-container">
+            <button type="submit" class="navbar-new-project" id="leave-btn">Leave</button>
+        </div>
+      </div>
+    </div>
+    <script src="./task_board_script.js"></script>
+    <script src="https://kit.fontawesome.com/0ecc390bb7.js" crossorigin="anonymous"></script>
+</body>
+</html>
