@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task board</title>
+    <title>Marshal</title>
     <link rel="stylesheet" href="/View/styles/user/meeting_scheduler/meeting_schedule_page_css.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -36,7 +36,7 @@
                         </div>
                         <h2>|</h2>
                         <div class="oldmeeting-title-container">
-                            <h3>Previous Meetings</h3>
+                            <h3>All Meetings</h3>
                         </div>
                     </div>
                     <div class="schedule-box schedule-box-new">
@@ -89,6 +89,9 @@
                 </div>
             </div>
         </div>
+        <script>
+            var jsonData = JSON.parse('<?= $data; ?>');
+        </script>
         <script src="/View/js/user/meeting_scheduler/meeting_schedule.js"></script>
         <script src="https://kit.fontawesome.com/0ecc390bb7.js" crossorigin="anonymous"></script>
 </body>
