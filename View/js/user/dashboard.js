@@ -28,7 +28,7 @@
 /*---------------------------------------------------------------------------------------------------------- */
 
 
-$notifications = [];
+//$notifications = [];
 
 // check notifications for this user
 // const toastNotificationDetails = document.querySelector('.details'),
