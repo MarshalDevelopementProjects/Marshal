@@ -23,6 +23,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 
 class ProjectMemberController extends UserController
 {
+    protected Project $project;
     private ProjectMember $projectMember;
 
     public function __construct()
@@ -30,6 +31,7 @@ class ProjectMemberController extends UserController
         try {
             parent::__construct();
             if (array_key_exists("project_id", $_SESSION)) {
+                $this->project = new Project(member_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"]);
                 $this->projectMember = new ProjectMember($_SESSION["project_id"]);
             } else {
                 throw new Exception("Bad request missing arguments");
@@ -37,15 +39,6 @@ class ProjectMemberController extends UserController
         } catch (Exception $exception) {
             throw $exception;
         }
-    }
-
-    public function defaultAction(Object|array|string|int $data = null)
-    {
-    }
-
-    public function auth(): bool
-    {
-        return parent::auth();
     }
 
     public function pickupTask()
@@ -439,7 +432,7 @@ class ProjectMemberController extends UserController
 
     // save the message to the project table
     // $args format {"message" => "message string"}
-    public function postMessageToProjectForum(array|object $args)
+    public function postMessageToProjectForum(array|object $args): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         // get the user id
@@ -463,7 +456,7 @@ class ProjectMemberController extends UserController
     }
 
     // get all the messages to the project table
-    public function getProjectForumMessages()
+    public function getProjectForumMessages(): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         try {
@@ -479,7 +472,7 @@ class ProjectMemberController extends UserController
 
     // save the message to the task table
     // $args format {"task_id" => "TaskID", "message" => "message string"}
-    public function postMessageToProjectTaskFeedback(array|object $args)
+    public function postMessageToProjectTaskFeedback(array|object $args): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         try {
@@ -502,7 +495,7 @@ class ProjectMemberController extends UserController
     }
 
     // $args format {"task_id" => "TaskID"}
-    public function getProjectTaskFeedbackMessages(array $args)
+    public function getProjectTaskFeedbackMessages(array $args): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
@@ -605,7 +598,7 @@ class ProjectMemberController extends UserController
             $messageController = new MessageController();
 
             $condition = "id IN(SELECT message_id FROM `project_task_feedback_message` WHERE task_id =" . $task_id . " AND project_id = " . $_SESSION['project_id'] . ") ORDER BY `stamp` LIMIT 100";
-            $feedbackMessages = $messageController->recieve($condition);
+            $feedbackMessages = $messageController->receive($condition);
 
             foreach ($feedbackMessages as $feedback) {
                 if ($feedback->sender_id != $this->user->getUserData()->id) {
@@ -655,7 +648,7 @@ class ProjectMemberController extends UserController
 
         $condition = "id IN(SELECT message_id FROM `project_announcement` WHERE project_id = " . $_SESSION['project_id'] . ") ORDER BY `stamp` LIMIT 100";
 
-        $announcements = $messageController->recieve($condition);
+        $announcements = $messageController->receive($condition);
         foreach ($announcements as $announcement) {
             // add sender profile and announcement heading
             $sender = $user->readMember("id", $announcement->sender_id);

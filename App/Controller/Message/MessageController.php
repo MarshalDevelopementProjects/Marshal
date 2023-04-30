@@ -13,10 +13,11 @@ class MessageController
 {
     // public $key = 'mysecretkey12345';
 
-    public function defaultAction(Object|array|string|int $optional = null){
-    }
-
-    public function encryptMessage($message) {
+    /**
+     * @throws \Exception
+     */
+    public function encryptMessage($message): string
+    {
         $key = 'mysecretkey12345';
         $iv = random_bytes(openssl_cipher_iv_length('aes-256-cbc'));
       
@@ -28,20 +29,17 @@ class MessageController
         return $encrypted_base64 . ':' . $iv_base64;
     }
       
-    public function decryptMessage($encrypted_message) {
+    public function decryptMessage($encrypted_message): bool|string
+    {
         $key = 'mysecretkey12345';
         list($encrypted_base64, $iv_base64) = explode(':', $encrypted_message);
       
         $encrypted = base64_decode($encrypted_base64);
         $iv = base64_decode($iv_base64);
-      
-        $decrypted = openssl_decrypt($encrypted, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
-      
-        return $decrypted;
+
+        return openssl_decrypt($encrypted, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
     }
     
-
-
     public function send(array $args, array $keys):bool{
         
         $message = new Message();
@@ -56,7 +54,7 @@ class MessageController
         }
     }
 
-    public function recieve(string $condition):object|array|bool
+    public function receive(string $condition):object|array|bool
     {
         $message = new Message();
         try {
@@ -71,4 +69,7 @@ class MessageController
             throw $th;
         }
     }
+
+
+
 }

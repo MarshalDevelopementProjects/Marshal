@@ -72,7 +72,7 @@ class Messenger implements MessageComponentInterface
         );
     }
 
-    function onOpen(ConnectionInterface $conn)
+    function onOpen(ConnectionInterface $conn): void
     {
         $args = [];
         parse_str($conn->httpRequest->getUri()->getQuery(), $args);
@@ -125,7 +125,7 @@ class Messenger implements MessageComponentInterface
         }
     }
 
-    function onClose(ConnectionInterface $conn)
+    function onClose(ConnectionInterface $conn): void
     {
         $args = [];
         parse_str($conn->httpRequest->getUri()->getQuery(), $args);
@@ -162,7 +162,7 @@ class Messenger implements MessageComponentInterface
         throw $e;
     }
 
-    function onMessage(ConnectionInterface $from, $msg)
+    function onMessage(ConnectionInterface $from, $msg): void
     {
         $args = [];
         parse_str($from->httpRequest->getUri()->getQuery(), $args);

@@ -20,7 +20,6 @@ require __DIR__ . '/../../../vendor/autoload.php';
 class ProjectLeaderController extends ProjectMemberController
 {
     private ProjectLeader $projectLeader;
-    private Project $project;
     private ConferenceController $conferenceController;
 
     public function __construct()
@@ -38,15 +37,6 @@ class ProjectLeaderController extends ProjectMemberController
         }
     }
 
-    public function defaultAction(Object|array|string|int $data = null)
-    {
-    }
-
-    public function auth(): bool
-    {
-        // TODO: IN THE AUTH CHECK THE ROLE WHETHER THE INCOMING REQUEST OWNER IS ACTUALLY THE PROJECT LEADER OF THIS PROJECT
-        return parent::auth();
-    }
     public function getProjectInfo()
     {
         // print_r($_SESSION);
@@ -481,64 +471,6 @@ class ProjectLeaderController extends ProjectMemberController
         );
     }
 
-    /**
-     * @throws Exception
-     */
-    public function getForum(): void
-    {
-        $this->sendResponse(
-            view: "/project_leader/forum.html",
-            status: "success",
-            content: [
-                "project_id" => $_SESSION["project_id"],
-                "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
-                "messages" => $this->projectLeader->getForumMessages() ? $this->projectLeader->getMessageData() : [],
-                "members" =>  $this->projectLeader->getProjectMembers() ? $this->projectLeader->getProjectMemberData() : [],
-            ]
-        );
-    }
-
-    // the following functions sends JSON responses
-    // save the message to the project table
-    // $args format {"message" => "message string"}
-    public function postMessageToProjectForum(array|object $args): void
-    {
-        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
-        // get the user id
-        if (!empty($args) && array_key_exists("message", $args)) {
-            if (!empty($args["message"])) {
-                try {
-                    if ($this->projectLeader->saveForumMessage(id: $this->user->getUserData()->id, msg: $args["message"])) {
-                        $this->sendJsonResponse("success");
-                    } else {
-                        $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
-                    }
-                } catch (\Exception $exception) {
-                    throw $exception;
-                }
-            } else {
-                $this->sendJsonResponse("error", ["message" => "Empty message body!"]);
-            }
-        } else {
-            $this->sendJsonResponse("error", ["message" => "Bad request"]);
-        }
-    }
-
-    // get all the messages to the project table
-    public function getProjectForumMessages(): void
-    {
-        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
-        try {
-            if ($this->projectLeader->getForumMessages()) {
-                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectLeader->getMessageData() ?? []]);
-            } else {
-                $this->sendJsonResponse("error", ["message" => "Some error occurred"]);
-            }
-        } catch (\Exception $exception) {
-            throw $exception;
-        }
-    }
-
     // save the message to the project table
     // $args format {"message" => "message string"}
     public function postMessageToProjectFeedback(array|object $args): void
@@ -571,51 +503,6 @@ class ProjectLeaderController extends ProjectMemberController
                 $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectLeader->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => "Some error occurred"]);
-            }
-        } catch (\Exception $exception) {
-            throw $exception;
-        }
-    }
-
-    // save the message to the task table
-    // $args format {"task_id" => "TaskID", "message" => "message string"}
-    public function postMessageToProjectTaskFeedback(array|object $args): void
-    {
-        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
-        try {
-            if (!empty($args) && array_key_exists("message", $args) && array_key_exists("task_id", $args)) {
-                if (!empty($args["message"])) {
-                    if ($this->projectLeader->saveProjectTaskFeedbackMessage(id: $this->user->getUserData()->id, task_id: $args["task_id"], msg: $args["message"])) {
-                        $this->sendJsonResponse("success");
-                    } else {
-                        $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
-                    }
-                } else {
-                    $this->sendJsonResponse("error", ["message" => "Empty message body!"]);
-                }
-            } else {
-                $this->sendJsonResponse("error", ["message" => "Bad request"]);
-            }
-        } catch (\Exception $exception) {
-            throw $exception;
-        }
-    }
-
-    // $args format {"task_id" => "TaskID"}
-    public function getProjectTaskFeedbackMessages(array $args): void
-    {
-        // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
-        // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
-        // TODO: SO THAT YOU WILL BE ABLE TO RETURN THE GROUP CANNOT BE FOUND ERROR
-        try {
-            if (array_key_exists("task_id", $args)) {
-                if ($this->projectLeader->getProjectTaskFeedbackMessages($args["task_id"])) {
-                    $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectLeader->getMessageData() ?? []]);
-                } else {
-                    $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
-                }
-            } else {
-                $this->sendJsonResponse("error", ["message" => "Invalid input format"]);
             }
         } catch (\Exception $exception) {
             throw $exception;
@@ -696,7 +583,7 @@ class ProjectLeaderController extends ProjectMemberController
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture,
                 ],
-                "peer" => $this->projectLeader->getProjectMembersByRole($_SESSION["project_id"], "CLIENT") ? $this->projectLeader->getProjectData()[0] : [],
+                "peer" => $this->project->getProjectMembersByRole($_SESSION["project_id"], "CLIENT") ? $this->project->getProjectMemberData()[0] : [],
                 "project_id" => $_SESSION["project_id"],
             ]
         );
@@ -729,10 +616,10 @@ class ProjectLeaderController extends ProjectMemberController
                     id: $this->user->getUserData()->id,
                     initiator: "LEADER"
                 ),
-                "clients_of_the_project" => $this->projectLeader->getProjectMembersByRole(
+                "clients_of_the_project" => $this->project->getProjectMembersByRole(
                     project_id: $_SESSION["project_id"],
                     role: "CLIENT"
-                ) ? $this->projectLeader->getProjectData() : [],
+                ) ? $this->project->getProjectMemberData() : [],
                 "message" => "Successfully retrieved"
             ]
         );
@@ -764,9 +651,9 @@ class ProjectLeaderController extends ProjectMemberController
     {
         try {
             $args["leader_id"] = $this->user->getUserData()->id;
-            if ($this->projectLeader->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "CLIENT")) {
-                if (!empty($this->projectLeader->getProjectData())) {
-                    $args["client_id"] = $this->projectLeader->getProjectData()[0]->id;
+            if ($this->project->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "CLIENT")) {
+                if (!empty($this->project->getProjectMemberData())) {
+                    $args["client_id"] = $this->project->getProjectMemberData()[0]->id;
                     $returned = $this->conferenceController->scheduleConference(args: $args);
                     if (is_bool($returned) && $returned) {
                         $this->sendJsonResponse(status: "success", content: [

@@ -57,7 +57,7 @@ class UserController extends Controller
     /**
      * @throws Exception
      */
-    public function defaultAction(Object|array|string|int $optional = null)
+    public function defaultAction(Object|array|string|int $optional = null): void
     {
         $data = array();
         // get relevant projects
@@ -111,7 +111,7 @@ class UserController extends Controller
         );
     }
 
-    public function createProject(array $args = array())
+    public function createProject(array $args = array()): void
     {
         $payload = $this->userAuth->getCredentials(); // get the payload content
 
@@ -142,7 +142,7 @@ class UserController extends Controller
         }
     }
 
-    public function viewProjects()
+    public function viewProjects(): void
     {
         try {
             $payload = $this->userAuth->getCredentials(); // get the payload content
@@ -164,7 +164,7 @@ class UserController extends Controller
         }
     }
 
-    public function goToProject(array $data)
+    public function goToProject(array $data): void
     {
         try {
             $payload = $this->userAuth->getCredentials(); // get the payload content
@@ -265,7 +265,7 @@ class UserController extends Controller
         }
     }
 
-    public function viewProfile()
+    public function viewProfile(): void
     {
         try {
             $user_data = $this->user->getUserData();
@@ -295,7 +295,7 @@ class UserController extends Controller
         }
     }
 
-    public function uploadProfilePicture()
+    public function uploadProfilePicture(): void
     {
         // perform additional checks and other validations before giving data to this function
         // and also make sure to construct an appropriate file name for storing the file
@@ -329,7 +329,7 @@ class UserController extends Controller
         }
     }
 
-    public function editProfile(array $args = array())
+    public function editProfile(array $args = array()): void
     {
         try {
             $old_user_info = $this->user->getUserData();
@@ -400,16 +400,13 @@ class UserController extends Controller
         }
     }
 
-    public function getUserData()
+    public function getUserData(): array|object|null
     {
-        if ($this->user) {
-            return $this->user->getUserData();
-        }
-        return null;
+        return $this->user->getUserData();
     }
 
 
-    public function userJoinOnProject()
+    public function userJoinOnProject(): void
     {
         $projectId = $_GET['data1'];
         $notificationId = $_GET['data2'];
@@ -465,10 +462,6 @@ class UserController extends Controller
             status: "success",
         );
     }
-    // this function will be used to generate reports
-    public function generateReport()
-    {
-    }
 
     // change the user password
     //
@@ -478,7 +471,7 @@ class UserController extends Controller
     // for the put request, need the following format
     // ["new_password" => "new password of the user", "re_entered_new_password" => "re entered new password of the user"]
     // displaying of the popup should be handled by the front end
-    public function changePassword(array $args)
+    public function changePassword(array $args): void
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // verify the current password 

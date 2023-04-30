@@ -12,6 +12,7 @@ class Client implements Model
     private CrudUtil $crud_util;
     private object|array|int $project_data;
     private object|array $message_data;
+    private Forum $forum;
 
     public function __construct(string|int $project_id = null)
     {
@@ -115,90 +116,13 @@ class Client implements Model
         }
     }
 
-    public function getProjectMembersByRole(string|int $project_id, string $role): bool
-    {
-        if ($project_id && $role) {
-            try {
-                // get the details of the clients
-                $sql_string = "SELECT u.username AS username, u.profile_picture AS profile_picture, p_j.role AS role FROM project_join p_j JOIN user u ON p_j.member_id = u.id WHERE p_j.project_id = :project_id AND p_j.role = :role";
-                $this->crud_util = $this->crud_util->execute($sql_string, ["project_id" => $project_id, "role" => $role]);
-                if(!$this->crud_util->hasErrors()) {
-                    $this->project_data = $this->crud_util->getResults();
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (\Exception $exception) {
-                throw  $exception;
-            }
-        }
-        return false;
-    }
-
     public function getPDFData(string|int $project_id): bool
     {
         try {
-//             SELECT p.`created_by` AS `creator`, p.`project_name` AS `project_name`, p.`description` AS `description`,
-//                    p.`field` AS `project_field`, p.`start_on` AS `start_date`, p.`end_on` AS `end_date`,
-//                    p.`created_on` AS `created_on` FROM project p WHERE p.`id` = :project_id;
-
-//             SELECT t.`task_name` AS `name`, t.`description` AS `description`, t.`status` AS `status`, t.`task_type`
-//                    AS `type`, t_c.`date` AS `completed_date`, t_c.`time` AS `completed_time` FROM task t JOIN
-//             completedtask t_c ON t_c.`task_id` = t.`task_id` WHERE t.`project_id` = :project_id;
-
-            $project_data_sql_string = "SELECT
-                    p.`project_name` AS `project_name`,
-                    p.`description` AS `project_description`,
-                    p.`field` AS `project_field`,
-                    DATE(p.`start_on`) AS `start_date`,
-                    TIME(p.`start_on`) AS `start_time`,
-                    DATE(p.`end_on`) AS `end_date`,
-                    TIME(p.`end_on`) AS `end_time`,
-                    p.`created_on` AS `created_on`,
-                    CONCAT(u.`first_name`, ' ', u.`last_name`) AS `project_creator`,
-                    u.`position` AS `project_creator_position`
-                    FROM project p
-                    JOIN user u
-                    ON p.`created_by` = u.`id`
-                    WHERE p.`id` = :project_id";
-
-            $task_data_sql_string = "SELECT
-                    t.`task_name` AS `task_name`,
-                    t.`description` AS `task_description`,
-                    t.`status` AS `task_status`,
-                    t.`task_type` AS `task_type`,
-                    t_c.`date` AS `task_completed_date`,
-                    t_c.`time` AS `task_completed_time`
-                    FROM task t
-                    JOIN completedtask t_c
-                    ON t_c.`task_id` = t.`task_id`
-                    WHERE t.`project_id` = :project_id";
-
-            $data = [];
-            $this->crud_util->execute($project_data_sql_string, ["project_id" => $project_id]);
-
-            if (!$this->crud_util->hasErrors()) {
-
-                $data["project_data"] = (array) $this->crud_util->getFirstResult();
-                $this->crud_util->execute($task_data_sql_string, ["project_id" => $project_id]);
-
-                if (!$this->crud_util->hasErrors()) {
-
-                    $data["task_data"] = $this->crud_util->getResults();
-
-                    foreach ($data["task_data"] as $key => $task) {
-                        $data["task_data"][$key] = (array) $task;
-                    }
-
-                    $this->project_data = $data;
-                    return true;
-
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
+            $pdf = new PDF();
+            $returned = $pdf->getPDFData($project_id);
+            $this->project_data = $pdf->getData();
+            return $returned;
         } catch (Exception $exception) {
             throw $exception;
         }

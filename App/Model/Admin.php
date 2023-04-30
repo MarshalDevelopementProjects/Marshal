@@ -5,30 +5,31 @@ namespace App\Model;
 require __DIR__ . '/../../vendor/autoload.php';
 
 use App\CrudUtil\CrudUtil;
+use Exception;
 
 class Admin implements Model
 {
-    private $crud_util;
-    private $admin_data;
-    private $query_results;
+    private CrudUtil $crud_util;
+    private object|array|null $admin_data;
+    private object|array|null $query_results;
 
-    public function __construct(private string $id = "")
+    public function __construct(private readonly string $id = "")
     {
         try {
             $this->crud_util = new CrudUtil();
-            if ($id != "") {
+            if ($this->id != "") {
                 if (!$this->readAdmin(key: "id", value: $id)) {
-                    throw new \Exception("Admin cannot be found");
+                    throw new Exception("Admin cannot be found");
                 }
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
 
     // this will only be used for testing since admins aren't allowed
     // create other administrators
-    private function createAdmin(array $args = array())
+    private function createAdmin(array $args = array()): bool
     {
         if (!empty($args)) {
             $sql_string = "INSERT INTO `admin` (`id`, `username`, `first_name`, `last_name`, `email_address`, `password`, `street_address`, `city`, `country`, `phone_number`)
@@ -37,8 +38,11 @@ class Admin implements Model
             $args['password'] = password_hash($args['password'], PASSWORD_ARGON2ID);
             try {
                 $this->crud_util->execute($sql_string, $args);
-                return true;
-            } catch (\Exception $exception) {
+                if(!$this->crud_util->hasErrors())
+                    return true;
+                else
+                    return false;
+            } catch (Exception $exception) {
                 throw $exception;
             }
         }
@@ -47,7 +51,7 @@ class Admin implements Model
 
     // used to read administrator data a single user
     // this only performs a read by field
-    public function readAdmin(string $key, string|int $value)
+    public function readAdmin(string $key, string|int $value): bool
     {
         if ($key) {
             $sql_string = "SELECT * FROM `admin` WHERE `" . $key . "` = :" . $key;
@@ -60,7 +64,7 @@ class Admin implements Model
                 } else {
                     return false;
                 }
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 throw $exception;
             }
         }
@@ -68,43 +72,31 @@ class Admin implements Model
     }
 
     // create a single user
-    public function createUser(array $args = array())
+
+    /**
+     * @throws Exception
+     */
+    public function createUser(array $args = array()): bool
     {
-        if (!empty($args)) {
-            $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `phone_number`)
-                           VALUES (:username, :first_name, :last_name, :email_address, :password, :phone_number)";
-            $args['password'] = password_hash($args['password'], PASSWORD_ARGON2ID);
-            try {
-                $this->crud_util->execute($sql_string, $args);
-                return true;
-            } catch (\Exception $exception) {
-                throw $exception;
-            }
-        }
-        return false;
+        return $this->SupportCreateUser($args);
     }
 
     // create more than one user in one go
-    public function createUsers(array $args = array())
+
+    /**
+     * @throws Exception
+     */
+    public function createUsers(array $args = array()): bool
     {
         foreach ($args as $user) {
-            if (!empty($user)) {
-                $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `phone_number`)
-                           VALUES (:username, :first_name, :last_name, :email_address, :password, :phone_number)";
-                $user['password'] = password_hash($user['password'], PASSWORD_ARGON2ID);
-                try {
-                    $this->crud_util->execute($sql_string, $user);
-                    return true;
-                } catch (\Exception $exception) {
-                    throw $exception;
-                }
-            }
-            return false;
+            $op_result = $this->SupportCreateUser($user);
+            if (!$op_result) return false;
         }
+        return true;
     }
 
     // update a single user
-    public function updateUserDetails(string|int $id, array $args = array())
+    public function updateUserDetails(string|int $id, array $args = array()): bool
     {
         try {
             $sql_string = "UPDATE `user` SET
@@ -119,14 +111,17 @@ class Admin implements Model
                           WHERE `id` = :id";
             $args["id"] = $id;
             $this->crud_util->execute($sql_string, $args);
-            return true;
-        } catch (\Exception $exception) {
+            if (!$this->crud_util->hasErrors())
+                return true;
+            else
+                return false;
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
 
     // read a single user in the system 
-    public function readUser(string|int $key = "username", string $value)
+    public function readUser(string $key = "username", string|int $value): bool
     {
         if ($key) {
             $sql_string = "SELECT * FROM `user` WHERE `" . $key . "` = :" . $key;
@@ -139,7 +134,7 @@ class Admin implements Model
                 } else {
                     return false;
                 }
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 throw $exception;
             }
         }
@@ -147,7 +142,7 @@ class Admin implements Model
     }
 
     // read all the users in the system 
-    public function readAllUsers()
+    public function readAllUsers(): bool
     {
         // $sql_string = "SELECT `id`, `username`, `email_address` FROM `user`";
         $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture`,`user_state`,`phone_number`,`position`,`first_name`,`last_name` FROM `user`";
@@ -160,7 +155,7 @@ class Admin implements Model
             } else {
                 return false;
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
@@ -172,7 +167,7 @@ class Admin implements Model
     {
     }
 
-    public function getActiveUsers()
+    public function getActiveUsers(): bool
     {
         $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture`,`user_state` FROM `user` WHERE `user_state` = 'ONLINE'";
         try {
@@ -183,12 +178,12 @@ class Admin implements Model
             } else {
                 return false;
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
 
-    public function getOfflineUsers()
+    public function getOfflineUsers(): bool
     {
         $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture`,`user_state` FROM `user` WHERE `user_state` = 'OFFLINE'";
         try {
@@ -199,12 +194,12 @@ class Admin implements Model
             } else {
                 return false;
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
 
-    public function getBlockedUsers()
+    public function getBlockedUsers(): bool
     {
         $sql_string = "SELECT `id`, `username`, `email_address`,`access`,`user_status`,`joined_datetime`,`profile_picture` FROM `user` WHERE `access` = 'DISABLED'";
         try {
@@ -215,41 +210,47 @@ class Admin implements Model
             } else {
                 return false;
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
 
     // disable a particular user account
-    public function disableUserAccount(string $key, string|int $value)
+    public function disableUserAccount(string $key, string|int $value): bool
     {
         try {
             $sql_string = "UPDATE `user` SET
                           `access` = :access
                           WHERE `$key` = :$key";
             $this->crud_util->execute($sql_string, ["access" => "DISABLED", $key => $value]);
-            return true;
-        } catch (\Exception $exception) {
+            if (!$this->crud_util->hasErrors())
+                return true;
+            else
+                return false;
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
 
     // enable a particular user account
-    public function enableUserAccount(string $key, string|int $value)
+    public function enableUserAccount(string $key, string|int $value): bool
     {
         try {
             $sql_string = "UPDATE `user` SET
                           `access` = :access
                           WHERE `$key` = :$key";
             $this->crud_util->execute($sql_string, ["access" => "ENABLED", $key => $value]);
-            return true;
-        } catch (\Exception $exception) {
+            if (!$this->crud_util->hasErrors())
+                return true;
+            else
+                return false;
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
 
     // update admin details
-    private function updateAdminDetails(string|int $id, array $args = array())
+    private function updateAdminDetails(string|int $id, array $args = array()): bool
     {
         try {
             $sql_string = "UPDATE `admin` SET
@@ -265,8 +266,11 @@ class Admin implements Model
                           WHERE `id` = :id";
             $args["id"] = $id;
             $this->crud_util->execute($sql_string, $args);
-            return true;
-        } catch (\Exception $exception) {
+            if (!$this->crud_util->hasErrors())
+                return true;
+            else
+                return false;
+        } catch (Exception $exception) {
             throw $exception;
         }
     }
@@ -279,5 +283,29 @@ class Admin implements Model
     public function getQueryResults()
     {
         return $this->query_results;
+    }
+
+    /**
+     * @param mixed $user
+     * @return bool
+     * @throws Exception
+     */
+    private function SupportCreateUser(mixed $user): bool
+    {
+        if (!empty($user)) {
+            $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `phone_number`)
+                           VALUES (:username, :first_name, :last_name, :email_address, :password, :phone_number)";
+            $user['password'] = password_hash($user['password'], PASSWORD_ARGON2ID);
+            try {
+                $this->crud_util->execute($sql_string, $user);
+                if (!$this->crud_util->hasErrors())
+                    return true;
+                else
+                    return false;
+            } catch (Exception $exception) {
+                throw $exception;
+            }
+        }
+        return false;
     }
 }

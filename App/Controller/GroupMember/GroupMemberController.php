@@ -36,15 +36,6 @@ class GroupMemberController extends ProjectMemberController
         }
     }
 
-    public function defaultAction(Object|array|string|int $optional = null)
-    {
-    }
-
-    public function auth(): bool
-    {
-        return parent::auth();
-    }
-
     public function getGroupInfo()
     {
 
@@ -109,7 +100,7 @@ class GroupMemberController extends ProjectMemberController
 
         $condition = "id IN(SELECT message_id FROM `group_announcement` WHERE project_id = " . $_SESSION['project_id'] . ") ORDER BY `stamp` LIMIT 100";
 
-        $announcements = $messageController->recieve($condition);
+        $announcements = $messageController->receive($condition);
         foreach ($announcements as $announcement) {
             // add sender profile and announcement heading
             $sender = $user->readMember("id", $announcement->sender_id);
@@ -210,7 +201,7 @@ class GroupMemberController extends ProjectMemberController
             $messageController = new MessageController();
 
             $condition = "id IN(SELECT message_id FROM `group_task_feedback_message` WHERE task_id =" . $task_id . " AND project_id = " . $_SESSION['project_id'] . " AND group_id = " . $_SESSION['group_id'] . ") ORDER BY `stamp` LIMIT 100";
-            $feedbackMessages = $messageController->recieve($condition);
+            $feedbackMessages = $messageController->receive($condition);
 
             foreach ($feedbackMessages as $feedback) {
                 if ($feedback->sender_id != $this->user->getUserData()->id) {
@@ -239,7 +230,7 @@ class GroupMemberController extends ProjectMemberController
 
     // $args must follow this format
     // ["message" => "content of the message"]
-    public function postMessageToGroupForum(array $args)
+    public function postMessageToGroupForum(array $args): void
     {
         try {
             if (!empty($args) && array_key_exists("message", $args)) {
@@ -260,7 +251,7 @@ class GroupMemberController extends ProjectMemberController
         }
     }
 
-    public function getGroupForumMessages()
+    public function getGroupForumMessages(): void
     {
         try {
             if ($this->groupMember->getGroupForumMessages(project_id: $_SESSION["project_id"])) {
@@ -275,7 +266,7 @@ class GroupMemberController extends ProjectMemberController
 
     // $args must follow this format
     // ["task_id" => "TaskID", "message" => "content of the message"]
-    public function postMessageToGroupTaskFeedback(array $args)
+    public function postMessageToGroupTaskFeedback(array $args): void
     {
         try {
             if (!empty($args) && array_key_exists("message", $args) && array_key_exists("task_id", $args)) {
@@ -298,7 +289,7 @@ class GroupMemberController extends ProjectMemberController
 
     // $args must follow this format
     // ["task_id" => "TaskID", "message" => "content of the message"]
-    public function getGroupTaskFeedbackMessages(array $args)
+    public function getGroupTaskFeedbackMessages(array $args): void
     {
         try {
             if (array_key_exists("task_id", $args) && !empty($args["task_id"])) {

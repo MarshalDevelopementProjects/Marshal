@@ -6,6 +6,7 @@ use App\Controller\Authenticate\UserAuthController;
 use App\Controller\Conference\ConferenceController;
 use App\Controller\User\UserController;
 use App\Model\Client;
+use App\Model\Project;
 use Core\PdfGenerator;
 use Exception;
 
@@ -15,30 +16,24 @@ class ClientController extends UserController
 {
     private Client $client;
 
+    private Project $project;
+
     private ConferenceController $conferenceController;
 
     public function __construct()
     {
         try {
             parent::__construct();
-            $this->conferenceController = new ConferenceController();
             if (array_key_exists("project_id", $_SESSION)) {
                 $this->client = new Client($_SESSION["project_id"]);
+                $this->project = new Project($this->user->getUserData()->id, $_SESSION["project_id"]);
+                $this->conferenceController = new ConferenceController();
             } else {
                 throw new Exception("Bad request missing arguments");
             }
         } catch (\Exception $exception) {
             throw $exception;
         }
-    }
-
-    public function defaultAction(Object|array|string|int $optional = null)
-    {
-    }
-
-    public function auth(): bool
-    {
-        return parent::auth();
     }
 
    // save the message to the project table
@@ -98,7 +93,7 @@ class ClientController extends UserController
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture,
                 ],
-                "peer" => $this->client->getProjectMembersByRole($_SESSION["project_id"], "LEADER") ? $this->client->getProjectData()[0] : [],
+                "peer" => $this->project->getProjectMembersByRole($_SESSION["project_id"], "LEADER") ? $this->project->getProjectMemberData()[0] : [],
                 "project_id" => $_SESSION["project_id"],
             ]
         );
@@ -118,6 +113,7 @@ class ClientController extends UserController
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [
+                "message" => "Successfully retrieved",
                 "user_data" => [
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture
@@ -131,11 +127,10 @@ class ClientController extends UserController
                     id: $this->user->getUserData()->id,
                     initiator: "CLIENT"
                 ),
-                "leaders_of_the_project" => $this->client->getProjectMembersByRole(
+                "leaders_of_the_project" => $this->project->getProjectMembersByRole(
                     project_id: $_SESSION["project_id"],
                     role: "LEADER"
-                ) ? $this->client->getProjectData() : [],
-                "message" => "Successfully retrieved"
+                ) ? $this->project->getProjectMemberData() : [],
             ]
         );
     }
@@ -150,9 +145,9 @@ class ClientController extends UserController
     {
         try {
             $args["client_id"] = $this->user->getUserData()->id;
-            if($this->client->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "LEADER")) {
-                if (!empty($this->client->getProjectData())) {
-                    $args["leader_id"] = $this->client->getProjectData()[0]->id;
+            if($this->project->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "LEADER")) {
+                if (!empty($this->project->getProjectMemberData())) {
+                    $args["leader_id"] = $this->project->getProjectMemberData()[0]->id;
                     $returned = $this->conferenceController->scheduleConference(args: $args);
                     if (is_bool($returned) && $returned) {
                         $this->sendJsonResponse(status: "success", content: [

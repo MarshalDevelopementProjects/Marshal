@@ -23,7 +23,7 @@ class AdminAuthController extends Token
         $this->errors = array();
     }
 
-    public function onAdminLogin(array $credentials = array())
+    public function onAdminLogin(array $credentials = array()): void
     {
         if ($this->isLogged()) {
             session_start();
@@ -96,7 +96,7 @@ class AdminAuthController extends Token
         }
     }
 
-    public function adminLogin(array $credentials = array())
+    public function adminLogin(array $credentials = array()): bool
     {
         if (!empty($credentials)) {
             try {
@@ -188,7 +188,7 @@ class AdminAuthController extends Token
         }
     }
 
-    public function logout()
+    public function logout(): void
     {
         session_start();
         if ($this->isLogged()) {
@@ -221,12 +221,12 @@ class AdminAuthController extends Token
         }
     }
 
-    protected function sendResponse(int|string $view, string $status, array $content = array())
+    protected function sendResponse(int|string $view, string $status, array $content = array()): void
     {
         Response::sendResponse(view: $view, status: $status, content: $content);
     }
 
-    protected function sendJsonResponse(string $status, array $content = array())
+    protected function sendJsonResponse(string $status, array $content = array()): void
     {
         Response::sendJsonResponse(status: $status, content: $content);
     }

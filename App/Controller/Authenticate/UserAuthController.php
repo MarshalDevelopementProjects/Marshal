@@ -28,7 +28,7 @@ class UserAuthController extends Token
     /**
      * @throws Exception
      */
-    public function onUserLogin(array $credentials = array())
+    public function onUserLogin(array $credentials = array()): void
     {
         if ($this->isLogged()) {
             session_start();
@@ -157,7 +157,7 @@ class UserAuthController extends Token
     /**
      * @throws Exception
      */
-    public function onUserSignup(array $user_info = array())
+    public function onUserSignup(array $user_info = array()): void
     {
         if ($this->isLogged()) {
             header("Location: http://localhost/public/user/dashboard");
@@ -167,7 +167,7 @@ class UserAuthController extends Token
         }
     }
 
-    public function userSignup(array $params = array())
+    public function userSignup(array $params = array()): void
     {
         if (!empty($params)) {
             try {
@@ -263,7 +263,7 @@ class UserAuthController extends Token
         }
     }
 
-    public function logout()
+    public function logout(): void
     {
         session_start();
         if ($this->isLogged()) {
@@ -303,12 +303,12 @@ class UserAuthController extends Token
         }
     }
 
-    protected function sendResponse(int|string $view, string $status, array $content = array())
+    protected function sendResponse(int|string $view, string $status, array $content = array()): void
     {
         Response::sendResponse(view: $view, status: $status, content: $content);
     }
 
-    protected function sendJsonResponse(string $status, array $content = array())
+    protected function sendJsonResponse(string $status, array $content = array()): void
     {
         Response::sendJsonResponse(status: $status, content: $content);
     }
@@ -318,7 +318,7 @@ class UserAuthController extends Token
     // "email_address" => "user email address",
     // "verification_code" => "verification code"
     // ]
-    public function verifyUserEmailOnSignUp(array $args)
+    public function verifyUserEmailOnSignUp(array $args): void
     {
         if (!empty($args)) {
             try {
@@ -369,7 +369,7 @@ class UserAuthController extends Token
 
     // send an email then get the code check the code
     // check whether the user is verified and have access
-    public function forgotPasswordServePage()
+    public function forgotPasswordServePage(): void
     {
         $this->sendResponse(
             view: "/user/forgotpassword.html",
@@ -378,7 +378,7 @@ class UserAuthController extends Token
         );
     }
 
-    public function sendVerificationOnForgotPassword(array $args)
+    public function sendVerificationOnForgotPassword(array $args): void
     {
         // verify the username and the email address
         // on the front end ask the user to enter the username and the email address
@@ -437,10 +437,10 @@ class UserAuthController extends Token
                 }
             } catch (Exception $exception) {
                 throw $exception;
-                $this->sendJsonResponse(
+                /*$this->sendJsonResponse(
                     status: "error",
                     content: array("message" => "User with the provided email cannot be found")
-                );
+                );*/
             }
         } else {
             $this->sendJsonResponse(
@@ -455,7 +455,7 @@ class UserAuthController extends Token
     // "email_address" => "user email address",
     // "verification_code" => "verification code"
     // ]
-    public function verifyCodeOnForgotPassword(array $args)
+    public function verifyCodeOnForgotPassword(array $args): void
     {
         if (
             array_key_exists("email_address", $args) &&
@@ -489,7 +489,7 @@ class UserAuthController extends Token
         }
     }
 
-    public function updateUserPasswordOnForgotPassword(array $args)
+    public function updateUserPasswordOnForgotPassword(array $args): void
     {
         if (
             array_key_exists("email_address", $args) &&

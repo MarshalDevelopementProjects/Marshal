@@ -112,7 +112,7 @@ class Project implements Model
             throw $exception;
         }
     }
-    public function joinProject(array $args = array())
+    public function joinProject(array $args = array()): bool
     {
         $sql_string = "INSERT INTO project_join(`project_id`, `member_id`, `role`, `joined`) VALUES (:project_id, :member_id, :role, :joined)";
 
@@ -154,7 +154,8 @@ class Project implements Model
         }
     }
 
-    public function getProjectUsers(string $condition){
+    public function getProjectUsers(string $condition): bool|array
+    {
         $sql = "SELECT * FROM project_join " . $condition;
 
         // var_dump($sql);
@@ -180,108 +181,10 @@ class Project implements Model
         throw new \Exception("Not implemented yet");
     }
 
-    public function getProjectData()
+    public function getProjectData(): object|array|null
     {
         return $this->project_data;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * @throws Exception
@@ -310,6 +213,27 @@ class Project implements Model
             throw $exception;
         }
     }
+
+    public function getProjectMembersByRole(string|int $project_id, string $role): bool
+    {
+        if ($project_id && $role) {
+            try {
+                // get the details of the clients
+                $sql_string = "SELECT u.username AS username, u.profile_picture AS profile_picture, p_j.role AS role FROM project_join p_j JOIN user u ON p_j.member_id = u.id WHERE p_j.project_id = :project_id AND p_j.role = :role";
+                $this->crud_util = $this->crud_util->execute($sql_string, ["project_id" => $project_id, "role" => $role]);
+                if(!$this->crud_util->hasErrors()) {
+                    $this->project_member_data = $this->crud_util->getResults();
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (\Exception $exception) {
+                throw  $exception;
+            }
+        }
+        return false;
+    }
+
 
     public function getProjectMemberData(): array|null|object|bool
     {
