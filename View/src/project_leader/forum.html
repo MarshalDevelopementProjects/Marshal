@@ -186,7 +186,7 @@
     </div>
 
     <script>
-        var jsonData = JSON.parse('<?= $data; ?>');
+        var jsonData = JSON.parse('<?= $data; ?>'.replace(/'/g, '\\"'));
     </script>
     <script src="/View/js/project_leader/forum.js"></script>
     <script src="/View/js/user/sidebar.js"></script>

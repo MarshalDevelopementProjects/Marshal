@@ -688,15 +688,16 @@ class ProjectLeaderController extends ProjectMemberController
     {
         // TODO: Depending on the conference user want to join redirect him
         $this->sendResponse(
-            view: "/user/meeting.html",
+            view: "/user/meeting_page/meeting.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [
                 "user_data" => [
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture,
-                    "peer" => $this->projectLeader->getProjectMembersByRole($_SESSION["project_id"], "CLIENT")
-                ]
+                ],
+                "peer" => $this->projectLeader->getProjectMembersByRole($_SESSION["project_id"], "CLIENT") ? $this->projectLeader->getProjectData()[0] : [],
+                "project_id" => $_SESSION["project_id"],
             ]
         );
     }
@@ -711,7 +712,7 @@ class ProjectLeaderController extends ProjectMemberController
     public function gotoConferenceScheduler(): void
     {
         $this->sendResponse(
-            view: "/project_leader/conference_scheduler.html",
+            view: "/user/meeting_scheduler/meeting_schedule_page.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [

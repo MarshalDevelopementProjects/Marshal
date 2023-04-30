@@ -90,15 +90,16 @@ class ClientController extends UserController
     {
         // TODO: Depending on the conference user want to join redirect him
         $this->sendResponse(
-            view: "/user/meeting.html",
+            view: "/user/meeting_page/meeting.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [
                 "user_data" => [
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture,
-                    "peer" => $this->client->getProjectMembersByRole($_SESSION["project_id"], "LEADER")
-                ]
+                ],
+                "peer" => $this->client->getProjectMembersByRole($_SESSION["project_id"], "LEADER") ? $this->client->getProjectData()[0] : [],
+                "project_id" => $_SESSION["project_id"],
             ]
         );
     }
@@ -113,7 +114,7 @@ class ClientController extends UserController
     public function gotoConferenceScheduler(): void
     {
         $this->sendResponse(
-            view: "/user/meeting_scheduler.html",
+            view: "/user/meeting_page/meeting.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [

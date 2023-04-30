@@ -1,8 +1,13 @@
+const ProfilePictureImg = document.getElementById('profile-picture-img');
 const fullScreenBtn = document.getElementById("full-screen-btn");
 const normalScreenBtn = document.getElementById("normal-screen-btn");
 const container1 = document.querySelector(".container-1");
 const container2 = document.querySelector(".container-2");
 const videoContainer2 = document.querySelector(".video-container-2");
+
+const userData = jsonData.user_data;
+console.log(userData);
+ProfilePictureImg.setAttribute("src", userData.profile_picture);
 
 fullScreenBtn.addEventListener("click", function() {
   container1.style.width = "50%";
