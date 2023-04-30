@@ -235,7 +235,7 @@ class GroupLeaderController extends GroupMemberController
                 "project_id" => $_SESSION["project_id"],
                 "group_id" => $_SESSION["group_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture],
-                "messages" => $this->groupLeader->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"]) ? $this->groupLeader->getMessageData() : [],
+                "messages" => $this->forum->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"]) ? $this->forum->getMessageData() : [],
             ]
         );
     }
@@ -249,7 +249,7 @@ class GroupLeaderController extends GroupMemberController
         try {
             if (!empty($args) && array_key_exists("message", $args)) {
                 if (!empty($args["message"])) {
-                    if ($this->groupLeader->saveGroupFeedbackMessage(id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], msg: $args["message"])) {
+                    if ($this->forum->saveGroupFeedbackMessage(sender_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"], msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("error", ["message" => "No such group!"]);

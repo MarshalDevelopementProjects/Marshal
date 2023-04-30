@@ -19,7 +19,6 @@ require __DIR__ . '/../../../vendor/autoload.php';
 
 class ProjectLeaderController extends ProjectMemberController
 {
-    private ProjectLeader $projectLeader;
     private ConferenceController $conferenceController;
 
     public function __construct()
@@ -27,7 +26,6 @@ class ProjectLeaderController extends ProjectMemberController
         try {
             parent::__construct();
             if (array_key_exists("project_id", $_SESSION)) {
-                $this->projectLeader = new ProjectLeader($_SESSION["project_id"]);
                 $this->conferenceController = new ConferenceController();
             } else {
                 throw new Exception("Bad request missing arguments");
@@ -70,8 +68,8 @@ class ProjectLeaderController extends ProjectMemberController
             $data += array("profile" => $user->getUserData()->profile_picture);
         }
 
-        if ($this->projectLeader->getProjectFeedbackMessages()) {
-            $data["feedback_messages"] = $this->projectLeader->getMessageData();
+        if ($this->forum->getProjectFeedbackMessages($_SESSION["project_id"])) {
+            $data["feedback_messages"] = $this->forum->getMessageData();
         }
 
         $data["user_data"] = [
@@ -479,7 +477,7 @@ class ProjectLeaderController extends ProjectMemberController
         try {
             if (!empty($args) && array_key_exists("message", $args)) {
                 if (!empty($args["message"])) {
-                    if ($this->projectLeader->saveProjectFeedbackMessage(id: $this->user->getUserData()->id, msg: $args["message"])) {
+                    if ($this->forum->saveProjectFeedbackMessage(sender_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
@@ -499,8 +497,8 @@ class ProjectLeaderController extends ProjectMemberController
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         try {
-            if ($this->projectLeader->getProjectFeedbackMessages()) {
-                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectLeader->getMessageData() ?? []]);
+            if ($this->forum->getProjectFeedbackMessages(project_id: $_SESSION["project_id"])) {
+                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->forum->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => "Some error occurred"]);
             }
@@ -521,7 +519,7 @@ class ProjectLeaderController extends ProjectMemberController
         try {
             if (!empty($args) && array_key_exists("message", $args) && array_key_exists("group_id", $_SESSION)) {
                 if (!empty($args["message"])) {
-                    if ($this->projectLeader->saveGroupFeedbackMessage(id: $this->user->getUserData()->id, group_id: $_SESSION["group_id"], msg: $args["message"])) {
+                    if ($this->forum->saveGroupFeedbackMessage(sender_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"], msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("error", ["message" => "No such group!"]);
@@ -545,8 +543,8 @@ class ProjectLeaderController extends ProjectMemberController
         // TODO: SO THAT YOU WILL BE ABLE TO RETURN THE GROUP CANNOT BE FOUND ERROR
         try {
             if (array_key_exists("group_id", $_SESSION)) {
-                if ($this->projectLeader->getGroupFeedbackMessages($_SESSION["group_id"])) {
-                    $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectLeader->getMessageData() ?? []]);
+                if ($this->forum->getGroupFeedbackMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"])) {
+                    $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->forum->getMessageData() ?? []]);
                 } else {
                     $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
                 }

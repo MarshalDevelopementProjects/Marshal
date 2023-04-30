@@ -13,10 +13,7 @@ class MessageController
 {
     // public $key = 'mysecretkey12345';
 
-    /**
-     * @throws \Exception
-     */
-    public function encryptMessage($message): string
+    /*public function encryptMessage($message): string
     {
         $key = 'mysecretkey12345';
         $iv = random_bytes(openssl_cipher_iv_length('aes-256-cbc'));
@@ -39,7 +36,8 @@ class MessageController
 
         return openssl_decrypt($encrypted, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
     }
-    
+    */
+
     public function send(array $args, array $keys):bool{
         
         $message = new Message();
@@ -69,7 +67,4 @@ class MessageController
             throw $th;
         }
     }
-
-
-
 }

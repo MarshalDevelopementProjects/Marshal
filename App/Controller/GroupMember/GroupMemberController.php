@@ -40,11 +40,12 @@ class GroupMemberController extends ProjectMemberController
     {
 
         $group = new Group();
+        $task = new task();
         $groupData = array();
 
         // get group details
         $groupinfo = $group->getGroup(array("id" => $_SESSION['group_id']), array("id"));
-        $projectinfo = $project->getProject(array("id" => $_SESSION['project_id']));
+        $projectinfo = $this->project->getProject(array("id" => $_SESSION['project_id']));
         $taskinfo = $task->getTask(array("task_name" => $groupinfo->task_name, "project_id" => $_SESSION['project_id']), array("task_name", "project_id"));
 
         $groupData['groupDetails'] = array(
@@ -59,11 +60,11 @@ class GroupMemberController extends ProjectMemberController
         $user = new User();
 
         $userData = array();
-        if ($user->readUser("id", $payload->id)) {
+        if ($user->readUser("id", $this->getUserData()->id)) {
             $userData = $user->getUserData();
         }
         $groupData['userDetails'] = $userData->profile_picture;
-        $groupData['projectDetails'] = $project->getProject(array("id" => $_SESSION['project_id']))->project_name;
+        $groupData['projectDetails'] = $this->project->getProject(array("id" => $_SESSION['project_id']))->project_name;
 
         $groupData += parent::getTaskDeadlines();
 
@@ -86,7 +87,7 @@ class GroupMemberController extends ProjectMemberController
                 "project_id" => $_SESSION["project_id"],
                 "group_id" => $_SESSION["group_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
-                "messages" => $this->groupMember->getGroupForumMessages(project_id: $_SESSION["project_id"]) ? $this->groupMember->getMessageData() : [],
+                "messages" => $this->forum->getGroupForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"]) ? $this->forum->getMessageData() : [],
                 "members" =>  $this->groupMember->getGroupMembers() ? $this->groupMember->getGroupMemberData() : [],
             ]
         );

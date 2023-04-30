@@ -14,6 +14,7 @@ use App\Model\Group;
 use App\Model\User;
 use App\Model\File;
 use App\Model\Message;
+use App\Model\Forum;
 use Core\Validator\Validator;
 use Core\FileUploader;
 use Exception;
@@ -24,6 +25,8 @@ require __DIR__ . '/../../../vendor/autoload.php';
 class ProjectMemberController extends UserController
 {
     protected Project $project;
+
+    protected Forum $forum;
     private ProjectMember $projectMember;
 
     public function __construct()
@@ -33,6 +36,7 @@ class ProjectMemberController extends UserController
             if (array_key_exists("project_id", $_SESSION)) {
                 $this->project = new Project(member_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"]);
                 $this->projectMember = new ProjectMember($_SESSION["project_id"]);
+                $this->forum = new Forum();
             } else {
                 throw new Exception("Bad request missing arguments");
             }
@@ -439,7 +443,7 @@ class ProjectMemberController extends UserController
         if (!empty($args) && array_key_exists("message", $args)) {
             if (!empty($args["message"])) {
                 try {
-                    if ($this->projectMember->saveForumMessage(id: $this->user->getUserData()->id, msg: $args["message"])) {
+                    if ($this->forum->saveForumMessage(sender_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
@@ -460,8 +464,8 @@ class ProjectMemberController extends UserController
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         try {
-            if ($this->projectMember->getForumMessages()) {
-                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectMember->getMessageData() ?? []]);
+            if ($this->forum->getForumMessages(project_id: $_SESSION["project_id"])) {
+                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->forum->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => "Some error occurred"]);
             }
@@ -478,7 +482,7 @@ class ProjectMemberController extends UserController
         try {
             if (!empty($args) && array_key_exists("message", $args) && array_key_exists("task_id", $args)) {
                 if (!empty($args["message"])) {
-                    if ($this->projectMember->saveProjectTaskFeedbackMessage(id: $this->user->getUserData()->id, task_id: $args["task_id"], msg: $args["message"])) {
+                    if ($this->forum->saveProjectTaskFeedbackMessage(sender_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], task_id: $args["task_id"], msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
@@ -502,8 +506,8 @@ class ProjectMemberController extends UserController
         // TODO: SO THAT YOU WILL BE ABLE TO RETURN THE GROUP CANNOT BE FOUND ERROR
         try {
             if (array_key_exists("task_id", $args)) {
-                if ($this->projectMember->getProjectTaskFeedbackMessages($args["task_id"])) {
-                    $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectMember->getMessageData() ?? []]);
+                if ($this->forum->getProjectTaskFeedbackMessages(project_id: $_SESSION["project_id"], task_id: $args["task_id"])) {
+                    $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->forum->getMessageData() ?? []]);
                 } else {
                     $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
                 }
