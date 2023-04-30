@@ -242,17 +242,17 @@ class Forum implements Model
         }
     }
 
-    public function saveGroupTaskFeedbackMessage(string|int $id, string|int $project_id, string|int $group_id, string|int $task_id, string $msg): bool
+    public function saveGroupTaskFeedbackMessage(string|int $sender_id, string|int $project_id, string|int $group_id, string|int $task_id, string $msg): bool
     {
         try {
             // add the message to the message table first
             if (!empty($msg)) {
                 $sql_string = "INSERT INTO `message`(`sender_id`, `stamp`, `message_type`, `msg`) VALUES (:sender_id, :stamp, :message_type, :msg)";
                 $date_time = date('Y-m-d H:i:s');
-                $this->crud_util->execute($sql_string, array("sender_id" => $id, "stamp" => $date_time, "message_type" => "GROUP_TASK_FEEDBACK_MESSAGE", "msg" => $msg));
+                $this->crud_util->execute($sql_string, array("sender_id" => $sender_id, "stamp" => $date_time, "message_type" => "GROUP_TASK_FEEDBACK_MESSAGE", "msg" => $msg));
                 if (!$this->crud_util->hasErrors()) {
                     $sql_string = "SELECT `id` FROM `message` WHERE `sender_id` = :sender_id AND `stamp` = :stamp AND `message_type` = 'GROUP_TASK_FEEDBACK_MESSAGE'";
-                    $this->crud_util->execute($sql_string, array("sender_id" => $id, "stamp" => $date_time));
+                    $this->crud_util->execute($sql_string, array("sender_id" => $sender_id, "stamp" => $date_time));
                     if (!$this->crud_util->hasErrors()) {
                         $message = $this->crud_util->getFirstResult();
                         $sql_string = "INSERT INTO `group_task_feedback_message`(`message_id`, `project_id`, `group_id`,`task_id`) VALUES (:message_id, :project_id, :group_id,:task_id)";

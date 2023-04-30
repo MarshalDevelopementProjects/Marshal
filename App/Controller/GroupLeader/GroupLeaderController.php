@@ -271,8 +271,8 @@ class GroupLeaderController extends GroupMemberController
         // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
         // TODO: SO THAT YOU WILL BE ABLE TO RETURN THE GROUP CANNOT BE FOUND ERROR
         try {
-            if ($this->groupLeader->getGroupFeedbackForumMessages($_SESSION["project_id"])) {
-                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupLeader->getMessageData() ?? []]);
+            if ($this->forum->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"])) {
+                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->forum->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
             }
