@@ -182,11 +182,13 @@ body {
     /* top: 120px; */
     width: 140px;
     margin-top: 20px;
+    z-index: 100;
 }
 
 .list ul {
     margin: 0;
     padding: 0;
+    z-index: 100;
 }
 
 .list li {
@@ -205,12 +207,12 @@ body {
     -moz-user-select: none;
     align-items: center;
     justify-content: center;
+    z-index: 100;
 }
 
 .list li:hover {
     background-color: rgba(236, 82, 82, 0.1);
     border-radius: 8px;
-
 }
 
 .dots.active .container {
