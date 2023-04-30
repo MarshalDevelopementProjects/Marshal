@@ -1,3 +1,9 @@
+// Client profile picture img tag
+const UserProfilePictureImg = document.getElementById("profile-picture-img");
+if (jsonData.user_data && jsonData.user_data.profile_picture) {
+    UserProfilePictureImg.setAttribute("src", jsonData.user_data.profile_picture);
+}
+
 // calendor
 
 function lastMondayOfMonth(month, year) {
