@@ -322,7 +322,6 @@ function hangUpCall() {
         localVideo.removeAttribute("src");
         localVideo.removeAttribute("srcObject");
     }
-
 }
 
 // closing the streams(or stopping the streams), cleaning up and disposing of the RTCPeerConnection object
@@ -363,7 +362,7 @@ function closeVideoCallOfRemote() {
     const remoteVideo = document.getElementById("remote-video");
 
     if(peerConnection) {
-        peerConnection.ontrack = null;
+        /*peerConnection.ontrack = null;
         peerConnection.onremovetrack = null;
         peerConnection.onicecandidate = null;
         peerConnection.oniceconnectionstatechange = null;
@@ -374,14 +373,17 @@ function closeVideoCallOfRemote() {
         if (remoteVideo.srcObject) {
             remoteVideo.srcObject.getTracks().forEach((track) => track.stop());
         }
-
-
         peerConnection.close();
-        peerConnection = null;
+        peerConnection = null;*/
+
+        if (remoteVideo.srcObject) {
+            remoteVideo.srcObject.getTracks().forEach((track) => track.stop());
+        }
+        remoteVideo.removeAttribute("src");
+        remoteVideo.removeAttribute("srcObject");
     }
 
-    remoteVideo.removeAttribute("src");
-    remoteVideo.removeAttribute("srcObject");
+
 
     /*document.getElementById("hangup").disabled = true;
     remoteUsername = null;*/
