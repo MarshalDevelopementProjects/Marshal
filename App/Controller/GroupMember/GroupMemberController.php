@@ -49,6 +49,8 @@ class GroupMemberController extends ProjectMemberController
     {
 
         $group = new Group();
+        $project = new Project();
+        $task = new task();
         $groupData = array();
 
         // get group details
@@ -68,7 +70,7 @@ class GroupMemberController extends ProjectMemberController
         $user = new User();
 
         $userData = array();
-        if ($user->readUser("id", $payload->id)) {
+        if ($user->readUser("id", $this->user->getUserData()->id)) {
             $userData = $user->getUserData();
         }
         $groupData['userDetails'] = $userData->profile_picture;
