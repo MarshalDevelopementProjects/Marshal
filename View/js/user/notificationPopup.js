@@ -8,6 +8,8 @@ notificationPopupBtn.addEventListener('click', () => notificationPopup.classList
 notificationPopupCloseBtn.addEventListener('click', () => notificationPopup.classList.remove('active'));
 notificationPopup.addEventListener('click', () => notificationPopup.classList.remove('active'))
 
+$notifications = [];
+
 notificationPopup.addEventListener('click', () => {
     notificationPopup.classList.remove('active');
 });
