@@ -188,15 +188,65 @@ body {
 }
 
 .schedule-description {
-    font-size: 1rem;
+    font-size: .9rem;
     padding: 5px;
     padding-left: 0;
 }
 
-.schedule-date {
-    font-size: 1rem;
-    padding: 5px;
-    padding-left: 0;
+.schedule-date-time {
+    width:100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+.schedule-date-time .date-time-container{
+    display: flex;
+    width: 50%;
+    height: 50%;
+    align-items: center;
+    justify-content:flex-end;
+    /* background-color: antiquewhite; */
+}
+.schedule-date-time .date-time-container p{
+    padding: 3px;
+}
+.schedule-date-time .user-details{
+    width: 50%;
+    height: 50%;
+    /* background-color: aqua; */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.schedule-date-time p{
+    font-size:10px;
+}
+.schedule-date-time .user-details .user-profile{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.schedule-date-time .user-details .user-name{
+    display: flex;
+    justify-content:space-between;
+    padding-left: 20px;
+    /* padding-right:20px; */
+}
+.schedule-date-time .user-details .user-name p{
+    padding: 2px;
+}
+#status{
+    color: green;
+    padding-left: 10px;
+}
+.schedule-date-time .user-details .user-profile img{
+    width: 100%;
+    height: 100%;
 }
 
 .upmeeting-title-container {
