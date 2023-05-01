@@ -460,7 +460,7 @@ class ProjectLeaderController extends ProjectMemberController
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
                 "messages" => $this->projectLeader->getForumMessages() ? $this->projectLeader->getMessageData() : [],
                 "members" =>  $this->projectLeader->getProjectMembers() ? $this->projectLeader->getProjectMemberData() : [],
-            ]
+            ] + parent::getTaskDeadlines()
         );
     }
 

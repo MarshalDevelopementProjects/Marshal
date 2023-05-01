@@ -800,70 +800,70 @@ function showReviewPopup(taskDetails){
 }
 
 
-// build search engine
-const searchInput = document.querySelector('.search-box input'),
-    taskBoards = document.querySelector('.task-boards'),
-    searchResults = document.querySelector('.search-results');
+// // build search engine
+// const searchInput = document.querySelector('.search-box input'),
+//     taskBoards = document.querySelector('.task-boards'),
+//     searchResults = document.querySelector('.search-results');
 
-function getTaskNames(tasks){
-    var taskNames = [];
+// function getTaskNames(tasks){
+//     var taskNames = [];
     
-    tasks['todoTasks'].forEach(task =>{
-        taskNames.push(task['task_name'])
-    })
-    tasks['ongoingTasks'].forEach(task =>{
-        taskNames.push(task['task_name'])
-    })
-    tasks['reviewTasks'].forEach(task =>{
-        taskNames.push(task['task_name'])
-    })
-    tasks['doneTasks'].forEach(task =>{
-        taskNames.push(task['task_name'])
-    })
-    return taskNames
-}
+//     tasks['todoTasks'].forEach(task =>{
+//         taskNames.push(task['task_name'])
+//     })
+//     tasks['ongoingTasks'].forEach(task =>{
+//         taskNames.push(task['task_name'])
+//     })
+//     tasks['reviewTasks'].forEach(task =>{
+//         taskNames.push(task['task_name'])
+//     })
+//     tasks['doneTasks'].forEach(task =>{
+//         taskNames.push(task['task_name'])
+//     })
+//     return taskNames
+// }
 
-function getMatchedTaskNames(keyword){
-    let tasks = getTaskNames(jsonData['tasks'])
-    return tasks.filter(task => task.toLowerCase().startsWith(keyword.toLowerCase()))
-}
+// function getMatchedTaskNames(keyword){
+//     let tasks = getTaskNames(jsonData['tasks'])
+//     return tasks.filter(task => task.toLowerCase().startsWith(keyword.toLowerCase()))
+// }
 
-function getMatchedTasks(keyword){
-    let taskNames = getMatchedTaskNames(keyword)
-    let matchedtasks = []
+// function getMatchedTasks(keyword){
+//     let taskNames = getMatchedTaskNames(keyword)
+//     let matchedtasks = []
     
-    matchedtasks.push(jsonData['tasks']['todoTasks'].filter(task => taskNames.includes(task['task_name'])))
-    matchedtasks.push(jsonData['tasks']['ongoingTasks'].filter(task => taskNames.includes(task['task_name'])))
-    matchedtasks.push(jsonData['tasks']['reviewTasks'].filter(task => taskNames.includes(task['task_name'])))
-    matchedtasks.push(jsonData['tasks']['doneTasks'].filter(task => taskNames.includes(task['task_name'])))
+//     matchedtasks.push(jsonData['tasks']['todoTasks'].filter(task => taskNames.includes(task['task_name'])))
+//     matchedtasks.push(jsonData['tasks']['ongoingTasks'].filter(task => taskNames.includes(task['task_name'])))
+//     matchedtasks.push(jsonData['tasks']['reviewTasks'].filter(task => taskNames.includes(task['task_name'])))
+//     matchedtasks.push(jsonData['tasks']['doneTasks'].filter(task => taskNames.includes(task['task_name'])))
 
-    return matchedtasks
-}
+//     return matchedtasks
+// }
 
-function getSearchResults(keyword){
-    let code = ""
-    getMatchedTasks(keyword).forEach(board => {
-        code += getTodoTasksCode(board)
-    })
+// function getSearchResults(keyword){
+//     let code = ""
+//     getMatchedTasks(keyword).forEach(board => {
+//         code += getTodoTasksCode(board)
+//     })
 
-    searchResults.innerHTML = code
-}
+//     searchResults.innerHTML = code
+// }
 
-searchInput.addEventListener('click', () => {
-    taskBoards.classList.add('active');
-    searchResults.classList.add('active');
+// searchInput.addEventListener('click', () => {
+//     taskBoards.classList.add('active');
+//     searchResults.classList.add('active');
 
-    getSearchResults("")
-})
+//     getSearchResults("")
+// })
 
-taskBoards.addEventListener('click', () => {
-    taskBoards.classList.remove('active');
-    searchResults.classList.remove('active');
-    searchResults.innerHTML = ""
-    searchInput.value = ""
-})
+// taskBoards.addEventListener('click', () => {
+//     taskBoards.classList.remove('active');
+//     searchResults.classList.remove('active');
+//     searchResults.innerHTML = ""
+//     searchInput.value = ""
+// })
 
-searchInput.addEventListener('input', () => {
-    getSearchResults(searchInput.value)
-})
+// searchInput.addEventListener('input', () => {
+//     getSearchResults(searchInput.value)
+// })
 

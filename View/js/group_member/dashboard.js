@@ -350,204 +350,6 @@ function getDragAfterElement(board, y){
     }, {offset: Number.NEGATIVE_INFINITY}).element
 }
 
-
-
-// tasks.forEach(task => {
-//     task.addEventListener('click', event => {
-//         var position = event.clientX;
-
-//         // get task name
-//         task.classList.add('clicked');
-//         var taskName = document.querySelector('.clicked .top-task h4').innerText;
-//         var taskDetails;
-
-//         // check the board by position
-//         if(position > 292 && position < 514){
-//             taskDetails = getTaskDetails(todoTasks, taskName)
-//             const todoTaskDetails = document.querySelector('.TO-DO-task-details')
-
-//             let code = `<div class="top-bar">
-//                                 <h3>${taskDetails['task_name']}</h3>
-//                                 <p class="${taskDetails['priority']}">${taskDetails['priority']}</p>
-//                             </div>
-//                             <p class="task-details-description">${taskDetails['description']}</p>
-//                             <p class="task-details-deadline">Deadline : ${taskDetails['deadline'].split(' ')[0]}</p>
-
-//                             <div class="task-feedbacks">
-//                                 <p class="incomming-feedbacks"></p>
-//                                 <p class="outgoing-feedbacks"></p>
-//                                 <form action="#" method="post">
-//                                     <label for="feedbackMessage"></label>
-//                                     <input type="text" name="feedbackMessage" placeholder="Send something ..." disabled>
-//                                     <button disabled type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
-//                                 </form>
-//                             </div>
-//                             <div class="bottom">
-//                                 <input type="text" name="assignedMember" placeholder="Assign member ...">
-//                                 <div class="buttons">
-//                                     <a id="cancel-task-details" href="#">Cancel</a>
-//                                     <a id="pickup-task-btn" href="#">PickUp</a>
-//                                 </div>
-//                             </div>`
-            
-//             todoTaskDetails.innerHTML = code
-//             todoTaskDetails.classList.add('active')
-
-//             // assign memeber feature 
-//             const assignMemberInput = document.querySelector('.bottom input');
-
-//             assignMemberInput.addEventListener('keyup', (event) =>{
-//                 if (event.keyCode === 13) {
-                    
-//                     fetch("http://localhost/public/projectleader/assigntask", {
-//                         withCredentials: true,
-//                         credentials: "include",
-//                         mode: "cors",
-//                         method: "POST",
-//                         body: JSON.stringify({
-//                             "task_name" : taskDetails['task_name'],
-//                             "member_username" : assignMemberInput.value
-//                         })
-//                     })
-//                     .then(response => response.json())
-//                     .then(data => {
-//                         console.log(data);
-//                         todoTaskDetails.classList.remove('active')
-//                         location.reload();
-//                     })
-//                     .catch((error) => {
-//                         console.error(error)
-//                     });
-//                 }
-//             })
-
-//             const pickupTaskBtn = document.getElementById('pickup-task-btn')
-//             pickupTaskBtn.addEventListener('click', () => {
-//                 let draggedTaskName = task.firstElementChild.firstElementChild.textContent;
-//                 let newBoard = task.parentNode.parentNode.className.split(' ')[0].toUpperCase()
-
-//                 fetch("http://localhost/public/projectmember/pickuptask", {
-//                     withCredentials: true,
-//                     credentials: "include",
-//                     mode: "cors",
-//                     method: "POST",
-//                     body: JSON.stringify({
-//                         "task_name" : draggedTaskName.toString()
-//                     })
-//                 })
-//                 .then(response => response.json())
-//                 .then(data => {
-//                     console.log(data);
-//                     todoTaskDetails.classList.remove('active')
-//                     location.reload();
-//                 })
-//                 .catch((error) => {
-//                     console.error(error)
-//                 });
-//             })
-            
-//             const cancelTodoTaskDetails = document.getElementById('cancel-task-details')
-//             cancelTodoTaskDetails.addEventListener('click', () => todoTaskDetails.classList.remove('active'))
-
-//         }else if(position > 562 && position < 784){
-//             taskDetails = getTaskDetails(ongoingTasks, taskName)
-//             const todoTaskDetails = document.querySelector('.TO-DO-task-details')
-
-//             let code = `<div class="top-bar">
-//                                 <h3>${taskDetails['task_name']}</h3>
-//                                 <p class="${taskDetails['priority']}">${taskDetails['priority']}</p>
-//                             </div>
-//                             <p class="task-details-description">${taskDetails['description']}</p>
-//                             <p class="task-details-deadline">Deadline : ${taskDetails['deadline'].split(' ')[0]}</p>
-
-//                             <div class="task-feedbacks">
-//                                 <p class="incomming-feedbacks"></p>
-//                                 <p class="outgoing-feedbacks"></p>
-//                                 <form action="#" method="post">
-//                                     <label for="feedbackMessage"></label>
-//                                     <input type="text" name="feedbackMessage" placeholder="Send something ...">
-//                                     <button type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
-//                                 </form>
-//                             </div>
-//                             <div class="buttons">
-//                                 <a id="cancel-task-details" href="#">Cancel</a>
-//                                 <a href="#">Finish</a>
-//                             </div>`
-            
-//             todoTaskDetails.innerHTML = code
-//             todoTaskDetails.classList.add('active')
-            
-//             const cancelTodoTaskDetails = document.getElementById('cancel-task-details')
-//             cancelTodoTaskDetails.addEventListener('click', () => todoTaskDetails.classList.remove('active'))
-//         }else if(position > 832 && position < 1054){
-//             taskDetails = getTaskDetails(reviewTasks, taskName)
-//             const todoTaskDetails = document.querySelector('.TO-DO-task-details')
-
-//             let code = `<div class="top-bar">
-//                                 <h3>${taskDetails['task_name']}</h3>
-//                                 <p class="${taskDetails['priority']}">${taskDetails['priority']}</p>
-//                             </div>
-//                             <p class="task-details-description">${taskDetails['description']}</p>
-//                             <p class="task-details-deadline">Deadline : ${taskDetails['deadline'].split(' ')[0]}</p>
-
-//                             <div class="task-feedbacks">
-//                                 <p class="incomming-feedbacks"></p>
-//                                 <p class="outgoing-feedbacks"></p>
-//                                 <form action="#" method="post">
-//                                     <label for="feedbackMessage"></label>
-//                                     <input type="text" name="feedbackMessage" placeholder="Send something ...">
-//                                     <button type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
-//                                 </form>
-//                             </div>
-//                             <div class="buttons">
-                                
-//                                 <a href="#" style="margin-left: 100px">Continue</a>
-//                             </div>`
-            
-//             todoTaskDetails.innerHTML = code
-//             todoTaskDetails.classList.add('active')
-            
-//             const cancelTodoTaskDetails = document.querySelector('.buttons a')
-//             cancelTodoTaskDetails.addEventListener('click', () => todoTaskDetails.classList.remove('active'))
-//         }else if(position > 1102 && position < 1324){
-//             taskDetails = getTaskDetails(doneTasks, taskName)
-//             const todoTaskDetails = document.querySelector('.TO-DO-task-details')
-
-//             let code = `<div class="top-bar">
-//                                 <h3>${taskDetails['task_name']}</h3>
-//                                 <p class="${taskDetails['priority']}">${taskDetails['priority']}</p>
-//                             </div>
-//                             <p class="task-details-description">${taskDetails['description']}</p>
-//                             <p class="task-details-deadline">Deadline : ${taskDetails['deadline'].split(' ')[0]}</p>
-
-//                             <div class="task-feedbacks">
-//                                 <p class="incomming-feedbacks"></p>
-//                                 <p class="outgoing-feedbacks"></p>
-//                                 <form action="#" method="post">
-//                                     <label for="feedbackMessage"></label>
-//                                     <input disabled type="text" name="feedbackMessage" placeholder="Send something ...">
-//                                     <button disabled type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
-//                                 </form>
-//                             </div>
-//                             <div class="buttons">
-                                
-//                                 <a href="#" style="margin-left: 100px">Continue</a>
-//                             </div>`
-            
-//             todoTaskDetails.innerHTML = code
-//             todoTaskDetails.classList.add('active')
-            
-//             const cancelTodoTaskDetails = document.querySelector('.buttons a')
-//             cancelTodoTaskDetails.addEventListener('click', () => todoTaskDetails.classList.remove('active'))
-//         }
-
-//         console.log(taskDetails);
-
-//         task.classList.remove('clicked');
-//     })
-// })
-
-
 async function getFeedbacks(taskDetails, board){
 
     // console.log(taskDetails)
@@ -972,23 +774,21 @@ tasks.forEach(task => {
 })
 
 
+// set group details
+const groupName = document.getElementById('groupName');
+const groupDescription = document.getElementById('groupDescription');
+const groupStart = document.getElementById('groupStart');
+const groupEnd = document.getElementById('groupEnd');
 
-// create task popup
-
-const priority = document.querySelector('.priority'),
-btns = document.querySelector('.finish-created-task'),
-addTaskBtn = document.getElementById('add-task-btn'),
-addTaskPopup = document.querySelector('.create-task-popup'),
-cancelBtn = document.getElementById('cancel-task-btn'),
-createTaskBtn = document.getElementById('create-task-btn'),
-actualPriority = document.querySelector('.select-priority input');
+groupName.innerText = jsonData['groupDetails']['name']
+groupDescription.innerText = jsonData['groupDetails']['description']
+groupStart.innerHTML = "Start date : " + jsonData['groupDetails']['start_date'] + '<span>Deadline : ' + jsonData['groupDetails']['end_date'] + '</span>'
 
 
-addTaskBtn.addEventListener('click', () => {
-    addTaskPopup.classList.add('active')
-})
+// set user profile
+const profileImage = document.querySelector('.profile-image');
+profileImage.src = jsonData['userDetails']
 
-cancelBtn.addEventListener('click', () => {
-    addTaskPopup.classList.remove('active')
-})
-
+// set project name
+const projectName = document.getElementById('projectName');
+projectName.innerText = jsonData['projectDetails']

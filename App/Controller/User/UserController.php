@@ -286,7 +286,7 @@ class UserController extends Controller
                         "commits"=> $this->user->getCommit($user_data->id)
                     ),
                     "other_info" => array()
-                )
+                )+$this->getTaskDeadlines()
             );
         } catch (Exception $exception) {
             $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));

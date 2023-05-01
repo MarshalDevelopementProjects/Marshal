@@ -579,6 +579,10 @@ body{
     display: flex;
     margin: 3px 0 0 5px;
 }
+.task-boards.active{
+    opacity: 0.2;
+    /* background-color: #111; */
+}
 
 .task-boards .board{
     height: fit-content;

@@ -1,16 +1,18 @@
-// calendor 
+
 console.log(jsonData['taskDeadlines'])
 // get task deadline dates 
 
 let deadlineDays = {}
 
-jsonData['taskDeadlines'].forEach(deadline => {
-    if(deadlineDays[deadline['deadline']] == undefined){
-        deadlineDays[deadline['deadline']] = [deadline['task_name']];
-    }else{
-        deadlineDays[deadline['deadline']].push(deadline['task_name'])
-    }
-});
+if(jsonData['taskDeadlines']){
+    jsonData['taskDeadlines'].forEach(deadline => {
+        if(deadlineDays[deadline['deadline']] == undefined){
+            deadlineDays[deadline['deadline']] = [deadline['task_name']];
+        }else{
+            deadlineDays[deadline['deadline']].push(deadline['task_name'])
+        }
+    });
+}
 
 function generateDateFormat(date){
     let currentDate = new Date()
