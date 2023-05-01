@@ -27,12 +27,13 @@ class Conference
             try {
                 $sql_string = "INSERT INTO `conference`(
                          `conf_name`,
+                         `conf_description`,
                          `project_id`,
                          `leader_id`,
                          `client_id`,
                          `on`,
                          `at`)
-                          VALUES (:conf_name, :project_id, :leader_id, :client_id, :on, :at)";
+                          VALUES (:conf_name, :conf_description, :project_id, :leader_id, :client_id, :on, :at)";
                 $this->crud_util->execute($sql_string, $args);
                 if(!$this->crud_util->hasErrors()) {
                     return true;
@@ -49,13 +50,15 @@ class Conference
 
     // TODO: ONLY FOR THE CLIENT AND THE PROJECT LEADER
     // TODO: PERHAPS EXTEND FOR GROUP MEMBERS AS WELL
-    public function getScheduledConferences(string|int $id, string $role): bool
+    public function getScheduledConferences(string|int $id, string $role, string $with = ""): bool
     {
         try{
             if ($role === "LEADER" ) {
                 $role = "leader_id";
+                $with = "client_id";
             } else if ($role === "CLIENT") {
                 $role = "client_id";
+                $with = "leader_id";
             } else {
                 return false;
             }
@@ -79,10 +82,12 @@ class Conference
                                 u.`username` AS `caller_username`,
                                 p.`project_name`AS `project_name`,
                                 c.`on` AS `scheduled_date`,
+                                c.`conf_name` AS `scheduled_name`,
+                                c.`conf_description` AS `scheduled_description`,
                                 c.`at` AS `scheduled_time`,
                                 c.`status` AS `meeting_status`
                            FROM `conference` c
-                               JOIN `user` u ON c.`" . $role . "` = u.`id`
+                               JOIN `user` u ON c.`" . $with . "` = u.`id`
                                JOIN `project` p ON p.`id` = c.`project_id`
                                WHERE c.`" . $role . "` = :id";
             $this->crud_util = $this->crud_util->execute($sql_string, array("id" => $id));
@@ -116,13 +121,15 @@ class Conference
         } return false;
     }
 
-    public function getScheduledConferencesByProject(int|string $id, int|string $project_id, string $role): bool|array
+    public function getScheduledConferencesByProject(int|string $id, int|string $project_id, string $role, string $with = ""): bool|array
     {
         try{
             if ($role === "LEADER" ) {
                 $role = "leader_id";
+                $with = "client_id";
             } else if ($role === "CLIENT") {
                 $role = "client_id";
+                $with = "leader_id";
             } else {
                 return false;
             }
@@ -131,11 +138,13 @@ class Conference
                                 u.`profile_picture` AS `caller_dp`,
                                 u.`username` AS `caller_username`,
                                 p.`project_name`AS `project_name`,
+                                c.`conf_name` AS `scheduled_name`,
+                                c.`conf_description` AS `scheduled_description`,
                                 c.`on` AS `scheduled_date`,
                                 c.`at` AS `scheduled_time`,
                                 c.`status` AS `meeting_status`
                            FROM `conference` c
-                               JOIN `user` u ON c.`" . $role . "` = u.`id`
+                               JOIN `user` u ON c.`" . $with . "` = u.`id`
                                JOIN `project` p ON p.`id` = c.`project_id`
                                WHERE c.`" . $role . "` = :id AND c.`project_id` = " . ":project_id";
             $this->crud_util = $this->crud_util->execute($sql_string, array("id" => $id, "project_id" => $project_id));

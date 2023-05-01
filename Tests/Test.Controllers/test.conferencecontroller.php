@@ -65,7 +65,7 @@ function testChangeConferenceStatus() {
 function testGetScheduledConferenceDetailsByProject() {
     $conferenceController = new ConferenceController();
     echo "<pre>";
-    var_dump($conferenceController->getScheduledConferenceDetailsByProject(1, 1,"LEADER")); // To test the leader queries try this
+    var_dump($conferenceController->getScheduledConferenceDetailsByProject(1, 4,"LEADER")); // To test the leader queries try this
     echo "</pre>";
 }
 

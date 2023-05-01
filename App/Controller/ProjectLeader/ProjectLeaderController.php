@@ -688,7 +688,7 @@ class ProjectLeaderController extends ProjectMemberController
     {
         // TODO: Depending on the conference user want to join redirect him
         $this->sendResponse(
-            view: "/user/meeting_page/meeting.html",
+            view: "/user/meeting.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [
@@ -712,10 +712,11 @@ class ProjectLeaderController extends ProjectMemberController
     public function gotoConferenceScheduler(): void
     {
         $this->sendResponse(
-            view: "/user/meeting_scheduler/meeting_schedule_page.html",
+            view: "/project_leader/meeting_schedule_page.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [
+                "message" => "Successfully retrieved",
                 "user_data" => [
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture
@@ -733,7 +734,6 @@ class ProjectLeaderController extends ProjectMemberController
                     project_id: $_SESSION["project_id"],
                     role: "CLIENT"
                 ) ? $this->projectLeader->getProjectData() : [],
-                "message" => "Successfully retrieved"
             ]
         );
     }
@@ -760,13 +760,15 @@ class ProjectLeaderController extends ProjectMemberController
      * TODO: STILL THE SAME TIME AND DATE PROBLEM EXISTS
      *
      */
-    public function scheduleConference(array|object $args): void
+    public function scheduleConference(array $args): void
     {
+        var_dump($args);
         try {
             $args["leader_id"] = $this->user->getUserData()->id;
             if ($this->projectLeader->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "CLIENT")) {
                 if (!empty($this->projectLeader->getProjectData())) {
                     $args["client_id"] = $this->projectLeader->getProjectData()[0]->id;
+                    $args["project_id"] = $_SESSION["project_id"];
                     $returned = $this->conferenceController->scheduleConference(args: $args);
                     if (is_bool($returned) && $returned) {
                         $this->sendJsonResponse(status: "success", content: [

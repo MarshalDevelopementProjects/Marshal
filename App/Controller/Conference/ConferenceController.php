@@ -46,6 +46,7 @@ class ConferenceController
     public function scheduleConference(array|object $args): array|bool
     {
         // TODO: Validate the $args
+        var_dump($args);
         try {
             $this->validator->validate(values: $args, schema: "schedule_conference");
             if ($this->validator->getPassed()) {

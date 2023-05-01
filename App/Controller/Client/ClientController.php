@@ -90,7 +90,7 @@ class ClientController extends UserController
     {
         // TODO: Depending on the conference user want to join redirect him
         $this->sendResponse(
-            view: "/user/meeting_page/meeting.html",
+            view: "/user/meeting.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [
@@ -114,10 +114,11 @@ class ClientController extends UserController
     public function gotoConferenceScheduler(): void
     {
         $this->sendResponse(
-            view: "/user/meeting_page/meeting.html",
+            view: "/client/meeting_schedule_page.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [
+                "message" => "Successfully retrieved",
                 "user_data" => [
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture
@@ -135,7 +136,6 @@ class ClientController extends UserController
                     project_id: $_SESSION["project_id"],
                     role: "LEADER"
                 ) ? $this->client->getProjectData() : [],
-                "message" => "Successfully retrieved"
             ]
         );
     }
@@ -146,13 +146,14 @@ class ClientController extends UserController
      * client, if invalid information was provided the user will be
      * informed
      */
-    public function ScheduleConferenceController(array|object $args): void
+    public function ScheduleConference(array $args): void
     {
         try {
             $args["client_id"] = $this->user->getUserData()->id;
             if($this->client->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "LEADER")) {
                 if (!empty($this->client->getProjectData())) {
                     $args["leader_id"] = $this->client->getProjectData()[0]->id;
+                    $args["project_id"] = $_SESSION["project_id"];
                     $returned = $this->conferenceController->scheduleConference(args: $args);
                     if (is_bool($returned) && $returned) {
                         $this->sendJsonResponse(status: "success", content: [
