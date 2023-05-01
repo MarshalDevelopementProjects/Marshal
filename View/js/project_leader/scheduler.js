@@ -43,6 +43,7 @@ async function createNewSchedule(scheduleObj) {
         if (response.ok) {
             let data = await response.json();
             console.log(data);
+            alert(data.message);
             window.location.reload();
         }
     } catch (error) {

@@ -762,7 +762,6 @@ class ProjectLeaderController extends ProjectMemberController
      */
     public function scheduleConference(array $args): void
     {
-        var_dump($args);
         try {
             $args["leader_id"] = $this->user->getUserData()->id;
             if ($this->projectLeader->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "CLIENT")) {
