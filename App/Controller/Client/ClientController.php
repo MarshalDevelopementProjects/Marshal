@@ -148,6 +148,7 @@ class ClientController extends UserController
             if ($this->project->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "LEADER")) {
                 if (!empty($this->project->getProjectMemberData())) {
                     $args["leader_id"] = $this->project->getProjectMemberData()[0]->id;
+                    $args["project_id"] = $_SESSION["project_id"];
                     $returned = $this->conferenceController->scheduleConference(args: $args);
                     if (is_bool($returned) && $returned) {
                         $this->sendJsonResponse(status: "success", content: [

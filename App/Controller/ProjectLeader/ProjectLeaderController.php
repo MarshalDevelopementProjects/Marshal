@@ -651,6 +651,7 @@ class ProjectLeaderController extends ProjectMemberController
             if ($this->project->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "CLIENT")) {
                 if (!empty($this->project->getProjectMemberData())) {
                     $args["client_id"] = $this->project->getProjectMemberData()[0]->id;
+                    $args["project_id"] = $_SESSION["project_id"];
                     $returned = $this->conferenceController->scheduleConference(args: $args);
                     if (is_bool($returned) && $returned) {
                         $this->sendJsonResponse(status: "success", content: [
