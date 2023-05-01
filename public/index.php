@@ -150,9 +150,12 @@ $router->get('/project/client/report', ClientController::class . '::generateProj
 
 $router->get('/project/leader/conference/scheduler', ProjectLeaderController::class . '::gotoConferenceScheduler');
 $router->get('/project/leader/conference', ProjectLeaderController::class . '::gotoConference');
+$router->post('/project/leader/conference/schedule', ProjectLeaderController::class . '::scheduleConference');
 
 $router->get('/project/client/conference/scheduler', ClientController::class . '::gotoConferenceScheduler');
 $router->get('/project/client/conference', ClientController::class . '::gotoConference');
+$router->post('/project/client/conference/schedule', ClientController::class . '::scheduleConference');
+
 
 // sanitize the uri
 $uri = htmlspecialchars(

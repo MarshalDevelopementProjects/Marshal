@@ -219,9 +219,9 @@ class Project implements Model
         if ($project_id && $role) {
             try {
                 // get the details of the clients
-                $sql_string = "SELECT u.username AS username, u.profile_picture AS profile_picture, p_j.role AS role FROM project_join p_j JOIN user u ON p_j.member_id = u.id WHERE p_j.project_id = :project_id AND p_j.role = :role";
+                $sql_string = "SELECT u.id AS id, u.username AS username, u.profile_picture AS profile_picture, p_j.role AS role FROM project_join p_j JOIN user u ON p_j.member_id = u.id WHERE p_j.project_id = :project_id AND p_j.role = :role";
                 $this->crud_util = $this->crud_util->execute($sql_string, ["project_id" => $project_id, "role" => $role]);
-                if(!$this->crud_util->hasErrors()) {
+                if (!$this->crud_util->hasErrors()) {
                     $this->project_member_data = $this->crud_util->getResults();
                     return true;
                 } else {

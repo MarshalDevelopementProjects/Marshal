@@ -36,7 +36,7 @@ class ClientController extends UserController
         }
     }
 
-   // save the message to the project table
+    // save the message to the project table
     // $args format {"message" => "message string"}
     public function postMessageToProjectFeedback(array|object $args): void
     {
@@ -85,7 +85,7 @@ class ClientController extends UserController
     {
         // TODO: Depending on the conference user want to join redirect him
         $this->sendResponse(
-            view: "/user/meeting_page/meeting.html",
+            view: "/user/meeting.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [
@@ -109,7 +109,7 @@ class ClientController extends UserController
     public function gotoConferenceScheduler(): void
     {
         $this->sendResponse(
-            view: "/user/meeting_page/meeting.html",
+            view: "/client/meeting_schedule_page.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [
@@ -141,11 +141,11 @@ class ClientController extends UserController
      * client, if invalid information was provided the user will be
      * informed
      */
-    public function ScheduleConferenceController(array|object $args): void
+    public function ScheduleConference(array $args): void
     {
         try {
             $args["client_id"] = $this->user->getUserData()->id;
-            if($this->project->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "LEADER")) {
+            if ($this->project->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "LEADER")) {
                 if (!empty($this->project->getProjectMemberData())) {
                     $args["leader_id"] = $this->project->getProjectMemberData()[0]->id;
                     $returned = $this->conferenceController->scheduleConference(args: $args);
@@ -236,7 +236,7 @@ class ClientController extends UserController
             $pdfGenerator = new PdfGenerator();
 
             // TODO: GET THE PROJECT DATA HERE
-            if($this->client->getPDFData(project_id: $_SESSION["project_id"])) {
+            if ($this->client->getPDFData(project_id: $_SESSION["project_id"])) {
                 $data = $this->client->getProjectData();
                 $processed_array = $this->processPDFData($data);
 
@@ -294,7 +294,7 @@ class ClientController extends UserController
 
             $processed_data["task_data"] = "";
 
-            foreach ($task_data AS $task) {
+            foreach ($task_data as $task) {
                 $processed_data["task_data"] .= "\n" . ' <div class="task"> <div class="task-name"> <p> ' . $task["task_name"] . ' </p> </div> <div class="completed-date"> <p> ' . $task["task_completed_date"] . ' </p> </div> </div> ' . "\n";
             }
             return $processed_data;

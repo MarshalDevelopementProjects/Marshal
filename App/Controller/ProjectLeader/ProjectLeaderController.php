@@ -112,7 +112,7 @@ class ProjectLeaderController extends ProjectMemberController
                     "url" => "http://localhost/public/user/project?id=" . $project_id,
                     "recive_id" => $receivedUser->id
                 );
-                
+
                 $notificationId = $notificationController->setNotification($args);
 
                 // $args = array(
@@ -181,7 +181,7 @@ class ProjectLeaderController extends ProjectMemberController
                             "url" => "http://localhost/public/user/project?id=" . $_SESSION['project_id'],
                             "recive_id" => $receivedUser->id
                         );
-                        
+
                         $notificationId = $notificationController->setNotification($notificationArgs);
                     }
                 }
@@ -199,7 +199,7 @@ class ProjectLeaderController extends ProjectMemberController
             $task = new Task();
             if ($task->createTask($data, array("project_id", "description", "deadline", "task_name", "priority", "status"))) {
 
-                if($args['assignedMember']){
+                if ($args['assignedMember']) {
                     $args = array(
                         "status" => "ONGOING",
                         "member_id" => $receivedUser->id,
@@ -208,10 +208,10 @@ class ProjectLeaderController extends ProjectMemberController
                     );
                     $updates = array("status", "member_id");
                     $conditions = array("project_id", "task_name");
-    
+
                     $task->updateTask($args, $updates, $conditions);
                 }
-                
+
                 header("Location: http://localhost/public/user/project?id=" . $_SESSION['project_id']);
             } else {
                 echo "Fail";
@@ -310,9 +310,8 @@ class ProjectLeaderController extends ProjectMemberController
                     "url" => "http://localhost/public/user/project?id=" . $project_id,
                     "recive_id" => $receivedUser->id
                 );
-                
+
                 $notificationId = $notificationController->setNotification($notificationArgs);
-                
             } catch (\Throwable $th) {
                 $message = "Failed to handover the task: " . $th->getMessage();
             }
@@ -340,7 +339,7 @@ class ProjectLeaderController extends ProjectMemberController
         if ($data['assignMember']) {
 
             $assignedMember = $user->readMember("username", $data['assignMember']);
-            if($assignedMember){
+            if ($assignedMember) {
                 $leaderId = $assignedMember->id;
             }
         }
@@ -386,7 +385,7 @@ class ProjectLeaderController extends ProjectMemberController
             $group->addGroupMember($addMemberArgs, array("group_id", "member_id", "role", "joined"));
 
             // if project leader assign a member to lead the group then project leader also become just a group member
-            if ($assignedMember){
+            if ($assignedMember) {
                 $memberArgs = array(
                     "group_id" => $newGroup->id,
                     "member_id" => $user_id,
@@ -451,12 +450,11 @@ class ProjectLeaderController extends ProjectMemberController
                 "url" => "http://localhost/public/projectmember/getinfo",
                 "recive_id" => null
             );
-            
+
             $notificationId = $notificationController->setNotification($args);
-            
+
             $members = $project->getProjectUsers("WHERE project_id = " . $_SESSION['project_id'] . " AND `role` = 'MEMBER'");
             $notificationController->boardcastNotification($notificationId, $members);
-
         } catch (\Throwable $th) {
             $successMessage = $th->getMessage();
         }
@@ -573,7 +571,7 @@ class ProjectLeaderController extends ProjectMemberController
     {
         // TODO: Depending on the conference user want to join redirect him
         $this->sendResponse(
-            view: "/user/meeting_page/meeting.html",
+            view: "/user/meeting.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [
@@ -597,10 +595,11 @@ class ProjectLeaderController extends ProjectMemberController
     public function gotoConferenceScheduler(): void
     {
         $this->sendResponse(
-            view: "/user/meeting_scheduler/meeting_schedule_page.html",
+            view: "/project_leader/meeting_schedule_page.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [
+                "message" => "Successfully retrieved",
                 "user_data" => [
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture
@@ -645,7 +644,7 @@ class ProjectLeaderController extends ProjectMemberController
      * TODO: STILL THE SAME TIME AND DATE PROBLEM EXISTS
      *
      */
-    public function scheduleConference(array|object $args): void
+    public function scheduleConference(array $args): void
     {
         try {
             $args["leader_id"] = $this->user->getUserData()->id;
