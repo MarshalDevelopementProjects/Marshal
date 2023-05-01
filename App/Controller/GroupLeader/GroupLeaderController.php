@@ -155,8 +155,6 @@ class GroupLeaderController extends GroupMemberController
             "profile_picture" => $this->user->getUserData()->profile_picture,
         ];
 
-        $groupData["progress"] = $this->group->getGroupProgress(group_id: $_SESSION["group_id"]);
-
         $this->sendResponse(
             view: "/group_leader/groupInfo.html",
             status: "success",

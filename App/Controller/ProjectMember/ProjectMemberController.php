@@ -234,6 +234,8 @@ class ProjectMemberController extends UserController
 
                         $groupData += parent::getTaskDeadlines();
 
+                        $groupData["progress"] = $group->getGroupProgress(group_id: $_SESSION["group_id"]);
+
                         $this->sendResponse(
                             view: "/group_leader/dashboard.html",
                             status: "success",

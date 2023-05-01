@@ -198,7 +198,7 @@ class Group implements Model
                    FROM 
                      `group_task`
                    JOIN `task` ON `group_task`.`task_id` = `task`.`task_id`
-                   WHERE `group_task`.`group_id` = 1;
+                   WHERE `group_task`.`group_id` = :group_id;
                    ";
             $this->crud_util->execute($sql_string, ["group_id" => $group_id]);
             if (!$this->crud_util->hasErrors()) {
@@ -207,6 +207,7 @@ class Group implements Model
                 return false;
             }
         } catch (\Exception $exception) {
+            var_dump($exception->getMessage());
             throw $exception;
         }
     }
