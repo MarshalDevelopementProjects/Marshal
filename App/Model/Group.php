@@ -187,5 +187,27 @@ class Group implements Model
             throw $th;
         }
     }
-    
+
+    public function getGroupProgress(string|int $group_id): float|bool|int
+    {
+        try {
+            $sql_string = "
+                   SELECT 
+                   COUNT(CASE WHEN `task`.`status` = 'DONE' THEN 1 END) AS `no_of_completed_tasks`,
+                   COUNT(CASE WHEN `task`.`task_id` THEN 1 END) AS `no_of_tasks`
+                   FROM 
+                     `group_task`
+                   JOIN `task` ON `group_task`.`task_id` = `task`.`task_id`
+                   WHERE `group_task`.`group_id` = 1;
+                   ";
+            $this->crud_util->execute($sql_string, ["group_id" => $group_id]);
+            if (!$this->crud_util->hasErrors()) {
+                return ($this->crud_util->getFirstResult()->no_of_completed_tasks / $this->crud_util->getFirstResult()->no_of_tasks) * 100;
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
 }

@@ -79,6 +79,8 @@ class ProjectLeaderController extends ProjectMemberController
 
         $data["project_id"] = $_SESSION["project_id"];
 
+        $data["progress"] = $this->project->getProjectProgress(project_id: $_SESSION["project_id"]);
+
         $this->sendResponse(
             view: "/project_leader/getProjectInfo.html",
             status: "success",

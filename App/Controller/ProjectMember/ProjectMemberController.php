@@ -333,6 +333,8 @@ class ProjectMemberController extends UserController
 
         $data += parent::getTaskDeadlines();
 
+        $data["progress"] = $this->project->getProjectProgress(project_id: $_SESSION["project_id"]);
+
         $this->sendResponse(
             view: "/project_member/getProjectInfo.html",
             status: "success",

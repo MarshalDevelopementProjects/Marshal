@@ -2,6 +2,8 @@
 
 namespace App\Controller\Notification;
 
+require __DIR__ . '/../../../vendor/autoload.php';
+
 use App\Controller\Authenticate\UserAuthController;
 use App\Controller\Controller;
 use App\Model\Notification;

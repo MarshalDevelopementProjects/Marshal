@@ -18,6 +18,8 @@ require __DIR__ . '/../../../vendor/autoload.php';
 
 class GroupLeaderController extends GroupMemberController
 {
+
+    private Group $group;
     private GroupLeader $groupLeader;
 
     public function __construct()
@@ -25,6 +27,7 @@ class GroupLeaderController extends GroupMemberController
         try {
             parent::__construct();
             if (array_key_exists("group_id", $_SESSION)) {
+                $this->group = new Group();
                 $this->groupLeader = new GroupLeader($_SESSION["project_id"], $_SESSION["group_id"]);
             } else {
                 throw new Exception("Bad request missing arguments");
@@ -151,6 +154,8 @@ class GroupLeaderController extends GroupMemberController
             "username" => $this->user->getUserData()->username,
             "profile_picture" => $this->user->getUserData()->profile_picture,
         ];
+
+        $groupData["progress"] = $this->group->getGroupProgress(group_id: $_SESSION["group_id"]);
 
         $this->sendResponse(
             view: "/group_leader/groupInfo.html",

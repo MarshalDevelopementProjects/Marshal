@@ -4,6 +4,7 @@ namespace App\Controller\Client;
 
 use App\Controller\Authenticate\UserAuthController;
 use App\Controller\Conference\ConferenceController;
+use App\Controller\PDF\PDFController;
 use App\Controller\User\UserController;
 use App\Model\Client;
 use App\Model\Project;
@@ -234,33 +235,16 @@ class ClientController extends UserController
     public function generateProjectReport(): void
     {
         try {
-            $pdfGenerator = new PdfGenerator();
-
+            $pdfGenerator = new PDFController();
             // TODO: GET THE PROJECT DATA HERE
             if ($this->client->getPDFData(project_id: $_SESSION["project_id"])) {
                 $data = $this->client->getProjectData();
-                $processed_array = $this->processPDFData($data);
-
-                /*echo "<pre>";
-                var_dump($data);
-                echo "</pre>";*/
-
-                if ($processed_array) {
-                    $pdfGenerator->renderPDF(
-                        path_to_html_markup: "/View/src/client/pdf-templates/pdf-template.html",
-                        path_to_style_sheet: "/View/src/client/pdf-templates/pdf-styles.css",
-                        file_name: "Report.pdf",
-                        attributes: $processed_array
-                    );
-                } else {
-                    $this->sendResponse(
-                        view: "/error/505.html",
-                        status: "error",
-                        content: [
-                            "message" => "Pdf file cannot be generated, Sorry for the inconvenience"
-                        ]
-                    );
-                }
+                $pdfGenerator->generateGeneralFormatPDF(
+                    path_to_html_markup: "/View/src/user/pdf-templates/pdf-template.html",
+                    path_to_style_sheet: "/View/src/user/pdf-templates/pdf-styles.css",
+                    file_name: "Report.pdf",
+                    attributes: $data
+                );
             } else {
                 $this->sendResponse(
                     view: "/error/505.html",
@@ -274,44 +258,6 @@ class ClientController extends UserController
             throw $exception;
         }
     }
-
-    private function processPDFData(array $args): array
-    {
-        // TODO: PROCESS THE GIVEN ARRAY AND MAKE A NEW ARRAY WITH THE APPROPRIATE ATTRIBUTES
-        if (
-            !empty($args) &&
-            array_key_exists("project_data", $args) &&
-            !empty($args["project_data"]) &&
-            array_key_exists("task_data", $args) &&
-            !empty($args["task_data"])
-        ) {
-            // TODO: CHANGE THE KEYS TO HTML COMMENTED KEYS
-            $processed_data = [];
-            $project_data = $args["project_data"];
-            $task_data = $args["task_data"];
-            foreach ($project_data as $attr_name => $value) {
-                $processed_data[$attr_name] = $value;
-            }
-
-            $processed_data["task_data"] = "";
-
-            foreach ($task_data as $task) {
-                $processed_data["task_data"] .= "\n" . ' <div class="task"> <div class="task-name"> <p> ' . $task["task_name"] . ' </p> </div> <div class="completed-date"> <p> ' . $task["task_completed_date"] . ' </p> </div> </div> ' . "\n";
-            }
-            return $processed_data;
-        }
-        return [];
-    }
 }
 
 
-/*
-<div class="task">
-    <div class="task-name">
-        <p> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, quod?</p>
-    </div>
-    <div class="completed-date">
-        <p>2023-3-19</p>
-    </div>
-</div>
- * */

@@ -234,6 +234,39 @@ class Project implements Model
         return false;
     }
 
+    public function getProjectProgress(string|int $project_id): float|bool|int
+    {
+        try {
+
+            /*
+             * Example query
+              SELECT
+               COUNT(CASE WHEN `t`.`status` = 'DONE' THEN 1 END) AS `comepleted_tasks`,
+               COUNT(`t`.`task_id`) AS `all_tasks`
+               FROM
+                `task` `t`
+               WHERE
+                `t`.`project_id` = 4;
+             */
+            $sql_string = "
+                   SELECT
+                   COUNT(CASE WHEN `t`.`status` = 'DONE' THEN 1 END) AS `no_of_completed_tasks`,
+                   COUNT(`t`.`task_id`) AS `no_of_tasks`
+                   FROM
+                       `task` `t`
+                   WHERE
+                       `t`.`project_id` = :project_id AND `t`.task_type = 'project'
+                   ";
+            $this->crud_util->execute($sql_string, ["project_id" => $project_id]);
+            if (!$this->crud_util->hasErrors()) {
+                return ($this->crud_util->getFirstResult()->no_of_completed_tasks / $this->crud_util->getFirstResult()->no_of_tasks) * 100;
+            } else {
+                return false;
+            }
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
 
     public function getProjectMemberData(): array|null|object|bool
     {
