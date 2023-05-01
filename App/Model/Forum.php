@@ -402,8 +402,6 @@ class Forum implements Model
         }
     }
 
-
-
     public function getMessageData(): array|object|null|bool
     {
         return $this->message_data;
