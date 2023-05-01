@@ -6,6 +6,7 @@ use App\Controller\Authenticate\UserAuthController;
 use App\Controller\Conference\ConferenceController;
 use App\Controller\User\UserController;
 use App\Model\Client;
+use Core\PdfGenerator;
 use Exception;
 
 require __DIR__ . '/../../../vendor/autoload.php';
@@ -40,114 +41,7 @@ class ClientController extends UserController
         return parent::auth();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // save the message to the project table
+   // save the message to the project table
     // $args format {"message" => "message string"}
     public function postMessageToProjectFeedback(array|object $args): void
     {
@@ -203,8 +97,9 @@ class ClientController extends UserController
                 "user_data" => [
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture,
-                    "peer" => $this->client->getProjectMembersByRole($_SESSION["project_id"], "LEADER")
-                ]
+                ],
+                "peer" => $this->client->getProjectMembersByRole($_SESSION["project_id"], "LEADER") ? $this->client->getProjectData()[0] : [],
+                "project_id" => $_SESSION["project_id"],
             ]
         );
     }
@@ -219,10 +114,11 @@ class ClientController extends UserController
     public function gotoConferenceScheduler(): void
     {
         $this->sendResponse(
-            view: "/user/meeting_scheduler.html",
+            view: "/client/meeting_schedule_page.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [
+                "message" => "Successfully retrieved",
                 "user_data" => [
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture
@@ -240,7 +136,6 @@ class ClientController extends UserController
                     project_id: $_SESSION["project_id"],
                     role: "LEADER"
                 ) ? $this->client->getProjectData() : [],
-                "message" => "Successfully retrieved"
             ]
         );
     }
@@ -251,13 +146,14 @@ class ClientController extends UserController
      * client, if invalid information was provided the user will be
      * informed
      */
-    public function ScheduleConferenceController(array|object $args): void
+    public function ScheduleConference(array $args): void
     {
         try {
             $args["client_id"] = $this->user->getUserData()->id;
             if($this->client->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "LEADER")) {
                 if (!empty($this->client->getProjectData())) {
                     $args["leader_id"] = $this->client->getProjectData()[0]->id;
+                    $args["project_id"] = $_SESSION["project_id"];
                     $returned = $this->conferenceController->scheduleConference(args: $args);
                     if (is_bool($returned) && $returned) {
                         $this->sendJsonResponse(status: "success", content: [
@@ -339,4 +235,88 @@ class ClientController extends UserController
             throw $exception;
         }
     }
+
+    public function generateProjectReport(): void
+    {
+        try {
+            $pdfGenerator = new PdfGenerator();
+
+            // TODO: GET THE PROJECT DATA HERE
+            if($this->client->getPDFData(project_id: $_SESSION["project_id"])) {
+                $data = $this->client->getProjectData();
+                $processed_array = $this->processPDFData($data);
+
+                /*echo "<pre>";
+                var_dump($data);
+                echo "</pre>";*/
+
+                if ($processed_array) {
+                    $pdfGenerator->renderPDF(
+                        path_to_html_markup: "/View/src/client/pdf-templates/pdf-template.html",
+                        path_to_style_sheet: "/View/src/client/pdf-templates/pdf-styles.css",
+                        file_name: "Report.pdf",
+                        attributes: $processed_array
+                    );
+                } else {
+                    $this->sendResponse(
+                        view: "/error/505.html",
+                        status: "error",
+                        content: [
+                            "message" => "Pdf file cannot be generated, Sorry for the inconvenience"
+                        ]
+                    );
+                }
+            } else {
+                $this->sendResponse(
+                    view: "/error/505.html",
+                    status: "error",
+                    content: [
+                        "message" => "Pdf file cannot be generated, Sorry for the inconvenience"
+                    ]
+                );
+            }
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    private function processPDFData(array $args): array
+    {
+        // TODO: PROCESS THE GIVEN ARRAY AND MAKE A NEW ARRAY WITH THE APPROPRIATE ATTRIBUTES
+        if (
+            !empty($args) &&
+            array_key_exists("project_data", $args) &&
+            !empty($args["project_data"]) &&
+            array_key_exists("task_data", $args) &&
+            !empty($args["task_data"])
+        ) {
+            // TODO: CHANGE THE KEYS TO HTML COMMENTED KEYS
+            $processed_data = [];
+            $project_data = $args["project_data"];
+            $task_data = $args["task_data"];
+            foreach ($project_data as $attr_name => $value) {
+                $processed_data[$attr_name] = $value;
+            }
+
+            $processed_data["task_data"] = "";
+
+            foreach ($task_data AS $task) {
+                $processed_data["task_data"] .= "\n" . ' <div class="task"> <div class="task-name"> <p> ' . $task["task_name"] . ' </p> </div> <div class="completed-date"> <p> ' . $task["task_completed_date"] . ' </p> </div> </div> ' . "\n";
+            }
+            return $processed_data;
+        }
+        return [];
+    }
 }
+
+
+/*
+<div class="task">
+    <div class="task-name">
+        <p> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, quod?</p>
+    </div>
+    <div class="completed-date">
+        <p>2023-3-19</p>
+    </div>
+</div>
+ * */

@@ -71,7 +71,7 @@ class GroupMemberController extends ProjectMemberController
         $user = new User();
 
         $userData = array();
-        if ($user->readUser("id", $payload->id)) {
+        if ($user->readUser("id", $this->user->getUserData()->id)) {
             $userData = $user->getUserData();
         }
         $groupData['userDetails'] = $userData->profile_picture;
@@ -276,7 +276,7 @@ class GroupMemberController extends ProjectMemberController
             if ($this->groupMember->getGroupForumMessages(project_id: $_SESSION["project_id"])) {
                 $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupMember->getMessageData() ?? []]);
             } else {
-                $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
+                $this->sendJsonResponse("error", ["message" => ""]);
             }
         } catch (Exception $exception) {
             throw $exception;

@@ -66,11 +66,11 @@ class GroupMember implements Model
     {
         try {
             // $sql_string = "SELECT * FROM `message` WHERE `id` IN (SELECT `message_id` FROM `group_message` WHERE `project_id` = :project_id AND `group_id` = :group_id)";
-            $sql_string  = "SELECT m.*, u.`profile_picture` AS `sender_profile_picture` FROM `message` m JOIN `user` u ON m.`sender_id` = u.`id` JOIN `group_message` gm ON m.`id` = gm.`message_id` WHERE gm.`project_id` = :project_id AND gm.`group_id` = :group_id ORDER BY m.stamp";
+            $sql_string  = "SELECT m.*, u.`username` AS `sender_username`, u.`profile_picture` AS `sender_profile_picture` FROM `message` m JOIN `user` u ON m.`sender_id` = u.`id` JOIN `group_message` gm ON m.`id` = gm.`message_id` WHERE gm.`project_id` = :project_id AND gm.`group_id` = :group_id ORDER BY m.stamp";
             $args = array("project_id" => $project_id, "group_id" => $this->group_data->id);
             // execute the query
             $result = $this->crud_util->execute($sql_string, $args);
-            if ($result->getCount() > 0) {
+            if (!$this->crud_util->hasErrors()) {
                 $this->message_data = $result->getResults(); // get all the results or just one result this is an array of objects
                 return true;
             } else {

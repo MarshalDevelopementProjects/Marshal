@@ -153,6 +153,15 @@ class GroupLeaderController extends ProjectMemberController
 
         $groupData += parent::getTaskDeadlines();
 
+        if ($this->groupLeader->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"])) {
+            $groupData["feedback_messages"] = $this->groupLeader->getMessageData();
+        }
+
+        $groupData["user_data"] = [
+            "username" => $this->user->getUserData()->username,
+            "profile_picture" => $this->user->getUserData()->profile_picture,
+        ];
+
         $this->sendResponse(
             view: "/group_leader/groupInfo.html",
             status: "success",
@@ -339,7 +348,7 @@ class GroupLeaderController extends ProjectMemberController
             if ($this->groupLeader->getGroupForumMessages(project_id: $_SESSION["project_id"])) {
                 $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupLeader->getMessageData() ?? []]);
             } else {
-                $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
+                $this->sendJsonResponse("error", ["message" => ""]);
             }
         } catch (Exception $exception) {
             throw $exception;

@@ -209,10 +209,12 @@ class UserController extends Controller
                         $this->sendResponse(
                             view: "/client/dashboard.html",
                             status: "success",
-                            content: $project->readProjectsOfUser(
-                                member_id: $payload->id,
-                                project_id: $data["id"]
-                            ) ? $project->getProjectData() : array()
+                            content: [
+                                "project_id" => $_SESSION["project_id"],
+                                "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
+                                "project_details" => $project->readProjectsOfUser(member_id: $payload->id, project_id: $data["id"]) ? $project->getProjectData() : [],
+                                "members" => $project->getProjectMembers($_SESSION["project_id"]) ? $project->getProjectMemberData() : []
+                            ],
                         );
                         break;
                     case 'MEMBER':

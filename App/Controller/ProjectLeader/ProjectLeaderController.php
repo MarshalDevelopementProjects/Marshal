@@ -84,6 +84,13 @@ class ProjectLeaderController extends ProjectMemberController
             $data["feedback_messages"] = $this->projectLeader->getMessageData();
         }
 
+        $data["user_data"] = [
+            "username" => $this->user->getUserData()->username,
+            "profile_picture" => $this->user->getUserData()->profile_picture,
+        ];
+
+        $data["project_id"] = $_SESSION["project_id"];
+
         $this->sendResponse(
             view: "/project_leader/getProjectInfo.html",
             status: "success",
@@ -661,8 +668,9 @@ class ProjectLeaderController extends ProjectMemberController
                 "user_data" => [
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture,
-                    "peer" => $this->projectLeader->getProjectMembersByRole($_SESSION["project_id"], "CLIENT")
-                ]
+                ],
+                "peer" => $this->projectLeader->getProjectMembersByRole($_SESSION["project_id"], "CLIENT") ? $this->projectLeader->getProjectData()[0] : [],
+                "project_id" => $_SESSION["project_id"],
             ]
         );
     }
@@ -677,10 +685,11 @@ class ProjectLeaderController extends ProjectMemberController
     public function gotoConferenceScheduler(): void
     {
         $this->sendResponse(
-            view: "/project_leader/conference_scheduler.html",
+            view: "/project_leader/meeting_schedule_page.html",
             status: "success",
             // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
             content: [
+                "message" => "Successfully retrieved",
                 "user_data" => [
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture
@@ -698,7 +707,6 @@ class ProjectLeaderController extends ProjectMemberController
                     project_id: $_SESSION["project_id"],
                     role: "CLIENT"
                 ) ? $this->projectLeader->getProjectData() : [],
-                "message" => "Successfully retrieved"
             ]
         );
     }
@@ -725,13 +733,14 @@ class ProjectLeaderController extends ProjectMemberController
      * TODO: STILL THE SAME TIME AND DATE PROBLEM EXISTS
      *
      */
-    public function scheduleConference(array|object $args): void
+    public function scheduleConference(array $args): void
     {
         try {
             $args["leader_id"] = $this->user->getUserData()->id;
             if ($this->projectLeader->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "CLIENT")) {
                 if (!empty($this->projectLeader->getProjectData())) {
                     $args["client_id"] = $this->projectLeader->getProjectData()[0]->id;
+                    $args["project_id"] = $_SESSION["project_id"];
                     $returned = $this->conferenceController->scheduleConference(args: $args);
                     if (is_bool($returned) && $returned) {
                         $this->sendJsonResponse(status: "success", content: [

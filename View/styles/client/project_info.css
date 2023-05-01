@@ -1,21 +1,24 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-body{
+
+body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #f7f7f7;
 }
-.container{
+
+.container {
     width: 98%;
     margin-top: 10px;
 }
-.container .navbar{
+
+.container .navbar {
     position: fixed;
     width: 98%;
     height: 60px;
@@ -26,21 +29,25 @@ body{
     display: flex;
     justify-content: space-around;
 }
-.navbar .left-logo-area{
+
+.navbar .left-logo-area {
     flex: 1;
 }
-.navbar .logo{
+
+.navbar .logo {
     width: 60px;
     height: 60px;
     margin-left: 12px;
     margin-right: auto;
     cursor: pointer;
 }
-.container .right-profile-area{
+
+.container .right-profile-area {
     /* border: 1px solid #fff; */
     display: flex;
 }
-.right-profile-area img{
+
+.right-profile-area img {
     width: 50px;
     height: 50px;
     margin: 5px 25px 0 0;
@@ -49,17 +56,19 @@ body{
     border: 3px solid #e7e7e7;
 }
 
-.right-profile-area i{
+.right-profile-area i {
     color: #f7f7f7;
     font-size: 20px;
     margin: 20px 15px 20px 5px;
     cursor: pointer;
 }
-.right-profile-area i:hover{
+
+.right-profile-area i:hover {
     font-weight: 600;
     color: #514848;
 }
-.right-profile-area button{
+
+.right-profile-area button {
     background-color: #fff;
     font-size: 13px;
     /* font-weight: 545; */
@@ -72,17 +81,18 @@ body{
     width: 120px;
     cursor: pointer;
 }
-.right-profile-area button:hover{
+
+.right-profile-area button:hover {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.projects-container{
+.projects-container {
     margin-top: 5px;
     display: flex;
 }
-.left-panel{
+
+.left-panel {
     position: fixed;
-    
     margin: 75px 0 0 3px;
     width: 240px;
     height: 630px;
@@ -91,14 +101,17 @@ body{
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-.left-panel .top-menus{
+
+.left-panel .top-menus {
     margin: 0px;
     padding: 2px 15px 15px 15px;
 }
-.top-menus ul{
+
+.top-menus ul {
     list-style: none;
 }
-.top-menus ul li{
+
+.top-menus ul li {
     background-color: #f7f7f7;
     margin: 8px 3px;
     height: 30px;
@@ -108,43 +121,48 @@ body{
     font-size: 15px;
     cursor: pointer;
 }
-.top-menus ul li:hover{
+
+.top-menus ul li:hover {
     background-color: #dbd7d7;
 }
-.top-menus ul li.active{
+
+.top-menus ul li.active {
     background-color: #F83B3B;
     color: #fff;
 }
-.left-panel .middle-icon{
-    
+
+.left-panel .middle-icon {
     width: 15px;
     height: 36px;
     border-radius: 4px;
     display: none;
     align-items: center;
     justify-content: center;
-    margin: 10px 0px 0 auto; /*60*/
+    margin: 10px 0px 0 auto;
+    /*60*/
     background-color: #ddd;
     color: #333;
     cursor: pointer;
 }
-.bottom-calender{
+
+.bottom-calender {
     margin-top: 125px;
-    
     height: 250px;
 }
-.bottom-calender .top-month{
+
+.bottom-calender .top-month {
     display: flex;
     height: 30px;
     justify-content: space-around;
-    
 }
-.top-month p{
+
+.top-month p {
     padding-top: 5px;
     font-weight: 550;
     color: #F83B3B;
 }
-.top-month button{
+
+.top-month button {
     padding-top: 0;
     height: 25px;
     width: 25px;
@@ -159,31 +177,35 @@ body{
     border: none;
     outline: none;
 }
-.bottom-calender .day-names{
+
+.bottom-calender .day-names {
     display: flex;
     justify-content: space-between;
     list-style: none;
     padding: 0 5px;
     margin-top: 5px;
 }
-.day-names p{
+
+.day-names p {
     width: 25px;
     font-size: 11px;
     text-align: center;
     color: #555;
 }
-.bottom-calender .days{
+
+.bottom-calender .days {
     margin-top: 15px;
 }
-.days .days-line{
+
+.days .days-line {
     display: flex;
     justify-content: space-between;
     height: 25px;
     margin-bottom: 7px;
     padding: 0 5px;
 }
-.days-line p{
-    
+
+.days-line p {
     width: 25px;
     display: flex;
     justify-content: center;
@@ -193,49 +215,58 @@ body{
     background-color: #f7f7f7;
     color: #333;
 }
-.days-line .day.today{
+
+.days-line .day.today {
     background-color: #F83B3B;
     color: #fff;
 }
-.days-line .day.deadline{
+
+.days-line .day.deadline {
     background-color: #031738;
     color: #fff;
     cursor: pointer;
 }
-.days-line .inactive{
+
+.days-line .inactive {
     color: #dbd7d7;
 }
-.days-line .today{
+
+.days-line .today {
     background-color: #0a4fa3;
     color: #fff;
 }
-.days-line .deadline{
+
+.days-line .deadline {
     background-color: #F83B3B;
     color: #fff;
     cursor: pointer;
 }
-.right-panel{
+
+.right-panel {
     position: fixed;
     margin: 60px 0 0 250px;
     height: 100%;
     width: 81vw;
     display: flex;
 }
-.right-panel .project-info{
+
+.right-panel .project-info {
     width: 980px;
     height: 565px;
     margin: 5px;
 }
-.project-info .project-details{
+
+.project-info .project-details {
     height: 160px;
     width: 100%;
 }
-.project-info .project-info-top{
+
+.project-info .project-info-top {
     display: flex;
     height: 50px;
-
 }
-.project-info-top h2{
+
+.project-info-top h2 {
     margin: 15px 0 10px 35px;
     color: #514848;
     font-size: 27px;
@@ -243,9 +274,9 @@ body{
     height: 40px;
     overflow: hidden;
     /* border: 1px solid black; */
-
 }
-#invite-member-btn{
+
+#invite-member-btn {
     height: 38px;
     width: 160px;
     /* margin-right: 20px; */
@@ -258,7 +289,8 @@ body{
     padding-top: 10px;
     cursor: pointer;
 }
-.project-info p{
+
+.project-info p {
     overflow-y: hidden;
     width: 680px;
     margin-left: 65px;
@@ -267,60 +299,68 @@ body{
     height: 70px;
     margin-bottom: 10px;
 }
-.project-info .progress-bar{
-    
+
+.project-info .progress-bar {
     margin-left: 50px;
     display: flex;
     width: 600px;
     height: 16px;
 }
-.progress-bar p{
+
+.progress-bar p {
     height: 16px;
     margin-left: 0px;
     margin-top: 0px;
     width: 250px;
-    
     text-align: center;
 }
-#start-date{
+
+#start-date {
     color: #20B289;
 }
-#end-date{
+
+#end-date {
     color: #F83B3B;
 }
-.progress-bar .bar{
+
+.progress-bar .bar {
     width: 1000px;
     height: 16px;
     border-radius: 12px;
     border: 1px solid #e6e5e5;
 }
-.bar .progress{
+
+.bar .progress {
     border-radius: 12px;
     width: 30%;
     height: 15px;
     background-color: #20B289;
     transition: all 1s ease;
 }
-.progress.active{
+
+.progress.active {
     width: 30%;
 }
-.feedbacks-and-groups{
+
+.feedbacks-and-groups {
     margin-top: 25px;
     height: 460px;
     display: flex;
     /* border: 1px solid black; */
 }
-.feedbacks-and-groups .feedbacks{
-    
+
+.feedbacks-and-groups .feedbacks {
     width: 700px;
     margin-left: 10px;
 }
-.feedbacks h3{
+
+.feedbacks h3 {
     font-size: 18px;
     color: #514848;
     margin: 0 0 15px 25px;
 }
-.feedbacks .feedback-form{
+
+.feedbacks .feedback-form {
     height: 385px;
     width: 686px;
     display: flex;
@@ -332,34 +372,12 @@ body{
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     background-color: #fff;
 }
-.feedback-form .outgoing-feedback{
-    border: 1px solid #f7f7f7;
-    background-color: #f5f4f4;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border-bottom-left-radius: 15px;
-    max-width: 350px;
-    width: fit-content;
-    height: fit-content;
-    padding: 8px 10px;
-    margin: 0px 5px 5px auto;
-}
-.feedback-form .incoming-feedback{
-    max-width: 350px;
-    width: fit-content;
-    height: fit-content;
-    padding: 8px 10px;
-    margin: 0px auto 10px 5px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    background-color: rgb(214, 211, 211);
-}
 
-.feedbacks form{
+.feedbacks form {
     display: flex;
 }
-.feedbacks input{
+
+.feedbacks input {
     height: 35px;
     width: 680px;
     padding-left: 10px;
@@ -370,7 +388,8 @@ body{
     border-right: none;
     background-color: #f7f7f7;
 }
-.feedbacks button{
+
+.feedbacks button {
     width: 32px;
     font-size: 28px;
     border: 1px solid #d5d5d5;
@@ -380,36 +399,41 @@ body{
     cursor: pointer;
     color: #2F984A;
 }
-.feedbacks-and-groups .group-list{
+
+.feedbacks-and-groups .group-list {
     width: 200px;
     margin-left: 30px;
     margin-bottom: 10px;
 }
-.group-list .top-group-list{
+
+.group-list .top-group-list {
     display: flex;
     justify-content: space-between;
     /* border: 1px solid black; */
     height: 20px;
 }
-.top-group-list h3{
+
+.top-group-list h3 {
     font-size: 18px;
     color: #514848;
     margin-left: 20px;
     /* margin-bottom: 20px; */
 }
 
-.top-group-list p{
+.top-group-list p {
     /* border: 1px solid black; */
     height: fit-content;
     width: fit-content;
     margin: 0 20px 5px 0;
     cursor: pointer;
 }
-.top-group-list p i{
+
+.top-group-list p i {
     color: #777;
     font-size: 22px;
 }
-.groups{
+
+.groups {
     background-color: #fff;
     border-radius: 12px;
     height: fit-content;
@@ -420,11 +444,12 @@ body{
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     margin-top: 18px;
 }
-.groups a{
 
+.groups a {
     text-decoration: none;
 }
-.groups p{
+
+.groups p {
     /* border: 1px solid black; */
     width: 160px;
     height: 35px;
@@ -441,7 +466,7 @@ body{
     text-decoration: none;
 }
 
-.member-list{
+.member-list {
     /* border: 1px solid black; */
     border-radius: 10px;
     width: 260px;
@@ -450,21 +475,25 @@ body{
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
     background-color: #fff;
 }
-.member-list h3{
+
+.member-list h3 {
     font-size: 16px;
     color: #333;
     margin: 8px 0 5px 12%;
 }
-.member-list .group-leaders{
+
+.member-list .group-leaders {
     height: 185px;
     overflow-y: scroll;
 }
-.member-list .project-members{
+
+.member-list .project-members {
     /* border: 1px solid black; */
     height: 220px;
     overflow-y: scroll;
 }
-.member-list .member-card{
+
+.member-list .member-card {
     display: flex;
     width: 80%;
     height: 50px;
@@ -473,37 +502,41 @@ body{
     border-radius: 8px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
-.member-card .profile-image{
+
+.member-card .profile-image {
     display: flex;
     width: 55px;
     border-radius: 50%;
 }
-.profile-image img{
+
+.profile-image img {
     width: 40px;
     height: 40px;
     margin: 5px 5px 5px 10px;
     border-radius: 50%;
 }
-.profile-image i{
+
+.profile-image i {
     color: #20B289;
     font-size: 10px;
     margin: 33px 0 0 -45px;
 }
 
-.member-card .member-info{
+.member-card .member-info {
     margin-top: 12px;
     height: fit-content;
 }
-.member-info h6{
+
+.member-info h6 {
     font-size: 13px;
 }
-.member-info p{
+
+.member-info p {
     font-size: 11px;
     color: #555;
 }
 
-
-.create-group-container{
+.create-group-container {
     margin: 160px 0 0 0;
     position: relative;
     width: 420px;
@@ -514,26 +547,31 @@ body{
     transition: all 2s ease;
     display: none;
 }
-.create-group-container.active{
+
+.create-group-container.active {
     display: block;
 }
-.create-group-container h3{
+
+.create-group-container h3 {
     font-size: 22px;
     color: #031738;
     margin: 10px 0 10px 30px;
 }
-.create-group-container form{
+
+.create-group-container form {
     margin-top: 10px;
     /* border: 1px solid black; */
     margin-left: 20px;
 }
-.create-group-container form label{
+
+.create-group-container form label {
     font-size: 13px;
     font-weight: 550;
     color: #222;
     margin-bottom: 5px;
 }
-.create-group-container form input{
+
+.create-group-container form input {
     height: 24px;
     width: 220px;
     margin: 3px 0 3px 5px;
@@ -541,11 +579,13 @@ body{
     border-radius: 5px;
     padding-left: 5px;
 }
-#group-description{
+
+#group-description {
     width: 300px;
     height: 80px;
 }
-.create-group-container .buttons{
+
+.create-group-container .buttons {
     display: flex;
     justify-content: space-between;
     /* border: 1px solid black; */
@@ -554,7 +594,8 @@ body{
     margin-top: 10px;
     margin-left: 190px;
 }
-.buttons p{
+
+.buttons p {
     width: 80px;
     background-color: #f1f1f1;
     border: none;
@@ -565,7 +606,8 @@ body{
     color: #333;
     cursor: pointer;
 }
-.buttons button{
+
+.buttons button {
     width: 80px;
     background-color: #20B289;
     border-radius: 8px;
@@ -577,9 +619,7 @@ body{
     cursor: pointer;
 }
 
-
-
-.invite-popup{
+.invite-popup {
     position: relative;
     display: none;
     width: 270px;
@@ -591,18 +631,22 @@ body{
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
     transition: all 2s ease;
 }
-.invite-popup.active{
+
+.invite-popup.active {
     display: block;
 }
-.invite-popup h3{
+
+.invite-popup h3 {
     color: #031738;
     margin: 0 0 10px 10px;
 }
-.invite-popup label{
+
+.invite-popup label {
     margin-left: 5px;
     font-size: 13px;
 }
-.invite-popup input{
+
+.invite-popup input {
     margin-left: 10px;
     height: 28px;
     width: 200px;
@@ -612,53 +656,42 @@ body{
     outline: none;
     border-radius: 5px;
 }
-.invite-popup .buttons{
+
+.invite-popup .buttons {
     /* border:  1px solid black; */
     margin: 10px 0 0 110px;
     height: 30px;
     width: 180px;
 }
-#inviteBtn{
+
+#inviteBtn {
     font-weight: 400;
     height: 25px;
     width: 60px;
     margin-right: 5px;
 }
-#closeBtn{
+
+#closeBtn {
     font-weight: 400;
     width: 60px;
     height: 25px;
     background-color: #F83B3B;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-.search-bar{
+.search-bar {
     /* position: fixed; */
     height: 60x;
     display: flex;
 }
 
-.search-box{
-    
+.search-box {
     margin: 15px 0px 0 0;
     width: 79vw;
     position: absolute;
     display: flex;
 }
 
-.search-box input{
+.search-box input {
     margin-left: 20%;
     width: 50%;
     height: 34px;
@@ -666,7 +699,8 @@ body{
     border: 1px solid #999;
     padding-left: 1%;
 }
-.search-box i{
+
+.search-box i {
     border: none;
     height: 34px;
     width: 34px;
@@ -677,23 +711,25 @@ body{
     color: #5c5757;
     cursor: pointer;
 }
-.projects{
+
+.projects {
     width: 99%;
     height: 100%;
     position: relative;
     overflow-y: scroll;
     background-color: #f7f7f7;
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, 300px);
     padding-left: 20px;
     padding-bottom: 200px;
 }
-.clickable-project{
+
+.clickable-project {
     text-decoration: none;
 }
-.project-card{
-    
+
+.project-card {
     width: 240px;
     height: 260px;
     margin: 0 10px;
@@ -702,8 +738,8 @@ body{
     background-color: #fff;
     padding: 20px;
 }
-.project-card .project-field{
-    
+
+.project-card .project-field {
     width: 120px;
     height: 22px;
     margin-left: 10px;
@@ -716,48 +752,56 @@ body{
     border: none;
     border-radius: 5px;
 }
-.project-field.active{
+
+.project-field.active {
     background-color: #20B289;
 }
-.project-card h3{
+
+.project-card h3 {
     margin-top: 10px;
     font-size: 18px;
     color: #2F2E41;
 }
-.project-card .tasks{
-    
+
+.project-card .tasks {
     width: 180px;
     height: 90px;
 }
-.project-card p{
+
+.project-card p {
     color: #333;
 }
-.tasks p{
+
+.tasks p {
     font-size: 14px;
     margin: 8px 0 0 12px;
     color: #555;
     font-weight: 550;
 }
-.tasks ul{
+
+.tasks ul {
     list-style: none;
     margin: 6px 0 0 22px;
 }
-.tasks ul li{
+
+.tasks ul li {
     font-size: 12px;
     color: #222;
 }
-.project-card .team{
+
+.project-card .team {
     font-size: 12px;
     font-weight: 550;
 }
-.project-card .card-bottom{
+
+.project-card .card-bottom {
     display: flex;
     justify-content: space-between;
-    
     height: 45px;
     margin-top: 6px;
 }
-.card-bottom .progress{
+
+.card-bottom .progress {
     width: 60px;
     height: 60px;
     margin-top: -20px;
@@ -765,11 +809,11 @@ body{
     align-items: center;
     justify-content: center; */
 }
-.progress .outer{
+
+.progress .outer {
     /* position: relative; */
     width: 60px;
     height: 60px;
-    
     border-radius: 50%;
     /* box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; */
     padding: 8px;
@@ -778,7 +822,8 @@ body{
     justify-content: center;
     align-items: center;
 }
-.outer::before{
+
+.outer::before {
     content: "";
     background-color: #fff;
     position: absolute;
@@ -786,7 +831,8 @@ body{
     width: 44px;
     border-radius: 50%;
 }
-.outer.inner{
+
+.outer.inner {
     /* position: fixed; */
     width: 46px;
     height: 46px;
@@ -795,43 +841,50 @@ body{
     /* box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset; */
     border-radius: 50%;
 }
-.inner p{
+
+.inner p {
     position: relative;
     font-size: 14px;
     font-weight: 550;
     color: #333;
 }
-.card-bottom .member-images{
+
+.card-bottom .member-images {
     display: flex;
     width: 120px;
     overflow-x: hidden;
-    
 }
-.member-images .image{
+
+.member-images .image {
     width: 32px;
     height: 32px;
 }
-.image.first{
+
+.image.first {
     position: absolute;
 }
-.image.rest1{
+
+.image.rest1 {
     margin-left: 15px;
     position: absolute;
 }
-.image.rest2{
+
+.image.rest2 {
     margin-left: 30px;
     position: absolute;
 }
-.image.rest3{
+
+.image.rest3 {
     margin-left: 45px;
     position: absolute;
 }
-.image.rest4{
+
+.image.rest4 {
     margin-left: 60px;
     position: absolute;
 }
 
-.card-bottom button{
+.card-bottom button {
     width: 80px;
     height: 32px;
     border-radius: 10px;
@@ -846,10 +899,12 @@ body{
 div::-webkit-scrollbar {
     width: 0.2em;
     background-color: transparent;
-  }
+}
+
 
 /* toast-notification */
-.toast-notification{
+
+.toast-notification {
     position: relative;
     border: none;
     width: 0px;
@@ -862,35 +917,41 @@ div::-webkit-scrollbar {
     background-color: #e5e5e5;
     transition: all 1.5s ease;
 }
-.toast-notification.active{
+
+.toast-notification.active {
     border: 1px solid rgb(187, 183, 183);
     width: 250px;
 }
-.toast-notification .sender-img img{
+
+.toast-notification .sender-img img {
     width: 50px;
     margin: 5px;
     cursor: pointer;
 }
-.toast-notification .details .notification-top{
+
+.toast-notification .details .notification-top {
     width: 185px;
     height: 18px;
     display: flex;
     justify-content: space-between;
 }
-.notification-top h3{
+
+.notification-top h3 {
     font-size: 12px;
     color: #031738;
     margin: 3px 0 0 4px;
 }
-.notification-top button{
+
+.notification-top button {
     margin: 3px 6px 0 0;
     cursor: pointer;
     border: none;
     outline: none;
     color: #777;
-    background:none;
+    background: none;
 }
-.details .notification-msg{
+
+.details .notification-msg {
     /* border: 1px solid purple; */
     width: 160px;
     height: 26px;
@@ -900,17 +961,20 @@ div::-webkit-scrollbar {
     font-size: 11px;
     color: rgb(56, 55, 55);
 }
-.details .notification-bottom{
+
+.details .notification-bottom {
     /* border: 1px solid brown; */
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.notification-bottom p{
+
+.notification-bottom p {
     font-size: 8px;
     /* border: 1px solid green; */
 }
-.notification-bottom .notification-project-name{
+
+.notification-bottom .notification-project-name {
     margin: 0 10px 0 0;
     height: 14px;
     width: 85px;
@@ -920,13 +984,9 @@ div::-webkit-scrollbar {
 }
 
 
-
-
-
-
-
 /* notification-popup */
-.notification-popup-container{
+
+.notification-popup-container {
     display: none;
     width: 100%;
     height: 100%;
@@ -935,12 +995,13 @@ div::-webkit-scrollbar {
     transition: all 2s ease;
     margin-top: 660px;
 }
-.notification-popup-container.active{
+
+.notification-popup-container.active {
     display: block;
 }
-.notification-popup{
+
+.notification-popup {
     width: 310px;
-    
     max-height: 500px;
     overflow-y: scroll;
     position: fixed;
@@ -951,36 +1012,41 @@ div::-webkit-scrollbar {
     padding-bottom: 25px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
-.notification-popup .notification-popup-top{
+
+.notification-popup .notification-popup-top {
     display: flex;
     justify-content: space-between;
     padding: 5px 10px;
 }
-.notification-popup-top h3{
+
+.notification-popup-top h3 {
     color: #333;
 }
-.notification-popup-top i{
+
+.notification-popup-top i {
     cursor: pointer;
     color: #333;
 }
-.notification-popup .notification{
-    
+
+.notification-popup .notification {
     margin: 5px;
     height: 80px;
 }
-.notification-popup .request-notification{
+
+.notification-popup .request-notification {
     margin: 5px;
     height: 140px;
 }
-.request-notification .notification-details{
+
+.request-notification .notification-details {
     display: flex;
 }
 
-.notification .notification-details{
+.notification .notification-details {
     display: flex;
 }
-.notification-details img{
-    
+
+.notification-details img {
     width: 60px;
     height: 60px;
     /* justify-self: center; */
@@ -989,32 +1055,35 @@ div::-webkit-scrollbar {
     border: none;
     border-radius: 50%;
 }
-.notification-details .content{
+
+.notification-details .content {
     padding-top: 6px;
 }
 
-.content .request-content{
+.content .request-content {
     margin: 0 10px;
 }
-.request-content h5{
+
+.request-content h5 {
     margin: 2px 0 5px 15px;
 }
-.request-content p{
+
+.request-content p {
     font-size: 11px;
     color: #333;
     height: 27px;
-    
 }
-.request-content .responses{
+
+.request-content .responses {
     display: flex;
     justify-content: space-between;
-    
     height: 30px;
     width: 180px;
     margin-top: 5px;
     margin-bottom: 10px;
 }
-.responses button{
+
+.responses button {
     width: 80px;
     cursor: pointer;
     color: #fff;
@@ -1024,52 +1093,55 @@ div::-webkit-scrollbar {
     font-size: 16px;
     /* font-weight: 550; */
 }
-#rejectInviteBtn{
+
+#rejectInviteBtn {
     background-color: #F83B3B;
 }
-#acceptInviteBtn{
+
+#acceptInviteBtn {
     background-color: #2F984A;
 }
-.content .sender-and-project{
+
+.content .sender-and-project {
     display: flex;
     height: 25px;
 }
-.sender-and-project h4{
+
+.sender-and-project h4 {
     text-align: left;
     margin-left: 10px;
     /* justify-content: center; */
     display: flex;
     align-items: center;
     font-size: 14px;
-    
     flex: 5;
 }
-.sender-and-project p{
+
+.sender-and-project p {
     display: flex;
     /* align-items: center; */
     font-size: 11px;
-    
     flex: 3;
     overflow-x: hidden;
     overflow-y: hidden;
 }
-.content .notification-content{
-    
+
+.content .notification-content {
     font-size: 11px;
     padding: 4px 8px 0 12px;
     height: 30px;
     overflow-y: hidden;
     color: #555;
 }
-.content .date-and-project{
+
+.content .date-and-project {
     display: flex;
     justify-content: space-between;
     font-size: 10px;
     margin-top: 2px;
 }
 
-.date-and-project .notification-project{
-    
+.date-and-project .notification-project {
     width: 90px;
     height: 13px;
     margin-right: 10px;
@@ -1081,7 +1153,7 @@ div::-webkit-scrollbar {
 
 /* create project style  */
 
-.create-project-container{
+.create-project-container {
     display: none;
     width: 100%;
     height: 100%;
@@ -1092,78 +1164,87 @@ div::-webkit-scrollbar {
     margin: 830px 0 0 530px;
     transition: all 2s ease;
 }
-.create-project-container.active{
+
+.create-project-container.active {
     display: block;
 }
 
-.create-project-container .create-project-popup{
+.create-project-container .create-project-popup {
     /* display: none; */
     width: 900px;
     height: 500px;
-    
     position: fixed;
     background-color: #fff;
     border-radius: 15px;
     padding: 25px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
-.create-project-popup .create-project-top{
+
+.create-project-popup .create-project-top {
     display: flex;
     justify-content: space-between;
 }
-.create-project-top .create-project-header{
-    
+
+.create-project-top .create-project-header {
     width: 550px;
     margin: 30px 0 0 40px;
 }
-.create-project-top i{
+
+.create-project-top i {
     font-size: 22px;
     color: #333;
     cursor: pointer;
     margin-right: 5px;
 }
-.create-project-header h3{
+
+.create-project-header h3 {
     font-size: 27px;
     color: #283A5A;
 }
-.create-project-header p{
+
+.create-project-header p {
     font-size: 15px;
     padding-left: 2px;
     color: #444;
 }
-.create-project-popup .create-project-details{
+
+.create-project-popup .create-project-details {
     display: flex;
     height: 370px;
 }
 
-.create-project-details .create-project-form{
-    
+.create-project-details .create-project-form {
     width: 700px;
     margin-top: 30px;
     margin-left: 50px;
     height: 300px;
 }
-.create-project-form form label{
+
+.create-project-form form label {
     color: #112e5e;
     font-weight: 550;
     font-size: 16px;
 }
-.create-project-form form input{
+
+.create-project-form form input {
     margin-top: 5px;
     margin-bottom: 10px;
     height: 30px;
     width: 360px;
     padding-left: 8px;
 }
-.create-project-form form p{
+
+.create-project-form form p {
     font-size: 9px;
     color: #555;
     margin-bottom: 10px;
 }
-#projectDescription{
+
+#projectDescription {
     height: 100px;
 }
-.create-project-form form button{
+
+.create-project-form form button {
     width: 120px;
     height: 32px;
     background-color: #F83B3B;
@@ -1176,3 +1257,86 @@ div::-webkit-scrollbar {
 }
 
 
+/* Feedback message styles */
+
+.feedback-form {
+    overflow-y: scroll;
+}
+
+.feedback-form .outgoing-feedback {
+    border: 1px solid #f7f7f7;
+    background-color: #f5f4f4;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    max-width: 350px;
+    width: fit-content;
+    height: fit-content;
+    padding: 8px 10px;
+    margin: 0px 5px 5px auto;
+}
+
+.feedback-form .incoming-feedback {
+    max-width: 350px;
+    width: fit-content;
+    height: fit-content;
+    padding: 8px 10px;
+    margin: 0px auto 10px 5px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: rgb(214, 211, 211);
+}
+
+.feedback-form .outgoing-message {
+    max-width: 550px;
+    width: fit-content;
+    padding: 10px 15px;
+    background-color: #667896;
+    border-radius: 12px 12px 0px 12px;
+    margin: 10px 0 3px auto;
+}
+
+.outgoing-message p {
+    color: #fff;
+    font-size: 13px;
+    text-align: right;
+}
+
+.feedback-form .incoming-message {
+    max-width: 550px;
+    width: fit-content;
+    padding: 10px 15px;
+    background-color: #e1e1e1;
+    border-radius: 12px 12px 12px 0px;
+    margin: 10px 0 3px 0;
+}
+
+.incoming-message .sender-details {
+    /* border: 1px solid black; */
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.sender-details img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.sender-details h5 {
+    color: #333;
+    margin: 12px 20px 0 10px;
+    font-size: 14px;
+}
+
+.sender-details p {
+    font-size: 12px;
+    margin: 13px 0 0 0;
+}
+
+.incoming-message p {
+    font-size: 13px;
+    padding: 2px 10px;
+}

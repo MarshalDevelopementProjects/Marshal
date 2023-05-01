@@ -57,7 +57,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `first_name`, `last_name`, `username`, `email_address`, `street_address`, `city`, `country`, `password`, `phone_number`, `joined_datetime`) VALUES
-(0, 'Adam', 'West', 'SysAdmin', 'adam_west@gmail.com', 'No. 23, Top street', 'York City', 'England', '$argon2id$v=19$m=65536,t=4,p=1$Vkg2Skx6MERFR0JUZ05kZQ$xvR7jk/Yo5waSWOV6/OUC3scLeNVZ2hs1mZ2YMD0xFI', '0709078923', '2023-01-22 12:20:28');
+  (0, 'Adam', 'West', 'SysAdmin', 'adam_west@gmail.com', 'No. 23, Top street', 'York City', 'England', '$argon2id$v=19$m=65536,t=4,p=1$Vkg2Skx6MERFR0JUZ05kZQ$xvR7jk/Yo5waSWOV6/OUC3scLeNVZ2hs1mZ2YMD0xFI', '0709078923', '2023-01-22 12:20:28');
 
 -- --------------------------------------------------------
 
@@ -159,8 +159,8 @@ CREATE TABLE `groups` (
 --
 
 INSERT INTO `groups` (`id`, `group_name`, `task_name`, `description`, `project_id`, `leader_id`, `start_date`) VALUES
-(1, 'Make Responsive', 'Make Responsive', 'We have to complete all pages as responsive', 4, 4, '2023-04-28 05:59:49'),
-(2, 'Connect conference', 'Connect conference', 'Connect conference app to the main branch and test it', 4, 1, '2023-04-28 06:00:22');
+                                                                                                                 (1, 'Build prototype from rasberipi', 'Build prototype from rasberipi', 'Build prototype from rasberipi circuit. Because we have to use little bit more power than arduino bo', 4, 1, '2023-02-25 03:39:28'),
+                                                                                                                 (2, 'ss', 'ss', 'cs', 4, 0, '2023-03-09 10:38:09');
 
 -- --------------------------------------------------------
 
@@ -179,10 +179,10 @@ CREATE TABLE `group_announcement` (
 --
 
 INSERT INTO `group_announcement` (`message_id`, `project_id`, `heading`) VALUES
-(39, 4, 'Medicare App Development'),
-(40, 4, 'Web App development'),
-(74, 4, 'App Development'),
-(90, 4, 'Connect conference'),
+                                                                           (39, 4, 'Medicare App Development'),
+                                                                           (40, 4, 'Web App development'),
+                                                                           (74, 4, 'App Development'),
+                                                                           (90, 4, 'Connect conference'),
 (91, 4, 'Connect conference'),
 (92, 4, 'Connect conference'),
 (93, 4, 'Connect conference 2'),
@@ -190,7 +190,19 @@ INSERT INTO `group_announcement` (`message_id`, `project_id`, `heading`) VALUES
 (95, 4, 'Message forum'),
 (96, 4, 'Hello'),
 (98, 4, 'Hello world'),
-(99, 4, 'Hello world');
+(99, 4, 'Hello world');;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_feedback_message`
+--
+
+CREATE TABLE `group_feedback_message` (
+                                        `message_id` int(11) NOT NULL,
+                                        `project_id` int(11) NOT NULL,
+                                        `group_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -210,9 +222,48 @@ CREATE TABLE `group_join` (
 --
 
 INSERT INTO `group_join` (`group_id`, `member_id`, `role`, `joined`) VALUES
-(1, 1, 'MEMBER', '2023-04-28 02:29:49'),
-(1, 4, 'LEADER', '2023-04-28 02:29:49'),
-(2, 1, 'LEADER', '2023-04-28 02:30:22');
+                                                                       (1, 1, 'LEADER', '2023-02-24 23:09:28'),
+                                                                       (1, 2, 'MEMBER', '2023-04-27 13:39:42'),
+                                                                       (2, 1, 'LEADER', '2023-03-09 06:08:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_message`
+--
+
+CREATE TABLE `group_message` (
+                               `message_id` int(11) NOT NULL,
+                               `project_id` int(11) NOT NULL,
+                               `group_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `group_message`
+--
+
+INSERT INTO `group_message` (`message_id`, `project_id`, `group_id`) VALUES
+                                                                       (80, 4, 1),
+                                                                       (81, 4, 1),
+                                                                       (82, 4, 1),
+                                                                       (83, 4, 1),
+                                                                       (84, 4, 1),
+                                                                       (85, 4, 1),
+                                                                       (86, 4, 1),
+                                                                       (87, 4, 1),
+                                                                       (88, 4, 1),
+                                                                       (89, 4, 1),
+                                                                       (90, 4, 1),
+                                                                       (91, 4, 1),
+                                                                       (92, 4, 1),
+                                                                       (93, 4, 1),
+                                                                       (94, 4, 1),
+                                                                       (95, 4, 1),
+                                                                       (96, 4, 1),
+                                                                       (97, 4, 1),
+                                                                       (98, 4, 1),
+                                                                       (99, 4, 1),
+                                                                       (100, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -230,10 +281,9 @@ CREATE TABLE `group_task` (
 --
 
 INSERT INTO `group_task` (`task_id`, `group_id`) VALUES
-(23, 1),
-(24, 1),
-(31, 2),
-(71, 2);
+                                                   (23, 1),
+                                                   (24, 1),
+                                                   (31, 2);
 
 -- --------------------------------------------------------
 
@@ -290,90 +340,121 @@ CREATE TABLE `message` (
 --
 
 INSERT INTO `message` (`id`, `sender_id`, `stamp`, `message_type`, `msg`) VALUES
-(1, 1, '2023-02-24 23:32:37', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'helo'),
-(2, 1, '2023-02-24 23:33:15', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'helo'),
-(3, 1, '2023-02-24 23:33:22', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hello'),
-(4, 1, '2023-02-24 23:34:20', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'yyy'),
-(5, 1, '2023-02-24 23:34:25', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'yyy'),
-(6, 1, '2023-02-24 23:34:33', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'ww'),
-(7, 1, '2023-02-24 23:37:14', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'kk'),
-(8, 1, '2023-02-25 02:22:37', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'ppppppppppp'),
-(9, 1, '2023-02-25 02:23:27', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'ggg'),
-(10, 1, '2023-02-25 02:23:33', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'yyyyy'),
-(11, 1, '2023-02-25 02:38:27', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hello'),
-(12, 1, '2023-02-25 02:38:36', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hell'),
-(13, 1, '2023-02-25 02:40:07', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'jj'),
-(14, 1, '2023-02-25 02:40:56', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'yyy'),
-(15, 1, '2023-02-25 02:41:03', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'ddd'),
-(16, 1, '2023-02-25 02:42:02', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'ww'),
-(17, 1, '2023-02-25 02:43:45', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'oo'),
-(18, 1, '2023-02-25 02:43:52', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'oo'),
-(19, 1, '2023-02-25 02:44:15', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'rrr'),
-(20, 1, '2023-02-25 02:45:19', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'eee'),
-(21, 1, '2023-02-25 03:03:23', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hee'),
-(26, 1, '2023-03-03 11:44:15', 'PROJECT_ANNOUNCEMENT', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
-(31, 1, '2023-03-04 12:47:48', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hi'),
-(32, 1, '2023-03-04 12:47:48', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hi'),
-(33, 1, '2023-03-04 12:47:48', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hi'),
-(35, 1, '2023-03-05 01:44:45', '', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.'),
-(36, 1, '2023-03-05 01:46:48', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.'),
-(37, 1, '2023-03-05 01:47:07', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.'),
-(38, 1, '2023-03-05 01:48:43', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own h'),
-(39, 1, '2023-03-05 01:49:48', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own h'),
-(40, 1, '2023-03-05 01:50:24', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.'),
-(41, 1, '2023-03-08 10:15:32', '', 'hi'),
-(42, 1, '2023-03-08 23:24:09', '', 'gm'),
-(43, 1, '2023-03-08 23:25:03', '', 'hi'),
-(44, 1, '2023-03-08 23:26:38', 'GROUP_TASK_FEEDBACK_MESSAGE', 'gm'),
-(46, 1, '2023-03-09 06:07:05', 'PROJECT_ANNOUNCEMENT', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
-(47, 1, '2023-03-09 06:09:22', 'GROUP_TASK_FEEDBACK_MESSAGE', 'hi'),
-(54, 1, '2023-04-25 04:41:41', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hmm'),
-(59, 1, '2023-04-25 12:29:40', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'I have done it'),
-(66, 1, '2023-04-26 06:36:45', 'PROJECT_ANNOUNCEMENT', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
-(67, 1, '2023-04-26 06:36:58', 'PROJECT_ANNOUNCEMENT', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
-(68, 1, '2023-04-26 06:38:16', 'PROJECT_ANNOUNCEMENT', ' Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
-(69, 1, '2023-04-26 06:39:08', 'PROJECT_ANNOUNCEMENT', ' Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
-(70, 1, '2023-04-26 06:39:26', 'PROJECT_ANNOUNCEMENT', 'Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the'),
-(71, 1, '2023-04-26 06:42:24', 'PROJECT_ANNOUNCEMENT', 'Welcome you allWelcome you allWelcome you allWelcome you allWelcome you allWelcome you allWelcome you all'),
-(72, 1, '2023-04-26 06:42:53', 'PROJECT_ANNOUNCEMENT', 'Welcome you allWelcome you allWelcome you allWelcome you allWelcome you allWelcome you allWelcome you all'),
-(73, 1, '2023-04-26 06:44:35', 'PROJECT_ANNOUNCEMENT', 'good morninggood morninggood morninggood morning'),
-(74, 1, '2023-04-26 07:05:53', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own h'),
-(79, 1, '2023-04-27 07:45:28', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hi'),
-(80, 1, '2023-04-28 02:31:09', 'GROUP_TASK_FEEDBACK_MESSAGE', 'good morning'),
-(81, 1, '2023-04-28 04:08:24', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'good morning'),
-(82, 1, '2023-04-28 04:09:43', 'PROJECT_ANNOUNCEMENT', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
-(83, 1, '2023-04-28 04:10:02', 'PROJECT_ANNOUNCEMENT', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
-(84, 1, '2023-04-28 04:12:52', 'PROJECT_ANNOUNCEMENT', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time todevelop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
-(85, 1, '2023-04-28 04:53:28', 'PROJECT_ANNOUNCEMENT', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time todevelop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time todevelop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time todevelop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
-(86, 1, '2023-04-28 05:59:28', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'Good morning'),
-(87, 1, '2023-04-28 06:04:32', 'GROUP_TASK_FEEDBACK_MESSAGE', 'ok'),
-(88, 1, '2023-04-28 06:06:01', 'GROUP_TASK_FEEDBACK_MESSAGE', 'hmm'),
-(89, 4, '2023-04-28 06:46:26', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'gm'),
-(90, 1, '2023-04-28 10:25:52', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.'),
-(91, 1, '2023-04-28 10:26:07', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.'),
-(92, 1, '2023-04-28 10:30:22', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.'),
-(93, 1, '2023-04-28 10:30:59', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.'),
-(94, 1, '2023-04-28 10:36:00', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.'),
-(95, 1, '2023-04-28 10:52:33', 'GROUP_ANNOUNCEMENT', 'ce of their own homes without visiting hospitals.mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of the'),
-(96, 1, '2023-04-28 10:56:33', 'GROUP_ANNOUNCEMENT', 'ce of their own homes without visiting hospitals.mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of the'),
-(97, 1, '2023-04-28 11:05:50', 'PROJECT_MESSAGE', 'hi'),
-(98, 1, '2023-04-28 11:13:24', 'GROUP_ANNOUNCEMENT', 'public function getGroupMember(array $args, array $keys): bool|object|array     {         $keyCount = count($keys);         $sql = \"SELECT * FROM group_join WHERE \";          for ($i = 0; $i < $keyCount; $i++) {             $key = $keys[$i];             $sql .= $key . \" = :\" . $key;              if ($i != $keyCount - 1) {                 $sql .= \" AND \";             }         }          try {             $result = $this->crud_util->execute($sql, $args);             if ($result->getCount() > 0) {                 return $result->getFirstResult();             } else {                 return false;             }         } catch (\\Throwable $th) {             throw $th;         }     }'),
-(99, 1, '2023-04-28 11:13:51', 'GROUP_ANNOUNCEMENT', 'public function getGroupMember(array $args, array $keys): bool|object|array     {         $keyCount = count($keys);         $sql = \"SELECT * FROM group_join WHERE \";          for ($i = 0; $i < $keyCount; $i++) {             $key = $keys[$i];             $sql .= $key . \" = :\" . $key;              if ($i != $keyCount - 1) {                 $sql .= \" AND \";             }         }          try {             $result = $this->crud_util->execute($sql, $args);             if ($result->getCount() > 0) {                 return $result->getFirstResult();             } else {                 return false;             }         } catch (\\Throwable $th) {             throw $th;         }     }'),
-(100, 1, '2023-04-28 13:49:28', 'GROUP_TASK_FEEDBACK_MESSAGE', 'ge'),
-(101, 4, '2023-04-28 15:19:09', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hi'),
-(102, 4, '2023-04-28 15:25:17', 'GROUP_TASK_FEEDBACK_MESSAGE', 'GE'),
-(103, 1, '2023-04-28 15:36:26', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hi'),
-(104, 1, '2023-04-28 17:19:02', 'GROUP_TASK_FEEDBACK_MESSAGE', 'HI'),
-(105, 1, '2023-04-28 17:21:20', 'GROUP_TASK_FEEDBACK_MESSAGE', 'so'),
-(106, 1, '2023-04-28 18:04:42', 'GROUP_TASK_FEEDBACK_MESSAGE', 'hi'),
-(107, 1, '2023-04-28 18:04:48', 'GROUP_TASK_FEEDBACK_MESSAGE', 'hmm'),
-(108, 1, '2023-04-28 18:05:42', 'GROUP_TASK_FEEDBACK_MESSAGE', 'hi'),
-(109, 1, '2023-04-28 18:06:04', 'GROUP_TASK_FEEDBACK_MESSAGE', 'hey'),
-(110, 1, '2023-04-28 18:47:20', 'GROUP_TASK_FEEDBACK_MESSAGE', 'Good night'),
-(111, 1, '2023-04-28 18:49:45', 'GROUP_TASK_FEEDBACK_MESSAGE', 'I am done it'),
-(112, 1, '2023-04-28 18:52:27', 'GROUP_TASK_FEEDBACK_MESSAGE', 'hmm'),
-(113, 1, '2023-04-29 02:29:48', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'good morning'),
-(114, 1, '2023-04-29 03:25:19', 'GROUP_TASK_FEEDBACK_MESSAGE', 'gm');
+                                                                            (1, 1, '2023-02-24 23:32:37', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'helo'),
+                                                                            (2, 1, '2023-02-24 23:33:15', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'helo'),
+                                                                            (3, 1, '2023-02-24 23:33:22', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hello'),
+                                                                            (4, 1, '2023-02-24 23:34:20', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'yyy'),
+                                                                            (5, 1, '2023-02-24 23:34:25', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'yyy'),
+                                                                            (6, 1, '2023-02-24 23:34:33', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'ww'),
+                                                                            (7, 1, '2023-02-24 23:37:14', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'kk'),
+                                                                            (8, 1, '2023-02-25 02:22:37', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'ppppppppppp'),
+                                                                            (9, 1, '2023-02-25 02:23:27', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'ggg'),
+                                                                            (10, 1, '2023-02-25 02:23:33', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'yyyyy'),
+                                                                            (11, 1, '2023-02-25 02:38:27', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hello'),
+                                                                            (12, 1, '2023-02-25 02:38:36', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hell'),
+                                                                            (13, 1, '2023-02-25 02:40:07', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'jj'),
+                                                                            (14, 1, '2023-02-25 02:40:56', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'yyy'),
+                                                                            (15, 1, '2023-02-25 02:41:03', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'ddd'),
+                                                                            (16, 1, '2023-02-25 02:42:02', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'ww'),
+                                                                            (17, 1, '2023-02-25 02:43:45', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'oo'),
+                                                                            (18, 1, '2023-02-25 02:43:52', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'oo'),
+                                                                            (19, 1, '2023-02-25 02:44:15', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'rrr'),
+                                                                            (20, 1, '2023-02-25 02:45:19', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'eee'),
+                                                                            (21, 1, '2023-02-25 03:03:23', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hee'),
+                                                                            (26, 1, '2023-03-03 11:44:15', 'PROJECT_ANNOUNCEMENT', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
+                                                                            (31, 1, '2023-03-04 12:47:48', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hi'),
+                                                                            (32, 1, '2023-03-04 12:47:48', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hi'),
+                                                                            (33, 1, '2023-03-04 12:47:48', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hi'),
+                                                                            (35, 1, '2023-03-05 01:44:45', '', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.'),
+                                                                            (36, 1, '2023-03-05 01:46:48', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.'),
+                                                                            (37, 1, '2023-03-05 01:47:07', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.'),
+                                                                            (38, 1, '2023-03-05 01:48:43', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own h'),
+                                                                            (39, 1, '2023-03-05 01:49:48', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own h'),
+                                                                            (40, 1, '2023-03-05 01:50:24', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals. convenience of their own homes without visiting hospitals.'),
+                                                                            (41, 1, '2023-03-08 10:15:32', '', 'hi'),
+                                                                            (42, 1, '2023-03-08 23:24:09', '', 'gm'),
+                                                                            (43, 1, '2023-03-08 23:25:03', '', 'hi'),
+                                                                            (44, 1, '2023-03-08 23:26:38', 'GROUP_TASK_FEEDBACK_MESSAGE', 'gm'),
+                                                                            (46, 1, '2023-03-09 06:07:05', 'PROJECT_ANNOUNCEMENT', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
+                                                                            (47, 1, '2023-03-09 06:09:22', 'GROUP_TASK_FEEDBACK_MESSAGE', 'hi'),
+                                                                            (54, 1, '2023-04-25 04:41:41', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hmm'),
+                                                                            (59, 1, '2023-04-25 12:29:40', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'I have done it'),
+                                                                            (61, 1, '2023-04-25 12:49:27', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hi'),
+                                                                            (62, 4, '2023-04-25 12:49:59', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'why'),
+                                                                            (63, 4, '2023-04-25 12:50:19', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hmm'),
+                                                                            (64, 4, '2023-04-25 12:52:01', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'now go'),
+                                                                            (65, 4, '2023-04-25 12:52:58', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'check'),
+                                                                            (66, 1, '2023-04-26 06:36:45', 'PROJECT_ANNOUNCEMENT', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
+                                                                            (67, 1, '2023-04-26 06:36:58', 'PROJECT_ANNOUNCEMENT', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
+                                                                            (68, 1, '2023-04-26 06:38:16', 'PROJECT_ANNOUNCEMENT', ' Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
+                                                                            (69, 1, '2023-04-26 06:39:08', 'PROJECT_ANNOUNCEMENT', ' Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the time to'),
+                                                                            (70, 1, '2023-04-26 06:39:26', 'PROJECT_ANNOUNCEMENT', 'Because we are in big trouble that we don\'t see. So that\'s the time change the world as nature friendly and that\'s the'),
+                                                                            (71, 1, '2023-04-26 06:42:24', 'PROJECT_ANNOUNCEMENT', 'Welcome you allWelcome you allWelcome you allWelcome you allWelcome you allWelcome you allWelcome you all'),
+                                                                            (72, 1, '2023-04-26 06:42:53', 'PROJECT_ANNOUNCEMENT', 'Welcome you allWelcome you allWelcome you allWelcome you allWelcome you allWelcome you allWelcome you all'),
+                                                                            (73, 1, '2023-04-26 06:44:35', 'PROJECT_ANNOUNCEMENT', 'good morninggood morninggood morninggood morning'),
+                                                                            (74, 1, '2023-04-26 07:05:53', 'GROUP_ANNOUNCEMENT', 'mHealth apps between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own h'),
+                                                                            (75, 1, '2023-04-26 07:29:11', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'HI'),
+                                                                            (76, 1, '2023-04-26 07:29:19', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hi'),
+                                                                            (79, 1, '2023-04-27 07:45:28', 'PROJECT_TASK_FEEDBACK_MESSAGE', 'hi'),
+                                                                            (80, 2, '2023-04-27 15:07:23', 'GROUP_MESSAGE', 'hello bro'),
+                                                                            (81, 2, '2023-04-27 15:08:21', 'GROUP_MESSAGE', 'hello'),
+                                                                            (82, 2, '2023-04-27 15:10:15', 'GROUP_MESSAGE', 'new message'),
+                                                                            (83, 2, '2023-04-27 15:12:10', 'GROUP_MESSAGE', 'new message'),
+                                                                            (84, 2, '2023-04-27 15:15:45', 'GROUP_MESSAGE', 'Hello bro are you doing ok?'),
+                                                                            (85, 2, '2023-04-27 15:15:56', 'GROUP_MESSAGE', 'boss are you alright?'),
+                                                                            (86, 2, '2023-04-27 15:17:25', 'GROUP_MESSAGE', 'boss are you alright?'),
+                                                                            (87, 2, '2023-04-27 15:19:30', 'GROUP_MESSAGE', 'Hello bro are you doing ok?'),
+                                                                            (88, 2, '2023-04-27 15:20:22', 'GROUP_MESSAGE', 'new'),
+                                                                            (89, 2, '2023-04-27 15:22:28', 'GROUP_MESSAGE', 'boss are you alright?'),
+                                                                            (90, 2, '2023-04-27 15:26:04', 'GROUP_MESSAGE', 'new message'),
+                                                                            (91, 2, '2023-04-27 15:27:31', 'GROUP_MESSAGE', 'boss are you alright?'),
+                                                                            (92, 2, '2023-04-27 15:36:14', 'GROUP_MESSAGE', 'new'),
+                                                                            (93, 2, '2023-04-27 15:38:03', 'GROUP_MESSAGE', 'new'),
+                                                                            (94, 2, '2023-04-27 15:40:02', 'GROUP_MESSAGE', 'Hello bro are you doing ok?'),
+                                                                            (95, 2, '2023-04-27 15:54:47', 'GROUP_MESSAGE', 'Hello bro are you doing ok?'),
+                                                                            (96, 2, '2023-04-27 16:24:36', 'GROUP_MESSAGE', 'asdadwsd'),
+                                                                            (97, 2, '2023-04-27 16:40:36', 'GROUP_MESSAGE', 'asdada'),
+                                                                            (98, 1, '2023-04-27 16:44:03', 'GROUP_MESSAGE', 'sdasfdasdadads'),
+                                                                            (99, 1, '2023-04-27 16:44:22', 'GROUP_MESSAGE', 'sfsafdsfsafdsafsfsaf'),
+                                                                            (100, 2, '2023-04-27 16:44:45', 'GROUP_MESSAGE', 'asdaffsafdsfs'),
+                                                                            (101, 1, '2023-04-27 16:45:07', 'PROJECT_MESSAGE', 'sfdsafsdfasfdsaf'),
+                                                                            (102, 1, '2023-04-27 16:45:15', 'PROJECT_MESSAGE', 'How are you all doing?'),
+                                                                            (103, 5, '2023-04-28 08:25:29', 'PROJECT_FEEDBACK_MESSAGE', 'This is the first ever feedback message'),
+                                                                            (104, 5, '2023-04-28 08:29:40', 'PROJECT_FEEDBACK_MESSAGE', 'This is the fist ever feedback message'),
+                                                                            (105, 5, '2023-04-28 08:30:32', 'PROJECT_FEEDBACK_MESSAGE', 'This is the fist ever feedback message'),
+                                                                            (106, 5, '2023-04-28 08:37:40', 'PROJECT_FEEDBACK_MESSAGE', 'This is the fist ever feedback message'),
+                                                                            (107, 5, '2023-04-28 08:45:24', 'PROJECT_FEEDBACK_MESSAGE', 'This is the first ever feedback message'),
+                                                                            (108, 5, '2023-04-28 08:45:30', 'PROJECT_FEEDBACK_MESSAGE', 'This is a new message'),
+                                                                            (109, 5, '2023-04-28 09:27:16', 'PROJECT_FEEDBACK_MESSAGE', 'This is the fist ever feedback message'),
+                                                                            (110, 5, '2023-04-28 09:27:25', 'PROJECT_FEEDBACK_MESSAGE', 'New message'),
+                                                                            (111, 1, '2023-04-28 11:23:21', 'PROJECT_FEEDBACK_MESSAGE', 'asdadadsa'),
+                                                                            (112, 1, '2023-04-28 11:23:38', 'PROJECT_FEEDBACK_MESSAGE', 'asdasdadfsfdsfgsftgedgdrfhdfghfghjfgjghj'),
+                                                                            (113, 1, '2023-04-28 11:23:45', 'PROJECT_FEEDBACK_MESSAGE', 'sdfasfdsgsdfgsdgatgwrgvbADGBdzg egrea rgag graegadfzgxd gdfsge'),
+                                                                            (114, 1, '2023-04-28 11:23:50', 'PROJECT_FEEDBACK_MESSAGE', 'sfasdfsfhkbhmafbsfgsdfvsnmvasvibivbasvasnvbsdmv'),
+                                                                            (115, 1, '2023-04-28 11:23:53', 'PROJECT_FEEDBACK_MESSAGE', 'dfasfksdnfjksnafaisnvvaer g srvasvnfgv'),
+                                                                            (116, 1, '2023-04-28 11:23:56', 'PROJECT_FEEDBACK_MESSAGE', 'nkjfnasdfnoashjfwhftgrwer gm, vsajiov awervraw kwiojwofnwFGN;w'),
+                                                                            (117, 5, '2023-04-28 11:35:57', 'PROJECT_FEEDBACK_MESSAGE', 'sadfasfsd'),
+                                                                            (118, 5, '2023-04-28 11:36:00', 'PROJECT_FEEDBACK_MESSAGE', 'sdfasdfas'),
+                                                                            (119, 1, '2023-04-28 11:44:17', 'PROJECT_FEEDBACK_MESSAGE', 'Thanos is the best '),
+                                                                            (120, 5, '2023-04-28 11:44:44', 'PROJECT_FEEDBACK_MESSAGE', 'You think so '),
+                                                                            (121, 1, '2023-04-28 11:45:06', 'PROJECT_FEEDBACK_MESSAGE', 'Yeah dude is super powerful and a little crazy'),
+                                                                            (122, 5, '2023-04-28 12:29:02', 'PROJECT_FEEDBACK_MESSAGE', 'sdfasdfsdfasdfasfas'),
+                                                                            (123, 1, '2023-04-28 12:29:07', 'PROJECT_FEEDBACK_MESSAGE', 'sdfasfsafsdfasf'),
+                                                                            (124, 1, '2023-04-28 12:29:08', 'PROJECT_FEEDBACK_MESSAGE', 'sfsafsafsaf'),
+                                                                            (125, 1, '2023-04-28 12:29:13', 'PROJECT_FEEDBACK_MESSAGE', 'sadfasdfs'),
+                                                                            (126, 1, '2023-04-28 12:29:14', 'PROJECT_FEEDBACK_MESSAGE', 'sdfsf'),
+                                                                            (127, 1, '2023-04-28 12:29:14', 'PROJECT_FEEDBACK_MESSAGE', 'asdfasd'),
+                                                                            (128, 1, '2023-04-28 12:29:16', 'PROJECT_FEEDBACK_MESSAGE', 'fsafsadfwrwerfc swfwsefa'),
+                                                                            (129, 1, '2023-04-28 12:29:19', 'PROJECT_FEEDBACK_MESSAGE', ' ASDFW TGHQRTNNGHJMYJHMTM'),
+                                                                            (130, 1, '2023-04-28 12:29:33', 'PROJECT_FEEDBACK_MESSAGE', 'GAS SRFEw erwrrfdsfagsfw3ertw4t et 4t 5yetyhsrtyht7dyjghnmvb'),
+                                                                            (131, 1, '2023-04-28 12:29:47', 'PROJECT_FEEDBACK_MESSAGE', 'asdfdsfsdfgdfg'),
+                                                                            (132, 1, '2023-04-28 12:29:52', 'PROJECT_FEEDBACK_MESSAGE', 'sadfs'),
+                                                                            (133, 1, '2023-04-28 12:34:13', 'PROJECT_FEEDBACK_MESSAGE', 'Hello boso'),
+                                                                            (134, 1, '2023-04-28 12:59:16', 'PROJECT_FEEDBACK_MESSAGE', 'bnbvghdccg fchgvjhvyuyftgj'),
+                                                                            (135, 5, '2023-04-28 12:59:24', 'PROJECT_FEEDBACK_MESSAGE', 'sDASDadad'),
+                                                                            (136, 1, '2023-04-28 12:59:31', 'PROJECT_FEEDBACK_MESSAGE', 'sdfasdfasdfasdfsa'),
+                                                                            (137, 1, '2023-04-28 12:59:33', 'PROJECT_FEEDBACK_MESSAGE', 'saDASDA'),
+                                                                            (138, 1, '2023-04-28 12:59:36', 'PROJECT_FEEDBACK_MESSAGE', 'fasdfs');
 
 -- --------------------------------------------------------
 
@@ -612,16 +693,16 @@ CREATE TABLE `project` (
 --
 
 INSERT INTO `project` (`id`, `created_by`, `project_name`, `description`, `field`, `start_on`, `end_on`, `created_on`) VALUES
-(1, 1, 'mHealth App development', 'mHealth apps facilitate engagement through effective patient-focused care, personalized experiences & knowledge sharing between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of thei', 'web', '2023-01-22 01:49:25', '2023-05-30 01:49:25', '2023-01-22 01:49:25'),
-(2, 1, 'project 2', 'sd', 'web', '2023-01-22 03:30:04', '2023-02-16 03:29:39', '2023-01-22 03:30:04'),
-(4, 1, 'Develop cleaning robot', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don&#039;t see. So that&#039;s the time change the world as nature friendly and that&#039;s the time to', 'Robotics', '2023-02-24 22:04:29', '2023-02-24 22:04:29', '2023-02-24 22:04:29');
+                                                                                                                         (1, 1, 'mHealth App development', 'mHealth apps facilitate engagement through effective patient-focused care, personalized experiences & knowledge sharing between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of thei', 'web', '2023-01-22 01:49:25', '2023-05-30 01:49:25', '2023-01-22 01:49:25'),
+                                                                                                                         (2, 1, 'project 2', 'sd', 'web', '2023-01-22 03:30:04', '2023-02-16 03:29:39', '2023-01-22 03:30:04'),
+                                                                                                                         (4, 1, 'Develop cleaning robot', 'develop cleaning robot for cleaning the environment, So it is best thing to do for the environment as technology. Because we are in big trouble that we don&#039;t see. So that&#039;s the time change the world as nature friendly and that&#039;s the time to', 'Robotics', '2023-02-24 22:04:29', '2023-02-24 22:04:29', '2023-02-24 22:04:29');
 
 --
 -- Triggers `project`
 --
 DELIMITER $$
 CREATE TRIGGER `join_project_leader_trigger` AFTER INSERT ON `project` FOR EACH ROW BEGIN
-    INSERT INTO `project_join`(`project_id`, `member_id`, `role`) VALUES(NEW.`id`, NEW.`created_by`, "LEADER");
+  INSERT INTO `project_join`(`project_id`, `member_id`, `role`) VALUES(NEW.`id`, NEW.`created_by`, 'LEADER');
 END
 $$
 DELIMITER ;
@@ -669,6 +750,47 @@ CREATE TABLE `project_feedback_message` (
   `project_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `project_feedback_message`
+--
+
+INSERT INTO `project_feedback_message` (`message_id`, `project_id`) VALUES
+                                                                      (103, 4),
+                                                                      (104, 4),
+                                                                      (105, 4),
+                                                                      (106, 4),
+                                                                      (107, 4),
+                                                                      (108, 4),
+                                                                      (109, 4),
+                                                                      (110, 4),
+                                                                      (111, 4),
+                                                                      (112, 4),
+                                                                      (113, 4),
+                                                                      (114, 4),
+                                                                      (115, 4),
+                                                                      (116, 4),
+                                                                      (117, 4),
+                                                                      (118, 4),
+                                                                      (119, 4),
+                                                                      (120, 4),
+                                                                      (121, 4),
+                                                                      (122, 4),
+                                                                      (123, 4),
+                                                                      (124, 4),
+                                                                      (125, 4),
+                                                                      (126, 4),
+                                                                      (128, 4),
+                                                                      (129, 4),
+                                                                      (130, 4),
+                                                                      (131, 4),
+                                                                      (132, 4),
+                                                                      (133, 4),
+                                                                      (134, 4),
+                                                                      (135, 4),
+                                                                      (136, 4),
+                                                                      (137, 4),
+                                                                      (138, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -687,11 +809,13 @@ CREATE TABLE `project_join` (
 --
 
 INSERT INTO `project_join` (`project_id`, `member_id`, `role`, `joined`) VALUES
-(1, 1, 'LEADER', '2023-01-22 07:20:26'),
-(2, 1, 'LEADER', '2023-01-22 09:00:04'),
-(4, 1, 'LEADER', '0000-00-00 00:00:00'),
-(4, 3, 'MEMBER', '2023-02-28 00:04:41'),
-(4, 4, 'MEMBER', '2023-03-03 12:52:56');
+                                                                           (1, 1, 'LEADER', '2023-01-22 07:20:26'),
+                                                                           (2, 1, 'LEADER', '2023-01-22 09:00:04'),
+                                                                           (4, 1, 'LEADER', '0000-00-00 00:00:00'),
+                                                                           (4, 2, 'MEMBER', '2023-04-27 13:50:32'),
+                                                                           (4, 3, 'MEMBER', '2023-02-28 00:04:41'),
+                                                                           (4, 4, 'MEMBER', '2023-03-03 12:52:56'),
+                                                                           (4, 5, 'CLIENT', '2023-04-27 17:26:36');
 
 -- --------------------------------------------------------
 
@@ -711,6 +835,14 @@ CREATE TABLE `project_message` (
 INSERT INTO `project_message` (`message_id`, `project_id`) VALUES
 (97, 4);
 
+--
+-- Dumping data for table `project_message`
+--
+
+INSERT INTO `project_message` (`message_id`, `project_id`) VALUES
+                                                             (101, 4),
+                                                             (102, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -728,15 +860,16 @@ CREATE TABLE `project_task_feedback_message` (
 --
 
 INSERT INTO `project_task_feedback_message` (`message_id`, `project_id`, `task_id`) VALUES
-(54, 4, 17),
-(59, 4, 25),
-(79, 4, 20),
-(81, 4, 17),
-(86, 4, 19),
-(89, 4, 19),
-(101, 4, 66),
-(103, 4, 19),
-(113, 4, 70);
+                                                                                      (54, 4, 17),
+                                                                                      (59, 4, 25),
+                                                                                      (61, 4, 19),
+                                                                                      (62, 4, 19),
+                                                                                      (63, 4, 19),
+                                                                                      (64, 4, 19),
+                                                                                      (65, 4, 19),
+                                                                                      (75, 4, 19),
+                                                                                      (76, 4, 19),
+                                                                                      (79, 4, 20);
 
 -- --------------------------------------------------------
 
@@ -841,33 +974,34 @@ INSERT INTO `task_notification` (`notification_id`, `task_id`) VALUES
 --
 
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
-  `username` varchar(40) NOT NULL,
-  `email_address` varchar(100) NOT NULL,
-  `first_name` varchar(40) NOT NULL,
-  `last_name` varchar(40) NOT NULL,
-  `password` varchar(136) NOT NULL,
-  `user_status` enum('Available','Idle','Busy') DEFAULT 'Available',
-  `phone_number` varchar(20) NOT NULL,
-  `position` varchar(40) DEFAULT 'position(s) that you hold',
-  `bio` text NOT NULL,
-  `user_state` enum('OFFLINE','ONLINE') NOT NULL DEFAULT 'OFFLINE',
-  `joined_datetime` timestamp NOT NULL DEFAULT current_timestamp(),
-  `profile_picture` varchar(255) NOT NULL DEFAULT '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg',
-  `access` enum('ENABLED','DISABLED') NOT NULL,
-  `verified` enum('TRUE','FALSE') NOT NULL DEFAULT 'FALSE',
-  `verification_code` varchar(100) NOT NULL DEFAULT '_'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+                      `id` int(11) NOT NULL,
+                      `username` varchar(40) NOT NULL,
+                      `email_address` varchar(100) NOT NULL,
+                      `first_name` varchar(40) NOT NULL,
+                      `last_name` varchar(40) NOT NULL,
+                      `password` varchar(136) NOT NULL,
+                      `user_status` enum('Available','Idle','Busy') DEFAULT 'Available',
+                      `phone_number` varchar(20) NOT NULL,
+                      `position` varchar(40) DEFAULT 'position(s) that you hold',
+                      `bio` text NOT NULL,
+                      `user_state` enum('OFFLINE','ONLINE') NOT NULL DEFAULT 'OFFLINE',
+                      `joined_datetime` timestamp NOT NULL DEFAULT current_timestamp(),
+                      `profile_picture` varchar(255) NOT NULL DEFAULT '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg',
+                      `access` enum('ENABLED','DISABLED') NOT NULL,
+                      `verified` enum('TRUE','FALSE') NOT NULL DEFAULT 'FALSE',
+                      `verification_code` varchar(100) NOT NULL DEFAULT '_'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `email_address`, `first_name`, `last_name`, `password`, `user_status`, `phone_number`, `position`, `bio`, `user_state`, `joined_datetime`, `profile_picture`, `access`, `verified`, `verification_code`) VALUES
-(1, 'kylo_ren', 'kylo_ren@gmail.com', 'Kylo', 'Solo', '$argon2id$v=19$m=65536,t=4,p=1$T29TaEFWUmxMNFcwdk5xRw$fGa/V3uIzKUPWqvjhGgf0b8JH0seEruV8URDiLgwBBA', 'Busy', '0789902124', 'System architect', 'I am Kylo Ren, I work at Amazon and I am system architect there. Interested in creating well documented secure systems. And believe it or not I love Rust and Haskell.', 'ONLINE', '2023-01-24 07:39:21', '/App/Database/Uploads/ProfilePictures/unvicio_Ugly_chicken_squab_sun_glasses_aviator_under_a_shower_o_d952513b-4b2a-48eb-8ff4-b84521096986.png', 'ENABLED', 'TRUE', '_'),
-(2, 'ed_north', 'ed_north@gmail.com', 'Edward', 'North', '$argon2id$v=19$m=65536,t=4,p=1$RTE0aEVKUjdGb3JoSHpYTA$mMVMajgYnmFXgf6a1ET+GnUX7KNsblCLlqiwnSPPm0M', 'Idle', '0789905105', 'System Architect', 'I am Edward North, I work at Amazon and I am system architect there. Interested in creating well documented secure systems. And believe it or not I love Rust and Haskell.', 'OFFLINE', '2023-01-24 07:39:35', '/App/Database/Uploads/ProfilePictures/unvicio_squab_sun_glasses_aviator_under_a_shower_of_bubbles_Fra_c90eabc9-2980-4f3d-91f4-efe65adafcdb.png', 'ENABLED', 'TRUE', '_'),
-(3, 'mrgunawardane@gmail.com', 'mrgunawardane@gmail.com', 'Harsha', 'gunawardane', '$argon2id$v=19$m=65536,t=4,p=1$OVp5MWlIcE55dWR5ajdrQg$WY57q9g9iz1D2gSQXWlKhoWmEKoVPRwn5Aw7Hn3ZIdI', 'Available', '', 'position(s) that you hold', '', 'OFFLINE', '2023-02-27 23:03:19', '/App/Database/Uploads/ProfilePictures/picture3.png', 'ENABLED', 'TRUE', '495191'),
-(4, 'chathuraharsha09@gmail.com', 'chathuraharsha09@gmail.com', 'Harsha', 'Gunawardane', '$argon2id$v=19$m=65536,t=4,p=1$c0l6MFRaRW1MWURLSlFQNA$nFtpwl/YfusCzhJwfUS6m3cv3Af6PrYFGbzXEkpsSVo', 'Available', '', 'position(s) that you hold', '', 'OFFLINE', '2023-03-03 11:40:43', '/App/Database/Uploads/ProfilePictures/Screenshot_2023-03-11_053404.png', 'ENABLED', 'TRUE', '657532');
+                                                                                                                                                                                                                                                 (1, 'kylo_ren', 'kylo_ren@gmail.com', 'Kylo', 'Solo', '$argon2id$v=19$m=65536,t=4,p=1$T29TaEFWUmxMNFcwdk5xRw$fGa/V3uIzKUPWqvjhGgf0b8JH0seEruV8URDiLgwBBA', 'Busy', '0789902124', 'System architect', 'I am Kylo Ren, I work at Amazon and I am system architect there. Interested in creating well documented secure systems. And believe it or not I love Rust and Haskell.', 'ONLINE', '2023-01-24 07:39:21', '/App/Database/Uploads/ProfilePictures/unvicio_Ugly_chicken_squab_sun_glasses_aviator_under_a_shower_o_d952513b-4b2a-48eb-8ff4-b84521096986.png', 'ENABLED', 'TRUE', '_'),
+                                                                                                                                                                                                                                                 (2, 'ed_north', 'ed_north@gmail.com', 'Edward', 'North', '$argon2id$v=19$m=65536,t=4,p=1$RTE0aEVKUjdGb3JoSHpYTA$mMVMajgYnmFXgf6a1ET+GnUX7KNsblCLlqiwnSPPm0M', 'Idle', '0789905105', 'System Architect', 'I am Edward North, I work at Amazon and I am system architect there. Interested in creating well documented secure systems. And believe it or not I love Rust and Haskell.', 'ONLINE', '2023-01-24 07:39:35', '/App/Database/Uploads/ProfilePictures/unvicio_squab_sun_glasses_aviator_under_a_shower_of_bubbles_Fra_c90eabc9-2980-4f3d-91f4-efe65adafcdb.png', 'ENABLED', 'TRUE', '_'),
+                                                                                                                                                                                                                                                 (3, 'mrgunawardane@gmail.com', 'mrgunawardane@gmail.com', 'Harsha', 'gunawardane', '$argon2id$v=19$m=65536,t=4,p=1$OVp5MWlIcE55dWR5ajdrQg$WY57q9g9iz1D2gSQXWlKhoWmEKoVPRwn5Aw7Hn3ZIdI', 'Available', '', 'position(s) that you hold', '', 'OFFLINE', '2023-02-27 23:03:19', '/App/Database/Uploads/ProfilePictures/picture3.png', 'ENABLED', 'TRUE', '495191'),
+                                                                                                                                                                                                                                                 (4, 'chathuraharsha09@gmail.com', 'chathuraharsha09@gmail.com', 'Harsha', 'Gunawardane', '$argon2id$v=19$m=65536,t=4,p=1$c0l6MFRaRW1MWURLSlFQNA$nFtpwl/YfusCzhJwfUS6m3cv3Af6PrYFGbzXEkpsSVo', 'Available', '', 'position(s) that you hold', '', 'OFFLINE', '2023-03-03 11:40:43', '/App/Database/Uploads/ProfilePictures/default-profile-picture.jpg', 'ENABLED', 'TRUE', '657532'),
+                                                                                                                                                                                                                                                 (5, 'paul_atreides', 'paul_atreides@gmail.com', 'Paul', 'Atreides', '$argon2id$v=19$m=65536,t=4,p=1$T29TaEFWUmxMNFcwdk5xRw$fGa/V3uIzKUPWqvjhGgf0b8JH0seEruV8URDiLgwBBA', 'Available', '012-2313456', 'position(s) that you hold', 'I am new to this', 'ONLINE', '2023-04-27 15:24:21', '/App/Database/Uploads/ProfilePictures/unvicio_dog_sun_glasses_aviator_under_a_shower_of_bubbles_Fraze_328cdc22-e5af-4e26-a3a4-4f23a4481575.png', 'ENABLED', 'TRUE', '_');
 
 --
 -- Indexes for dumped tables
@@ -928,10 +1062,26 @@ ALTER TABLE `group_announcement`
   ADD KEY `project_id` (`project_id`);
 
 --
+-- Indexes for table `group_feedback_message`
+--
+ALTER TABLE `group_feedback_message`
+  ADD PRIMARY KEY (`message_id`),
+  ADD KEY `project_id` (`project_id`),
+  ADD KEY `group_id` (`group_id`);
+
+--
 -- Indexes for table `group_join`
 --
 ALTER TABLE `group_join`
   ADD PRIMARY KEY (`group_id`,`member_id`);
+
+--
+-- Indexes for table `group_message`
+--
+ALTER TABLE `group_message`
+  ADD PRIMARY KEY (`message_id`),
+  ADD KEY `project_id` (`project_id`),
+  ADD KEY `group_id` (`group_id`);
 
 --
 -- Indexes for table `group_task`
@@ -1096,7 +1246,7 @@ ALTER TABLE `task`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -1130,6 +1280,22 @@ ALTER TABLE `files`
 ALTER TABLE `group_announcement`
   ADD CONSTRAINT `group_announcement_ibfk_1` FOREIGN KEY (`message_id`) REFERENCES `message` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `group_announcement_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `group_feedback_message`
+--
+ALTER TABLE `group_feedback_message`
+  ADD CONSTRAINT `group_feedback_message_ibfk_1` FOREIGN KEY (`message_id`) REFERENCES `message` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `group_feedback_message_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `group_feedback_message_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `group_message`
+--
+ALTER TABLE `group_message`
+  ADD CONSTRAINT `group_message_ibfk_1` FOREIGN KEY (`message_id`) REFERENCES `message` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `group_message_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `group_message_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `group_task_feedback_message`

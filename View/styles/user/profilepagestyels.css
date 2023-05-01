@@ -18,6 +18,9 @@ body {
     margin-top: 10px;
     z-index: 1;
 }
+.container::-webkit-scrollbar {
+    display: none;
+  }
 
 .container .navbar {
     position: fixed;

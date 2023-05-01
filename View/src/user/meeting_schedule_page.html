@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marshal</title>
+    <link rel="stylesheet" href="/View/styles/user/meeting_schedule_page_css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="navbar">
+            <div class="left-logo-area">
+                <a href="http://localhost/public/user/dashboard" style="text-decoration: none;">
+                    <img src="/View/images/logo.png" alt="logo" class="logo">
+                </a>
+            </div>
+            <div class="right-profile-area">
+                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                <a href="http://localhost/public/user/profile"><img src="/View/images/dp.png" alt="profile picture" class="profile-image"></a>
+            </div>
+        </div>
+
+        <div class="main-container">
+
+            <div class="container-1">
+                <form id="schedule-detail-input-form">
+
+                    <label for="conf_tag">
+                        Title of the conference :
+                    </label>
+                    <input type="text" name="conf_name" id="conf_tag" required>
+                    <br>
+
+                    <label for="conf_def">
+                        Description of the conference :
+                    </label>
+                    <input type="text" name="conf_description" id="conf_def" required>
+                    <br>
+
+                    <label for="conf_on">
+                        When will the conference be held :
+                    </label>
+                    <input type="date" name="on" id="conf_on" required>
+                    <br>
+
+                    <label for="conf_at">
+                        At what time will the conference be held :
+                    </label>
+                    <input type="time" name="at" id="conf_at" required>
+                    <br>
+
+                    <button type="submit">Create conference</button>
+                </form>
+            </div>
+
+            <div class="container-2">
+                <div class="schedule-container">
+                    <div class="title-container">
+
+                        <div class="upmeeting-title-container" style="cursor: pointer;">
+                            <h3>Current project Schedules</h3>
+                        </div>
+                        <h2>|</h2>
+                        <div class="oldmeeting-title-container" style="cursor: pointer;">
+                            <h3>All Meetings</h3>
+                        </div>
+                    </div>
+
+                    <div id="current-schedule-container-div" class="schedule-box schedule-box-new">
+                        <!-- Container of all the schedules -->
+
+                        <!-- A single schedule -->
+
+                        <!--
+
+                        <a href="" style="text-decoration: none; color: #333;">
+                            <div class="schedule">
+                                <p class="schedule-name">Schedule Name</p>
+                                <div class="schedule-des">
+                                    <p class="schedule-description">Lorem ipsum dolor, sit amet cosicing elit. Harum,
+                                        voluptas.</p>
+                                </div>
+                                &lt;!&ndash; <p class="schedule-date">2023-06-12</p> &ndash;&gt;
+                                <div class="schedule-date-time">
+                                   
+                                    <div class="user-details">
+                                        <div class="user-profile">
+                                            <img src="/View/images/Picture3.png" alt="">
+                                        </div>
+                                        <div class="user-name">
+                                            <p>With</p>
+                                            <p id="name">Thariindu</p>
+                                        </div>
+                                    </div>
+                                    <div class="date-time-container">
+                                        <p>On</p><p id="date"> 2023-05-10</p>
+                                        <P>At</P><p id="time"> 10:30</p>
+                                        <p id="status"><i class="fa-solid fa-circle"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        -->
+                    </div>
+
+
+                    <div id="schedule-container-div" class="schedule-box schedule-box-old">
+
+                        <!-- Container of all the current project schedules -->
+
+                        <!-- A single schedule -->
+
+                        <!--
+
+                        <a href="" style="text-decoration: none; color: #333;">
+                            <div class="schedule">
+                                <p class="schedule-name">Schedule Name</p>
+                                <div class="schedule-des">
+                                    <p class="schedule-description">Lorem ipsum dolor, sit amet cosicing elit. Harum,
+                                        voluptas.</p>
+                                </div>
+                                &lt;!&ndash; <p class="schedule-date">2023-06-12</p> &ndash;&gt;
+                                <div class="schedule-date-time">
+
+                                    <div class="user-details">
+                                        <div class="user-profile">
+                                            <img src="/View/images/Picture3.png" alt="">
+                                        </div>
+                                        <div class="user-name">
+                                            <p>With</p>
+                                            <p id="name">Thariindu</p>
+                                        </div>
+                                    </div>
+                                    <div class="date-time-container">
+                                        <p>On</p><p id="date"> 2023-05-10</p>
+                                        <P>At</P><p id="time"> 10:30</p>
+                                        <p id="status"><i class="fa-solid fa-circle"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var jsonData = JSON.parse('<?= $data; ?>');
+        </script>
+        <script src="/View/js/user/meeting_schedule.js"></script>
+        <script src="/View/js/user/meeting_scheduler/scheduler.js"></script>
+        <script src="https://kit.fontawesome.com/0ecc390bb7.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

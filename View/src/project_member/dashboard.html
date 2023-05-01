@@ -16,7 +16,7 @@
 </head>
 <body>
     <div class="container">
-
+        
         <div class="navbar">
             <div class="left-logo-area">
                 <a href="http://localhost/public/user/dashboard" style="text-decoration: none;">
@@ -38,7 +38,7 @@
                     <ul class="menu">
                         
                         <a style="text-decoration: none; color: black;" href="http://localhost/public/user/dashboard" style="text-align: none;">
-                            <li class="dashboard active">Dashboard</li>
+                            <li class="dashboard">Dashboard</li>
                         </a>
                        
                         <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
@@ -53,7 +53,7 @@
                     </ul>
                      <ul class="menu-icon">
                         <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
-                            <li class="dashboard active"><i class="fa fa-address-book" aria-hidden="true"></i></li>
+                            <li class="dashboard"><i class="fa fa-address-book" aria-hidden="true"></i></li>
                         </a>
 
                         <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
@@ -64,9 +64,10 @@
                             <li class="settings"><i class="fa fa-forumbee"></i></li>
                         </a>
 
-                        <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333;">
-                            <li class="sketch-idea"><i class="fa fa-paint-brush" aria-hidden="true"></i></li>
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/projectmember/fileupload">
+                            <li><i class="fa fa-file-arrow-up" aria-hidden="true"></i></li>
                         </a>
+                            
                         <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
                     </ul>
                 </div>
@@ -261,6 +262,53 @@
 
         </div>
     </div>
+    <div class="create-project-container">
+        <div class="create-project-popup" style="margin-top: 100px; margin-left: 150px;">
+            <div class="create-project-top">
+                <div class="create-project-header">
+                    <h3>Let's create a workspace.</h3>
+                    <p>Make it simpler for everyone to access boards in one place to increase productivity.</p>
+                </div>
+                <i class="fa fa-times create-project-popup-close" aria-hidden="true"></i>
+            </div>
+            <div class="create-project-details">
+                <div class="create-project-form">
+                    <form action="http://localhost/public/user/projects" method="post">
+                        <label for="projec_name">Project Name</label>
+                        <br>
+                        <input type="text" name="project_name" placeholder="Enter project name ...">
+                        <br>
+                        <p>Your business, group, or organization's name is here.</p>
+
+                        <label for="field">Project Type</label>
+                        <br>
+                        <input type="text" name="field" placeholder="Enter project type ...">
+
+                        <br>
+                        <label for="description">Project Description</label>
+                        <br>
+                        <input type="text" id="description" name="description"
+                            placeholder="Please enter something on your project ... ">
+
+                        <br>
+                        <button type="submit">CREATE</button>
+                    </form>
+                </div>
+                <img src="/View/images/project_create.png" alt="project_create">
+            </div>
+        </div>
+    </div>
+    <div class="notification-popup-container">
+        <div class="notification-popup" style="margin-top: 100px;">
+            <div class="notification-popup-top">
+                <h3>Notifications</h3>
+                <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
+            </div>
+            <div class="notifications">
+
+            </div>
+        </div>
+    </div>
     <script>
         var jsonData = JSON.parse('<?= $data; ?>');
     </script>
@@ -272,5 +320,7 @@
     <script src="/View/js/user/notification.js"></script>
     <script src="/View/js/project_member/search_task_engine.js"></script>
 
+    <script src="/View/js/user/notificationPopup.js"></script>
+    <script src="https://kit.fontawesome.com/0ecc390bb7.js" crossorigin="anonymous"></script>
 </body>
 </html>
