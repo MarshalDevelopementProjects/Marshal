@@ -368,7 +368,7 @@ body{
 }
 .bar .progress{
     border-radius: 12px;
-    width: 30%;
+    width: 20%;
     height: 15px;
     background-color: #20B289;
     transition: all 1s ease;
@@ -1071,7 +1071,7 @@ body{
 }
 .outer.inner{
     /* position: fixed; */
-    width: 46px;
+    width: 80px;
     height: 46px;
     background-color: #fff;
     border: 1px solid black;

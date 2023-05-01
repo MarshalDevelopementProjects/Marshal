@@ -581,7 +581,7 @@ class ProjectLeaderController extends ProjectMemberController
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture,
                 ],
-                "peer" => $this->project->getProjectMembersByRole($_SESSION["project_id"], "CLIENT") ? $this->project->getProjectMemberData()[0] : [],
+                "peer" => $this->project->getProjectMembersByRole($_SESSION["project_id"], "CLIENT") && !empty($this->project->getProjectMemberData()) ? $this->project->getProjectMemberData()[0] : [],
                 "project_id" => $_SESSION["project_id"],
             ]
         );
