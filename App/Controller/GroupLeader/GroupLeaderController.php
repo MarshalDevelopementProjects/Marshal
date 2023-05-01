@@ -143,6 +143,15 @@ class GroupLeaderController extends GroupMemberController
 
         $groupData += parent::getTaskDeadlines();
 
+        if ($this->groupLeader->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"])) {
+            $groupData["feedback_messages"] = $this->groupLeader->getMessageData();
+        }
+
+        $groupData["user_data"] = [
+            "username" => $this->user->getUserData()->username,
+            "profile_picture" => $this->user->getUserData()->profile_picture,
+        ];
+
         $this->sendResponse(
             view: "/group_leader/groupInfo.html",
             status: "success",

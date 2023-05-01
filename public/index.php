@@ -130,8 +130,8 @@ $router->get('/group/leader/group/forum', GroupLeaderController::class . '::getF
 
 $router->get('/group/leader/group/forum/messages', GroupLeaderController::class . '::getGroupForumMessages');
 $router->post('/group/leader/group/forum/messages', GroupLeaderController::class . '::postMessageToGroupForum');
-$router->get('/group/leader/group/feedback/messages', ProjectLeaderController::class . '::getGroupFeedbackMessages');
-$router->post('/group/leader/group/feedback/messages', ProjectLeaderController::class . '::postMessageToGroupFeedback');
+$router->get('/group/leader/group/feedback/messages', GroupLeaderController::class . '::getGroupFeedbackMessages');
+$router->post('/group/leader/group/feedback/messages', GroupLeaderController::class . '::postMessageToGroupFeedback');
 
 $router->get('/group/leader/task/feedback/messages', ProjectLeaderController::class . '::getGroupTaskFeedbackMessages');
 $router->post('/group/leader/task/feedback/messages', ProjectLeaderController::class . '::postMessageToGroupTaskFeedback');

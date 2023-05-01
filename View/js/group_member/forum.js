@@ -7,16 +7,16 @@ let date = new Date();
 
 console.log(userData);
 
-document.body.onload = async () => { await onLoad();};
+document.body.onload = async () => { await onLoad(); };
 
 // For today's date;
 Date.prototype.today = function () {
-    return ((this.getDate() < 10)?"0":"") + this.getDate() +"/"+(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) +"/"+ this.getFullYear();
+    return ((this.getDate() < 10) ? "0" : "") + this.getDate() + "/" + (((this.getMonth() + 1) < 10) ? "0" : "") + (this.getMonth() + 1) + "/" + this.getFullYear();
 }
 
 // For the time now
 Date.prototype.timeNow = function () {
-    return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+    return ((this.getHours() < 10) ? "0" : "") + this.getHours() + ":" + ((this.getMinutes() < 10) ? "0" : "") + this.getMinutes() + ":" + ((this.getSeconds() < 10) ? "0" : "") + this.getSeconds();
 }
 
 let groupMemberForumConnection = new WebSocket(`ws://localhost:8080/groups/forum?project=${projectID}&group=${groupID}`);
@@ -50,7 +50,7 @@ groupMemberForumConnection.onmessage = (event) => {
         if(message_data.profile_picture !== undefined) console.log(message_data.profile_picture);
         if(message_data.date_time!== undefined) console.log(message_data.date_time);
         if(message_data.message !== undefined)console.log(message_data.message);*/
-        if(message_data.sender_username !== undefined)
+        if (message_data.sender_username !== undefined)
             appendMessage('IN', MessageContainerDiv, message_data);
     }
     onMessage(event.data);
@@ -64,7 +64,7 @@ async function onLoad() {
 }
 
 async function createForumMessages() {
-// TODO: GET ALL THE  MESSAGES FROM THE APPROPRIATE END POINT(ASYNC)
+    // TODO: GET ALL THE  MESSAGES FROM THE APPROPRIATE END POINT(ASYNC)
     let url = "http://localhost/public/group/member/forum/messages";
     try {
         let response = await fetch(url, {
@@ -117,7 +117,7 @@ function closeConnection() {
 MessageInputForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     let formObj = Object.fromEntries(new FormData(MessageInputForm));
-    if (formObj.message !=="") {
+    if (formObj.message !== "") {
         await sendMessages(formObj.message);
     }
     MessageInputForm.reset();
@@ -168,43 +168,54 @@ async function sendMessages(msg) {
 
 function appendMessage(type, parent_div, message) {
 
-    console.log(message);
-
     let message_div = document.createElement('div'); // message
 
     if (type === 'OUT') {
         message_div.setAttribute('class', 'outgoing-message');
+
+        let date_time = document.createElement('p'); // date time paragraph tag
+        date_time.setAttribute('class', 'outgoing-date-time');
+        date_time.innerText = message.stamp;
+
+        let message_content = document.createElement('p'); // message content
+        message_content.setAttribute('class', 'outgoing-messages');
+        message_content.innerText = message.msg;
+
+        message_div.appendChild(message_content);
+        message_div.appendChild(date_time);
+
     } else if (type === 'IN') {
-        message_div.setAttribute('class', 'incoming-message');
+        message_div.setAttribute('class', 'incomming-message');
+
+        let sender_username = document.createElement('h5'); // sender user name heading
+        sender_username.innerText = message.sender_username;
+
+        let sender_profile_picture = document.createElement('img'); // sender profile picture img tag
+        sender_profile_picture.src = message.sender_profile_picture;
+
+        let inner_message_div = document.createElement('div'); // message
+        inner_message_div.setAttribute('class', 'incomming-new-message');
+
+        let date_time = document.createElement('p'); // date time paragraph tag
+        date_time.setAttribute('class', 'incomming-time'); // date time paragraph tag
+        date_time.innerText = message.stamp;
+
+        let message_content = document.createElement('p'); // message content
+        message_content.setAttribute('class', 'incomming-messages');
+        message_content.innerText = message.msg;
+
+        // adding elements
+        inner_message_div.appendChild(message_content);
+        inner_message_div.appendChild(date_time);
+        message_div.appendChild(sender_profile_picture);
+        message_div.appendChild(inner_message_div);
+
     } else {
         console.error('NOT A VALID MESSAGE TYPE');
         message_div = undefined;
         return;
     }
 
-    let sender_details = document.createElement('div'); // sender details div
-    sender_details.setAttribute('class', 'sender-details');
-
-    let sender_profile_picture = document.createElement('img'); // sender profile picture img tag
-    sender_profile_picture.src = message.sender_profile_picture;
-
-    let sender_username = document.createElement('h5'); // sender user name heading
-    sender_username.innerText = message.sender_username;
-
-    let date_time = document.createElement('p'); // date time paragraph tag
-    date_time.innerText = message.stamp;
-
-    let message_content = document.createElement('p'); // message content
-    message_content.setAttribute('class', 'message-content');
-    message_content.innerText = message.msg;
-
-    // adding elements
-    sender_details.appendChild(sender_profile_picture);
-    sender_details.appendChild(sender_username);
-    sender_details.appendChild(date_time);
-
-    message_div.appendChild(sender_details);
-    message_div.appendChild(message_content);
     parent_div.insertAdjacentElement("afterbegin", message_div);
 }
 
