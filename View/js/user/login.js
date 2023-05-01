@@ -1,39 +1,26 @@
 console.log(jsonData);
+const passwordField = document.querySelector("#password");
+const showHideButton = document.querySelector(".showHidePw");
 
-const container = document.querySelector(".container"),
-        pwShowHide = document.querySelectorAll(".showHidePw"),
-        pwFields = document.querySelectorAll(".password");
+showHideButton.addEventListener("click", () => {
+  if (passwordField.type === "password") {
+    passwordField.type = "text";
+    showHideButton.classList.replace("uil-eye-slash", "uil-eye");
+  } else {
+    passwordField.type = "password";
+    showHideButton.classList.replace("uil-eye", "uil-eye-slash");
+  }
+});
 
-        //   js code to show/hide password and change icon
-        pwShowHide.forEach(eyeIcon =>{
-            eyeIcon.addEventListener("click", ()=>{
-                pwFields.forEach(pwField =>{
-                    if(pwField.type ==="password"){
-                        pwField.type = "text";
+const ErrorDiv = document.getElementById("error");
+const ErrorMSG = document.getElementById("error_msg");
 
-                        pwShowHide.forEach(icon =>{
-                            icon.classList.replace("uil-eye-slash", "uil-eye");
-                        })
-                    }else{
-                        pwField.type = "password";
-
-                        pwShowHide.forEach(icon =>{
-                            icon.classList.replace("uil-eye", "uil-eye-slash");
-                        })
-                    }
-                }) 
-            })
-        })
-
-        var data = JSON.parse('<?= $data; ?>');
-        console.log(data);
-
-        const email = document.getElementById("email")
-        const errorMessage = document.getElementById("error-message")
-
-        if(data.error){
-            errorMessage.classList.add('display-error')
-            errorMessage.innerHTML = data.error
-
-            email.value = data.email
-        }
+ErrorMSG.innerHTML = `${jsonData.errors}`;
+console.log(`${jsonData.errors}`);
+if(ErrorMSG.innerHTML != '' && ErrorMSG.innerHTML !='undefined'){
+    ErrorDiv.classList.add("active");
+    setTimeout(function() {
+        ErrorDiv.classList.remove("active");
+        ErrorMSG.innerHTML = '';
+      }, 6000);
+}
