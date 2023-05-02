@@ -1,11 +1,15 @@
 <?php
 
+// TODO :: WHEN THERE ARE NO CLIENTS PLEASE RESOLVE THIS
+
 namespace App\Controller\Client;
 
 use App\Controller\Authenticate\UserAuthController;
 use App\Controller\Conference\ConferenceController;
+use App\Controller\PDF\PDFController;
 use App\Controller\User\UserController;
 use App\Model\Client;
+use App\Model\Project;
 use Core\PdfGenerator;
 use Exception;
 
@@ -15,15 +19,18 @@ class ClientController extends UserController
 {
     private Client $client;
 
+    private Project $project;
+
     private ConferenceController $conferenceController;
 
     public function __construct()
     {
         try {
             parent::__construct();
-            $this->conferenceController = new ConferenceController();
             if (array_key_exists("project_id", $_SESSION)) {
                 $this->client = new Client($_SESSION["project_id"]);
+                $this->project = new Project($this->user->getUserData()->id, $_SESSION["project_id"]);
+                $this->conferenceController = new ConferenceController();
             } else {
                 throw new Exception("Bad request missing arguments");
             }
@@ -32,16 +39,7 @@ class ClientController extends UserController
         }
     }
 
-    public function defaultAction(Object|array|string|int $optional = null)
-    {
-    }
-
-    public function auth(): bool
-    {
-        return parent::auth();
-    }
-
-   // save the message to the project table
+    // save the message to the project table
     // $args format {"message" => "message string"}
     public function postMessageToProjectFeedback(array|object $args): void
     {
@@ -98,7 +96,7 @@ class ClientController extends UserController
                     "username" => $this->user->getUserData()->username,
                     "profile_picture" => $this->user->getUserData()->profile_picture,
                 ],
-                "peer" => $this->client->getProjectMembersByRole($_SESSION["project_id"], "LEADER") ? $this->client->getProjectData()[0] : [],
+                "peer" => $this->project->getProjectMembersByRole($_SESSION["project_id"], "LEADER") ? $this->project->getProjectMemberData()[0] : [],
                 "project_id" => $_SESSION["project_id"],
             ]
         );
@@ -132,10 +130,10 @@ class ClientController extends UserController
                     id: $this->user->getUserData()->id,
                     initiator: "CLIENT"
                 ),
-                "leaders_of_the_project" => $this->client->getProjectMembersByRole(
+                "leaders_of_the_project" => $this->project->getProjectMembersByRole(
                     project_id: $_SESSION["project_id"],
                     role: "LEADER"
-                ) ? $this->client->getProjectData() : [],
+                ) ? $this->project->getProjectMemberData() : [],
             ]
         );
     }
@@ -150,9 +148,9 @@ class ClientController extends UserController
     {
         try {
             $args["client_id"] = $this->user->getUserData()->id;
-            if($this->client->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "LEADER")) {
-                if (!empty($this->client->getProjectData())) {
-                    $args["leader_id"] = $this->client->getProjectData()[0]->id;
+            if ($this->project->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "LEADER")) {
+                if (!empty($this->project->getProjectMemberData())) {
+                    $args["leader_id"] = $this->project->getProjectMemberData()[0]->id;
                     $args["project_id"] = $_SESSION["project_id"];
                     $returned = $this->conferenceController->scheduleConference(args: $args);
                     if (is_bool($returned) && $returned) {
@@ -239,33 +237,16 @@ class ClientController extends UserController
     public function generateProjectReport(): void
     {
         try {
-            $pdfGenerator = new PdfGenerator();
-
+            $pdfGenerator = new PDFController();
             // TODO: GET THE PROJECT DATA HERE
-            if($this->client->getPDFData(project_id: $_SESSION["project_id"])) {
+            if ($this->client->getPDFData(project_id: $_SESSION["project_id"])) {
                 $data = $this->client->getProjectData();
-                $processed_array = $this->processPDFData($data);
-
-                /*echo "<pre>";
-                var_dump($data);
-                echo "</pre>";*/
-
-                if ($processed_array) {
-                    $pdfGenerator->renderPDF(
-                        path_to_html_markup: "/View/src/client/pdf-templates/pdf-template.html",
-                        path_to_style_sheet: "/View/src/client/pdf-templates/pdf-styles.css",
-                        file_name: "Report.pdf",
-                        attributes: $processed_array
-                    );
-                } else {
-                    $this->sendResponse(
-                        view: "/error/505.html",
-                        status: "error",
-                        content: [
-                            "message" => "Pdf file cannot be generated, Sorry for the inconvenience"
-                        ]
-                    );
-                }
+                $pdfGenerator->generateGeneralFormatPDF(
+                    path_to_html_markup: "/View/src/user/pdf-templates/pdf-template.html",
+                    path_to_style_sheet: "/View/src/user/pdf-templates/pdf-styles.css",
+                    file_name: "Report.pdf",
+                    attributes: $data
+                );
             } else {
                 $this->sendResponse(
                     view: "/error/505.html",
@@ -279,44 +260,5 @@ class ClientController extends UserController
             throw $exception;
         }
     }
-
-    private function processPDFData(array $args): array
-    {
-        // TODO: PROCESS THE GIVEN ARRAY AND MAKE A NEW ARRAY WITH THE APPROPRIATE ATTRIBUTES
-        if (
-            !empty($args) &&
-            array_key_exists("project_data", $args) &&
-            !empty($args["project_data"]) &&
-            array_key_exists("task_data", $args) &&
-            !empty($args["task_data"])
-        ) {
-            // TODO: CHANGE THE KEYS TO HTML COMMENTED KEYS
-            $processed_data = [];
-            $project_data = $args["project_data"];
-            $task_data = $args["task_data"];
-            foreach ($project_data as $attr_name => $value) {
-                $processed_data[$attr_name] = $value;
-            }
-
-            $processed_data["task_data"] = "";
-
-            foreach ($task_data AS $task) {
-                $processed_data["task_data"] .= "\n" . ' <div class="task"> <div class="task-name"> <p> ' . $task["task_name"] . ' </p> </div> <div class="completed-date"> <p> ' . $task["task_completed_date"] . ' </p> </div> </div> ' . "\n";
-            }
-            return $processed_data;
-        }
-        return [];
-    }
 }
 
-
-/*
-<div class="task">
-    <div class="task-name">
-        <p> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, quod?</p>
-    </div>
-    <div class="completed-date">
-        <p>2023-3-19</p>
-    </div>
-</div>
- * */

@@ -185,104 +185,6 @@ class Project implements Model
         return $this->project_data;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * @throws Exception
      */
@@ -303,6 +205,60 @@ class Project implements Model
             if (!$this->crud_util->hasErrors()) {
                 $this->project_member_data = $this->crud_util->getResults();
                 return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function getProjectMembersByRole(string|int $project_id, string $role): bool
+    {
+        if ($project_id && $role) {
+            try {
+                // get the details of the clients
+                $sql_string = "SELECT u.id AS id, u.username AS username, u.profile_picture AS profile_picture, p_j.role AS role FROM project_join p_j JOIN user u ON p_j.member_id = u.id WHERE p_j.project_id = :project_id AND p_j.role = :role";
+                $this->crud_util = $this->crud_util->execute($sql_string, ["project_id" => $project_id, "role" => $role]);
+                if (!$this->crud_util->hasErrors()) {
+                    $this->project_member_data = $this->crud_util->getResults();
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (\Exception $exception) {
+                throw  $exception;
+            }
+        }
+        return false;
+    }
+
+    public function getProjectProgress(string|int $project_id): float|bool|int
+    {
+        try {
+
+            /*
+             * Example query
+              SELECT
+               COUNT(CASE WHEN `t`.`status` = 'DONE' THEN 1 END) AS `comepleted_tasks`,
+               COUNT(`t`.`task_id`) AS `all_tasks`
+               FROM
+                `task` `t`
+               WHERE
+                `t`.`project_id` = 4;
+             */
+            $sql_string = "
+                   SELECT
+                   COUNT(CASE WHEN `t`.`status` = 'DONE' THEN 1 END) AS `no_of_completed_tasks`,
+                   COUNT(`t`.`task_id`) AS `no_of_tasks`
+                   FROM
+                       `task` `t`
+                   WHERE
+                       `t`.`project_id` = :project_id AND `t`.task_type = 'project'
+                   ";
+            $this->crud_util->execute($sql_string, ["project_id" => $project_id]);
+            if (!$this->crud_util->hasErrors()) {
+                return ($this->crud_util->getFirstResult()->no_of_completed_tasks / $this->crud_util->getFirstResult()->no_of_tasks) * 100;
             } else {
                 return false;
             }

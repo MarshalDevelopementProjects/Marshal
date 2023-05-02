@@ -20,6 +20,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 
 class GroupMemberController extends ProjectMemberController
 {
+    protected Group $group;
     private GroupMember $groupMember;
 
     public function __construct()
@@ -27,6 +28,7 @@ class GroupMemberController extends ProjectMemberController
         try {
             parent::__construct();
             if (array_key_exists("group_id", $_SESSION)) {
+                $this->group = new Group();
                 $this->groupMember = new GroupMember($_SESSION["project_id"], $_SESSION["group_id"]);
             } else {
                 throw new Exception("Bad request missing arguments");
@@ -86,6 +88,8 @@ class GroupMemberController extends ProjectMemberController
  
         $groupData += parent::getTaskDeadlines();
 
+        $groupData["progress"] = $group->getGroupProgress(group_id: $_SESSION["group_id"]);
+
         $this->sendResponse(
             view: "/group_member/groupInfo.html",
             status: "success",
@@ -105,7 +109,7 @@ class GroupMemberController extends ProjectMemberController
                 "project_id" => $_SESSION["project_id"],
                 "group_id" => $_SESSION["group_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
-                "messages" => $this->groupMember->getGroupForumMessages(project_id: $_SESSION["project_id"]) ? $this->groupMember->getMessageData() : [],
+                "messages" => $this->forum->getGroupForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"]) ? $this->forum->getMessageData() : [],
                 "members" =>  $this->groupMember->getGroupMembers() ? $this->groupMember->getGroupMemberData() : [],
             ]
         );
@@ -249,12 +253,12 @@ class GroupMemberController extends ProjectMemberController
 
     // $args must follow this format
     // ["message" => "content of the message"]
-    public function postMessageToGroupForum(array $args)
+    public function postMessageToGroupForum(array $args): void
     {
         try {
             if (!empty($args) && array_key_exists("message", $args)) {
                 if (!empty($args["message"])) {
-                    if ($this->groupMember->saveGroupMessage(id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], msg: $args["message"])) {
+                    if ($this->forum->saveGroupMessage(sender_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"],msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("error", ["message" => "Message cannot be saved to the database"]);
@@ -270,10 +274,10 @@ class GroupMemberController extends ProjectMemberController
         }
     }
 
-    public function getGroupForumMessages()
+    public function getGroupForumMessages(): void
     {
         try {
-            if ($this->groupMember->getGroupForumMessages(project_id: $_SESSION["project_id"])) {
+            if ($this->forum->getGroupForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"])) {
                 $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupMember->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => ""]);
@@ -285,12 +289,12 @@ class GroupMemberController extends ProjectMemberController
 
     // $args must follow this format
     // ["task_id" => "TaskID", "message" => "content of the message"]
-    public function postMessageToGroupTaskFeedback(array $args)
+    public function postMessageToGroupTaskFeedback(array $args): void
     {
         try {
             if (!empty($args) && array_key_exists("message", $args) && array_key_exists("task_id", $args)) {
                 if (!empty($args["message"]) && !empty($args["task_id"])) {
-                    if ($this->groupMember->saveGroupTaskFeedbackMessage(id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], task_id: $args["task_id"], msg: $args["message"])) {
+                    if ($this->forum->saveGroupTaskFeedbackMessage(sender_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"], task_id: $args["task_id"], msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("error", ["message" => "Message cannot be saved to the database"]);
@@ -308,11 +312,11 @@ class GroupMemberController extends ProjectMemberController
 
     // $args must follow this format
     // ["task_id" => "TaskID", "message" => "content of the message"]
-    public function getGroupTaskFeedbackMessages(array $args)
+    public function getGroupTaskFeedbackMessages(array $args): void
     {
         try {
             if (array_key_exists("task_id", $args) && !empty($args["task_id"])) {
-                if ($this->groupMember->getGroupTaskFeedbackMessages(project_id: $_SESSION["project_id"], task_id: $args["task_id"])) {
+                if ($this->forum->getGroupTaskFeedbackMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"], task_id: $args["task_id"])) {
                     $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupMember->getMessageData() ?? []]);
                 } else {
                     $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
