@@ -32,7 +32,7 @@ class ProjectMemberController extends UserController
     {
         try {
             parent::__construct();
-            if (array_key_exists("project_id", $_SESSION)) {
+            if (array_key_exists("project_id", $_SESSION)  && $this->user->checkUserRole(req_id: $_SESSION["project_id"], role: "MEMBER", type: "PROJECT")) {
                 $this->project = new Project(member_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"]);
                 $this->projectMember = new ProjectMember($_SESSION["project_id"]);
                 $this->forum = new Forum();
@@ -46,11 +46,6 @@ class ProjectMemberController extends UserController
 
     public function defaultAction(Object|array|string|int $data = null)
     {
-    }
-
-    public function auth(): bool
-    {
-        return parent::auth();
     }
 
     public function pickupTask()

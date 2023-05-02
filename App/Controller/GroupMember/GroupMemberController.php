@@ -27,7 +27,7 @@ class GroupMemberController extends ProjectMemberController
     {
         try {
             parent::__construct();
-            if (array_key_exists("group_id", $_SESSION)) {
+            if (array_key_exists("group_id", $_SESSION) && $this->user->checkUserRole(req_id: $_SESSION["group_id"], role: "MEMBER", type: "GROUP")) {
                 $this->group = new Group();
                 $this->groupMember = new GroupMember($_SESSION["project_id"], $_SESSION["group_id"]);
             } else {
@@ -44,6 +44,7 @@ class GroupMemberController extends ProjectMemberController
 
     public function auth(): bool
     {
+        // TODO: COMPLETE THE AUTH
         return parent::auth();
     }
 

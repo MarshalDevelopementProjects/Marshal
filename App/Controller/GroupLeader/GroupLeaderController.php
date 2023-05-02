@@ -26,7 +26,7 @@ class GroupLeaderController extends GroupMemberController
     {
         try {
             parent::__construct();
-            if (array_key_exists("group_id", $_SESSION)) {
+            if (array_key_exists("group_id", $_SESSION) && $this->user->checkUserRole(req_id: $_SESSION["group_id"], role: "LEADER", type: "GROUP")) {
                 $this->groupLeader = new GroupLeader($_SESSION["project_id"], $_SESSION["group_id"]);
             } else {
                 throw new Exception("Bad request missing arguments");
@@ -42,6 +42,7 @@ class GroupLeaderController extends GroupMemberController
 
     public function auth(): bool
     {
+        // TODO: COMPLETE THE AUTH
         return parent::auth();
     }
 

@@ -145,7 +145,9 @@ class CrudUtil
      */
     public function getFirstResult(): object|null|int|false|array
     {
-        return $this->results[0];
+        if ($this->results) {
+            return $this->results[0];
+        } return [];
     }
 
     /**

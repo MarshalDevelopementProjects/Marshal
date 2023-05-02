@@ -26,7 +26,7 @@ class ProjectLeaderController extends ProjectMemberController
     {
         try {
             parent::__construct();
-            if (array_key_exists("project_id", $_SESSION)) {
+            if (array_key_exists("project_id", $_SESSION) && $this->user->checkUserRole(req_id: $_SESSION["project_id"], role: "LEADER", type: "PROJECT") ) {
                 $this->projectLeader = new ProjectLeader($_SESSION["project_id"]);
                 $this->conferenceController = new ConferenceController();
             } else {
@@ -41,11 +41,6 @@ class ProjectLeaderController extends ProjectMemberController
     {
     }
 
-    public function auth(): bool
-    {
-        // TODO: IN THE AUTH CHECK THE ROLE WHETHER THE INCOMING REQUEST OWNER IS ACTUALLY THE PROJECT LEADER OF THIS PROJECT
-        return parent::auth();
-    }
     public function getProjectInfo()
     {
         // print_r($_SESSION);

@@ -27,7 +27,7 @@ class ClientController extends UserController
     {
         try {
             parent::__construct();
-            if (array_key_exists("project_id", $_SESSION)) {
+            if (array_key_exists("project_id", $_SESSION) && $this->user->checkUserRole(req_id: $_SESSION["project_id"], role: "CLIENT", type: "PROJECT")) {
                 $this->client = new Client($_SESSION["project_id"]);
                 $this->project = new Project($this->user->getUserData()->id, $_SESSION["project_id"]);
                 $this->conferenceController = new ConferenceController();
@@ -37,6 +37,18 @@ class ClientController extends UserController
         } catch (\Exception $exception) {
             throw $exception;
         }
+    }
+
+    public function defaultAction(Object|array|string|int $data = null)
+    {
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function auth(): bool
+    {
+        return parent::auth();
     }
 
     // save the message to the project table
@@ -86,20 +98,20 @@ class ClientController extends UserController
      */
     public function gotoConference(): void
     {
-        // TODO: Depending on the conference user want to join redirect him
-        $this->sendResponse(
-            view: "/user/meeting.html",
-            status: "success",
-            // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
-            content: [
-                "user_data" => [
-                    "username" => $this->user->getUserData()->username,
-                    "profile_picture" => $this->user->getUserData()->profile_picture,
-                ],
-                "peer" => $this->project->getProjectMembersByRole($_SESSION["project_id"], "LEADER") ? $this->project->getProjectMemberData()[0] : [],
-                "project_id" => $_SESSION["project_id"],
-            ]
-        );
+            // TODO: Depending on the conference user want to join redirect him
+            $this->sendResponse(
+                view: "/user/meeting.html",
+                status: "success",
+                // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
+                content: [
+                    "user_data" => [
+                        "username" => $this->user->getUserData()->username,
+                        "profile_picture" => $this->user->getUserData()->profile_picture,
+                    ],
+                    "peer" => $this->project->getProjectMembersByRole($_SESSION["project_id"], "LEADER") ? $this->project->getProjectMemberData()[0] : [],
+                    "project_id" => $_SESSION["project_id"],
+                ]
+            );
     }
 
     /**
@@ -261,4 +273,3 @@ class ClientController extends UserController
         }
     }
 }
-
