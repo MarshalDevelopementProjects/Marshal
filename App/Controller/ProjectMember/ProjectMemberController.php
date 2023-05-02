@@ -6,7 +6,6 @@ use App\Controller\User\UserController;
 use App\Controller\Group\GroupController;
 use App\Controller\Message\MessageController;
 use App\Controller\Notification\NotificationController;
-use App\Model\Forum;
 use App\Model\ProjectMember;
 use App\Model\Notification;
 use App\Model\Task;
@@ -26,11 +25,8 @@ require __DIR__ . '/../../../vendor/autoload.php';
 class ProjectMemberController extends UserController
 {
     protected Project $project;
-
     protected Forum $forum;
     private ProjectMember $projectMember;
-    protected Project $project;
-    protected Forum $forum;
 
     public function __construct()
     {
@@ -338,11 +334,7 @@ class ProjectMemberController extends UserController
 
         $data += parent::getTaskDeadlines();
 
-<<<<<<< HEAD
         $data["progress"] = $this->project->getProjectProgress(project_id: $_SESSION["project_id"]);
-=======
-        $data["progress"] = $project->getProjectProgress(project_id: $_SESSION["project_id"]);
->>>>>>> main
 
         $this->sendResponse(
             view: "/project_member/getProjectInfo.html",
