@@ -2,7 +2,9 @@
 
 namespace App\Controller\GroupLeader;
 
+use App\Controller\Authenticate\UserAuthController;
 use App\Controller\GroupMember\GroupMemberController;
+use App\Controller\ProjectMember\ProjectMemberController;
 use App\Controller\Notification\NotificationController;
 use App\Controller\Message\MessageController;
 use App\Model\GroupLeader;
@@ -19,7 +21,6 @@ require __DIR__ . '/../../../vendor/autoload.php';
 class GroupLeaderController extends GroupMemberController
 {
 
-    private Group $group;
     private GroupLeader $groupLeader;
 
     public function __construct()
@@ -146,14 +147,16 @@ class GroupLeaderController extends GroupMemberController
 
         $groupData += parent::getTaskDeadlines();
 
-        if ($this->groupLeader->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"])) {
-            $groupData["feedback_messages"] = $this->groupLeader->getMessageData();
+        if ($this->forum->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"])) {
+            $groupData["feedback_messages"] = $this->forum->getMessageData();
         }
 
         $groupData["user_data"] = [
             "username" => $this->user->getUserData()->username,
             "profile_picture" => $this->user->getUserData()->profile_picture,
         ];
+
+        $groupData["progress"] = $group->getGroupProgress(group_id: $_SESSION["group_id"]);
 
         $this->sendResponse(
             view: "/group_leader/groupInfo.html",
@@ -231,6 +234,24 @@ class GroupLeaderController extends GroupMemberController
             status: "success",
             content: [
                 "message" => $successMessage
+            ]
+        );
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getForum(): void
+    {
+        $this->sendResponse(
+            view: "/group_leader/forum.html",
+            status: "success",
+            content: [
+                "project_id" => $_SESSION["project_id"],
+                "group_id" => $_SESSION["group_id"],
+                "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture],
+                "messages" => $this->forum->getGroupForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"]) ? $this->forum->getMessageData() : [],
+                "members" =>  $this->groupLeader->getGroupMembers() ? $this->groupLeader->getGroupMemberData() : [],
             ]
         );
     }

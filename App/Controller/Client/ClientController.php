@@ -1,5 +1,7 @@
 <?php
 
+// TODO :: WHEN THERE ARE NO CLIENTS PLEASE RESOLVE THIS
+
 namespace App\Controller\Client;
 
 use App\Controller\Authenticate\UserAuthController;
@@ -259,5 +261,3 @@ class ClientController extends UserController
         }
     }
 }
-
-

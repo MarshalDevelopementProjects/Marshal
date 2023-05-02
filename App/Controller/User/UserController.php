@@ -213,7 +213,8 @@ class UserController extends Controller
                                 "project_id" => $_SESSION["project_id"],
                                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
                                 "project_details" => $project->readProjectsOfUser(member_id: $payload->id, project_id: $data["id"]) ? $project->getProjectData() : [],
-                                "members" => $project->getProjectMembers($_SESSION["project_id"]) ? $project->getProjectMemberData() : []
+                                "members" => $project->getProjectMembers($_SESSION["project_id"]) ? $project->getProjectMemberData() : [],
+                                "progress" => $project->getProjectProgress(project_id: $_SESSION["project_id"])
                             ],
                         );
                         break;

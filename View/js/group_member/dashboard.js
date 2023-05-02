@@ -129,7 +129,7 @@ let progressBar = document.querySelector('.cuircular-progress');
 let progressValue = document.querySelector('.progress-value');
 
 let value = 0;
-let endValue = 65;
+let endValue = jsonData.progress ? jsonData.progress : 0;
 let speed = 100;
 
 let progress = setInterval(() => {

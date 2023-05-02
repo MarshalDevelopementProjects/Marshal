@@ -50,18 +50,18 @@ class PdfGenerator
 
     public function __construct()
     {
-       /*
-        // options object of the dompdf object
-        $this->options = new Options();
+        /*
+         // options object of the dompdf object
+         $this->options = new Options();
 
-        // setting the root directory
-        $this->options->setChroot(__DIR__ . '/../');
+         // setting the root directory
+         $this->options->setChroot(__DIR__ . '/../');
 
-        // setting the default paper size to "A4"
-        // $this->options->setDefaultPaperSize("A4");
+         // setting the default paper size to "A4"
+         // $this->options->setDefaultPaperSize("A4");
 
-        $this->dompdf = new Dompdf(options: $this->options);
-       */
+         $this->dompdf = new Dompdf(options: $this->options);
+        */
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Controller\User\UserController;
 use App\Controller\Group\GroupController;
 use App\Controller\Message\MessageController;
 use App\Controller\Notification\NotificationController;
+use App\Model\Forum;
 use App\Model\ProjectMember;
 use App\Model\Notification;
 use App\Model\Task;
@@ -28,6 +29,8 @@ class ProjectMemberController extends UserController
 
     protected Forum $forum;
     private ProjectMember $projectMember;
+    protected Project $project;
+    protected Forum $forum;
 
     public function __construct()
     {
@@ -290,7 +293,7 @@ class ProjectMemberController extends UserController
             content: array(
                 "project_id" => $_SESSION["project_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
-                "messages" => $this->projectMember->getForumMessages() ? $this->projectMember->getMessageData() : [],
+                "messages" => $this->forum->getForumMessages(project_id: $_SESSION["project_id"]) ? $this->forum->getMessageData() : [],
                 "members" =>  $this->projectMember->getProjectMembers() ? $this->projectMember->getProjectMemberData() : [],
             ) + parent::getTaskDeadlines()
         );
@@ -335,7 +338,11 @@ class ProjectMemberController extends UserController
 
         $data += parent::getTaskDeadlines();
 
+<<<<<<< HEAD
         $data["progress"] = $this->project->getProjectProgress(project_id: $_SESSION["project_id"]);
+=======
+        $data["progress"] = $project->getProjectProgress(project_id: $_SESSION["project_id"]);
+>>>>>>> main
 
         $this->sendResponse(
             view: "/project_member/getProjectInfo.html",

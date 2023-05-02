@@ -20,8 +20,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 
 class GroupMemberController extends ProjectMemberController
 {
-
-    private Group $group;
+    protected Group $group;
     private GroupMember $groupMember;
 
     public function __construct()
@@ -249,7 +248,7 @@ class GroupMemberController extends ProjectMemberController
         try {
             if (!empty($args) && array_key_exists("message", $args)) {
                 if (!empty($args["message"])) {
-                    if ($this->groupMember->saveGroupMessage(id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], msg: $args["message"])) {
+                    if ($this->forum->saveGroupMessage(sender_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"], msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("error", ["message" => "Message cannot be saved to the database"]);
