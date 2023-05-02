@@ -258,7 +258,9 @@ class Project implements Model
                    ";
             $this->crud_util->execute($sql_string, ["project_id" => $project_id]);
             if (!$this->crud_util->hasErrors()) {
-                return ($this->crud_util->getFirstResult()->no_of_completed_tasks / $this->crud_util->getFirstResult()->no_of_tasks) * 100;
+                return $this->crud_util->getFirstResult()->no_of_tasks ?
+                    ($this->crud_util->getFirstResult()->no_of_completed_tasks / $this->crud_util->getFirstResult()->no_of_tasks) * 100 :
+                    0;
             } else {
                 return false;
             }
