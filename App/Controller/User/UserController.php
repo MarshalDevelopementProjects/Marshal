@@ -288,7 +288,7 @@ class UserController extends Controller
                         "commits"=> $this->user->getCommit($user_data->id)
                     ),
                     "other_info" => array()
-                )
+                )+$this->getTaskDeadlines()
             );
         } catch (Exception $exception) {
             $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
@@ -422,19 +422,26 @@ class UserController extends Controller
         );
 
         $project = new Project($userId);
+        $notification = new Notification();
+        $clickedNotification = $notification->getNotification(array("id" => $notificationId), array("id"));
 
         // set as read the notification 
 
-        if ($project->joinProject($args) && $this->readNotification(array("notification_id" => $notificationId, "member_id" => $userId))) {
-            $this->sendResponse(
-                view: "/user/login.html",
-                status: "success"
-            );
+        if ($project->joinProject($args) && $notification->readNotification(array("notification_id" => $notificationId, "member_id" => $userId))) {
+            // $this->sendResponse(
+            //     view: "/user/login.html",
+            //     status: "success"
+            // );
+            header("Location: " . $clickedNotification->url);
         } else {
-            $this->sendResponse(
-                view: "/user/signup.html",
-                status: "success"
-            );
+            // $this->sendResponse(
+            //     view: "/user/signup.html",
+            //     status: "success"
+            // );
+            // header("Location: http://localhost/public/user/dashboard");
+            // $this->clickOnNotification();
+            $notification->readNotification(array("notification_id" => $notificationId, "member_id" => $userId));
+
         }
         // we should send the notification to leader to inform our response
         $this->sendResponseNotification($notificationId, $projectId);

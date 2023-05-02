@@ -58,10 +58,10 @@ class GroupLeaderController extends GroupMemberController
                         // get leader id
                         $payload = $this->userAuth->getCredentials();
                         $user_id = $payload->id;
-                        
+
                         $notification = new Notification();
                         $notificationController = new NotificationController();
-            
+
                         $args = array(
                             "message" => "You are assigned to " . $args['taskname'] . " by project leader",
                             "type" => "notification",
@@ -69,7 +69,7 @@ class GroupLeaderController extends GroupMemberController
                             "url" => "Location: http://localhost/public/projectmember/group?id=" . $_SESSION['group_id'],
                             "recive_id" => $receivedUser->id
                         );
-                        
+
                         $notificationId = $notificationController->setNotification($args);
                     }
                 }
@@ -189,17 +189,18 @@ class GroupLeaderController extends GroupMemberController
             $messageTypeArgs = array(
                 "message_id" => $newMessage->id,
                 "project_id" => $_SESSION['project_id'],
+                "group_id" => $_SESSION['group_id'],
                 "heading" => $data->announcementHeading
             );
 
-            $message->setMessageType($messageTypeArgs, array("message_id", "project_id", "heading"), "group_announcement");
+            $message->setMessageType($messageTypeArgs, array("message_id", "project_id", "group_id", "heading"), "group_announcement");
 
             // send notifications
             try {
                 $notification = new Notification();
                 $group = new Group();
                 $notificationController = new NotificationController();
-    
+
                 $args = array(
                     "message" => $data->announcementHeading,
                     "type" => "notification",
@@ -207,15 +208,14 @@ class GroupLeaderController extends GroupMemberController
                     "url" => "http://localhost/public/projectmember/group?id=" . $_SESSION['group_id'],
                     "recive_id" => null
                 );
-                
+
                 $notificationId = $notificationController->setNotification($args);
-                
+
                 // $condition = "WHERE id IN (SELECT member_id FROM group_join WHERE group_id = :group_id)";
                 // $members = $user->getAllUsers(array("group_id" => $_SESSION['group_id']), $condition);
                 $members = $group->getGroupMembers(array("group_id" => $_SESSION['group_id']), array("group_id"));
-                
+
                 $notificationController->boardcastNotification($notificationId, $members);
-    
             } catch (\Throwable $th) {
                 $successMessage = $th->getMessage();
             }
@@ -290,6 +290,54 @@ class GroupLeaderController extends GroupMemberController
             }
         } catch (\Exception $exception) {
             throw $exception;
+        }
+    }
+
+    public function sendGroupInvitation()
+    {
+        try {
+            // get receiver user name
+            $data = file_get_contents('php://input');
+
+            // first check receiver is valid user or not
+            // get received user id
+            $user = new User();
+            $group = new Group();
+
+            $user->readUser("username", $data);
+            $receivedUser = $user->getUserData();
+
+            if ($receivedUser) {
+                $payload = $this->userAuth->getCredentials();
+                $project_id = $_SESSION["project_id"];
+                $user_id = $payload->id;
+
+                $groupDetails = $group->getGroup(array("id" => $_SESSION['group_id']), array("id"));
+
+                $memberArgs = array(
+                    "group_id" => $_SESSION['group_id'],
+                    "member_id" => $receivedUser->id,
+                    "role" => "MEMBER",
+                    "joined" => date("Y-m-d H:i:s")
+                );
+                $group->addGroupMember($memberArgs, array("group_id", "member_id", "role", "joined"));
+
+                $notificationController = new NotificationController();
+
+                $args = array(
+                    "message" => "You are a member of the group " . $groupDetails->group_name . ".",
+                    "type" => "request",
+                    "sender_id" => $user_id,
+                    "url" => "http://localhost/public/projectmember/group?id=" . $_SESSION['group_id'],
+                    "recive_id" => $receivedUser->id
+                );
+
+                $notificationId = $notificationController->setNotification($args);
+            }
+
+            echo (json_encode(array("message" => "Success")));
+        } catch (\Throwable $th) {
+            echo (json_encode(array("message" => $th)));
         }
     }
 }

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/View/styles/project_member/todoTaskPopup.css">
     <link rel="stylesheet" href="/View/styles/project_member/ongoingTaskPopup.css">
     <link rel="stylesheet" href="/View/styles/project_member/reviewTaskPopup.css">
+    <link rel="stylesheet" href="/View/styles/project_member/search_task_area.css">
     <link rel="stylesheet" href="/View/styles/user/notification.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -160,32 +161,6 @@
                     </div>
                     <a href="http://localhost/public/projectleader/getinfo"><p id="projectName">Mentcare Web App</p></a>
                 </div>
-
-                <!-- <div class="TO-DO-task-details">
-                    <div class="top-bar">
-                        <h3>Design UI for login page</h3>
-                        <p class="High">High</p>
-                    </div>
-                    <p class="task-details-description">Gathering and evaluating user requirements, in collaboration with product managers and engineers. 
-
-                        Illustrating design ideas using storyboards, process flows and sitemaps. Designing graphic user interface elements, like menus, tabs and widgets.</p>
-                    <p class="task-details-deadline">Deadline : 10-01-2023</p>
-
-                    <div class="task-feedbacks">
-                        <p class="incomming-feedbacks"></p>
-                        <p class="outgoing-feedbacks"></p>
-                        <form action="#" method="post">
-                            <label for="feedbackMessage"></label>
-                            <input type="text" name="feedbackMessage" placeholder="Send something ..." disabled>
-                            <button disabled type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
-                        </form>
-                    </div>
-                    <div class="buttons">
-                        <a id="cancel-task-details" href="#">Cancel</a>
-                        <a href="#">PickUp</a>
-                    </div>
-                </div> -->
-
 
                 <div class="TO-DO-task-details">
 
@@ -439,6 +414,8 @@
                 </div>
             </div>
 
+            <div class="search-results"></div>
+
         </div>
     </div>
     <script>
@@ -447,6 +424,8 @@
     <script src="/View/js/group_leader/dashboard.js"></script>
     <script src="/View/js/user/logout.js"></script>
     <script src="/View/js/user/calendar.js"></script>
+    <!-- <script src="/View/js/user/createProject.js"></script> -->
+    <script src="/View/js/project_member/search_task_engine.js"></script>
     <script src="/View/js/user/createProject.js"></script>
     <script src="/View/js/user/sidebar.js"></script>
     <script src="/View/js/user/notification.js"></script>

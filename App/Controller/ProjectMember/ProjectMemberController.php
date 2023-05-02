@@ -196,45 +196,51 @@ class ProjectMemberController extends UserController
                     "group_id" => $data['id'],
                     "member_id" => $payload->id
                 );
-                switch ($group->getGroupMember($args, array("group_id", "member_id"))->role) {
+                $role = $group->getGroupMember($args, array("group_id", "member_id"))->role;
+
+                // project leader also has group leader features
+                $projectDetails = $project->getProject(array("id" => $_SESSION['project_id']));
+                if ($projectDetails->created_by == $payload->id) {
+                    $role = 'LEADER';
+                }
+                $args = array(
+                    "group_id" => $data['id'],
+                    "project_id" => $_SESSION['project_id'],
+                    "task_type" => "group"
+                );
+                // $projectController = new ProjectController();
+                $groupController = new GroupController();
+
+                $groupData = array();
+                $groupData['groupTasks'] = $groupController->getGroupTasks($args, $payload->id);
+
+                // get group details
+                $groupinfo = $group->getGroup(array("id" => $data['id']), array("id"));
+                $projectinfo = $project->getProject(array("id" => $_SESSION['project_id']));
+                $taskinfo = $task->getTask(array("task_name" => $groupinfo->task_name, "project_id" => $_SESSION['project_id']), array("task_name", "project_id"));
+
+                $groupData['groupDetails'] = array(
+                    "name" => $groupinfo->group_name,
+                    "description" => $groupinfo->description,
+                    "start_date" => explode(" ", $groupinfo->start_date)[0],
+                    "end_date" => explode(" ", $taskinfo->deadline)[0],
+                    "project_name" => $projectinfo->project_name
+                );
+
+                // get user details
+                $user = new User();
+
+                $userData = array();
+                if ($user->readUser("id", $payload->id)) {
+                    $userData = $user->getUserData();
+                }
+                $groupData['userDetails'] = $userData->profile_picture;
+                $groupData['projectDetails'] = $project->getProject(array("id" => $_SESSION['project_id']))->project_name;
+
+                $groupData += parent::getTaskDeadlines();
+
+                switch ($role) {
                     case 'LEADER':
-                        $args = array(
-                            "group_id" => $data['id'],
-                            "project_id" => $_SESSION['project_id'],
-                            "task_type" => "group"
-                        );
-                        // $projectController = new ProjectController();
-                        $groupController = new GroupController();
-
-                        $groupData = array();
-                        $groupData['groupTasks'] = $groupController->getGroupTasks($args, $payload->id);
-
-                        // get group details
-                        $groupinfo = $group->getGroup(array("id" => $data['id']), array("id"));
-                        $projectinfo = $project->getProject(array("id" => $_SESSION['project_id']));
-                        $taskinfo = $task->getTask(array("task_name" => $groupinfo->task_name, "project_id" => $_SESSION['project_id']), array("task_name", "project_id"));
-
-                        $groupData['groupDetails'] = array(
-                            "name" => $groupinfo->group_name,
-                            "description" => $groupinfo->description,
-                            "start_date" => explode(" ", $groupinfo->start_date)[0],
-                            "end_date" => explode(" ", $taskinfo->deadline)[0],
-                            "project_name" => $projectinfo->project_name
-                        );
-
-                        // get user details
-                        $user = new User();
-
-                        $userData = array();
-                        if ($user->readUser("id", $payload->id)) {
-                            $userData = $user->getUserData();
-                        }
-                        $groupData['userDetails'] = $userData->profile_picture;
-                        $groupData['projectDetails'] = $project->getProject(array("id" => $_SESSION['project_id']))->project_name;
-
-                        $groupData += parent::getTaskDeadlines();
-
-                        $groupData["progress"] = $group->getGroupProgress(group_id: $_SESSION["group_id"]);
 
                         $this->sendResponse(
                             view: "/group_leader/dashboard.html",
@@ -245,18 +251,10 @@ class ProjectMemberController extends UserController
 
                     case 'MEMBER':
 
-                        $args = array(
-                            "group_id" => $data['id'],
-                            "project_id" => $_SESSION['project_id'],
-                            "task_type" => "group"
-                        );
-                        // $projectController = new ProjectController();
-                        $groupController = new GroupController();
-
                         $this->sendResponse(
                             view: "/group_member/dashboard.html",
                             status: "success",
-                            content: $groupController->getGroupTasks($args, $payload->id)
+                            content: $groupData
                         );
                         break;
                     default: {
@@ -289,12 +287,12 @@ class ProjectMemberController extends UserController
         $this->sendResponse(
             view: "/project_member/forum.html",
             status: "success",
-            content: [
+            content: array(
                 "project_id" => $_SESSION["project_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
                 "messages" => $this->projectMember->getForumMessages() ? $this->projectMember->getMessageData() : [],
                 "members" =>  $this->projectMember->getProjectMembers() ? $this->projectMember->getProjectMemberData() : [],
-            ]
+            ) + parent::getTaskDeadlines()
         );
     }
 
@@ -313,11 +311,13 @@ class ProjectMemberController extends UserController
 
         $group = new Group();
         $groups = $group->getAllGroups(array("project_id" => $project_id), array("project_id"));
-        foreach ($groups as $groupData) {
-            if ($group->getGroupMember(array("group_id" => $groupData->id, "member_id" => $user_id), array("group_id", "member_id"))) {
-                $groupData->hasAccess = true;
-            } else {
-                $groupData->hasAccess = false;
+        if ($groups) {
+            foreach ($groups as $groupData) {
+                if ($group->getGroupMember(array("group_id" => $groupData->id, "member_id" => $user_id), array("group_id", "member_id"))) {
+                    $groupData->hasAccess = true;
+                } else {
+                    $groupData->hasAccess = false;
+                }
             }
         }
 
@@ -358,11 +358,16 @@ class ProjectMemberController extends UserController
             $file->uploaderName = $uploadedUser->first_name . " " . $uploadedUser->last_name;
             $file->profile = $uploadedUser->profile_picture;
         }
+        $data = array(
+            "files" => $files,
+            "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
+        );
+        $data += parent::getTaskDeadlines();
 
         $this->sendResponse(
             view: "/project_member/file_uploader.html",
             status: "success",
-            content: $files
+            content: $data
         );
     }
 

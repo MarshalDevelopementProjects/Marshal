@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,10 +12,11 @@
     <link rel="stylesheet" href="/View/styles/user/notification.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <body>
-    
+
     <div class="container">
-        
+
         <div class="navbar">
             <div class="left-logo-area">
                 <a href="http://localhost/public/user/dashboard" style="text-decoration: none;">
@@ -91,7 +93,7 @@
                         <p>Sun</p>
                     </div>
                     <div class="days">
-                        
+
                     </div>
                 </div>
                 <div class="deadline-popup">
@@ -107,23 +109,21 @@
 
                 <div class="project-info">
                     <div class="project-details">
-                       <!-- <div class="project-info-top">
+                        <!-- <div class="project-info-top">
                             <h2>Medicare App Development</h2>
                             <p id="invite-member-btn"><i class="fa fa-user-plus" aria-hidden="true"></i> Invite member</p>
                         </div>-->
 
                         <!--<p >mHealth apps  between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals.
                         <br> convenience of their own homes without visiting hospitals.</p>-->
-    
-                        <!--<div class="progress-bar">
+
+                        <!-- <div class="progress-bar">
                             <p id="start-date">25-10-22</p>
-
-                            <div id="progress-bar-container" class="bar">
-                                <div id="progress-bar" class="progress"></div>
-                            </div>
-
-                            <p id="end-date">10-02-2023</p>
-                        </div>-->
+                            <div class="bar">
+                                <div class="progress" id="progressId"></div>
+                    </div>
+                    <p id="end-date">10-02-2023</p>
+                </div> -->
                     </div>
 
                     <div class="feedbacks-and-groups">
@@ -132,10 +132,10 @@
                                 <h3 id="project-announcements">Project Announcements</h3>
                                 <h3 id="client-feedback">Client Feedback</h3>
                             </div>
-                            
+
                             <div class="project-announcement-area">
                                 <div class="feedback-form">
-                                
+
                                     <div class="announcement">
                                         <img src="" alt="">
                                         <div class="announcement-details">
@@ -146,7 +146,7 @@
                                             <p class="announcement-detail-message"></p>
                                         </div>
                                     </div>
-    
+
                                 </div>
                                 <form class="project-announcements-form" method="post">
                                     <label id="announcementHeading" for="announcementHeading">Announcement Heading</label>
@@ -157,17 +157,17 @@
                                     <label for="announcementMessage">Announcement Message</label>
                                     <br>
                                     <input required id="announcement-message" type="text" name="announcementMessage" placeholder=" Enter announcement message ...">
-    
+
                                     <button id="feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
                                 </form>
                                 <p id="show-send-announcement-form" class="show-send-announcement-form"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp; add announcement</p>
-      
+
                             </div>
 
                             <div class="client-feedback-area">
                                 <div id="feedback-message-container" class="project-feedback-messages">
 
-                                   <!-- Feedback message goes here -->
+                                    <!-- Feedback message goes here -->
 
                                 </div>
 
@@ -177,19 +177,21 @@
                                     <button type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
                                 </form>
                             </div>
-                                                  
+
                         </div>
                         <div class="group-list">
                             <div class="top-group-list">
                                 <h3>Groups</h3>
                                 <p id="create-group-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i></p>
                             </div>
-                            
+
                             <div class="groups">
-                                <a href="#"><p class="group"></p></a>
-                                
+                                <a href="#">
+                                    <p class="group"></p>
+                                </a>
+
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -294,104 +296,104 @@
                     </div>
 
                 </div>
-                
 
-                    
-                </div>
+
+
             </div>
         </div>
-        <div class="notification-popup-container">
-            <div class="notification-popup">
-                <div class="notification-popup-top">
-                    <h3>Notifications</h3>
-                    <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
-                </div>
-                <div class="notifications">
-                    
-                </div>
+    </div>
+    <div class="notification-popup-container">
+        <div class="notification-popup">
+            <div class="notification-popup-top">
+                <h3>Notifications</h3>
+                <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
+            </div>
+            <div class="notifications">
+
             </div>
         </div>
-        <div class="create-project-container">
-            <div class="create-project-popup">
-                <div class="create-project-top">
-                    <div class="create-project-header">
-                        <h3>Let's create a workspace.</h3>
-                        <p>Make it simpler for everyone to access boards in one place to increase productivity.</p>
-                    </div>
-                    <i class="fa fa-times create-project-popup-close" aria-hidden="true"></i>
+    </div>
+    <div class="create-project-container">
+        <div class="create-project-popup">
+            <div class="create-project-top">
+                <div class="create-project-header">
+                    <h3>Let's create a workspace.</h3>
+                    <p>Make it simpler for everyone to access boards in one place to increase productivity.</p>
                 </div>
-                <div class="create-project-details">
-                    <div class="create-project-form">
-                        <form action="#" method="post">
-                            <label for="projectName">Project Name</label>
-                            <br>
-                            <input type="text" name="projectName" placeholder="Enter project name ...">
-                            <br>
-                            <p>Your business, group, or organization's name is here.</p>
-    
-                            <label for="projectType">Project Type</label>
-                            <br>
-                            <input type="text" name="projectType" placeholder="Enter project type ...">
-    
-                            <br>
-                            <label for="projectDescription">Project Description</label>
-                            <br>
-                            <input type="text" id="projectDescription" name="projectDescription" placeholder="Please enter something on your project ... ">
-    
-                            <br>
-                            <button type="submit">CREATE</button>
-                        </form>
-                    </div>
-                    <img src="/View/images/project_create.png" alt="project_create">
+                <i class="fa fa-times create-project-popup-close" aria-hidden="true"></i>
+            </div>
+            <div class="create-project-details">
+                <div class="create-project-form">
+                    <form action="#" method="post">
+                        <label for="projectName">Project Name</label>
+                        <br>
+                        <input type="text" name="projectName" placeholder="Enter project name ...">
+                        <br>
+                        <p>Your business, group, or organization's name is here.</p>
+
+                        <label for="projectType">Project Type</label>
+                        <br>
+                        <input type="text" name="projectType" placeholder="Enter project type ...">
+
+                        <br>
+                        <label for="projectDescription">Project Description</label>
+                        <br>
+                        <input type="text" id="projectDescription" name="projectDescription" placeholder="Please enter something on your project ... ">
+
+                        <br>
+                        <button type="submit">CREATE</button>
+                    </form>
                 </div>
+                <img src="/View/images/project_create.png" alt="project_create">
             </div>
         </div>
+    </div>
 
-        <div class="create-group-container">
-            <h3>Create Group</h3>
-            <form action="http://localhost/public/projectleader/group" method="post">
-                <label for="group_name">Group name</label>
-                <br>
-                <input type="text" name="group_name" id="group_name" placeholder="Enter group name" required>
-
-                <br>
-                <label for="task_name">Task name</label>
-                <br>
-                <input type="text" name="task_name" id="task_name" placeholder="Enter task name" required>
-
-                <br>
-                <label for="assignMember">Assigned member</label>
-                <br>
-                <input type="text" name="assignMember" id="assignMember" placeholder="Enter member username">
-                <br>
-                <label for="deadline">Deadline</label>
-                <br>
-                <input type="date" name="deadline" id="deadline">
-                <br>
-                <label for="group-description">Group Description</label>
-                <br>
-                <input type="text" id="group-description" name="group_description" required placeholder="Enter group description">
-                <br>
-                <div class="buttons">
-                    <p id="cancel-create-group">Cancel</p>
-                    <button type="submit">Create</button>
-                </div>
-            </form>
-            
-        </div>
-
-        <div class="invite-popup">
-            <h3>Invite member</h3>
-            <label for="username">Username</label>
+    <div class="create-group-container">
+        <h3>Create Group</h3>
+        <form action="http://localhost/public/projectleader/group" method="post">
+            <label for="group_name">Group name</label>
             <br>
-            <input type="text" name="username" placeholder="Enter username">
-            <div class="buttons">
-                <button type="submit" id="inviteBtn">Send</button>
-                <button type="submit" id="closeBtn">Close</button>
-            </div>
-        </div>
+            <input type="text" name="group_name" id="group_name" placeholder="Enter group name" required>
 
-        
+            <br>
+            <label for="task_name">Task name</label>
+            <br>
+            <input type="text" name="task_name" id="task_name" placeholder="Enter task name" required>
+
+            <br>
+            <label for="assignMember">Assigned member</label>
+            <br>
+            <input type="text" name="assignMember" id="assignMember" placeholder="Enter member username">
+            <br>
+            <label for="deadline">Deadline</label>
+            <br>
+            <input type="date" name="deadline" id="deadline">
+            <br>
+            <label for="group-description">Group Description</label>
+            <br>
+            <input type="text" id="group-description" name="group_description" required placeholder="Enter group description">
+            <br>
+            <div class="buttons">
+                <p id="cancel-create-group">Cancel</p>
+                <button type="submit">Create</button>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="invite-popup">
+        <h3>Invite member</h3>
+        <label for="username">Username</label>
+        <br>
+        <input type="text" name="username" placeholder="Enter username">
+        <div class="buttons">
+            <button type="submit" id="inviteBtn">Send</button>
+            <button type="submit" id="closeBtn">Close</button>
+        </div>
+    </div>
+
+
     </div>
     <script>
         var jsonData = JSON.parse('<?= $data; ?>');
@@ -406,5 +408,5 @@
     <script src="/View/js/user/notification.js"></script>
     <script src="/View/js/user/progress_bar.js"></script>
 </body>
-</html>
 
+</html>
