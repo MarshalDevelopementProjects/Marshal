@@ -48,7 +48,7 @@ var projectDataCode = `<div class="project-info-top">
 const projectData = document.querySelector('.project-details');
 projectData.innerHTML = projectDataCode;
 
-// set member list
+/*// set member list
 const projectLeaderCard = document.querySelector('#projectLeaderCard');
 const groupLeadersCards = document.querySelector('.group-leaders');
 const projectMembersCards = document.querySelector('.project-members');
@@ -97,7 +97,7 @@ if(jsonData['projectMembers']){
     })
 
 }
-projectMembersCards.innerHTML = projectMemberCode;
+projectMembersCards.innerHTML = projectMemberCode;*/
 
 
 const invitationSendBtn = document.getElementById('inviteBtn'),

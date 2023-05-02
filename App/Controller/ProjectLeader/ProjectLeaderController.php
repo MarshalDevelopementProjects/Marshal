@@ -62,15 +62,6 @@ class ProjectLeaderController extends ProjectMemberController
         $user = new User();
         $data = array("groups" => $groups, "projectData" => $project->getProject(array("id" => $project_id)));
 
-        // get project members' details
-        $projectLeaderCondition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id AND role = :role)";
-        $projectMemberCondition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id AND ( role = :role OR role = :role2))";
-        $groupLeaderCondition = "WHERE id IN (SELECT DISTINCT leader_id FROM groups WHERE project_id = :project_id)";
-
-        $data['projectLeader'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "LEADER"), $projectLeaderCondition);
-        $data['projectMembers'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "MEMBER", "role2" => "LEADER"), $projectMemberCondition);
-        $data['groupLeaders'] = $user->getAllUsers(array("project_id" => $project_id), $groupLeaderCondition);
-
         $data += parent::getTaskDeadlines();
         // get user profile
         $user = new User();
@@ -91,6 +82,8 @@ class ProjectLeaderController extends ProjectMemberController
         $data["project_id"] = $_SESSION["project_id"];
 
         $data["progress"] = $project->getProjectProgress(project_id: $_SESSION["project_id"]);
+
+        $data["members"] = $project->getProjectMembers($_SESSION["project_id"]) ? $project->getProjectMemberData() : [];
 
         $this->sendResponse(
             view: "/project_leader/getProjectInfo.html",

@@ -145,13 +145,6 @@ class GroupLeaderController extends GroupMemberController
         $groupData['userDetails'] = $userData->profile_picture;
         $groupData['projectDetails'] = $project->getProject(array("id" => $_SESSION['project_id']))->project_name;
 
-        // get group members
-        $condition = "WHERE id IN (SELECT member_id FROM group_join WHERE group_id = :group_id AND role = :role)";
-        $groupMemberCondition = "WHERE id IN (SELECT member_id FROM group_join WHERE group_id = :group_id)";
-
-        $groupData['groupLeader'] = $user->getAllUsers(array("group_id" => $_SESSION['group_id'], "role" => "LEADER"), $condition);
-        $groupData['groupMembers'] = $user->getAllUsers(array("group_id" => $_SESSION['group_id']), $groupMemberCondition);
-
         $groupData += parent::getTaskDeadlines();
 
         if ($this->forum->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"])) {
@@ -164,6 +157,10 @@ class GroupLeaderController extends GroupMemberController
         ];
 
         $groupData["progress"] = $group->getGroupProgress(group_id: $_SESSION["group_id"]);
+
+        if ($group->getGroupMembers_(group_id: $_SESSION["group_id"])) {
+            $groupData["members"] = $group->getGroupMemberData();
+        }
 
         $this->sendResponse(
             view: "/group_leader/groupInfo.html",

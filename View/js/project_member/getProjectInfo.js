@@ -121,6 +121,7 @@ var projectDataCode = `<div class="project-info-top">
 const projectData = document.querySelector('.project-details');
 projectData.innerHTML = projectDataCode;
 
+/*
 // set member list
 const projectLeaderCard = document.querySelector('#projectLeaderCard');
 const groupLeadersCards = document.querySelector('.group-leaders');
@@ -171,6 +172,7 @@ if(jsonData['projectMembers']){
 
 }
 projectMembersCards.innerHTML = projectMemberCode;
+*/
 
 const announcementForum = document.querySelector('.feedback-form');
 
