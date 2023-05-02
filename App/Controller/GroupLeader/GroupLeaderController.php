@@ -162,6 +162,10 @@ class GroupLeaderController extends GroupMemberController
             $groupData["members"] = $group->getGroupMemberData();
         }
 
+        if($group->getGroupStatistics(group_id: $_SESSION["group_id"])) {
+            $groupData["stat"] = $group->getGroupData();
+        }
+
         $this->sendResponse(
             view: "/group_leader/groupInfo.html",
             status: "success",

@@ -269,6 +269,53 @@ class Project implements Model
         }
     }
 
+    /**
+     * @throws Exception
+     */
+    public function getProjectStatistics(string|int $project_id): bool
+    {
+        $task_details_sql_string = "
+                   SELECT
+                   COUNT(CASE WHEN `t`.`status` = 'DONE' THEN 1 END) AS `no_of_completed_tasks`,
+                   COUNT(CASE WHEN `t`.`status` = 'TO-DO' THEN 1 END) AS `no_of_todo_tasks`,
+                   COUNT(CASE WHEN `t`.`status` = 'PENDING' THEN 1 END) AS `no_of_pending_tasks`,
+                   COUNT(CASE WHEN `t`.`status` = 'ONGOING' THEN 1 END) AS `no_of_ongoing_tasks`,
+                   COUNT(CASE WHEN `t`.`status` = 'REVIEW' THEN 1 END) AS `no_of_reviewed_tasks`,
+                   COUNT(CASE WHEN `t`.`priority` = 'high' THEN 1 END) AS `no_of_high_priority_tasks`,
+                   COUNT(CASE WHEN `t`.`priority` = 'medium' THEN 1 END) AS `no_of_medium_priority_tasks`,
+                   COUNT(CASE WHEN `t`.`priority` = 'low' THEN 1 END) AS `no_of_low_priority_tasks`,
+                   COUNT(`t`.`task_id`) AS `total_no_of_tasks`
+                   FROM
+                       `task` `t`
+                   WHERE
+                       `t`.`project_id` = :project_id AND `t`.task_type = 'project'
+                   ";
+        $stat_per_week_sql_string = "
+                    SELECT
+                    CONCAT(WEEK(`c_t`.`date`)  - WEEK(`p`.`start_on`) + 1) AS `week`,
+                    COUNT(*) AS `no_of_completed_tasks`
+                    FROM `completedtask` `c_t`
+                    INNER JOIN `task` `t` ON `t`.task_id = `c_t`.task_id
+                    INNER JOIN `project` `p` ON `t`.project_id = `p`.id
+                    WHERE `t`.status = 'DONE'
+                      AND `t`.`project_id` = :project_id
+                      AND `t`.`task_type` = 'project'
+                      AND `c_t`.`date` < `p`.`end_on`
+                    GROUP BY `week`
+                    ORDER BY WEEK(`c_t`.`date`)   - WEEK(`p`.`start_on`) + 1;
+        ";
+        $this->crud_util->execute($task_details_sql_string, ["project_id" => $project_id]);
+        if (!$this->crud_util->hasErrors()) {
+            $this->project_data["task_details"] = $this->crud_util->getFirstResult();
+            $this->crud_util->execute($stat_per_week_sql_string, ["project_id" => $project_id]);
+            if (!$this->crud_util->hasErrors()) {
+                $this->project_data["stat_per_week_details"] = $this->crud_util->getFirstResult();
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getProjectMemberData(): array|null|object|bool
     {
         return $this->project_member_data;

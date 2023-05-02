@@ -338,6 +338,10 @@ class ProjectMemberController extends UserController
 
         $data["members"] = $project->getProjectMembers($_SESSION["project_id"]) ? $project->getProjectMemberData() : [];
 
+        if ($project->getProjectStatistics(project_id: $_SESSION["project_id"])) {
+            $data["stats"] = $project->getProjectData();
+        }
+
         $this->sendResponse(
             view: "/project_member/getProjectInfo.html",
             status: "success",

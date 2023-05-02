@@ -90,6 +90,10 @@ class GroupMemberController extends ProjectMemberController
             $groupData["members"] = $group->getGroupMemberData();
         }
 
+        if($group->getGroupStatistics(group_id: $_SESSION["group_id"])) {
+            $groupData["stat"] = $group->getGroupData();
+        }
+
         $this->sendResponse(
             view: "/group_member/groupInfo.html",
             status: "success",

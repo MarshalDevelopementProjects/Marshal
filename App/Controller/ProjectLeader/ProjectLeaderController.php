@@ -74,6 +74,8 @@ class ProjectLeaderController extends ProjectMemberController
             $data["feedback_messages"] = $this->projectLeader->getMessageData();
         }
 
+
+
         $data["user_data"] = [
             "username" => $this->user->getUserData()->username,
             "profile_picture" => $this->user->getUserData()->profile_picture,
@@ -84,6 +86,10 @@ class ProjectLeaderController extends ProjectMemberController
         $data["progress"] = $project->getProjectProgress(project_id: $_SESSION["project_id"]);
 
         $data["members"] = $project->getProjectMembers($_SESSION["project_id"]) ? $project->getProjectMemberData() : [];
+
+        if ($project->getProjectStatistics(project_id: $_SESSION["project_id"])) {
+            $data["stats"] = $project->getProjectData();
+        }
 
         $this->sendResponse(
             view: "/project_leader/getProjectInfo.html",
