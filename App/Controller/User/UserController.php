@@ -237,7 +237,8 @@ class UserController extends Controller
                              $projectData = $project->getProjectData();
                          }
                          $data['projectName'] = $projectData[0]->project_name;
- 
+
+                         $data["user_data"] = ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,];
 
                         $this->sendResponse(
                             view: "/project_member/dashboard.html",

@@ -87,6 +87,11 @@ class GroupMemberController extends ProjectMemberController
 
         $groupData["progress"] = $group->getGroupProgress(group_id: $_SESSION["group_id"]);
 
+        $groupData["user_data"] = [
+            "username" => $this->user->getUserData()->username,
+            "profile_picture" => $this->user->getUserData()->profile_picture,
+        ];
+
         if($group->getGroupMembers_(group_id: $_SESSION["group_id"])) {
             $groupData["members"] = $group->getGroupMemberData();
         }
@@ -283,7 +288,7 @@ class GroupMemberController extends ProjectMemberController
     {
         try {
             if ($this->forum->getGroupForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"])) {
-                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupMember->getMessageData() ?? []]);
+                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->forum->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => ""]);
             }
