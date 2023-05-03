@@ -30,7 +30,11 @@ class ProjectLeaderController extends ProjectMemberController
                 $this->projectLeader = new ProjectLeader($_SESSION["project_id"]);
                 $this->conferenceController = new ConferenceController();
             } else {
-                throw new Exception("Bad request missing arguments");
+                $this->sendResponse(
+                    view: "/errors/403.html",
+                    status: "unauthorized"
+                );
+                // throw new Exception("Bad request missing arguments");
             }
         } catch (Exception $exception) {
             throw $exception;
