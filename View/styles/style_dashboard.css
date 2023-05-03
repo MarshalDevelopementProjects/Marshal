@@ -874,3 +874,31 @@ div::-webkit-scrollbar {
     font-size: 12px;
     font-weight: 550;
 }
+
+@media(max-width:1060px) {
+    body{
+        /* background-color: #0a4fa3; */
+    }
+    .projects {
+        
+        grid-template-columns: repeat(3,1fr);
+        grid-template-rows: repeat(2, 300px);
+        grid-column-gap: 10px;
+        padding-left: 20px;
+        padding-bottom: 200px;
+    }
+}
+@media(max-width:880px) {
+    .projects {
+        
+        grid-template-columns: repeat(2,1fr);
+        grid-template-rows: repeat(2, 300px);
+    }
+}
+@media(max-width:700px) {
+    .projects {
+        
+        grid-template-columns: repeat(1,1fr);
+        grid-template-rows: repeat(2, 300px);
+    }
+}
