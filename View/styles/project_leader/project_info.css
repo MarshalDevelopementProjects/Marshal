@@ -578,12 +578,16 @@ body{
     display: flex;
     width: fit-content;
     max-width: 500px;
+    margin-bottom: 10px;
 }
 .incomming-feedback img{
     width: 30px;
     height: 30px;
     border-radius: 30px;
     margin-top: auto;
+}
+.incomming-feedback h5{
+    display:none;
 }
 .incomming-feedback .incomming-feedback-message{
     display: flex;
@@ -617,6 +621,7 @@ body{
     border-bottom-right-radius: 0px;
     background-color: #b9dccb;
     padding: 10px;
+    margin-bottom:10px;
 }
 .outgoing-feedback .outgoing-feedbacks{
     margin: 0px;
