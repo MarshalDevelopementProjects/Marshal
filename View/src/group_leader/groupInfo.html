@@ -138,9 +138,11 @@
       
                             </div>
 
+
                             <div class="leader-feedback-area">
-                                <div class="group-feedback-messages">
-                                    <div class="incomming-feedback">
+                                <div id = "feedback-message-container" class="group-feedback-messages">
+
+                                    <!--<div class="incomming-feedback">
                                         <img src="/View/images/dp.png" alt="">
                                         <div class="incomming-feedback-message">
                                             <p class="incomming-feedbacks">Hello How are you</p>
@@ -151,14 +153,12 @@
                                     <div class="outgoing-feedback">
                                         <p class="outgoing-feedbacks">Hello How are you</p>
                                         <p class="outgoing-time">4.14 PM</p>
-                                    </div>
-        
+                                    </div>-->
                                 </div>
         
-                                <form id="leader-feedback-form" method="post">
-                                    <label for="feedbackMessage"></label>
+                                <form id="leader-feedback-form">
                                     <input type="text" name="feedbackMessage" placeholder=" Type something...">
-                                    <button id="feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                                    <button type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
                                 </form>
                             </div>
 
@@ -167,7 +167,7 @@
                     </div>
                 </div>
 
-                <div class="member-list">
+                <!--<div class="member-list">
                     <h3>Group Leader</h3>
                     <div class="member-card" id="group-leader">
                         <div class="profile-image">
@@ -226,6 +226,18 @@
 
                     <div class="chart">
                         <img src="/View/images/chart.png" alt="">
+                    </div>
+                </div>-->
+
+                <div class="member-list">
+                    <div id="leaders-list-container-div" class="project-members">
+                        <h3>Group Leader</h3>
+                        <!-- add the leaders here -->
+                    </div>
+
+                    <div id="members-list-container-div" class="project-members">
+                        <h3>Group Members</h3>
+                        <!-- add the members here -->
                     </div>
                 </div>
 
@@ -439,8 +451,10 @@
     <script src="/View/js/group_leader/groupInfo.js"></script>
     <script src="/View/js/user/logout.js"></script>
     <script src="/View/js/user/calendar.js"></script>
+    <script src="/View/js/user/member_attachments.js"></script>
     <script src="/View/js/user/createProject.js"></script>
     <script src="/View/js/user/sidebar.js"></script>
+    <script src="/View/js/group_leader/feedback_forum.js"></script>
 </body>
 </html>
 

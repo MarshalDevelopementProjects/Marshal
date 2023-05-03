@@ -336,3 +336,5 @@ function errorsAlert() {
         document.querySelector('.alert').classList.add('hide');
     });
 }
+
+console.log(jsonData)

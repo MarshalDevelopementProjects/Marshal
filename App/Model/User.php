@@ -193,6 +193,42 @@ class User implements Model
         throw new \Exception("Not implemented");
     }
 
+    public function checkUserRole(string|int $req_id, string $role, string $type): bool
+    {
+        try {
+            $sql_string = "SELECT `member_id` FROM ";
+            if($type === "PROJECT") {
+                if ($role == "LEADER") {
+                    $sql_string .= "`project_join` WHERE `member_id` = :user_id AND `project_id` = :req_id AND `role` = 'LEADER'";
+                } else if ($role === "CLIENT") {
+                    $sql_string .= "`project_join` WHERE `member_id` = :user_id AND `project_id` = :req_id AND `role` = 'CLIENT'";
+                }else if ($role === "MEMBER") {
+                    $sql_string .= "`project_join` WHERE `member_id` = :user_id AND `project_id` = :req_id AND `role` != 'CLIENT'";
+                } else {
+                    return false;
+                }
+            } else if ($type === "GROUP") {
+                if ($role === "LEADER")
+                    $sql_string .= "`group_join` WHERE  `member_id` = :user_id AND `group_id` = :req_id AND `role` = 'LEADER'";
+                else if ($role === "MEMBER")
+                    $sql_string .= "`group_join` WHERE  `member_id` = :user_id AND `group_id` = :req_id AND `role` != 'CLIENT'";
+                else
+                    return false;
+            } else {
+                return false;
+            }
+            $result = $this->crud_util->execute($sql_string, ["user_id" => $this->user_data->id, "req_id" => $req_id]);
+            // var_dump($result);
+            if ($result->getCount() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
     public function getUserData()
     {
         return $this->user_data;

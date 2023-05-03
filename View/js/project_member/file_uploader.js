@@ -3,8 +3,8 @@ const uploadedFiles = document.querySelector('.uploadedfiles');
 
 var uploadFileCode = ""
 
-if(jsonData){
-    jsonData.forEach(file => {
+if(jsonData['files']){
+    jsonData['files'].forEach(file => {
         uploadFileCode += `<a href="${file['filePath']}" target="_blank" style="text-decoration: none; "text-style: none; color: black; >
                                 <div class="uploadedfile">
                                     <img src="${file['profile']}" alt="dp">
@@ -56,3 +56,7 @@ fileUploadForm.addEventListener('submit', async function(event) {
         console.error(error);
     }
 });
+
+// set user profile picture
+const profile_pic = document.querySelector('.profile-image');
+profile_pic.src = jsonData['user_data']['profile_picture']

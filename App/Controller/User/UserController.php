@@ -213,7 +213,9 @@ class UserController extends Controller
                                 "project_id" => $_SESSION["project_id"],
                                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
                                 "project_details" => $project->readProjectsOfUser(member_id: $payload->id, project_id: $data["id"]) ? $project->getProjectData() : [],
-                                "members" => $project->getProjectMembers($_SESSION["project_id"]) ? $project->getProjectMemberData() : []
+                                "members" => $project->getProjectMembers($_SESSION["project_id"]) ? $project->getProjectMemberData() : [],
+                                "progress" => $project->getProjectProgress(project_id: $_SESSION["project_id"]),
+                                "stat" => $project->getProjectStatistics(project_id: $_SESSION["project_id"]) ? $project->getProjectData() : []
                             ],
                         );
                         break;
@@ -288,7 +290,7 @@ class UserController extends Controller
                         "commits"=> $this->user->getCommit($user_data->id)
                     ),
                     "other_info" => array()
-                )
+                )+$this->getTaskDeadlines()
             );
         } catch (Exception $exception) {
             $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
@@ -425,19 +427,26 @@ class UserController extends Controller
         );
 
         $project = new Project($userId);
+        $notification = new Notification();
+        $clickedNotification = $notification->getNotification(array("id" => $notificationId), array("id"));
 
         // set as read the notification 
 
-        if ($project->joinProject($args) && $this->readNotification(array("notification_id" => $notificationId, "member_id" => $userId))) {
-            $this->sendResponse(
-                view: "/user/login.html",
-                status: "success"
-            );
+        if ($project->joinProject($args) && $notification->readNotification(array("notification_id" => $notificationId, "member_id" => $userId))) {
+            // $this->sendResponse(
+            //     view: "/user/login.html",
+            //     status: "success"
+            // );
+            header("Location: " . $clickedNotification->url);
         } else {
-            $this->sendResponse(
-                view: "/user/signup.html",
-                status: "success"
-            );
+            // $this->sendResponse(
+            //     view: "/user/signup.html",
+            //     status: "success"
+            // );
+            // header("Location: http://localhost/public/user/dashboard");
+            // $this->clickOnNotification();
+            $notification->readNotification(array("notification_id" => $notificationId, "member_id" => $userId));
+
         }
         // we should send the notification to leader to inform our response
         $this->sendResponseNotification($notificationId, $projectId);

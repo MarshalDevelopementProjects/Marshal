@@ -20,13 +20,15 @@ require __DIR__ . '/../../../vendor/autoload.php';
 
 class GroupMemberController extends ProjectMemberController
 {
+    protected Group $group;
     private GroupMember $groupMember;
 
     public function __construct()
     {
         try {
             parent::__construct();
-            if (array_key_exists("group_id", $_SESSION)) {
+            if (array_key_exists("group_id", $_SESSION) && $this->user->checkUserRole(req_id: $_SESSION["group_id"], role: "MEMBER", type: "GROUP")) {
+                $this->group = new Group();
                 $this->groupMember = new GroupMember($_SESSION["project_id"], $_SESSION["group_id"]);
             } else {
                 throw new Exception("Bad request missing arguments");
@@ -42,13 +44,20 @@ class GroupMemberController extends ProjectMemberController
 
     public function auth(): bool
     {
+        // TODO: COMPLETE THE AUTH
         return parent::auth();
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function getGroupInfo()
     {
 
+        $payload = $this->userAuth->getCredentials();
         $group = new Group();
+        $project = new Project();
+        $task = new Task();
         $groupData = array();
 
         // get group details
@@ -68,13 +77,23 @@ class GroupMemberController extends ProjectMemberController
         $user = new User();
 
         $userData = array();
-        if ($user->readUser("id", $payload->id)) {
+        if ($user->readUser("id", $this->user->getUserData()->id)) {
             $userData = $user->getUserData();
         }
         $groupData['userDetails'] = $userData->profile_picture;
         $groupData['projectDetails'] = $project->getProject(array("id" => $_SESSION['project_id']))->project_name;
 
         $groupData += parent::getTaskDeadlines();
+
+        $groupData["progress"] = $group->getGroupProgress(group_id: $_SESSION["group_id"]);
+
+        if($group->getGroupMembers_(group_id: $_SESSION["group_id"])) {
+            $groupData["members"] = $group->getGroupMemberData();
+        }
+
+        if($group->getGroupStatistics(group_id: $_SESSION["group_id"])) {
+            $groupData["stat"] = $group->getGroupData();
+        }
 
         $this->sendResponse(
             view: "/group_member/groupInfo.html",
@@ -95,7 +114,7 @@ class GroupMemberController extends ProjectMemberController
                 "project_id" => $_SESSION["project_id"],
                 "group_id" => $_SESSION["group_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
-                "messages" => $this->groupMember->getGroupForumMessages(project_id: $_SESSION["project_id"]) ? $this->groupMember->getMessageData() : [],
+                "messages" => $this->forum->getGroupForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"]) ? $this->forum->getMessageData() : [],
                 "members" =>  $this->groupMember->getGroupMembers() ? $this->groupMember->getGroupMemberData() : [],
             ]
         );
@@ -107,7 +126,7 @@ class GroupMemberController extends ProjectMemberController
         $message = new Message();
         $user = new User();
 
-        $condition = "id IN(SELECT message_id FROM `group_announcement` WHERE project_id = " . $_SESSION['project_id'] . ") ORDER BY `stamp` LIMIT 100";
+        $condition = "id IN(SELECT message_id FROM `group_announcement` WHERE project_id = " . $_SESSION['project_id'] . " AND group_id = " . $_SESSION['group_id'] . ") ORDER BY `stamp` LIMIT 100";
 
         $announcements = $messageController->recieve($condition);
         foreach ($announcements as $announcement) {
@@ -115,7 +134,7 @@ class GroupMemberController extends ProjectMemberController
             $sender = $user->readMember("id", $announcement->sender_id);
             $announcement->profile = $sender->profile_picture;
 
-            $headingCondition = "project_id = " . $_SESSION['project_id'] . " AND message_id = " . $announcement->id;
+            $headingCondition = "project_id = " . $_SESSION['project_id'] . " AND message_id = " . $announcement->id . " AND group_id = " . $_SESSION['group_id'];
             $announcement->heading = $message->getAnnouncementHeading($headingCondition, 'group_announcement')->heading;
             $announcement->senderType = 'group leader';
         }
@@ -239,12 +258,12 @@ class GroupMemberController extends ProjectMemberController
 
     // $args must follow this format
     // ["message" => "content of the message"]
-    public function postMessageToGroupForum(array $args)
+    public function postMessageToGroupForum(array $args): void
     {
         try {
             if (!empty($args) && array_key_exists("message", $args)) {
                 if (!empty($args["message"])) {
-                    if ($this->groupMember->saveGroupMessage(id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], msg: $args["message"])) {
+                    if ($this->forum->saveGroupMessage(sender_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"],msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("error", ["message" => "Message cannot be saved to the database"]);
@@ -260,10 +279,10 @@ class GroupMemberController extends ProjectMemberController
         }
     }
 
-    public function getGroupForumMessages()
+    public function getGroupForumMessages(): void
     {
         try {
-            if ($this->groupMember->getGroupForumMessages(project_id: $_SESSION["project_id"])) {
+            if ($this->forum->getGroupForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"])) {
                 $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupMember->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => ""]);
@@ -275,12 +294,12 @@ class GroupMemberController extends ProjectMemberController
 
     // $args must follow this format
     // ["task_id" => "TaskID", "message" => "content of the message"]
-    public function postMessageToGroupTaskFeedback(array $args)
+    public function postMessageToGroupTaskFeedback(array $args): void
     {
         try {
             if (!empty($args) && array_key_exists("message", $args) && array_key_exists("task_id", $args)) {
                 if (!empty($args["message"]) && !empty($args["task_id"])) {
-                    if ($this->groupMember->saveGroupTaskFeedbackMessage(id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], task_id: $args["task_id"], msg: $args["message"])) {
+                    if ($this->forum->saveGroupTaskFeedbackMessage(sender_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"], task_id: $args["task_id"], msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("error", ["message" => "Message cannot be saved to the database"]);
@@ -298,11 +317,11 @@ class GroupMemberController extends ProjectMemberController
 
     // $args must follow this format
     // ["task_id" => "TaskID", "message" => "content of the message"]
-    public function getGroupTaskFeedbackMessages(array $args)
+    public function getGroupTaskFeedbackMessages(array $args): void
     {
         try {
             if (array_key_exists("task_id", $args) && !empty($args["task_id"])) {
-                if ($this->groupMember->getGroupTaskFeedbackMessages(project_id: $_SESSION["project_id"], task_id: $args["task_id"])) {
+                if ($this->forum->getGroupTaskFeedbackMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"], task_id: $args["task_id"])) {
                     $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupMember->getMessageData() ?? []]);
                 } else {
                     $this->sendJsonResponse("error", ["message" => "Group is not valid"]);

@@ -5,6 +5,9 @@
     "min": 4,
     "max": 255
   },
+  "conf_description": {
+    "required": true
+  },
   "project_id": {
     "required": true,
     "exists": {

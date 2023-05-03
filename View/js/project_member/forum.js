@@ -10,130 +10,132 @@
 
 // calendor
 
-function lastMondayOfMonth(month, year) {
-    // Create a new date object set to the last day of the given month and year
-    var date = new Date(year, month, 0);
+// function lastMondayOfMonth(month, year) {
+//     // Create a new date object set to the last day of the given month and year
+//     var date = new Date(year, month, 0);
 
-    // Set the date to the last Monday before the last day of the month
-    while (date.getDay() !== 1) {
-        date.setDate(date.getDate() - 1);
-    }
+//     // Set the date to the last Monday before the last day of the month
+//     while (date.getDay() !== 1) {
+//         date.setDate(date.getDate() - 1);
+//     }
 
-    // Get the date (day of the month) of the last Monday
-    var lastMondayDate = date.getDate();
+//     // Get the date (day of the month) of the last Monday
+//     var lastMondayDate = date.getDate();
 
-    return lastMondayDate;
-}
+//     return lastMondayDate;
+// }
 
-const monthText = document.querySelector('.month'),
-    yearText = document.querySelector('.year'),
-    daysTxt = document.querySelector('.days');
+// const monthText = document.querySelector('.month'),
+//     yearText = document.querySelector('.year'),
+//     daysTxt = document.querySelector('.days');
 
-var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+// var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-var currentDate = new Date(),
-    year = currentDate.getFullYear(),
-    month = currentDate.getMonth();
+// var currentDate = new Date(),
+//     year = currentDate.getFullYear(),
+//     month = currentDate.getMonth();
 
-var monthState = 0;
+// var monthState = 0;
 
-const previousMonthBtn = document.querySelector('.previous-month-btn');
-const nextMonthBtn = document.querySelector('.next-month-btn');
+// const previousMonthBtn = document.querySelector('.previous-month-btn');
+// const nextMonthBtn = document.querySelector('.next-month-btn');
 
-nextMonthBtn.addEventListener('click', function() {
-    monthState += 1;
+// nextMonthBtn.addEventListener('click', function() {
+//     monthState += 1;
 
-    monthText.innerHTML = months[(currentDate.getMonth() + monthState) % 12];
+//     monthText.innerHTML = months[(currentDate.getMonth() + monthState) % 12];
 
-    if ((currentDate.getMonth() + monthState) % 12 == 0) {
-        year += 1;
-    }
-    if (monthState == 12) {
-        monthState = 0;
-    }
-    yearText.innerHTML = year;
-    month = currentDate.getMonth() + monthState;
+//     if ((currentDate.getMonth() + monthState) % 12 == 0) {
+//         year += 1;
+//     }
+//     if (monthState == 12) {
+//         monthState = 0;
+//     }
+//     yearText.innerHTML = year;
+//     month = currentDate.getMonth() + monthState;
 
-    daysTxt.innerHTML = renderDays(year, month, monthState);
-    console.log(monthState);
+//     daysTxt.innerHTML = renderDays(year, month, monthState);
+//     console.log(monthState);
 
-})
+// })
 
-previousMonthBtn.addEventListener('click', function() {
+// previousMonthBtn.addEventListener('click', function() {
 
-    if (currentDate.getMonth() + monthState == 0) {
-        year -= 1;
-    }
-    if (monthState == 0) {
-        monthState = 12;
-    }
-    monthState -= 1;
-    console.log(monthState);
+//     if (currentDate.getMonth() + monthState == 0) {
+//         year -= 1;
+//     }
+//     if (monthState == 0) {
+//         monthState = 12;
+//     }
+//     monthState -= 1;
+//     console.log(monthState);
 
-    monthText.innerHTML = months[(currentDate.getMonth() + monthState) % 12];
+//     monthText.innerHTML = months[(currentDate.getMonth() + monthState) % 12];
 
-    yearText.innerHTML = year;
-    month = currentDate.getMonth() + monthState;
+//     yearText.innerHTML = year;
+//     month = currentDate.getMonth() + monthState;
 
-    daysTxt.innerHTML = renderDays(year, month, monthState);
-})
-const renderDays = (year, month, monthState) => {
+//     daysTxt.innerHTML = renderDays(year, month, monthState);
+// })
+// const renderDays = (year, month, monthState) => {
 
-    var checkWeek = 0;
-    var dayStatus = 'inactive';
-    var lastMonthStart = lastMondayOfMonth(month, year);
+//     var checkWeek = 0;
+//     var dayStatus = 'inactive';
+//     var lastMonthStart = lastMondayOfMonth(month, year);
 
-    var lastMonthEnd = new Date(year, currentDate.getMonth() + monthState, 0).getDate();
-    var currentMonthEnd = new Date(year, currentDate.getMonth() + 1 + monthState, 0).getDate();
-    var dayNo = lastMonthStart;
-    // console.log(lastMonthStart)
+//     var lastMonthEnd = new Date(year, currentDate.getMonth() + monthState, 0).getDate();
+//     var currentMonthEnd = new Date(year, currentDate.getMonth() + 1 + monthState, 0).getDate();
+//     var dayNo = lastMonthStart;
+//     // console.log(lastMonthStart)
 
-    var code = "";
-    for (var i = 0; i < 42; i++) {
+//     var code = "";
+//     for (var i = 0; i < 42; i++) {
 
-        if (checkWeek == 0) {
-            code += '<div class="days-line">'
-        }
-        if (dayNo > lastMonthEnd && dayStatus == 'inactive') {
-            dayStatus = 'active';
-            dayNo = 1;
-        }
-        if (dayNo > currentMonthEnd && dayStatus == 'active') {
-            dayStatus = 'inactive';
-            dayNo = 1;
-        }
+//         if (checkWeek == 0) {
+//             code += '<div class="days-line">'
+//         }
+//         if (dayNo > lastMonthEnd && dayStatus == 'inactive') {
+//             dayStatus = 'active';
+//             dayNo = 1;
+//         }
+//         if (dayNo > currentMonthEnd && dayStatus == 'active') {
+//             dayStatus = 'inactive';
+//             dayNo = 1;
+//         }
 
-        if (dayStatus == 'active' && monthState == 0 && i == currentDate.getDate() + (lastMonthEnd - lastMonthStart)) {
-            code += `<p class="day today ${dayStatus}">${dayNo}</p>`;
-        } else if (monthState == 0 && i % 11 == 1 && dayStatus == 'active') {
-            code += `<p class="day deadline ${dayStatus}">${dayNo}</p>`;
-        } else {
-            code += `<p class="day ${dayStatus}">${dayNo}</p>`;
-        }
+//         if (dayStatus == 'active' && monthState == 0 && i == currentDate.getDate() + (lastMonthEnd - lastMonthStart)) {
+//             code += `<p class="day today ${dayStatus}">${dayNo}</p>`;
+//         } else if (monthState == 0 && i % 11 == 1 && dayStatus == 'active') {
+//             code += `<p class="day deadline ${dayStatus}">${dayNo}</p>`;
+//         } else {
+//             code += `<p class="day ${dayStatus}">${dayNo}</p>`;
+//         }
 
-        dayNo += 1;
-        checkWeek += 1;
+//         dayNo += 1;
+//         checkWeek += 1;
 
-        if (checkWeek == 7) {
-            code += '</div>';
-            checkWeek = 0;
-        }
-    }
-    return code;
-}
+//         if (checkWeek == 7) {
+//             code += '</div>';
+//             checkWeek = 0;
+//         }
+//     }
+//     return code;
+// }
 
 
-const renderCalendar = (year, month) => {
-    // getting last date of month
-    // let lastDateOfMonth = new Date(year, currentDate.getMonth() + 1, 0).getDate();
+// const renderCalendar = (year, month) => {
+//     // getting last date of month
+//     // let lastDateOfMonth = new Date(year, currentDate.getMonth() + 1, 0).getDate();
 
-    monthText.innerHTML = months[month];
-    yearText.innerHTML = year;
+//     monthText.innerHTML = months[month];
+//     yearText.innerHTML = year;
 
-    daysTxt.innerHTML = renderDays(year, month, monthState);
-};
-renderCalendar(year, month);
+//     daysTxt.innerHTML = renderDays(year, month, monthState);
+// };
+// renderCalendar(year, month);
 
+
+console.log(jsonData)
 
 
 
@@ -490,7 +492,6 @@ function onMessage(messageData) {
 
 async function onLoad() {
     await createForumMessage();
-    createProjectMemberList(jsonData);
 }
 
 async function createForumMessage() {
@@ -649,81 +650,4 @@ function appendMessage(type, parent_div, message) {
     }
 
     parent_div.insertAdjacentElement("afterbegin", message_div);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-console.log(jsonData);
-const ProjectLeaderListDiv = document.getElementById('project-leaders-list-container-div');
-const ProjectMemberListDiv = document.getElementById('project-members-list-container-div');
-
-// Adding project members to the list
-function createProjectMemberList(args) {
-    if (args.members !== undefined) {
-        args.members.forEach((member) => {
-            console.log(member);
-            if (member.role === 'LEADER') {
-                appendProjectMember(ProjectLeaderListDiv, member);
-            } else {
-                appendProjectMember(ProjectMemberListDiv, member);
-            }
-        });
-    } else {
-        console.error('JSON Data did not return the member data');
-    }
-}
-
-function appendProjectMember(parent_div, member_details) {
-    if (member_details !== undefined) {
-
-        let memberCard = document.createElement('div');
-        memberCard.setAttribute('class', 'member-card');
-
-        let profilePictureDiv = document.createElement('div');
-        profilePictureDiv.setAttribute('class', 'profile-image');
-
-        memberCard.appendChild(profilePictureDiv);
-
-        let profileImage = document.createElement('img');
-        profileImage.setAttribute('src', member_details.profile_picture);
-
-        profilePictureDiv.appendChild(profileImage);
-
-        let statusIcon = document.createElement('i');
-        statusIcon.setAttribute('class', 'fa fa-circle');
-        statusIcon.setAttribute('aria-hidden', 'true'); // need to ask about this
-
-        profilePictureDiv.appendChild(profileImage);
-
-        if (member_details.state === "ONLINE") {
-            statusIcon.setAttribute('style', 'color: green');
-        } else {
-            statusIcon.setAttribute('style', 'color: red');
-        }
-
-        profilePictureDiv.appendChild(statusIcon);
-
-        let memberInfoDiv = document.createElement('div');
-        memberInfoDiv.setAttribute('class', 'member-info');
-
-        memberCard.appendChild(memberInfoDiv);
-
-        let memberUsername = document.createElement('h6');
-        memberUsername.innerText = member_details.username;
-
-        memberInfoDiv.appendChild(memberUsername);
-
-        let memberStatus = document.createElement('p');
-        memberStatus.innerText = member_details.status;
-
-        memberInfoDiv.appendChild(memberStatus);
-
-        // parent_div.appendChild(memberDiv);
-        parent_div.appendChild(memberCard);
-
-    } else {
-        console.error('empty fields given');
-    }
 }
