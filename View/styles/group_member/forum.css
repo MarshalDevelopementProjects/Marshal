@@ -52,6 +52,8 @@ body {
     height: 50px;
     margin: 5px 25px 0 0;
     cursor: pointer;
+    border-radius: 50%;
+    border: 3px solid #e7e7e7;
 }
 
 .right-profile-area i {
@@ -98,14 +100,19 @@ body {
     padding: 10px;
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: all 1.2s ease-in;
+    z-index: 998;
 }
 
 .left-panel .top-menus {
     margin: 0px;
+    text-decoration: none;
     padding: 2px 15px 15px 15px;
 }
 
 .top-menus ul {
+    list-style: none;
+    text-decoration: none;
     list-style: none;
 }
 
@@ -129,14 +136,16 @@ body {
     color: #fff;
 }
 
-.left-panel .middle-icon {
+.left-panel .middle-icon,
+.left-panel .middle-icon2 {
+    /* border: 1px solid black; */
     width: 15px;
     height: 36px;
     border-radius: 4px;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
-    margin: 10px 0px 0 auto;
+    margin: 90px 0px 0 auto;
     /*60*/
     background-color: #ddd;
     color: #333;
@@ -144,7 +153,7 @@ body {
 }
 
 .bottom-calender {
-    margin-top: 125px;
+    margin-top: 50px;
     height: 250px;
 }
 
@@ -239,6 +248,67 @@ body {
     color: #fff;
     cursor: pointer;
 }
+.left-panel.active {
+    transition: all .5s ease-in-out;
+    display: inline-block;
+    width: 70px;
+}
+
+.bottom-calender.active {
+    display: none;
+}
+
+.left-panel .middle-icon2 {
+    display: none;
+}
+
+.left-panel .middle-icon2.active {
+    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -8px;
+    margin-right: -15px;
+}
+
+.left-panel .middle-icon.active {
+    display: none;
+}
+
+.top-menus .menu-icon {
+    transition: all .5s ease-in-out;
+    display: none;
+}
+
+.top-menus .menu-icon li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    margin: 10px
+}
+
+.top-menus .menu-icon li i {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+}
+
+.top-menus .menu-icon.active {
+    transition: all .2s ease-in-out;
+    margin-left: -20px;
+    display: block;
+}
+
+.top-menus .menu.active {
+    display: none;
+}
+.top-menus ul a li{
+    list-style: none;
+}
+.top-menus ul a{
+    text-decoration: none;
+}
 
 .right-panel {
     position: fixed;
@@ -246,6 +316,15 @@ body {
     height: 100%;
     width: 81vw;
     display: flex;
+}
+
+.right-panel.active {
+    position: fixed;
+    margin: 60px 0 0 110px;
+    height: 100%;
+    width: 90vw;
+    transition: all 1s ease-in-out;
+    /* border: 1px solid black; */
 }
 
 .right-panel .messaging-area {
@@ -884,7 +963,7 @@ div::-webkit-scrollbar {
     position: fixed;
     background-color: rgba(0, 0, 0, 0);
     transition: all 2s ease;
-    margin-top: 660px;
+    margin-top: 20px;
 }
 
 .notification-popup-container.active {
@@ -897,10 +976,11 @@ div::-webkit-scrollbar {
     overflow-y: scroll;
     position: fixed;
     background-color: #fff;
-    margin: 65px 10px 0 1020px;
+    margin: 45px 10px 0 1020px;
     border-radius: 15px;
     padding: 10px;
     padding-bottom: 25px;
+    right: 0;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
@@ -1039,4 +1119,133 @@ div::-webkit-scrollbar {
     font-weight: 550;
     color: #444;
     overflow-y: hidden;
+}
+
+/* create project style  */
+
+.create-project-container{
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0);
+    transition: all 2s ease;
+    /* display: flex; */
+    margin: 115px 0 0 300px;
+    transition: all 2s ease;
+}
+.create-project-container.active{
+    display: block;
+    z-index: 999;
+}
+
+.create-project-container .create-project-popup{
+    /* display: none; */
+    width: 900px;
+    height: 500px;
+    /* border: 1px solid black; */
+    position: fixed;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 25px;
+    z-index: 999;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.create-project-popup .create-project-top{
+    display: flex;
+    justify-content: space-between;
+}
+.create-project-top .create-project-header{
+    /* border: 1px solid black; */
+    width: 550px;
+    margin: 30px 0 0 40px;
+}
+.create-project-top i{
+    font-size: 22px;
+    color: #333;
+    cursor: pointer;
+    margin-right: 5px;
+}
+.create-project-header h3{
+    font-size: 27px;
+    color: #283A5A;
+}
+.create-project-header p{
+    font-size: 15px;
+    padding-left: 2px;
+    color: #444;
+}
+.create-project-popup .create-project-details{
+    display: flex;
+    height: 370px;
+}
+
+.create-project-details .create-project-form{
+    /* border: 1px solid black; */
+    width: 700px;
+    margin-top: 30px;
+    margin-left: 50px;
+    height: 300px;
+}
+.create-project-form form label{
+    color: #112e5e;
+    font-weight: 550;
+    font-size: 16px;
+}
+.create-project-form form input{
+    margin-top: 5px;
+    margin-bottom: 10px;
+    height: 30px;
+    width: 360px;
+    padding-left: 8px;
+}
+.create-project-form form p{
+    font-size: 9px;
+    color: #555;
+    margin-bottom: 10px;
+}
+#description{
+    height: 100px;
+}
+.create-project-form form button{
+    width: 120px;
+    height: 32px;
+    background-color: #F83B3B;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    margin: 8px;
+    cursor: pointer;
+}
+
+
+
+
+
+/* // deadlinePopup/ */
+.deadline-popup{
+    background-color: #F83B3B;
+    border-radius: 6px;
+    margin: -200px 0 200px 10px;
+    position: absolute;
+    max-width: 200px;
+    padding: 10px 15px;
+    display: none;
+    transition: all 2s ease;
+}
+.deadline-popup h3{
+    color: #fff;
+    font-size: 15px;
+}
+.deadline-popup hr{
+    margin: 5px 0 10px 0;
+    height: 0.2px;
+    border: 1px solid #eee;
+}
+
+.events p{
+    color: #f1f1f1;
+    font-size: 12px;
+    font-weight: 550;
 }
