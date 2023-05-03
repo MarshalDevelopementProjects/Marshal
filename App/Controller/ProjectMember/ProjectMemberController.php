@@ -337,6 +337,11 @@ class ProjectMemberController extends UserController
             $data["stats"] = $project->getProjectData();
         }
 
+        $data["user_data"] = [
+            "username" => $this->user->getUserData()->username,
+            "profile_picture" => $this->user->getUserData()->profile_picture,
+        ];
+
         $this->sendResponse(
             view: "/project_member/getProjectInfo.html",
             status: "success",

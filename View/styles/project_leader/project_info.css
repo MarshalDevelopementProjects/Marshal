@@ -744,7 +744,7 @@ body{
 }
 .member-list .project-members{
     /* border: 1px solid black; */
-    height: 220px;
+    height: 100px;
     overflow-y: scroll;
 }
 .member-list .member-card{
