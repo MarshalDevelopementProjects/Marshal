@@ -425,12 +425,18 @@ input[type="time"]:focus {
 
 /* Style for time input */
 input[type="time"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-    background-image: url('path/to/your/image.png');
+    /* filter: invert(1); */
+    /* background-image: url('path/to/your/image.png'); */
     background-size: contain;
     width: 20px;
     height: 20px;
     cursor: pointer;
+    background-color:#d79c9c;;
+    border-radius: 50%;
+}
+input[type="time"]::-webkit-calendar-picker-indicator:hover{
+    background-color: #f83b3b;
+
 }
 
 input[type="time"]::-webkit-datetime-edit-hour-field:focus,
