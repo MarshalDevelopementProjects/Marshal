@@ -13,6 +13,42 @@
 <body>
 
     <div class="container">
+        <div class="create-project-container">
+            <div class="create-project-popup">
+                <div class="create-project-top">
+                    <div class="create-project-header">
+                        <h3>Let's create a workspace.</h3>
+                        <p>Make it simpler for everyone to access boards in one place to increase productivity.</p>
+                    </div>
+                    <i class="fa fa-times create-project-popup-close" aria-hidden="true"></i>
+                </div>
+                <div class="create-project-details">
+                    <div class="create-project-form">
+                        <form action="http://localhost/public/user/projects" method="post">
+                            <label for="projec_name">Project Name</label>
+                            <br>
+                            <input type="text" name="project_name" placeholder="Enter project name ...">
+                            <br>
+                            <p>Your business, group, or organization's name is here.</p>
+    
+                            <label for="field">Project Type</label>
+                            <br>
+                            <input type="text" name="field" placeholder="Enter project type ...">
+    
+                            <br>
+                            <label for="description">Project Description</label>
+                            <br>
+                            <input type="text" id="description" name="description"
+                                placeholder="Please enter something on your project ... ">
+    
+                            <br>
+                            <button type="submit">CREATE</button>
+                        </form>
+                    </div>
+                    <img src="/View/images/project_create.png" alt="project_create">
+                </div>
+            </div>
+        </div>
 
         <div class="navbar">
             <div class="left-logo-area">
@@ -138,156 +174,13 @@
                 <h3>Notifications</h3>
                 <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
             </div>
+            <div class="notifications">
 
-            <div class="notification">
-                <hr>
-                <div class="notification-details">
-                    <img src="/View/images/Picture5.png" alt="notificaton sender image">
-                    <div class="content">
-                        <div class="sender-and-project">
-                            <h4>Adam Fergouson</h4>
-                        </div>
-                        <p class="notification-content">Look for tasks that are associated with you, How about the
-                            progress of them ?</p>
-                        <div class="date-and-project">
-                            <p class="send-date">13-01-2023</p>
-                            <p class="notification-project">Mentcare Center Web App</p>
-                        </div>
-                    </div>
-                </div>
             </div>
-
-            <div class="request-notification">
-                <hr>
-                <div class="notification-details">
-                    <img src="/View/images/Picture5.png" alt="notificaton sender image">
-                    <div class="content">
-                        <div class="sender-and-project">
-                            <h4>Adam Fergouson</h4>
-                        </div>
-                        <div class="request-content">
-                            <h5>Project invite</h5>
-                            <p class="request-message">Look for tasks that are associated with you, How about the
-                                progress of them ?</p>
-
-                            <div class="responses">
-                                <button type="submit" id="rejectInviteBtn">Reject</button>
-                                <button type="submit" id="acceptInviteBtn">Accept</button>
-                            </div>
-                        </div>
-                        <div class="date-and-project">
-                            <p class="send-date">13-01-2023</p>
-                            <p class="notification-project">Mentcare Center Web App</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="notification">
-                <hr>
-                <div class="notification-details">
-                    <img src="/View/images/Picture5.png" alt="notificaton sender image">
-                    <div class="content">
-                        <div class="sender-and-project">
-                            <h4>Adam Fergouson</h4>
-                        </div>
-                        <p class="notification-content">Look for tasks that are associated with you, How about the
-                            progress of them ?</p>
-                        <div class="date-and-project">
-                            <p class="send-date">13-01-2023</p>
-                            <p class="notification-project">Mentcare Center Web App</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="notification">
-                <hr>
-                <div class="notification-details">
-                    <img src="/View/images/Picture5.png" alt="notificaton sender image">
-                    <div class="content">
-                        <div class="sender-and-project">
-                            <h4>Adam Fergouson</h4>
-                        </div>
-                        <p class="notification-content">Look for tasks that are associated with you, How about the
-                            progress of them ?</p>
-                        <div class="date-and-project">
-                            <p class="send-date">13-01-2023</p>
-                            <p class="notification-project">Mentcare Center Web App</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="notification">
-                <hr>
-                <div class="notification-details">
-                    <img src="/View/images/Picture1.png" alt="notificaton sender image">
-                    <div class="content">
-                        <div class="sender-and-project">
-                            <h4>Adam Fergouson</h4>
-                        </div>
-                        <p class="notification-content">Look for tasks that are associated with you, How about the
-                            progress of them ?</p>
-                        <div class="date-and-project">
-                            <p class="send-date">13-01-2023</p>
-                            <p class="notification-project">Mentcare Center Web App</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="notification">
-                <hr>
-                <div class="notification-details">
-                    <img src="/View/images/Picture1.png" alt="notificaton sender image">
-                    <div class="content">
-                        <div class="sender-and-project">
-                            <h4>Adam Fergouson</h4>
-                        </div>
-                        <p class="notification-content">Look for tasks that are associated with you, How about the
-                            progress of them ?</p>
-                        <div class="date-and-project">
-                            <p class="send-date">13-01-2023</p>
-                            <p class="notification-project">Mentcare Center Web App</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="notification">
-                <hr>
-                <div class="notification-details">
-                    <img src="/View/images/Picture1.png" alt="notificaton sender image">
-                    <div class="content">
-                        <div class="sender-and-project">
-                            <h4>Adam Fergouson</h4>
-                        </div>
-                        <p class="notification-content">Look for tasks that are associated with you, How about the
-                            progress of them ?</p>
-                        <div class="date-and-project">
-                            <p class="send-date">13-01-2023</p>
-                            <p class="notification-project">Mentcare Center Web App</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="notification">
-                <hr>
-                <div class="notification-details">
-                    <img src="/View/images/Picture1.png" alt="notificaton sender image">
-                    <div class="content">
-                        <div class="sender-and-project">
-                            <h4>Adam Fergouson</h4>
-                        </div>
-                        <p class="notification-content">Look for tasks that are associated with you, How about the
-                            progress of them ?</p>
-                        <div class="date-and-project">
-                            <p class="send-date">13-01-2023</p>
-                            <p class="notification-project">Mentcare Center Web App</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
         </div>
+    </div>
+    
+
     </div>
 
     <script>
