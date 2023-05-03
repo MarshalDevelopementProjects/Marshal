@@ -37,7 +37,11 @@ class ProjectMemberController extends UserController
                 $this->projectMember = new ProjectMember($_SESSION["project_id"]);
                 $this->forum = new Forum();
             } else {
-                throw new Exception("Bad request missing arguments");
+                $this->sendResponse(
+                    view: "/errors/403.html",
+                    status: "unauthorized"
+                );
+                //throw new Exception("Bad request missing arguments");
             }
         } catch (Exception $exception) {
             throw $exception;

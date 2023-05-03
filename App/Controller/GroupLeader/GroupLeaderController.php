@@ -29,7 +29,11 @@ class GroupLeaderController extends GroupMemberController
             if (array_key_exists("group_id", $_SESSION) && $this->user->checkUserRole(req_id: $_SESSION["group_id"], role: "LEADER", type: "GROUP")) {
                 $this->groupLeader = new GroupLeader($_SESSION["project_id"], $_SESSION["group_id"]);
             } else {
-                throw new Exception("Bad request missing arguments");
+                $this->sendResponse(
+                    view: "/errors/403.html",
+                    status: "unauthorized"
+                );
+                // throw new Exception("Bad request missing arguments");
             }
         } catch (\Exception $exception) {
             throw $exception;
