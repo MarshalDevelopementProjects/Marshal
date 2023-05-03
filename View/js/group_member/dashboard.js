@@ -132,17 +132,19 @@ let value = 0;
 let endValue = jsonData.progress ? jsonData.progress : 0;
 let speed = 100;
 
-let progress = setInterval(() => {
-    value++;
-    progressValue.textContent = `${value}%`;
-    progressBar.style.background = `conic-gradient(
-        #924444 ${value * 3.6}deg,
-        #be9191 ${value * 3.6}deg
-    )`;
-    if(value === endValue){
-        clearInterval(progress);
-    }
-}, speed);
+if(endValue != 0){
+    let progress = setInterval(() => {
+        value++;
+        progressValue.textContent = `${value}%`;
+        progressBar.style.background = `conic-gradient(
+            #924444 ${value * 3.6}deg,
+            #be9191 ${value * 3.6}deg
+        )`;
+        if(value === endValue){
+            clearInterval(progress);
+        }
+    }, speed);
+}
 
 
 
