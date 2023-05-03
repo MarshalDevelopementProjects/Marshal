@@ -72,7 +72,7 @@ class Messenger implements MessageComponentInterface
         );
     }
 
-    function onOpen(ConnectionInterface $conn)
+    function onOpen(ConnectionInterface $conn): void
     {
         $args = [];
         parse_str($conn->httpRequest->getUri()->getQuery(), $args);
@@ -83,37 +83,37 @@ class Messenger implements MessageComponentInterface
             if (array_key_exists("route", $args) && isset($args["route"], $this->channels[$args["category"]])) {
                 switch ($args["category"]) {
                     case "projects": {
-                            if (!array_key_exists($args["project"], $this->channels[$args["category"]][$args["route"]])) {
-                                $this->channels[$args["category"]][$args["route"]][$args["project"]] = array(
-                                    "clients" => new \SplObjectStorage(),
-                                    "client_count" => 0
-                                );
-                            }
-                            $this->channels[$args["category"]][$args["route"]][$args["project"]]["clients"]->attach($conn);
-                            $this->channels[$args["category"]][$args["route"]][$args["project"]]["client_count"]++;
+                        if (!array_key_exists($args["project"], $this->channels[$args["category"]][$args["route"]])) {
+                            $this->channels[$args["category"]][$args["route"]][$args["project"]] = array(
+                                "clients" => new \SplObjectStorage(),
+                                "client_count" => 0
+                            );
                         }
+                        $this->channels[$args["category"]][$args["route"]][$args["project"]]["clients"]->attach($conn);
+                        $this->channels[$args["category"]][$args["route"]][$args["project"]]["client_count"]++;
+                    }
                         break;
                     case "groups": {
-                            if (!array_key_exists($args["group"], $this->channels[$args["category"]][$args["route"]])) {
-                                $this->channels[$args["category"]][$args["route"]][$args["group"]] = array(
-                                    "clients" => new \SplObjectStorage(),
-                                    "client_count" => 0
-                                );
-                            }
-                            $this->channels[$args["category"]][$args["route"]][$args["group"]]["clients"]->attach($conn);
-                            $this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"]++;
+                        if (!array_key_exists($args["group"], $this->channels[$args["category"]][$args["route"]])) {
+                            $this->channels[$args["category"]][$args["route"]][$args["group"]] = array(
+                                "clients" => new \SplObjectStorage(),
+                                "client_count" => 0
+                            );
                         }
+                        $this->channels[$args["category"]][$args["route"]][$args["group"]]["clients"]->attach($conn);
+                        $this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"]++;
+                    }
                         break;
                     case "tasks": {
-                            if (!array_key_exists($args["task"], $this->channels[$args["category"]][$args["route"]])) {
-                                $this->channels[$args["category"]][$args["route"]][$args["project"]] = array(
-                                    "clients" => new \SplObjectStorage(),
-                                    "client_count" => 0
-                                );
-                            }
-                            $this->channels[$args["category"]][$args["route"]][$args["task"]]["clients"]->attach($conn);
-                            $this->channels[$args["category"]][$args["route"]][$args["task"]]["client_count"]++;
+                        if (!array_key_exists($args["task"], $this->channels[$args["category"]][$args["route"]])) {
+                            $this->channels[$args["category"]][$args["route"]][$args["project"]] = array(
+                                "clients" => new \SplObjectStorage(),
+                                "client_count" => 0
+                            );
                         }
+                        $this->channels[$args["category"]][$args["route"]][$args["task"]]["clients"]->attach($conn);
+                        $this->channels[$args["category"]][$args["route"]][$args["task"]]["client_count"]++;
+                    }
                         break;
                 }
                 $conn->send(json_encode(array("status" => "success", "message" => "Connection established")));
@@ -125,7 +125,7 @@ class Messenger implements MessageComponentInterface
         }
     }
 
-    function onClose(ConnectionInterface $conn)
+    function onClose(ConnectionInterface $conn): void
     {
         $args = [];
         parse_str($conn->httpRequest->getUri()->getQuery(), $args);
@@ -162,7 +162,7 @@ class Messenger implements MessageComponentInterface
         throw $e;
     }
 
-    function onMessage(ConnectionInterface $from, $msg)
+    function onMessage(ConnectionInterface $from, $msg): void
     {
         $args = [];
         parse_str($from->httpRequest->getUri()->getQuery(), $args);
@@ -172,28 +172,28 @@ class Messenger implements MessageComponentInterface
             if (array_key_exists("route", $args) && isset($args["route"], $this->channels[$args["category"]])) {
                 switch ($args["category"]) {
                     case "projects": {
-                            foreach ($this->channels[$args["category"]][$args["route"]][$args["project"]]["clients"] as $to) {
-                                if ($from != $to) {
-                                    $to->send($msg);
-                                }
+                        foreach ($this->channels[$args["category"]][$args["route"]][$args["project"]]["clients"] as $to) {
+                            if ($from != $to) {
+                                $to->send($msg);
                             }
                         }
+                    }
                         break;
                     case "groups": {
-                            foreach ($this->channels[$args["category"]][$args["route"]][$args["group"]]["clients"] as $to) {
-                                if ($from != $to) {
-                                    $to->send($msg);
-                                }
+                        foreach ($this->channels[$args["category"]][$args["route"]][$args["group"]]["clients"] as $to) {
+                            if ($from != $to) {
+                                $to->send($msg);
                             }
                         }
+                    }
                         break;
                     case "tasks": {
-                            foreach ($this->channels[$args["category"]][$args["route"]][$args["task"]]["clients"] as $to) {
-                                if ($from != $to) {
-                                    $to->send($msg);
-                                }
+                        foreach ($this->channels[$args["category"]][$args["route"]][$args["task"]]["clients"] as $to) {
+                            if ($from != $to) {
+                                $to->send($msg);
                             }
                         }
+                    }
                         break;
                 }
             } else {
@@ -213,19 +213,19 @@ class Messenger implements MessageComponentInterface
     {
         switch ($args["category"]) {
             case "projects": {
-                    $this->channels[$args["category"]][$args["route"]][$args["project"]]["clients"]->detach($conn);
-                    $this->channels[$args["category"]][$args["route"]][$args["project"]]["client_count"]--;
-                }
+                $this->channels[$args["category"]][$args["route"]][$args["project"]]["clients"]->detach($conn);
+                $this->channels[$args["category"]][$args["route"]][$args["project"]]["client_count"]--;
+            }
                 break;
             case "groups": {
-                    $this->channels[$args["category"]][$args["route"]][$args["group"]]["clients"]->detach($conn);
-                    $this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"]--;
-                }
+                $this->channels[$args["category"]][$args["route"]][$args["group"]]["clients"]->detach($conn);
+                $this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"]--;
+            }
                 break;
             case "tasks": {
-                    $this->channels[$args["category"]][$args["route"]][$args["task"]]["clients"]->detach($conn);
-                    $this->channels[$args["category"]][$args["route"]][$args["task"]]["client_count"]--;
-                }
+                $this->channels[$args["category"]][$args["route"]][$args["task"]]["clients"]->detach($conn);
+                $this->channels[$args["category"]][$args["route"]][$args["task"]]["client_count"]--;
+            }
                 break;
         }
     }
@@ -240,34 +240,34 @@ class Messenger implements MessageComponentInterface
         $this->removeTheClientFromTheMessagingForum($args, $conn);
         switch ($args["category"]) {
             case "projects": {
-                    if (
-                        array_key_exists($args["project"], $this->channels[$args["category"]][$args["route"]]) &&
-                        $this->channels[$args["category"]][$args["route"]][$args["project"]]["client_count"] == 0
-                    ) {
-                        unset($this->channels[$args["category"]][$args["route"]][$args["project"]]);
-                        $conn->send(json_encode(array("status" => "success", "message" => "Message closed, since there are no active clients")));
-                    }
+                if (
+                    array_key_exists($args["project"], $this->channels[$args["category"]][$args["route"]]) &&
+                    $this->channels[$args["category"]][$args["route"]][$args["project"]]["client_count"] == 0
+                ) {
+                    unset($this->channels[$args["category"]][$args["route"]][$args["project"]]);
+                    $conn->send(json_encode(array("status" => "success", "message" => "Message closed, since there are no active clients")));
                 }
+            }
                 break;
             case "groups": {
-                    if (
-                        array_key_exists($args["group"], $this->channels[$args["category"]][$args["route"]]) &&
-                        $this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"] == 0
-                    ) {
-                        unset($this->channels[$args["category"]][$args["route"]][$args["group"]]);
-                        $conn->send(json_encode(array("status" => "success", "message" => "Message closed, since there are no active clients")));
-                    }
+                if (
+                    array_key_exists($args["group"], $this->channels[$args["category"]][$args["route"]]) &&
+                    $this->channels[$args["category"]][$args["route"]][$args["group"]]["client_count"] == 0
+                ) {
+                    unset($this->channels[$args["category"]][$args["route"]][$args["group"]]);
+                    $conn->send(json_encode(array("status" => "success", "message" => "Message closed, since there are no active clients")));
                 }
+            }
                 break;
             case "tasks": {
-                    if (
-                        array_key_exists($args["task"], $this->channels[$args["category"]][$args["route"]]) &&
-                        $this->channels[$args["category"]][$args["route"]][$args["task"]]["client_count"] == 0
-                    ) {
-                        unset($this->channels[$args["category"]][$args["route"]][$args["task"]]);
-                        $conn->send(json_encode(array("status" => "success", "message" => "Message closed, since there are no active clients")));
-                    }
+                if (
+                    array_key_exists($args["task"], $this->channels[$args["category"]][$args["route"]]) &&
+                    $this->channels[$args["category"]][$args["route"]][$args["task"]]["client_count"] == 0
+                ) {
+                    unset($this->channels[$args["category"]][$args["route"]][$args["task"]]);
+                    $conn->send(json_encode(array("status" => "success", "message" => "Message closed, since there are no active clients")));
                 }
+            }
                 break;
         }
     }

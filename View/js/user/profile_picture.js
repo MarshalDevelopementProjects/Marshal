@@ -1,4 +1,4 @@
-const UserProfilePictureImg = document.getElementById("profile-picture-img");
+const UserProfilePictureImg = document.querySelector(".profile-image");
 if (jsonData.user_data && jsonData.user_data.profile_picture) {
     UserProfilePictureImg.setAttribute("src", jsonData.user_data.profile_picture);
 }

@@ -3,6 +3,7 @@
 namespace App\Controller\GroupLeader;
 
 use App\Controller\Authenticate\UserAuthController;
+use App\Controller\GroupMember\GroupMemberController;
 use App\Controller\ProjectMember\ProjectMemberController;
 use App\Controller\Notification\NotificationController;
 use App\Controller\Message\MessageController;
@@ -17,7 +18,7 @@ use Exception;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
-class GroupLeaderController extends ProjectMemberController
+class GroupLeaderController extends GroupMemberController
 {
     private GroupLeader $groupLeader;
 
@@ -25,7 +26,7 @@ class GroupLeaderController extends ProjectMemberController
     {
         try {
             parent::__construct();
-            if (array_key_exists("group_id", $_SESSION)) {
+            if (array_key_exists("group_id", $_SESSION) && $this->user->checkUserRole(req_id: $_SESSION["group_id"], role: "LEADER", type: "GROUP")) {
                 $this->groupLeader = new GroupLeader($_SESSION["project_id"], $_SESSION["group_id"]);
             } else {
                 throw new Exception("Bad request missing arguments");
@@ -41,6 +42,7 @@ class GroupLeaderController extends ProjectMemberController
 
     public function auth(): bool
     {
+        // TODO: COMPLETE THE AUTH
         return parent::auth();
     }
 
@@ -144,23 +146,26 @@ class GroupLeaderController extends ProjectMemberController
         $groupData['userDetails'] = $userData->profile_picture;
         $groupData['projectDetails'] = $project->getProject(array("id" => $_SESSION['project_id']))->project_name;
 
-        // get group members
-        $condition = "WHERE id IN (SELECT member_id FROM group_join WHERE group_id = :group_id AND role = :role)";
-        $groupMemberCondition = "WHERE id IN (SELECT member_id FROM group_join WHERE group_id = :group_id)";
-
-        $groupData['groupLeader'] = $user->getAllUsers(array("group_id" => $_SESSION['group_id'], "role" => "LEADER"), $condition);
-        $groupData['groupMembers'] = $user->getAllUsers(array("group_id" => $_SESSION['group_id']), $groupMemberCondition);
-
         $groupData += parent::getTaskDeadlines();
 
-        if ($this->groupLeader->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"])) {
-            $groupData["feedback_messages"] = $this->groupLeader->getMessageData();
+        if ($this->forum->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"])) {
+            $groupData["feedback_messages"] = $this->forum->getMessageData();
         }
 
         $groupData["user_data"] = [
             "username" => $this->user->getUserData()->username,
             "profile_picture" => $this->user->getUserData()->profile_picture,
         ];
+
+        $groupData["progress"] = $group->getGroupProgress(group_id: $_SESSION["group_id"]);
+
+        if ($group->getGroupMembers_(group_id: $_SESSION["group_id"])) {
+            $groupData["members"] = $group->getGroupMemberData();
+        }
+
+        if($group->getGroupStatistics(group_id: $_SESSION["group_id"])) {
+            $groupData["stat"] = $group->getGroupData();
+        }
 
         $this->sendResponse(
             view: "/group_leader/groupInfo.html",
@@ -255,7 +260,7 @@ class GroupLeaderController extends ProjectMemberController
                 "project_id" => $_SESSION["project_id"],
                 "group_id" => $_SESSION["group_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture],
-                "messages" => $this->groupLeader->getGroupForumMessages(project_id: $_SESSION["project_id"]) ? $this->groupLeader->getMessageData() : [],
+                "messages" => $this->forum->getGroupForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"]) ? $this->forum->getMessageData() : [],
                 "members" =>  $this->groupLeader->getGroupMembers() ? $this->groupLeader->getGroupMemberData() : [],
             ]
         );
@@ -273,13 +278,13 @@ class GroupLeaderController extends ProjectMemberController
                 "project_id" => $_SESSION["project_id"],
                 "group_id" => $_SESSION["group_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture],
-                "messages" => $this->groupLeader->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"]) ? $this->groupLeader->getMessageData() : [],
+                "messages" => $this->forum->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"]) ? $this->forum->getMessageData() : [],
             ]
         );
     }
 
     // $args = ["message" => "message string"];
-    public function postMessageToGroupFeedback(array|object $args)
+    public function postMessageToGroupFeedback(array|object $args): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
@@ -287,7 +292,7 @@ class GroupLeaderController extends ProjectMemberController
         try {
             if (!empty($args) && array_key_exists("message", $args)) {
                 if (!empty($args["message"])) {
-                    if ($this->groupLeader->saveGroupFeedbackMessage(id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], msg: $args["message"])) {
+                    if ($this->forum->saveGroupFeedbackMessage(sender_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"], msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("error", ["message" => "No such group!"]);
@@ -303,96 +308,18 @@ class GroupLeaderController extends ProjectMemberController
         }
     }
 
-    public function getGroupFeedbackMessages()
+    public function getGroupFeedbackMessages(): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
         // TODO: SO THAT YOU WILL BE ABLE TO RETURN THE GROUP CANNOT BE FOUND ERROR
         try {
-            if ($this->groupLeader->getGroupFeedbackForumMessages($_SESSION["project_id"])) {
-                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupLeader->getMessageData() ?? []]);
+            if ($this->forum->getGroupFeedbackForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"])) {
+                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->forum->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
             }
         } catch (\Exception $exception) {
-            throw $exception;
-        }
-    }
-
-    // $args must follow this format
-    // ["message" => "content of the message"]
-    public function postMessageToGroupForum(array $args)
-    {
-        try {
-            if (!empty($args) && array_key_exists("message", $args)) {
-                if (!empty($args["message"])) {
-                    if ($this->groupLeader->saveGroupMessage(id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], msg: $args["message"])) {
-                        $this->sendJsonResponse("success");
-                    } else {
-                        $this->sendJsonResponse("error", ["message" => "Message cannot be saved to the database"]);
-                    }
-                } else {
-                    $this->sendJsonResponse("error", ["message" => "Empty message body!"]);
-                }
-            } else {
-                $this->sendJsonResponse("error", ["message" => "Invalid request  format!"]);
-            }
-        } catch (Exception $exception) {
-            throw  $exception;
-        }
-    }
-
-    public function getGroupForumMessages()
-    {
-        try {
-            if ($this->groupLeader->getGroupForumMessages(project_id: $_SESSION["project_id"])) {
-                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupLeader->getMessageData() ?? []]);
-            } else {
-                $this->sendJsonResponse("error", ["message" => ""]);
-            }
-        } catch (Exception $exception) {
-            throw $exception;
-        }
-    }
-
-    // $args must follow this format
-    // ["task_id" => "TaskID", "message" => "content of the message"]
-    public function postMessageToGroupTaskFeedback(array $args)
-    {
-        try {
-            if (!empty($args) && array_key_exists("message", $args) && array_key_exists("task_id", $args)) {
-                if (!empty($args["message"]) && !empty($args["task_id"])) {
-                    if ($this->groupLeader->saveGroupTaskFeedbackMessage(id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], task_id: $args["task_id"], msg: $args["message"])) {
-                        $this->sendJsonResponse("success");
-                    } else {
-                        $this->sendJsonResponse("error", ["message" => "Message cannot be saved to the database"]);
-                    }
-                } else {
-                    $this->sendJsonResponse("error", ["message" => "Empty message body!"]);
-                }
-            } else {
-                $this->sendJsonResponse("error", ["message" => "Invalid request  format!"]);
-            }
-        } catch (Exception $exception) {
-            throw  $exception;
-        }
-    }
-
-    // $args must follow this format
-    // ["task_id" => "TaskID", "message" => "content of the message"]
-    public function getGroupTaskFeedbackMessages(array $args)
-    {
-        try {
-            if (array_key_exists("task_id", $args) && !empty($args["task_id"])) {
-                if ($this->groupLeader->getGroupTaskFeedbackMessages(project_id: $_SESSION["project_id"], task_id: $args["task_id"])) {
-                    $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupLeader->getMessageData() ?? []]);
-                } else {
-                    $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
-                }
-            } else {
-                $this->sendJsonResponse("error", ["message" => "Invalid request  format!"]);
-            }
-        } catch (Exception $exception) {
             throw $exception;
         }
     }

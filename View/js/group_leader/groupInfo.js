@@ -10,12 +10,6 @@ notificationPopupBtn.addEventListener('click', () => notificationPopup.classList
 notificationPopupCloseBtn.addEventListener('click', () => notificationPopup.classList.remove('active'));
 notificationPopup.addEventListener('click', () => notificationPopup.classList.remove('active'))
 
-
-
-
-
-
-
 const invitationSendBtn = document.getElementById('inviteBtn'),
 inviteMemberBtn = document.getElementById('invite-member-btn'),
 invitePopup = document.querySelector('.invite-popup'),
@@ -215,6 +209,7 @@ const profileImage = document.querySelector('.profile-image')
 
 profileImage.src = jsonData['userDetails']
 
+/*
 // set member list
 
 const groupLeaderCard = document.getElementById('group-leader'),
@@ -243,4 +238,4 @@ jsonData['groupMembers'].forEach(member => {
                       </div>`
 })
 
-groupMemberCards.innerHTML = gMemberCardsCode
+groupMemberCards.innerHTML = gMemberCardsCode*/

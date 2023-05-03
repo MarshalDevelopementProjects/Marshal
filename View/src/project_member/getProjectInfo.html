@@ -24,28 +24,57 @@
                 <button type="submit" class="navbar-new-project">+ New Project</button>
                 <i class="fa fa-bell-o  notification-bell-btn" aria-hidden="true"></i>
                 <i class="fa fa-sign-out" id="log-out-btn" aria-hidden="true"></i>
-                <img src="/View/images/dp.png" alt="profile picture" class="profile-image">
+                <a href="http://localhost/public/user/profile"><img alt="/App" class="profile-image"></a>
             </div>
         </div>
 
         <div class="projects-container">
             <div class="left-panel">
                 <div class="top-menus">
-                    <ul>
-                        <li class="dashboard active">Dashboard</li>
-                        <li class="new-project">New project</li>
-                        <li class="profile">Profile</li>
-                        <li class="settings">Settings</li>
-                        <li class="sketch-idea">Sketch idea</li>
+                    <ul class="menu">
+                        
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/dashboard" style="text-align: none;">
+                            <li class="dashboard">Dashboard</li>
+                        </a>
+                       
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
+                            <li class="profile">Profile</li>
+                        </a>
+                        <a style="text-decoration: none; color: black; display: none;" href="#">
+                            <li class="sketch-idea">Forum</li>
+                        </a>
+                        <a style="text-decoration: none; color: black; display: none;" href="#">
+                            <li class="sketch-idea">Upload File</li>
+                        </a>
+                    </ul>
+                     <ul class="menu-icon">
+                        <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
+                            <li class="dashboard"><i class="fa fa-address-book" aria-hidden="true"></i></li>
+                        </a>
+
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
+                           <li class="profile"><i class="fa fa-user" aria-hidden="true"></i></li>
+                        </a>
+
+                        <a style="text-decoration: none; color: black; display: none;" href="#">
+                            <li class="settings"><i class="fa fa-forumbee"></i></li>
+                        </a>
+
+                        <a style="text-decoration: none; color: black; display: none;" href="#">
+                            <li><i class="fa fa-file-arrow-up" aria-hidden="true"></i></li>
+                        </a>
+                            
+                        <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
                     </ul>
                 </div>
-                <div class="middle-icon">
+                <div class="middle-icon" style="margin-top: 175px;">
                     <i class="fa fa-caret-left" aria-hidden="true"></i>
                 </div>
-                <div class="middle-icon2">
+                <div class="middle-icon2" style="margin-top: 100px;">
                     <i class="fa fa-caret-right" aria-hidden="true"></i>
                 </div>
-                <div class="bottom-calender">
+
+                <div class="bottom-calender" style="margin-top: 42px;">
                     <div class="top-month">
                         <button type="submit" class="previous-month-btn"><i class="fa fa-caret-left" aria-hidden="true"></i></button>
                         <p><span class="month"></span> <span class="year"></span></p>
@@ -135,7 +164,7 @@
                     </div>
                 </div>
 
-                <div class="member-list">
+                <!--<div class="member-list">
                     <h3>Project Leader</h3>
                     <div id="projectLeaderCard" class="member-card">
                         <div class="profile-image">
@@ -159,7 +188,7 @@
                                 <p>Frontend Developer</p>
                             </div>
                         </div>
-                        
+
                     </div>
                     <h3>Project Members</h3>
                     <div class="project-members">
@@ -173,10 +202,24 @@
                                 <p>Frontend Developer</p>
                             </div>
                         </div>
-                        
-                        
+                    </div>
+                </div>-->
+
+                <div class="member-list">
+                    <div id="leaders-list-container-div" class="project-members">
+                        <h3>Project Leader</h3>
+                        <!-- add the leaders here -->
                     </div>
 
+                    <div id="client-list-container-div" class="project-members">
+                        <h3>Clients</h3>
+                        <!-- add the members here -->
+                    </div>
+
+                    <div id="members-list-container-div" class="project-members">
+                        <h3>Project Members</h3>
+                        <!-- add the members here -->
+                    </div>
                 </div>
                 
 
@@ -262,10 +305,13 @@
 
     <script src="/View/js/project_member/getProjectInfo.js"></script>
     <script src="/View/js/user/logout.js"></script>
+    <script src="/View/js/user/progress_bar.js"></script>
+    <script src="/View/js/user/member_attachments.js"></script>
     <script src="/View/js/user/calendar.js"></script>
     <script src="/View/js/user/createProject.js"></script>
     <script src="/View/js/user/sidebar.js"></script>
     <script src="/View/js/user/notification.js"></script>
+    <script src="/View/js/user/profile_picture.js"></script>
     <!-- <script src="/View/js/user/notificationPopup.js"></script> -->
 
 </body>

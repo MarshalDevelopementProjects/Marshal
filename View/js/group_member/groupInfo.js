@@ -33,7 +33,7 @@ const profileImage = document.querySelector('.profile-image')
 
 profileImage.src = jsonData['userDetails']
 
-// set member list
+/*// set member list
 
 const groupLeaderCard = document.getElementById('group-leader'),
   groupMemberCards = document.querySelector('.group-leaders')
@@ -61,7 +61,7 @@ jsonData['groupMembers'].forEach(member => {
                       </div>`
 })
 
-groupMemberCards.innerHTML = gMemberCardsCode
+groupMemberCards.innerHTML = gMemberCardsCode*/
 
 // get annoucement 
 const announcementForum = document.querySelector('.feedback-form');

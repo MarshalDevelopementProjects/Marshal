@@ -7,7 +7,9 @@ const CurrentProjectScheduleContainer = document.getElementById('current-schedul
 const ScheduleDataInputForum = document.getElementById('schedule-detail-input-form');
 const userData = jsonData.user_data;
 let allSchedules = jsonData.all_conference_details;
+console.log(allSchedules)
 let projectSchedules = jsonData.project_conference_details;
+console.log(projectSchedules)
 const clientsOfProject = jsonData.clients_of_the_project;
 
 document.body.onload = async () => {await onLoad();};

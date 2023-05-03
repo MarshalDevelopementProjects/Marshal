@@ -1,11 +1,6 @@
 // Client profile picture img tag
 const UserProfilePictureImg = document.getElementById("profile-picture-img");
 
-// Member lists set up divs
-const ProjectLeaderListDiv = document.getElementById('project-leaders-list-container-div');
-const ProjectMemberListDiv = document.getElementById('project-members-list-container-div');
-const ClientListDiv = document.getElementById('client-list-container-div');
-
 // project details set up elements
 const ProjectNameHeading = document.getElementById('project-name-heading');
 const ProjectDescriptionParagraph = document.getElementById('project-description-paragraph');
@@ -78,7 +73,6 @@ clientFeedbackForumConnection.onmessage = (event) => {
 async function onLoad() {
     pageSetup(jsonData);
     await createFeedbackMessages();
-    createProjectMemberList(jsonData);
 }
 
 function pageSetup(args) {
@@ -242,82 +236,6 @@ function appendMessage(type, parent_div, message) {
     message_div.appendChild(sender_details);
     message_div.appendChild(message_content);
     parent_div.insertAdjacentElement("afterbegin", message_div);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Adding project members to the list
-function createProjectMemberList(args) {
-    if (args.members !== undefined) {
-        args.members.forEach((member) => {
-            console.log(member);
-            if (member.role === 'LEADER') {
-                appendProjectMember(ProjectLeaderListDiv, member);
-            } else if (member.role === 'CLIENT') {
-                appendProjectMember(ClientListDiv, member);
-            } else {
-                appendProjectMember(ProjectMemberListDiv, member);
-            }
-        });
-    } else {
-        console.error('JSON Data did not return the member data');
-    }
-}
-
-function appendProjectMember(parent_div, member_details) {
-    if (member_details !== undefined) {
-
-        let memberCard = document.createElement('div');
-        memberCard.setAttribute('class', 'member-card');
-
-        let profilePictureDiv = document.createElement('div');
-        profilePictureDiv.setAttribute('class', 'profile-image');
-
-        memberCard.appendChild(profilePictureDiv);
-
-        let profileImage = document.createElement('img');
-        profileImage.setAttribute('src', member_details.profile_picture);
-
-        profilePictureDiv.appendChild(profileImage);
-
-        let statusIcon = document.createElement('i');
-        statusIcon.setAttribute('class', 'fa fa-circle');
-        statusIcon.setAttribute('aria-hidden', 'true'); // need to ask about this
-
-        profilePictureDiv.appendChild(profileImage);
-
-        if (member_details.state === "ONLINE") {
-            statusIcon.setAttribute('style', 'color: green');
-        } else {
-            statusIcon.setAttribute('style', 'color: red');
-        }
-
-        profilePictureDiv.appendChild(statusIcon);
-
-        let memberInfoDiv = document.createElement('div');
-        memberInfoDiv.setAttribute('class', 'member-info');
-
-        memberCard.appendChild(memberInfoDiv);
-
-        let memberUsername = document.createElement('h6');
-        memberUsername.innerText = member_details.username;
-
-        memberInfoDiv.appendChild(memberUsername);
-
-        let memberStatus = document.createElement('p');
-        memberStatus.innerText = member_details.status;
-
-        memberInfoDiv.appendChild(memberStatus);
-
-        // parent_div.appendChild(memberDiv);
-        parent_div.appendChild(memberCard);
-
-    } else {
-        console.error('empty fields given');
-    }
 }
 
 // Function used to generate the PDF

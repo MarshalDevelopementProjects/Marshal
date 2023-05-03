@@ -1,20 +1,11 @@
 <?php
 
-namespace Core;
+namespace App\Controller\PDF;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../../vendor/autoload.php';
 
-/* Official documentation for the library => https://github.com/dompdf/dompdf
-This is an HTML(and CSS) to PDF converter
-all the styling can be done using HTML and CSS */
-
-/*use Dompdf\Dompdf;
-use Dompdf\Options;*/
-
-class PdfGenerator
+class PDFController
 {
-    /*private Options $options;
-    private Dompdf $dompdf;*/
     private $CDN = '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>';
     private $SCRIPT = '
@@ -30,7 +21,6 @@ class PdfGenerator
                 };
                 html2pdf().set(opt).from(element).save();
             }
-            // generatePDF();
         </script>
     ';
 
@@ -50,18 +40,6 @@ class PdfGenerator
 
     public function __construct()
     {
-        /*
-         // options object of the dompdf object
-         $this->options = new Options();
-
-         // setting the root directory
-         $this->options->setChroot(__DIR__ . '/../');
-
-         // setting the default paper size to "A4"
-         // $this->options->setDefaultPaperSize("A4");
-
-         $this->dompdf = new Dompdf(options: $this->options);
-        */
     }
 
     /**
@@ -71,20 +49,9 @@ class PdfGenerator
      * @param string $file_name takes the name of the resulting file
      *
      * Generates a pdf with a given name using the given content
-     *
-     *                                  ## Content ##
-     * #######################################################################################
-     *
-     * Project name                                         Date of report generation
-     *
-     * Project description
-     *
-     *
-     *
-     * Marshal - footer will be included(as the footer)
-     * #######################################################################################
+     * @param array $attributes
      */
-    public function renderPDF(string $path_to_html_markup, string $path_to_style_sheet, string $file_name, array $attributes = []): void
+    public function generateGeneralFormatPDF(string $path_to_html_markup, string $path_to_style_sheet, string $file_name, array $attributes = []): void
     {
         $html = file_get_contents("D:/xampp/htdocs" . $path_to_html_markup);
         $css = file_get_contents("D:/xampp/htdocs" . $path_to_style_sheet);
@@ -93,7 +60,8 @@ class PdfGenerator
         $html = str_replace("/*{{ styles }}*/", $css . " " . $this->FOOTERCSS, $html);
         $html = str_replace("<!-- SCRIPT -->", $this->SCRIPT, $html);
 
-
+        // process task data
+        if(!empty($attributes)) $attributes = $this->processGeneralFormatPDFData($attributes);
 
         if (!empty($attributes)) {
             foreach ($attributes as $key => $value) {
@@ -101,24 +69,45 @@ class PdfGenerator
             }
         }
 
-        /*echo "<pre>";
-        var_dump($html);
-        echo "</pre>";*/
-
         echo $html;
-        /*
-        // loading the html to generate the pdf
-        $this->dompdf->loadHtml($html);
-        // rendering the pdf
-        $this->dompdf->render();
+    }
 
-        // adding meta-data
-        $this->dompdf->addInfo("Title", "Report-generate-on-" . date("F j, Y, g:i a"));
-        $this->dompdf->addInfo("Author", "ReportGenerator@Marshal");
+    // TODO: DOCUMENT THIS PLEASE
+    /*
+    <div class="task">
+        <div class="task-name">
+            <p> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, quod?</p>
+        </div>
+        <div class="completed-date">
+            <p>2023-3-19</p>
+        </div>
+    </div>
+     **/
+    private function processGeneralFormatPDFData(array $args): array
+    {
+        // TODO: PROCESS THE GIVEN ARRAY AND MAKE A NEW ARRAY WITH THE APPROPRIATE ATTRIBUTES
+        if (
+            !empty($args) &&
+            array_key_exists("project_data", $args) &&
+            !empty($args["project_data"]) &&
+            array_key_exists("task_data", $args) &&
+            !empty($args["task_data"])
+        ) {
+            // TODO: CHANGE THE KEYS TO HTML COMMENTED KEYS
+            $processed_data = [];
+            $project_data = $args["project_data"];
+            $task_data = $args["task_data"];
+            foreach ($project_data as $attr_name => $value) {
+                $processed_data[$attr_name] = $value;
+            }
 
-        // output the generated document to the browser with the given default name
-        // the "Attachment" => 0 is used to output the generated pdf to the browser itself rather that prompting for direct downloading
-        $this->dompdf->stream(filename: $file_name, options: ["Attachment" => 0]);
-        */
+            $processed_data["task_data"] = "";
+
+            foreach ($task_data as $task) {
+                $processed_data["task_data"] .= "\n" . ' <div class="task"> <div class="task-name"> <p> ' . $task["task_name"] . ' </p> </div> <div class="completed-date"> <p> ' . $task["task_completed_date"] . ' </p> </div> </div> ' . "\n";
+            }
+            return $processed_data;
+        }
+        return [];
     }
 }

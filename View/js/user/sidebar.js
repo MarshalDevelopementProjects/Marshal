@@ -9,6 +9,27 @@ const calender = document.querySelector('.bottom-calender');
 const calenderBtn = document.querySelector('.calender');
 const rightPanel = document.querySelector('.right-panel');
 
+function checkWindowSize() {
+  if (window.innerWidth <= 880) {
+    leftPanel.classList.add('active');
+    delay(addCalenderFunction, 200);
+    delay(addFunction, 300);
+  } else {
+    delay(removeFunction, 700);
+    delay(removeCalenderFunction, 900);
+    leftPanel.classList.remove('active');
+  }
+}
+
+// Call the function on page load
+checkWindowSize();
+
+// Call the function on window resize with a small delay
+let timeoutId;
+window.addEventListener('resize', function() {
+  clearTimeout(timeoutId);
+  timeoutId = setTimeout(checkWindowSize, 100);
+});
 
 middle.addEventListener('click', function(){
     leftPanel.classList.add('active');

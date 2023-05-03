@@ -6,6 +6,7 @@ use App\Controller\User\UserController;
 use App\Controller\Group\GroupController;
 use App\Controller\Message\MessageController;
 use App\Controller\Notification\NotificationController;
+use App\Model\Forum;
 use App\Model\ProjectMember;
 use App\Model\Notification;
 use App\Model\Task;
@@ -24,13 +25,17 @@ require __DIR__ . '/../../../vendor/autoload.php';
 class ProjectMemberController extends UserController
 {
     private ProjectMember $projectMember;
+    protected Project $project;
+    protected Forum $forum;
 
     public function __construct()
     {
         try {
             parent::__construct();
-            if (array_key_exists("project_id", $_SESSION)) {
+            if (array_key_exists("project_id", $_SESSION)  && $this->user->checkUserRole(req_id: $_SESSION["project_id"], role: "MEMBER", type: "PROJECT")) {
+                $this->project = new Project(member_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"]);
                 $this->projectMember = new ProjectMember($_SESSION["project_id"]);
+                $this->forum = new Forum();
             } else {
                 throw new Exception("Bad request missing arguments");
             }
@@ -41,11 +46,6 @@ class ProjectMemberController extends UserController
 
     public function defaultAction(Object|array|string|int $data = null)
     {
-    }
-
-    public function auth(): bool
-    {
-        return parent::auth();
     }
 
     public function pickupTask()
@@ -293,7 +293,7 @@ class ProjectMemberController extends UserController
             content: array(
                 "project_id" => $_SESSION["project_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
-                "messages" => $this->projectMember->getForumMessages() ? $this->projectMember->getMessageData() : [],
+                "messages" => $this->forum->getForumMessages(project_id: $_SESSION["project_id"]) ? $this->forum->getMessageData() : [],
                 "members" =>  $this->projectMember->getProjectMembers() ? $this->projectMember->getProjectMemberData() : [],
             ) + parent::getTaskDeadlines()
         );
@@ -327,16 +327,20 @@ class ProjectMemberController extends UserController
         $user = new User();
         $data = array("groups" => $groups, "projectData" => $project->getProject(array("id" => $project_id)));
 
-        // get project members' details
-        $projectLeaderCondition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id AND role = :role)";
-        $projectMemberCondition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id)";
-        $groupLeaderCondition = "WHERE id IN (SELECT DISTINCT leader_id FROM groups WHERE project_id = :project_id)";
-
-        $data['projectLeader'] = $user->getAllUsers(array("project_id" => $project_id, "role" => "LEADER"), $projectLeaderCondition);
-        $data['projectMembers'] = $user->getAllUsers(array("project_id" => $project_id), $projectMemberCondition);
-        $data['groupLeaders'] = $user->getAllUsers(array("project_id" => $project_id), $groupLeaderCondition);
-
         $data += parent::getTaskDeadlines();
+
+        $data["progress"] = $project->getProjectProgress(project_id: $_SESSION["project_id"]);
+
+        $data["members"] = $project->getProjectMembers($_SESSION["project_id"]) ? $project->getProjectMemberData() : [];
+
+        if ($project->getProjectStatistics(project_id: $_SESSION["project_id"])) {
+            $data["stats"] = $project->getProjectData();
+        }
+
+        $data["user_data"] = [
+            "username" => $this->user->getUserData()->username,
+            "profile_picture" => $this->user->getUserData()->profile_picture,
+        ];
 
         $this->sendResponse(
             view: "/project_member/getProjectInfo.html",
@@ -446,14 +450,14 @@ class ProjectMemberController extends UserController
 
     // save the message to the project table
     // $args format {"message" => "message string"}
-    public function postMessageToProjectForum(array|object $args)
+    public function postMessageToProjectForum(array|object $args): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         // get the user id
         if (!empty($args) && array_key_exists("message", $args)) {
             if (!empty($args["message"])) {
                 try {
-                    if ($this->projectMember->saveForumMessage(id: $this->user->getUserData()->id, msg: $args["message"])) {
+                    if ($this->forum->saveForumMessage(sender_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
@@ -470,12 +474,12 @@ class ProjectMemberController extends UserController
     }
 
     // get all the messages to the project table
-    public function getProjectForumMessages()
+    public function getProjectForumMessages(): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         try {
-            if ($this->projectMember->getForumMessages()) {
-                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectMember->getMessageData() ?? []]);
+            if ($this->forum->getForumMessages(project_id: $_SESSION["project_id"])) {
+                $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->forum->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => "Some error occurred"]);
             }
@@ -486,13 +490,13 @@ class ProjectMemberController extends UserController
 
     // save the message to the task table
     // $args format {"task_id" => "TaskID", "message" => "message string"}
-    public function postMessageToProjectTaskFeedback(array|object $args)
+    public function postMessageToProjectTaskFeedback(array|object $args): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         try {
             if (!empty($args) && array_key_exists("message", $args) && array_key_exists("task_id", $args)) {
                 if (!empty($args["message"])) {
-                    if ($this->projectMember->saveProjectTaskFeedbackMessage(id: $this->user->getUserData()->id, task_id: $args["task_id"], msg: $args["message"])) {
+                    if ($this->forum->saveProjectTaskFeedbackMessage(sender_id: $this->user->getUserData()->id, project_id: $_SESSION["project_id"], task_id: $args["task_id"], msg: $args["message"])) {
                         $this->sendJsonResponse("success");
                     } else {
                         $this->sendJsonResponse("internal_server_error", ["message" => "Message cannot be saved!"]);
@@ -509,15 +513,15 @@ class ProjectMemberController extends UserController
     }
 
     // $args format {"task_id" => "TaskID"}
-    public function getProjectTaskFeedbackMessages(array $args)
+    public function getProjectTaskFeedbackMessages(array $args): void
     {
         // TODO: NEED TO HAVE MESSAGE VALIDATION TO DETECT ANY UNAUTHORIZED CHARACTERS
         // TODO: HERE THE GROUP NUMBER CAN ONLY BE AN INTEGER REJECT ANY OTHER FORMAT
         // TODO: SO THAT YOU WILL BE ABLE TO RETURN THE GROUP CANNOT BE FOUND ERROR
         try {
             if (array_key_exists("task_id", $args)) {
-                if ($this->projectMember->getProjectTaskFeedbackMessages($args["task_id"])) {
-                    $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->projectMember->getMessageData() ?? []]);
+                if ($this->forum->getProjectTaskFeedbackMessages(project_id: $_SESSION["project_id"], task_id: $args["task_id"])) {
+                    $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->forum->getMessageData() ?? []]);
                 } else {
                     $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
                 }
