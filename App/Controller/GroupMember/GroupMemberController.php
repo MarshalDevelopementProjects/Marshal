@@ -31,7 +31,11 @@ class GroupMemberController extends ProjectMemberController
                 $this->group = new Group();
                 $this->groupMember = new GroupMember($_SESSION["project_id"], $_SESSION["group_id"]);
             } else {
-                throw new Exception("Bad request missing arguments");
+                $this->sendResponse(
+                    view: "/errors/403.html",
+                    status: "unauthorized"
+                );
+                // throw new Exception("Bad request missing arguments");
             }
         } catch (Exception $exception) {
             throw $exception;
