@@ -78,7 +78,6 @@ class Task implements Model
                 $sql .= " AND ";
             }
         }
-        $sql .= " LIMIT 4";
 
         try {
             $result = $this->crud_util->execute($sql, $args);
