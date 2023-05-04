@@ -97,6 +97,14 @@
                         <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333;">
                             <li class="sketch-idea">Sketch idea</li>
                         </a>
+
+                        <a href="http://localhost/public/projectleader/getinfo" style="text-decoration: none; color: #333;">
+                            <li class="group-info">Group Info</li>
+                        </a>
+
+                        <a href="http://localhost/public/projectleader/getinfo" style="text-decoration: none; color: #333;">
+                            <li class="project-board">Project board</li>
+                        </a>
                     </ul>
                     <ul class="menu-icon">
 
@@ -113,13 +121,20 @@
                         <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333;">
                             <li class="sketch-idea"><i class="fa fa-paint-brush" aria-hidden="true"></i></li>
                         </a>
+                        <a href="http://localhost/public/projectleader/getinfo" style="text-decoration: none; color: #333;">
+                            <li class="group-info"><i class="fa-solid fa-people-group"></i></li>
+                        </a>
+                        
+                        <a href="http://localhost/public/projectleader/getinfo" style="text-decoration: none; color: #333;">
+                            <li class="project-board"><i class="fa-solid fa-circle-info"></i></li>
+                        </a>
                         <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
                     </ul>
                 </div>
-                <div class="middle-icon">
+                <div class="middle-icon" style="margin-top: 15px;">
                     <i class="fa fa-caret-left" aria-hidden="true"></i>
                 </div>
-                <div class="middle-icon2">
+                <div class="middle-icon2" style="margin-top: -108px;">
                     <i class="fa fa-caret-right" aria-hidden="true"></i>
                 </div>
 
@@ -276,7 +291,7 @@
                     <div class="input-area">
                         
                         <input id="confirmationMessage" type="text" name="confirmationMessage" placeholder="Type confirmation message...">
-                        <label for="confirmationFile"><i class="fa fa-file" aria-hidden="true"></i></label>
+                        <label for="confirmationFile"><i class="fa fa-file" aria-hidden="true" style="display: none;"></i></label>
                         <input id="confirmationFile" type="file" name="confirmationFile" style="display: none;">
                         <button type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
                         
@@ -429,5 +444,6 @@
     <script src="/View/js/user/createProject.js"></script>
     <script src="/View/js/user/sidebar.js"></script>
     <script src="/View/js/user/notification.js"></script>
+    <script src="https://kit.fontawesome.com/0ecc390bb7.js" crossorigin="anonymous"></script>
 </body>
 </html>

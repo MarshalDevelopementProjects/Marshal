@@ -1,21 +1,24 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-body{
+
+body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #f7f7f7;
 }
-.container{
+
+.container {
     width: 98%;
     margin-top: 10px;
 }
-.container .navbar{
+
+.container .navbar {
     position: fixed;
     width: 98%;
     height: 60px;
@@ -26,38 +29,46 @@ body{
     display: flex;
     justify-content: space-around;
 }
-.navbar .left-logo-area{
+
+.navbar .left-logo-area {
     flex: 1;
 }
-.navbar .logo{
+
+.navbar .logo {
     width: 60px;
     height: 60px;
     margin-left: 12px;
     margin-right: auto;
     cursor: pointer;
 }
-.container .right-profile-area{
+
+.container .right-profile-area {
     /* border: 1px solid #fff; */
     display: flex;
 }
-.right-profile-area img{
+
+.right-profile-area img {
     width: 50px;
     height: 50px;
     margin: 5px 25px 0 0;
     cursor: pointer;
+    border-radius: 50%;
+    border: 3px solid #e7e7e7;
 }
 
-.right-profile-area i{
+.right-profile-area i {
     color: #f7f7f7;
     font-size: 20px;
     margin: 20px 15px 20px 5px;
     cursor: pointer;
 }
-.right-profile-area i:hover{
+
+.right-profile-area i:hover {
     font-weight: 600;
     color: #514848;
 }
-.right-profile-area button{
+
+.right-profile-area button {
     background-color: #fff;
     font-size: 13px;
     /* font-weight: 545; */
@@ -70,15 +81,18 @@ body{
     width: 120px;
     cursor: pointer;
 }
-.right-profile-area button:hover{
+
+.right-profile-area button:hover {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-.task-boards-container{
+
+.task-boards-container {
     margin-top: 5px;
     display: flex;
     /* border: 1px solid black; */
 }
-.left-panel{
+
+.left-panel {
     position: fixed;
     /* border: 1px solid black; */
     margin: 75px 0 0 3px;
@@ -88,15 +102,19 @@ body{
     padding: 10px;
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: all 1.2s ease-in;
 }
-.left-panel .top-menus{
+
+.left-panel .top-menus {
     margin: 0px;
     padding: 2px 15px 15px 15px;
 }
-.top-menus ul{
+
+.top-menus ul {
     list-style: none;
 }
-.top-menus ul li{
+
+.top-menus ul li {
     background-color: #f7f7f7;
     margin: 8px 3px;
     height: 30px;
@@ -106,47 +124,57 @@ body{
     font-size: 15px;
     cursor: pointer;
 }
-.top-menus ul li a{
+
+.top-menus ul li a {
     text-decoration: none;
     color: #333;
 }
-.top-menus ul li:hover{
+
+.top-menus ul li:hover {
     background-color: #dbd7d7;
 }
-.top-menus ul li.active{
+
+.top-menus ul li.active {
     background-color: #F83B3B;
     color: #fff;
 }
-.left-panel .middle-icon{
+
+.left-panel .middle-icon,
+.left-panel .middle-icon2 {
     /* border: 1px solid black; */
     width: 15px;
     height: 36px;
     border-radius: 4px;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
-    margin: 10px 0px 0 auto; /*60*/
+    margin: 120px 0px 0 auto;
+    /*60*/
     background-color: #ddd;
     color: #333;
     cursor: pointer;
 }
-.bottom-calender{
+
+.bottom-calender {
     margin-top: 125px;
     /* border: 1px solid black; */
     height: 250px;
 }
-.bottom-calender .top-month{
+
+.bottom-calender .top-month {
     display: flex;
     height: 30px;
     justify-content: space-around;
     /* border: 1px solid black; */
 }
-.top-month p{
+
+.top-month p {
     padding-top: 5px;
     font-weight: 550;
     color: #F83B3B;
 }
-.top-month button{
+
+.top-month button {
     padding-top: 0;
     height: 25px;
     width: 25px;
@@ -161,30 +189,35 @@ body{
     border: none;
     outline: none;
 }
-.bottom-calender .day-names{
+
+.bottom-calender .day-names {
     display: flex;
     justify-content: space-between;
     list-style: none;
     padding: 0 5px;
     margin-top: 5px;
 }
-.day-names p{
+
+.day-names p {
     width: 25px;
     font-size: 11px;
     text-align: center;
     color: #555;
 }
-.bottom-calender .days{
+
+.bottom-calender .days {
     margin-top: 15px;
 }
-.days .days-line{
+
+.days .days-line {
     display: flex;
     justify-content: space-between;
     height: 25px;
     margin-bottom: 7px;
     padding: 0 5px;
 }
-.days-line p{
+
+.days-line p {
     /* border: 1px solid black; */
     width: 25px;
     display: flex;
@@ -195,41 +228,120 @@ body{
     background-color: #f7f7f7;
     color: #333;
 }
-.days-line .day.today{
+
+.days-line .day.today {
     background-color: #F83B3B;
     color: #fff;
 }
-.days-line .day.deadline{
+
+.days-line .day.deadline {
     background-color: #031738;
     color: #fff;
     cursor: pointer;
 }
-.days-line .inactive{
+
+.days-line .inactive {
     color: #dbd7d7;
 }
-.days-line .today{
+
+.days-line .today {
     background-color: #0a4fa3;
     color: #fff;
 }
-.days-line .deadline{
+
+.days-line .deadline {
     background-color: #F83B3B;
     color: #fff;
     cursor: pointer;
 }
 
-.right-panel{
+.left-panel.active {
+    transition: all .5s ease-in-out;
+    display: inline-block;
+    width: 70px;
+}
+
+.bottom-calender.active {
+    display: none;
+}
+
+.left-panel .middle-icon2 {
+    display: none;
+}
+
+.left-panel .middle-icon2.active {
+    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    margin-right: -15px;
+}
+
+.left-panel .middle-icon.active {
+    display: none;
+}
+
+.top-menus .menu-icon {
+    transition: all .5s ease-in-out;
+    display: none;
+}
+
+.top-menus .menu-icon li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    margin: 10px
+}
+
+.top-menus .menu-icon li i {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+}
+
+.top-menus .menu-icon.active {
+    transition: all .2s ease-in-out;
+    margin-left: -20px;
+    display: block;
+}
+
+.top-menus .menu.active {
+    display: none;
+}
+
+.top-menus ul a li {
+    list-style: none;
+}
+
+.top-menus ul a {
+    text-decoration: none;
+}
+
+.right-panel {
     /* position: fixed; */
     margin: 60px 0 0 250px;
     height: 100%;
     width: 1250px;
 }
-.search-bar{
+
+.right-panel.active {
+    position: fixed;
+    margin: 60px 0 0 110px;
+    height: 100%;
+    width: 90vw;
+    transition: all 1s ease-in-out;
+    /* border: 1px solid black; */
+}
+
+.search-bar {
     /* border: 1px solid black; */
     height: 60x;
     display: flex;
 }
 
-.search-box{
+.search-box {
     /* border: 1px solid black; */
     margin: 15px 0px 0 0;
     width: 750px;
@@ -237,7 +349,7 @@ body{
     display: flex;
 }
 
-.search-bar a{
+.search-bar a {
     /* border: 1px solid black; */
     width: 300px;
     font-size: 20px;
@@ -246,10 +358,11 @@ body{
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color:#031738;
+    color: #031738;
     text-decoration: none;
 }
-.search-box input{
+
+.search-box input {
     margin-left: 40%;
     width: 50%;
     height: 34px;
@@ -257,7 +370,8 @@ body{
     border: 1px solid #999;
     padding-left: 1%;
 }
-.search-box i{
+
+.search-box i {
     border: none;
     height: 34px;
     width: 34px;
@@ -270,19 +384,20 @@ body{
 }
 
 
-.task-boards{
+.task-boards {
     /* border: 1px solid black; */
     width: 100%;
     height: fit-content;
     display: flex;
     margin: 3px 0 0 5px;
 }
-.task-boards.active{
+
+.task-boards.active {
     opacity: 0.2;
     /* background-color: #111; */
 }
 
-.task-boards .board{
+.task-boards .board {
     height: fit-content;
     max-height: 435px;
     overflow-y: scroll;
@@ -294,13 +409,14 @@ body{
     background-color: #fff;
     /* border: 1px solid black; */
 }
-.board .board-top{
+
+.board .board-top {
     display: flex;
     justify-content: space-between;
 }
 
 /* // create task popup  */
-.board .create-task-popup{
+.board .create-task-popup {
     /* border: 1px solid black; */
     height: 0px;
     overflow-y: hidden;
@@ -311,33 +427,36 @@ body{
     background-color: #fff;
     transition: all 0.5s ease;
 }
-.create-task-popup.active{
+
+.create-task-popup.active {
     height: 285px;
     margin-bottom: 27px;
     padding: 10px 0px 10px 10px;
 }
 
-.create-task-popup h4{
+.create-task-popup h4 {
     color: #031738;
     font-size: 18px;
     margin: 2px 0 3px 15px;
 }
 
-.create-task-popup form{
+.create-task-popup form {
     display: flex;
 }
 
-.task-details{
+.task-details {
     /* border: 1px solid black; */
     width: 160px;
     padding: 7px 0 0 5px;
 }
-.task-details label{
+
+.task-details label {
     font-size: 12px;
     color: #333;
     font-weight: 550;
 }
-.task-details input{
+
+.task-details input {
     margin: 2px 5px;
     width: 140px;
     height: 25px;
@@ -348,10 +467,12 @@ body{
     padding-right: 5px;
     font-size: 11px;
 }
-#taskdescription{
+
+#taskdescription {
     height: 60px;
 }
-.priority{
+
+.priority {
     /* border: 1px solid black; */
     margin-top: 30px;
     margin-left: 2px;
@@ -361,41 +482,42 @@ body{
     font-size: 10px;
     /* text-align: center; */
 }
-.priority label{
+
+.priority label {
     margin-left: 2px;
     /* font-size: 11px; */
 }
 
-.priority .select-priority{
+.priority .select-priority {
     font-size: 14px;
     height: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;    
+    cursor: pointer;
     background-color: #2a2f3b;
     color: #fff;
     border-radius: 5px;
     padding-left: 10px;
     margin-bottom: 5px;
 }
-.select-priority input{
+
+.select-priority input {
     display: none;
     opacity: 0;
 }
-.select-priority-clicked{
 
-}
-
+.select-priority-clicked {}
 
 
-.finish-created-task{
+
+.finish-created-task {
     /* border: 1px solid black; */
     margin-top: 90px;
     height: 60px;
 }
 
-#create-task-btn{
+#create-task-btn {
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -407,7 +529,8 @@ body{
     margin-left: 15px;
 
 }
-#cancel-task-btn{
+
+#cancel-task-btn {
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -424,7 +547,7 @@ body{
 
 
 
-.board-top i{
+.board-top i {
     margin-right: 20px;
     border: none;
     border-radius: 50%;
@@ -437,19 +560,22 @@ body{
     align-items: center;
     cursor: pointer;
 }
-.board-top i:hover{
+
+.board-top i:hover {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 ::-webkit-scrollbar {
     width: 0px;
-  }
-.board h3{
+}
+
+.board h3 {
     width: fit-content;
     color: #444;
     margin: 0px 0 15px 15px;
 }
-.board .tasks{
+
+.board .tasks {
     /* border: 1px solid black; */
     height: fit-content;
     max-height: 450px;
@@ -457,7 +583,8 @@ body{
     overflow-y: scroll;
     overflow-x: hidden;
 }
-.board .task{
+
+.board .task {
     height: 90px;
     margin: 0 5px 15px 5px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -465,21 +592,25 @@ body{
     background-color: #F7F7F7;
     cursor: pointer;
 }
-.task.dragging{
+
+.task.dragging {
     opacity: 0.5;
 }
-.task .top-task{
+
+.task .top-task {
     display: flex;
     justify-content: space-between;
 }
-.top-task h4{
+
+.top-task h4 {
     color: #222;
     font-size: 15px;
     margin: 8px 12px;
     max-height: 20px;
     overflow: hidden;
 }
-.top-task .priority-high{
+
+.top-task .priority-high {
     color: #fff;
     background-color: #F83B3B;
     width: 50px;
@@ -490,7 +621,8 @@ body{
     padding-top: 1px;
     border-radius: 4px;
 }
-.top-task .priority-medium{
+
+.top-task .priority-medium {
     color: #fff;
     background-color: #F0B11D;
     width: 50px;
@@ -501,7 +633,8 @@ body{
     padding-top: 1px;
     border-radius: 4px;
 }
-.top-task .priority-low{
+
+.top-task .priority-low {
     color: #fff;
     background-color: #20B289;
     width: 50px;
@@ -512,7 +645,8 @@ body{
     padding-top: 1px;
     border-radius: 4px;
 }
-.task .task-description{
+
+.task .task-description {
     font-size: 11px;
     margin: 1px 25px;
     height: 25px;
@@ -522,19 +656,21 @@ body{
     /* border: 1px solid black; */
 }
 
-.task .bottom-task{
+.task .bottom-task {
     display: flex;
     justify-content: space-between;
     max-height: 30px;
 }
-.bottom-task p{
+
+.bottom-task p {
     width: fit-content;
     font-size: 11px;
     margin-left: 15px;
     color: #FB160D;
     margin-top: 5px;
 }
-#member-profile{
+
+#member-profile {
     width: 25px;
     height: 25px;
     margin: 0 15px 5px 0;
@@ -545,7 +681,7 @@ body{
 
 
 
-.TO-DO-task-details{
+.TO-DO-task-details {
     display: none;
     position: fixed;
     width: 600px;
@@ -557,17 +693,19 @@ body{
     transition: all 1s ease;
     background-color: #fff;
 }
-.TO-DO-task-details.active{
+
+.TO-DO-task-details.active {
     display: block;
 }
 
-.TO-DO-task-details .top-bar{
+.TO-DO-task-details .top-bar {
     display: flex;
     justify-content: space-between;
     height: 25px;
     margin-bottom: 10px;
 }
-.top-bar h3{
+
+.top-bar h3 {
     margin-left: 10px;
     font-size: 20px;
     max-width: 400px;
@@ -575,7 +713,8 @@ body{
     overflow-x: hidden;
     color: #031738;
 }
-.top-bar p{
+
+.top-bar p {
     /* border: 1px solid black; */
     font-size: 12px;
     margin-right: 15px;
@@ -584,16 +723,20 @@ body{
     border-radius: 5px;
     color: #fff;
 }
-.top-bar p.high{
+
+.top-bar p.high {
     background-color: #FB160D;
 }
-.top-bar p.medium{
+
+.top-bar p.medium {
     background-color: #F0B11D;
 }
-.top-bar p.low{
+
+.top-bar p.low {
     background-color: #20B289;
 }
-.TO-DO-task-details .task-details-description{
+
+.TO-DO-task-details .task-details-description {
     font-size: 13px;
     width: 80%;
     max-height: 90px;
@@ -601,13 +744,15 @@ body{
     color: #222;
     margin: 20px 0 0 40px;
 }
-.TO-DO-task-details .task-details-deadline{
+
+.TO-DO-task-details .task-details-deadline {
     font-size: 14px;
     color: #FB160D;
     margin-left: 20px;
     margin-top: 20px;
 }
-.TO-DO-task-details .task-feedbacks{
+
+.TO-DO-task-details .task-feedbacks {
     border: 1px solid #eee;
     border-radius: 12px;
     margin: 20px;
@@ -615,11 +760,13 @@ body{
     width: 400px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
-.task-feedbacks form{
+
+.task-feedbacks form {
     /* border:  1px solid black; */
     margin-top: 167px;
 }
-.task-feedbacks form input{
+
+.task-feedbacks form input {
     height: 30px;
     border: none;
     outline: none;
@@ -630,7 +777,8 @@ body{
     margin-right: -4px;
     /* border: 1px solid black; */
 }
-.task-feedbacks form button{
+
+.task-feedbacks form button {
     width: 30px;
     height: 30px;
     border: none;
@@ -642,25 +790,28 @@ body{
     border-bottom-right-radius: 12px;
 }
 
-.TO-DO-task-details .bottom{
+.TO-DO-task-details .bottom {
     display: flex;
     justify-content: space-between;
     /* border: 1px solid black; */
     /* width: 420px; */
     /* margin-left: 350px; */
 }
-.bottom input{
+
+.bottom input {
     height: 25px;
     margin: 0 0 5px 20px;
     border: 1px solid #dbd7d7;
     padding-left: 10px;
     border-radius: 5px;
 }
-.bottom .buttons{
+
+.bottom .buttons {
     margin-top: 5px;
 }
-.buttons a{
-    margin:  0 10px 0 10px;
+
+.buttons a {
+    margin: 0 10px 0 10px;
     padding: 7px 18px;
     border-radius: 5px;
     background-color: #20B289;
@@ -669,11 +820,12 @@ body{
     text-decoration: none;
     cursor: pointer;
 }
-#cancel-task-details{
+
+#cancel-task-details {
     background-color: #F83B3B;
 }
 
-.group-details{
+.group-details {
     /* border: 1px solid black; */
     height: 140px;
     margin: 10px 5% 0 5%;
@@ -684,7 +836,8 @@ body{
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     display: flex;
 }
-.group-details .progress{
+
+.group-details .progress {
     margin: 5px 5px 10px 20px;
     height: 120px;
     width: 120px;
@@ -692,40 +845,46 @@ body{
     display: grid;
     place-items: center;
 }
-.group-details .group-info{
+
+.group-details .group-info {
     width: 720px;
     /* border: 1px solid black; */
     text-decoration: none;
 }
-.group-info a{
+
+.group-info a {
     text-decoration: none;
     /* background-color: #20B289; */
 }
-.group-info h3{
+
+.group-info h3 {
     font-size: 18px;
     margin: 10px 0 5px 25px;
     color: #031738;
     text-decoration: none;
 }
-.group-info p{
+
+.group-info p {
     font-size: 13px;
     margin-left: 25px;
     color: #222;
     overflow: hidden;
     height: 60px;
 }
-.group-info h6{
+
+.group-info h6 {
     font-size: 15px;
     /* border: 1px solid black; */
     margin-left: 60px;
     color: #333;
 }
-.group-info h6 span{
+
+.group-info h6 span {
     margin-left: 180px;
     color: #b82222;
 }
 
-.progress .cuircular-progress{
+.progress .cuircular-progress {
     /* position: relative; */
     width: 100px;
     height: 100px;
@@ -734,7 +893,8 @@ body{
     display: grid;
     place-items: center;
 }
-.cuircular-progress:before{
+
+.cuircular-progress:before {
     content: "";
     width: 80px;
     height: 80px;
@@ -742,7 +902,8 @@ body{
     background-color: #EECACA;
     position: absolute;
 }
-.cuircular-progress .progress-value{
+
+.cuircular-progress .progress-value {
     position: relative;
     font-weight: 550;
 }
@@ -752,7 +913,7 @@ body{
 
 /* confirmation message */
 
-.right-panel .confirmation-popup{
+.right-panel .confirmation-popup {
     display: none;
     position: fixed;
     width: 400px;
@@ -765,21 +926,25 @@ body{
     border-radius: 10px;
     transition: all 1s ease;
 }
-.confirmation-popup.active{
+
+.confirmation-popup.active {
     display: block;
 }
-.close-area i{
+
+.close-area i {
     margin-left: 360px;
     color: #333;
     cursor: pointer;
 }
-.confirmation-popup .message-area{
+
+.confirmation-popup .message-area {
     height: 120px;
     display: flex;
     flex-direction: column-reverse;
     padding-bottom: 5px;
 }
-.message-area p{
+
+.message-area p {
     border: 1px solid #d1d1d1;
     width: fit-content;
     max-width: 280px;
@@ -795,17 +960,21 @@ body{
     border-top-right-radius: 10px;
     display: none;
 }
-.message-area p.active{
+
+.message-area p.active {
     display: block;
 }
-.confirmation-popup .input-area{
+
+.confirmation-popup .input-area {
     /* border: 1px solid black; */
     height: 25px;
 }
-.input-area input{
+
+.input-area input {
     height: 24px;
 }
-.input-area input[type="text"]{
+
+.input-area input[type="text"] {
     padding-left: 10px;
     border: 1px solid #f1f1f1;
     background-color: #f9f9f9;
@@ -813,13 +982,14 @@ body{
     width: 330px;
 }
 
-.input-area label{
+.input-area label {
     border: 1px solid #f1f1f1;
     color: #555;
     background-color: #f9f9f9;
     cursor: pointer;
 }
-.input-area button{
+
+.input-area button {
     height: 22px;
     width: 22px;
     font-size: 15px;
@@ -828,4 +998,323 @@ body{
     outline: none;
     color: #20B289;
     cursor: pointer;
+}
+
+
+/* create project style  */
+
+.create-project-container {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0);
+    transition: all 2s ease;
+    /* display: flex; */
+    margin: 0px 0 0 300px;
+    transition: all 2s ease;
+}
+
+.create-project-container.active {
+    display: block;
+}
+
+.create-project-container .create-project-popup {
+    /* display: none; */
+    width: 900px;
+    height: 500px;
+    /* border: 1px solid black; */
+    position: fixed;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.create-project-popup .create-project-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-project-top .create-project-header {
+    /* border: 1px solid black; */
+    width: 550px;
+    margin: 30px 0 0 40px;
+}
+
+.create-project-top i {
+    font-size: 22px;
+    color: #333;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.create-project-header h3 {
+    font-size: 27px;
+    color: #283A5A;
+}
+
+.create-project-header p {
+    font-size: 15px;
+    padding-left: 2px;
+    color: #444;
+}
+
+.create-project-popup .create-project-details {
+    display: flex;
+    height: 370px;
+}
+
+.create-project-details .create-project-form {
+    /* border: 1px solid black; */
+    width: 700px;
+    margin-top: 30px;
+    margin-left: 50px;
+    height: 300px;
+}
+
+.create-project-form form label {
+    color: #112e5e;
+    font-weight: 550;
+    font-size: 16px;
+}
+
+.create-project-form form input {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    height: 30px;
+    width: 360px;
+    padding-left: 8px;
+}
+
+.create-project-form form p {
+    font-size: 9px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+#description {
+    height: 100px;
+}
+
+.create-project-form form button {
+    width: 120px;
+    height: 32px;
+    background-color: #F83B3B;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    margin: 8px;
+    cursor: pointer;
+}
+
+
+
+
+
+/* // deadlinePopup/ */
+.deadline-popup {
+    background-color: #F83B3B;
+    border-radius: 6px;
+    margin: -200px 0 200px 10px;
+    position: absolute;
+    max-width: 200px;
+    padding: 10px 15px;
+    display: none;
+    transition: all 2s ease;
+}
+
+.deadline-popup h3 {
+    color: #fff;
+    font-size: 15px;
+}
+
+.deadline-popup hr {
+    margin: 5px 0 10px 0;
+    height: 0.2px;
+    border: 1px solid #eee;
+}
+
+.events p {
+    color: #f1f1f1;
+    font-size: 12px;
+    font-weight: 550;
+}
+
+
+/* notification-popup */
+.notification-popup-container{
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0);
+    transition: all 2s ease;
+    margin-top: -25px;
+    z-index:999;
+}
+.notification-popup-container.active{
+    display: block;
+}
+.notification-popup{
+    width: 310px;
+    /* border: 1px solid black; */
+    max-height: 640px;
+    overflow-y: scroll;
+    position: fixed;
+    background-color: #fff;
+    margin: 45px 10px 0 1175px;
+    border-radius: 15px;
+    padding: 10px;
+    right: 0;
+    padding-bottom: 25px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.notification-popup .notification-popup-top{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+}
+.notification-popup-top h3{
+    color: #333;
+}
+.notification-popup-top i{
+    cursor: pointer;
+    color: #333;
+}
+.notification-popup .notification{
+    /* border: 1px solid black; */
+    margin: 5px;
+    height: 80px;
+}
+.notification a{
+    list-style: none;
+    text-decoration: none;
+}
+.notification-popup .request-notification{
+    margin: 5px;
+    height: 140px;
+}
+.request-notification .notification-details{
+    display: flex;
+}
+
+.notification .notification-details{
+    display: flex;
+}
+.notification-details img{
+    /* border: 1px solid black; */
+    width: 60px;
+    height: 60px;
+    /* justify-self: center; */
+    /* align-self: center; */
+    margin-top: 10px;
+    border: none;
+    border-radius: 50%;
+}
+.notification-details .content{
+    padding-top: 6px;
+    text-decoration: none;
+}
+
+.content .request-content{
+    margin: 0 10px;
+}
+.request-content h5{
+    margin: 2px 0 5px 15px;
+    text-decoration: none;
+}
+.request-content p{
+    font-size: 11px;
+    color: #333;
+    height: 27px;
+    /* border: 1px solid black; */
+}
+.request-content .responses{
+    display: flex;
+    justify-content: space-between;
+    /* border: 1px solid black; */
+    height: 30px;
+    width: 180px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.responses a button{
+    height: 30px;
+    width: 80px;
+    cursor: pointer;
+    color: #fff;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    /* font-weight: 550; */
+}
+#rejectInviteBtn{
+    background-color: #F83B3B;
+}
+#acceptInviteBtn{
+    background-color: #2F984A;
+}
+.content .sender-and-project{
+    display: flex;
+    height: 25px;
+}
+.sender-and-project h4{
+    text-align: left;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    /* border: 1px solid black; */
+    overflow-x: hidden;
+    flex: 5;
+    text-decoration: none;
+    color: #031738
+}
+.sender-and-project p{
+    display: flex;
+    /* align-items: center; */
+    font-size: 11px;
+    /* border: 1px solid black; */
+    flex: 3;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    text-decoration: none;
+
+}
+.content .notification-content{
+    /* border: 1px solid black; */
+    font-size: 11px;
+    padding: 4px 8px 0 12px;
+    height: 30px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    color: #555;
+    text-decoration: none;
+
+}
+.content .date-and-project{
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    margin-top: 2px;
+    /* padding-top: 5px; */
+    height: 12px;
+    overflow-y: hidden;
+    text-decoration: none;
+    color: #222;
+    /* border: 1px solid black; */
+    width: 220px;
+}
+
+.date-and-project .notification-project{
+    width: 90px;
+    height: 13px;
+    margin-right: 10px;
+    margin-left: auto;
+    font-weight: 550;
+    color: #444;
+    overflow-y: hidden;
 }

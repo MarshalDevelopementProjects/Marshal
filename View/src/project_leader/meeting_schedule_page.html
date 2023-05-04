@@ -21,13 +21,26 @@
                 </a>
             </div>
             <div class="right-profile-area">
-                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                <i class="fa fa-sign-out" aria-hidden="true" style="display: none;"></i>
                 <a href="http://localhost/public/user/profile"><img src="/View/images/dp.png" alt="profile picture" class="profile-image"></a>
             </div>
         </div>
 
         <div class="main-container">
-
+            <div class="side-bar-container">
+                <ul class="menu-icon" style="list-style: none;">
+                    <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
+                        <li class="dashboard"><i class="fa fa-address-book" aria-hidden="true"></i></li>
+                    </a>
+                  
+                    <a href="http://localhost/public/user/profile" style="text-decoration: none; color: #333;">
+                        <li class="profile"><i class="fa fa-user" aria-hidden="true"></i></li>
+                    </a>
+                    <a href="http://localhost/public/project/leader/conference/scheduler" style="text-decoration: none; color: #333;">
+                        <li class="conference active"><i class="fa fa-camera" aria-hidden="true"></i></li>
+                    </a>
+                </ul>
+            </div>
             <div class="container-1">
                 <form id="schedule-detail-input-form">
 
@@ -46,7 +59,7 @@
                     <label for="conf_on">
                         When will the conference be held :
                     </label>
-                    <input type="date" name="on" id="conf_on" required>
+                    <input type="date" name="on" class="min-date" id="conf_on" required>
                     <br>
 
                     <label for="conf_at">
@@ -157,6 +170,8 @@
         </script>
         <script src="/View/js/user/meeting_schedule.js"></script>
         <script src="/View/js/project_leader/scheduler.js"></script>
+        <script src="/View/js/user/minDate.js"></script>
+        <script src="/View/js/user/profile_picture.js"></script>
         <script src="https://kit.fontawesome.com/0ecc390bb7.js" crossorigin="anonymous"></script>
 </body>
 

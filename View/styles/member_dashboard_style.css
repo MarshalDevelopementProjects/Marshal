@@ -834,6 +834,7 @@ body {
     background-color: #fff;
     border-radius: 10px;
     transition: all 1s ease;
+    margin-top: 255px;
 }
 
 .confirmation-popup.active {

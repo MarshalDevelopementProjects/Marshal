@@ -52,6 +52,8 @@ body {
     height: 50px;
     margin: 5px 25px 0 0;
     cursor: pointer;
+    border-radius:50%;
+    border: 3px solid #e7e7e7;
 }
 
 .right-profile-area i {
@@ -96,12 +98,21 @@ body {
 
 .container-2,
 .container-1 {
-    width: 50%;
+    width: 45%;
     height: 100%;
     /* background-color: aquamarine; */
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.side-bar-container{
+    width: 70px;
+    height: 100%;
+    background-color:#4CAF50;
+    border-radius: 12px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .schedule-container {
@@ -425,12 +436,18 @@ input[type="time"]:focus {
 
 /* Style for time input */
 input[type="time"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-    background-image: url('path/to/your/image.png');
+    /* filter: invert(1); */
+    /* background-image: url('path/to/your/image.png'); */
     background-size: contain;
     width: 20px;
     height: 20px;
     cursor: pointer;
+    background-color:#d79c9c;;
+    border-radius: 50%;
+}
+input[type="time"]::-webkit-calendar-picker-indicator:hover{
+    background-color: #f83b3b;
+
 }
 
 input[type="time"]::-webkit-datetime-edit-hour-field:focus,
@@ -465,3 +482,37 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     background-color: #f83b3b;
 }
 
+
+
+.menu-icon li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    margin: 10px;
+    /* background-color:#833c3c; */
+}
+.menu-icon li.active {
+    background-color: #F83B3B;
+    color: #fff;
+}
+.menu-icon  li {
+    background-color: #f7f7f7;
+    margin: 8px 3px;
+    height: 40px;
+    width: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    cursor: pointer;
+}
+.menu-icon li:hover{
+    background-color: #dbd7d7;
+}
+.menu-icon li.active:hover {
+    background-color: #F83B3B;
+    color: #fff;
+}

@@ -334,6 +334,7 @@ body{
     text-align: center;
     padding-top: 10px;
     cursor: pointer;
+    display: none;
 }
 .project-info p{
     overflow-y: hidden;
@@ -1042,8 +1043,9 @@ div::-webkit-scrollbar {
     overflow-y: scroll;
     position: fixed;
     background-color: #fff;
-    margin: 65px 10px 0 1020px;
+    margin: 125px 10px 0 1020px;
     border-radius: 15px;
+    right: 0;
     padding: 10px;
     padding-bottom: 25px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -1186,7 +1188,7 @@ div::-webkit-scrollbar {
     background-color: rgba(0, 0, 0, 0);
     transition: all 2s ease;
     /* display: flex; */
-    margin: 830px 0 0 530px;
+    margin: 915px 0 0 530px;
     transition: all 2s ease;
 }
 .create-project-container.active{
