@@ -206,10 +206,10 @@ class ProjectMemberController extends UserController
                 $role = $group->getGroupMember($args, array("group_id", "member_id"))->role;
 
                 // project leader also has group leader features
-                $projectDetails = $project->getProject(array("id" => $_SESSION['project_id']));
-                if($projectDetails->created_by == $payload->id){
-                    $role = 'LEADER';
-                }
+                // $projectDetails = $project->getProject(array("id" => $_SESSION['project_id']));
+                // if($projectDetails->created_by == $payload->id){
+                //     $role = 'LEADER';
+                // }
                 $args = array(
                     "group_id" => $data['id'],
                     "project_id" => $_SESSION['project_id'],

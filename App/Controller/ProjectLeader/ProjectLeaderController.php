@@ -374,7 +374,7 @@ class ProjectLeaderController extends ProjectMemberController
                 $memberArgs = array(
                     "group_id" => $newGroup->id,
                     "member_id" => $user_id,
-                    "role" => "MEMBER",
+                    "role" => "LEADER",
                     "joined" => date("Y-m-d H:i:s")
                 );
                 $group->addGroupMember($memberArgs, array("group_id", "member_id", "role", "joined"));
