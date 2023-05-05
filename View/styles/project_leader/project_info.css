@@ -752,6 +752,15 @@ body{
     height: 100px;
     overflow-y: scroll;
 }
+#members-list-container-div{
+    height: 420px;
+}
+#members-list-container-div h3 {
+    position: sticky; /* fix the h3 element */
+    top: 0; /* stick it to the top */
+    background-color: #fff; /* add a background color to make it stand out */
+    z-index: 1; /* set a higher z-index to ensure it's above the scrollable content */
+  }
 .member-list .member-card{
     display: flex;
     width: 80%;
@@ -785,6 +794,15 @@ body{
 .member-info h6{
     font-size: 13px;
 }
+
+.member-info h6 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 140px; /* adjust as needed */
+    /* background-color: aqua; */
+}
+  
 .member-info p{
     font-size: 11px;
     color: #555;
