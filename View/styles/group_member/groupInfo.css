@@ -467,7 +467,7 @@ body{
     /* border: 1px solid black; */
     border-radius: 10px;
     width: 260px;
-    height: 385px;
+    height: 649px;
     margin-top: 15px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
     background-color: #fff;
@@ -485,9 +485,20 @@ body{
 }
 .member-list .project-members{
     /* border: 1px solid black; */
-    height: 270px;
+    height: 100px;
     overflow-y: scroll;
 }
+
+#members-list-container-div{
+    height: 520px;
+}
+#members-list-container-div h3{
+    position: sticky; /* fix the h3 element */
+    top: 0; /* stick it to the top */
+    background-color: #fff; /* add a background color to make it stand out */
+    z-index: 1; /* set a higher z-index to ensure it's above the scrollable content */
+}
+
 .member-list .member-card{
     display: flex;
     width: 80%;
@@ -505,11 +516,12 @@ body{
     width: 40px;
     height: 40px;
     margin: 5px 5px 5px 10px;
+    border-radius: 50%;
 }
 .profile-image i{
     color: #20B289;
     font-size: 10px;
-    margin: 33px 0 0 -40px;
+    margin: 33px 0 0 -45px;
 }
 
 .member-card .member-info{
@@ -518,6 +530,13 @@ body{
 }
 .member-info h6{
     font-size: 13px;
+}
+.member-info h6 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 140px; /* adjust as needed */
+    /* background-color: aqua; */
 }
 .member-info p{
     font-size: 11px;
