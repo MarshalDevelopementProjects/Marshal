@@ -69,8 +69,8 @@ class ProjectLeaderController extends ProjectMemberController
             $data += array("profile" => $user->getUserData()->profile_picture);
         }
 
-        if ($this->projectLeader->getProjectFeedbackMessages()) {
-            $data["feedback_messages"] = $this->projectLeader->getMessageData();
+        if ($this->forum->getProjectFeedbackMessages(project_id: $_SESSION["project_id"])) {
+            $data["feedback_messages"] = $this->forum->getMessageData();
         }
 
 
