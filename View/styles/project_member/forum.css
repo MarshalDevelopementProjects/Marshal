@@ -376,7 +376,7 @@ body {
 }
 .member-list {
     border-radius: 10px;
-    width: 340px;
+    width: 260px;
     height: 640px;
     margin-top: 10px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
@@ -396,10 +396,19 @@ body {
 
 .member-list .project-members {
     /* border: 1px solid black; */
-    height: 220px;
+    height: 100px;
     overflow-y: scroll;
 }
 
+#members-list-container-div{
+    height: 520px;
+}
+#members-list-container-div h3{
+    position: sticky; /* fix the h3 element */
+    top: 0; /* stick it to the top */
+    background-color: #fff; /* add a background color to make it stand out */
+    z-index: 1; /* set a higher z-index to ensure it's above the scrollable content */
+}
 .member-list .member-card {
     display: flex;
     width: 80%;
@@ -433,7 +442,13 @@ body {
     margin-top: 12px;
     height: fit-content;
 }
-
+.member-info h6 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 140px; /* adjust as needed */
+    /* background-color: aqua; */
+}
 .member-info h6 {
     font-size: 13px;
 }
