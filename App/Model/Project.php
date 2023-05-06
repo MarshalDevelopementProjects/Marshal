@@ -10,7 +10,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 use App\CrudUtil\CrudUtil;
 use Exception;
 
-class Project implements Model
+class Project
 {
     private CrudUtil $crud_util;
     private Object|array $project_data; // object or an array of object

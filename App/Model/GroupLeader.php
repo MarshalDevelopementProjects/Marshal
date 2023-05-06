@@ -6,7 +6,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use App\CrudUtil\CrudUtil;
 
-class GroupLeader implements Model
+class GroupLeader
 {
     private CrudUtil $crud_util;
     private object|array $group_data;

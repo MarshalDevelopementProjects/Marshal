@@ -7,7 +7,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 use App\CrudUtil\CrudUtil;
 use Exception;
 
-class Client implements Model
+class Client
 {
     private CrudUtil $crud_util;
     private object|array|int $project_data;

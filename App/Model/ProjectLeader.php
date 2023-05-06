@@ -6,7 +6,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use App\CrudUtil\CrudUtil;
 
-class ProjectLeader implements Model
+class ProjectLeader
 {
 
     private CrudUtil $crud_util;

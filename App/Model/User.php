@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\CrudUtil\CrudUtil;
 
-class User implements Model
+class User
 {
     private $crud_util = null, $user_data = null;
 

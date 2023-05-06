@@ -6,7 +6,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use App\CrudUtil\CrudUtil;
 
-class Admin implements Model
+class Admin
 {
     private $crud_util;
     private $admin_data;

@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 use App\CrudUtil\CrudUtil;
 use Exception;
 
-class Group implements Model
+class Group
 {
 
     private array|object|null $group_member_data;
