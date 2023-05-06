@@ -298,7 +298,7 @@ class ProjectMemberController extends UserController
                 "project_id" => $_SESSION["project_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
                 "messages" => $this->forum->getForumMessages(project_id: $_SESSION["project_id"]) ? $this->forum->getMessageData() : [],
-                "members" =>  $this->projectMember->getProjectMembers() ? $this->projectMember->getProjectMemberData() : [],
+                "members" =>  $this->project->getProjectMembers(project_id: $_SESSION["project_id"]) ? $this->project->getProjectMemberData() : [],
             ) + parent::getTaskDeadlines()
         );
     }

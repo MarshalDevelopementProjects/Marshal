@@ -94,24 +94,6 @@ class Project
         }
     }
 
-    public function getProjectDetailsOfUser(string|int $user_id, string|int $project_id): bool
-    {
-        try {
-            $sql_string = "SELECT `project`.`id`,`project`.`project_name`, `project`.`description`, `project`.`start_on`, `project`.`end_on`, `project_join`.`member_id`, `project_join`.`role`
-                       FROM `project` INNER JOIN `project_join` ON `project_join`.`member_id` = 1 AND `project`.`id` = 2 LIMIT 1";
-            $args = array("member_id" => $user_id, "project_id" => $project_id);
-            // execute the query
-            $result = $this->crud_util->execute($sql_string, $args);
-            if ($result->getCount() > 0) {
-                $this->project_data = $result->getResults(); // get all the results or just one result this is an array of objects
-                return true;
-            } else {
-                return false;
-            }
-        } catch (\Exception $exception) {
-            throw $exception;
-        }
-    }
     public function joinProject(array $args = array())
     {
         $sql_string = "INSERT INTO project_join(`project_id`, `member_id`, `role`, `joined`) VALUES (:project_id, :member_id, :role, :joined)";
@@ -309,7 +291,7 @@ class Project
             $this->project_data["task_details"] = $this->crud_util->getFirstResult();
             $this->crud_util->execute($stat_per_week_sql_string, ["project_id" => $project_id]);
             if (!$this->crud_util->hasErrors()) {
-                $this->project_data["stat_per_week_details"] = $this->crud_util->getFirstResult();
+                $this->project_data["stat_per_week_details"] = $this->crud_util->getResults();
                 return true;
             }
         }
