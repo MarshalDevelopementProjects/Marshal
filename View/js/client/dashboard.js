@@ -198,43 +198,68 @@ async function sendMessages(msg) {
     }
 }
 
+
 function appendMessage(type, parent_div, message) {
 
+
+    console.log(message);
     let message_div = document.createElement('div'); // message
 
+    // main div
     if (type === 'OUT') {
         message_div.setAttribute('class', 'outgoing-feedback');
+
+        let sender_username = document.createElement('h5'); // sender user name heading
+        sender_username.innerText = message.sender_username;
+
+        let sender_profile_picture = document.createElement('img'); // sender profile picture img tag
+        sender_profile_picture.src = message.sender_profile_picture;
+
+        let date_time = document.createElement('p'); // date time paragraph tag
+        date_time.setAttribute('class', 'outgoing-time'); // date time paragraph tag
+        date_time.innerText = message.stamp;
+
+        let message_content = document.createElement('p'); // message content
+        message_content.setAttribute('class', 'outgoing-feedbacks');
+        message_content.innerText = message.msg;
+
+        // adding elements
+        // message_div.appendChild(sender_profile_picture);
+        // message_div.appendChild(sender_username);
+        message_div.appendChild(message_content);
+        message_div.appendChild(date_time);
+
     } else if (type === 'IN') {
-        message_div.setAttribute('class', 'incoming-feedback');
+        message_div.setAttribute('class', 'incomming-feedback');
+
+        let sender_username = document.createElement('h5'); // sender user name heading
+        sender_username.innerText = message.sender_username;
+
+        let sender_profile_picture = document.createElement('img'); // sender profile picture img tag
+        sender_profile_picture.src = message.sender_profile_picture;
+
+        let inner_message_div = document.createElement('div'); // message
+        inner_message_div.setAttribute('class', 'incomming-feedback-message');
+
+        let date_time = document.createElement('p'); // date time paragraph tag
+        date_time.setAttribute('class', 'incomming-time'); // date time paragraph tag
+        date_time.innerText = message.stamp;
+
+        let message_content = document.createElement('p'); // message content
+        message_content.setAttribute('class', 'incomming-feedbacks');
+        message_content.innerText = message.msg;
+
+        // adding elements
+        inner_message_div.appendChild(message_content);
+        inner_message_div.appendChild(date_time);
+        message_div.appendChild(sender_profile_picture);
+        message_div.appendChild(sender_username);
+        message_div.appendChild(inner_message_div);
     } else {
         console.error('NOT A VALID MESSAGE TYPE');
         message_div = undefined;
         return;
     }
-
-    let sender_details = document.createElement('div'); // sender details div
-    sender_details.setAttribute('class', 'sender-details');
-
-    let sender_profile_picture = document.createElement('img'); // sender profile picture img tag
-    sender_profile_picture.src = message.sender_profile_picture;
-
-    let sender_username = document.createElement('h5'); // sender user name heading
-    sender_username.innerText = message.sender_username;
-
-    let date_time = document.createElement('p'); // date time paragraph tag
-    date_time.innerText = message.stamp;
-
-    let message_content = document.createElement('p'); // message content
-    message_content.setAttribute('class', 'message-content');
-    message_content.innerText = message.msg;
-
-    // adding elements
-    sender_details.appendChild(sender_profile_picture);
-    sender_details.appendChild(sender_username);
-    sender_details.appendChild(date_time);
-
-    message_div.appendChild(sender_details);
-    message_div.appendChild(message_content);
     parent_div.insertAdjacentElement("afterbegin", message_div);
 }
 

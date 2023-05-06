@@ -30,19 +30,65 @@
         <div class="projects-container">
             <div class="left-panel">
                 <div class="top-menus">
-                    <ul>
-                        <li class="dashboard active">Dashboard</li>
-                        <li class="new-project">New project</li>
-                        <li class="profile">Profile</li>
-                        <li class="settings">Settings</li>
-                        <li class="sketch-idea">Sketch idea</li>
+                    <ul class="menu">
+                        
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/dashboard" style="text-align: none;">
+                            <li class="dashboard">Dashboard</li>
+                        </a>
+                       
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
+                            <li class="profile">Profile</li>
+                        </a>
+                        <a style="text-decoration: none; color: black; display: none;" href="#">
+                            <li class="sketch-idea">Forum</li>
+                        </a>
+                        <a style="text-decoration: none; color: black; display: none;" href="#">
+                            <li class="upload-file">Upload File</li>
+                        </a>
+
+                        <a style="text-decoration: none; color: black; display: none;" href="#">
+                            <li class="project-info active">Project Info</li>
+                        </a>
+
+                        <a style="text-decoration: none; color: black; display: none;" href="#">
+                            <li class="project-board">Project board</li>
+                        </a>
+                    </ul>
+                     <ul class="menu-icon">
+                        <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
+                            <li class="dashboard"><i class="fa fa-address-book" aria-hidden="true"></i></li>
+                        </a>
+
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
+                           <li class="profile"><i class="fa fa-user" aria-hidden="true"></i></li>
+                        </a>
+
+                        <a style="text-decoration: none; color: black; display: none;" href="#">
+                            <li class="settings"><i class="fa fa-forumbee"></i></li>
+                        </a>
+
+                        <a style="text-decoration: none; color: black; display: none;" href="#">
+                            <li><i class="fa fa-file-arrow-up" aria-hidden="true"></i></li>
+                        </a>
+
+                        <a style="text-decoration: none; color: black; display: none;" href="#">
+                            <li class="project-info active"><i class="fa-solid fa-circle-info"></i></li>
+                        </a>
+
+                        <a style="text-decoration: none; color: black; display: none;" href="#">
+                            <li class="project-board"><i class="fa-solid fa-file"></i></li>
+                        </a>
+                        <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
                     </ul>
                 </div>
-                <div class="middle-icon">
+                <div class="middle-icon" style="margin-top: 15px;">
                     <i class="fa fa-caret-left" aria-hidden="true"></i>
                 </div>
+                <div class="middle-icon2" style="margin-top: -108px;">
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                </div>
 
-                <div class="bottom-calender">
+                <div class="bottom-calender" style="margin-top: 57px;">
                     <div class="top-month">
                         <button type="submit" class="previous-month-btn"><i class="fa fa-caret-left" aria-hidden="true"></i></button>
                         <p><span class="month"></span> <span class="year"></span></p>
@@ -251,146 +297,6 @@
                     <h3>Notifications</h3>
                     <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
                 </div>
-
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture5.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="request-notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture5.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <div class="request-content">
-                                <h5>Project invite</h5>
-                                <p class="request-message">Look for tasks that are associated with you, How about the progress of them ?</p>
-
-                                <div class="responses">
-                                    <button type="submit" id="rejectInviteBtn">Reject</button>
-                                    <button type="submit" id="acceptInviteBtn">Accept</button>
-                                </div>
-                            </div>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture5.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture5.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture1.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture1.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture1.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <hr>
-                    <div class="notification-details">
-                        <img src="/View/images/Picture1.png" alt="notificaton sender image">
-                        <div class="content">
-                            <div class="sender-and-project">
-                                <h4>Adam Fergouson</h4>
-                            </div>
-                            <p class="notification-content">Look for tasks that are associated with you, How about the progress of them ?</p>
-                            <div class="date-and-project">
-                                <p class="send-date">13-01-2023</p>
-                                <p class="notification-project">Mentcare Center Web App</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
 
             </div>
         </div>
