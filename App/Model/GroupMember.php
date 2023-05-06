@@ -11,7 +11,6 @@ class GroupMember
 
     private CrudUtil $crud_util;
     private object|array $group_data;
-    private array|object $group_member_data;
 
     public function __construct(string|int $project_id, string|int $group_id)
     {
@@ -42,36 +41,6 @@ class GroupMember
         } catch (\Exception $exception) {
             throw $exception;
         }
-    }
-
-    public function getGroupMembers(): bool
-    {
-        try {
-            $sql_string = "SELECT `user`.`username` AS `username`,
-                           `user`.user_status AS `status`,
-                           `user`.user_state AS `state`,
-                           `user`.profile_picture AS `profile_picture`,
-                           `group_join`.role AS `role`
-                            FROM `user`
-                            INNER JOIN
-                           `group_join` ON
-                           `group_join`.`group_id` = :group_id AND 
-                           `user`.`id` = `group_join`.`member_id`";
-            $this->crud_util->execute($sql_string, ["group_id" => $this->group_data->id]);
-            if (!$this->crud_util->hasErrors()) {
-                $this->group_member_data = $this->crud_util->getResults();
-                return true;
-            } else {
-                return false;
-            }
-        } catch (\Exception $exception) {
-            throw $exception;
-        }
-    }
-
-    public function getGroupMemberData(): array|null|object|bool
-    {
-        return $this->group_member_data;
     }
 
     public function getGroupData(): object|array

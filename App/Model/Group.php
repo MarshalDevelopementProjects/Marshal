@@ -270,25 +270,24 @@ class Group
                    ";
         $stat_per_week_sql_string = "
                     SELECT
-                    CONCAT(WEEK(`c_t`.`date`)  - WEEK(`p`.`start_on`) + 1) AS `week`,
+                    CONCAT(WEEK(`c_t`.`date`)  - WEEK(`g`.`start_date`) + 1) AS `week`,
                     COUNT(*) AS `no_of_completed_tasks`
                     FROM `completedtask` `c_t`
                     INNER JOIN `group_task` `g_t` ON `c_t`.task_id = `g_t`.task_id
                     INNER JOIN `task` `t` ON `c_t`.task_id = `g_t`.task_id
-                    INNER JOIN `project` `p` ON `t`.project_id = `p`.id
+                    INNER JOIN `groups` `g` ON `g_t`.group_id = `g`.id
                     WHERE `t`.status = 'DONE'
                       AND `g_t`.`group_id` = :group_id
                       AND `t`.`task_type` = 'group'
-                      AND `c_t`.`date` < `p`.`end_on`
                     GROUP BY `week`
-                    ORDER BY WEEK(`c_t`.`date`)   - WEEK(`p`.`start_on`) + 1;
+                    ORDER BY WEEK(`c_t`.`date`)   - WEEK(`g`.`start_date`) + 1;
         ";
         $this->crud_util->execute($task_details_sql_string, ["group_id" => $group_id]);
         if (!$this->crud_util->hasErrors()) {
             $this->group_data["task_details"] = $this->crud_util->getFirstResult();
             $this->crud_util->execute($stat_per_week_sql_string, ["group_id" => $group_id]);
             if (!$this->crud_util->hasErrors()) {
-                $this->group_data["stat_per_week_details"] = $this->crud_util->getFirstResult();
+                $this->group_data["stat_per_week_details"] = $this->crud_util->getResults();
                 return true;
             }
         }
