@@ -6,7 +6,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use App\CrudUtil\CrudUtil;
 
-class Admin implements Model
+class Admin
 {
     private $crud_util;
     private $admin_data;
@@ -47,7 +47,7 @@ class Admin implements Model
 
     // used to read administrator data a single user
     // this only performs a read by field
-    public function readAdmin(string $key, string|int $value)
+    public function readAdmin(string $key, string|int $value): bool
     {
         if ($key) {
             $sql_string = "SELECT * FROM `admin` WHERE `" . $key . "` = :" . $key;
@@ -68,7 +68,7 @@ class Admin implements Model
     }
 
     // create a single user
-    public function createUser(array $args = array())
+    public function createUser(array $args = array()): bool
     {
         if (!empty($args)) {
             $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `phone_number`)

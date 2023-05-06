@@ -7,7 +7,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 use App\CrudUtil\CrudUtil;
 use Exception;
 
-class PDF implements model
+class PDF
 {
     private CrudUtil $crud_util;
     private object|array|null $pdf_data;

@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\CrudUtil\CrudUtil;
 
-class Notification implements Model
+class Notification
 {
     private CrudUtil $crud_util;
 
@@ -142,8 +142,6 @@ class Notification implements Model
             throw $th;
         }
     }
-
-
 
     public function readNotification(array $args = array()){
 

@@ -7,7 +7,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 use App\CrudUtil\CrudUtil;
 use Exception;
 
-class Forum implements Model
+class Forum
 {
     private CrudUtil $crud_util;
 
@@ -376,9 +376,6 @@ class Forum implements Model
      * WHERE pm.project_id = [YOUR_PROJECT_ID] ORDER BY m.stamp;
      *
      * */
-
-
-
     public function getGroupFeedbackForumMessages(string|int $project_id, string|int $group_id): bool
     {
         // get all the messages in a project forum
