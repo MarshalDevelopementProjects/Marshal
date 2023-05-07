@@ -7,7 +7,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 use App\CrudUtil\CrudUtil;
 use Exception;
 
-class Forum implements Model
+class Forum
 {
     private CrudUtil $crud_util;
 

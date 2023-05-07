@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\CrudUtil\CrudUtil;
 
-class File implements Model
+class File
 {
     private CrudUtil $crud_util;
     public function __construct()

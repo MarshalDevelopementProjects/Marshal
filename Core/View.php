@@ -6,7 +6,7 @@ require __DIR__ . "/../vendor/autoload.php";
 
 class View
 {
-    public static function render(string|int $view, array $args = [])
+    public static function render(string|int $view, array $args = []): void
     {
         // access the view files relative to Core directory 
         $file = __DIR__ . '/../View/src';

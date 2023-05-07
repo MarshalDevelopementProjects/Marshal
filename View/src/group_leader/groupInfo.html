@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,10 +10,11 @@
     <link rel="stylesheet" href="/View/styles/user/calendar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <body>
-    
+
     <div class="container">
-        
+
         <div class="navbar">
             <div class="left-logo-area">
                 <a href="http://localhost/public/user/dashboard" style="text-decoration: none;">
@@ -31,11 +33,12 @@
             <div class="left-panel">
                 <div class="top-menus">
                     <ul class="menu">
-                        
-                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/dashboard" style="text-align: none;">
+
+                        <a style="text-decoration: none; color: black;" href="http://localhost/public/user/dashboard"
+                            style="text-align: none;">
                             <li class="dashboard">Dashboard</li>
                         </a>
-                       
+
                         <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
                             <li class="profile">Profile</li>
                         </a>
@@ -54,13 +57,13 @@
                             <li class="project-board">Project board</li>
                         </a>
                     </ul>
-                     <ul class="menu-icon">
+                    <ul class="menu-icon">
                         <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
                             <li class="dashboard"><i class="fa fa-address-book" aria-hidden="true"></i></li>
                         </a>
 
                         <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
-                           <li class="profile"><i class="fa fa-user" aria-hidden="true"></i></li>
+                            <li class="profile"><i class="fa fa-user" aria-hidden="true"></i></li>
                         </a>
 
                         <a style="text-decoration: none; color: black; display: none;" href="#">
@@ -90,9 +93,11 @@
 
                 <div class="bottom-calender" style="margin-top: 57px;">
                     <div class="top-month">
-                        <button type="submit" class="previous-month-btn"><i class="fa fa-caret-left" aria-hidden="true"></i></button>
+                        <button type="submit" class="previous-month-btn"><i class="fa fa-caret-left"
+                                aria-hidden="true"></i></button>
                         <p><span class="month"></span> <span class="year"></span></p>
-                        <button type="submit" class="next-month-btn"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                        <button type="submit" class="next-month-btn"><i class="fa fa-caret-right"
+                                aria-hidden="true"></i></button>
                     </div>
                     <div class="day-names">
                         <p>Mon</p>
@@ -104,7 +109,7 @@
                         <p>Sun</p>
                     </div>
                     <div class="days">
-                        
+
                     </div>
                 </div>
                 <div class="deadline-popup">
@@ -121,14 +126,18 @@
                 <div class="project-info">
                     <div class="project-info-top">
                         <h2><span id="groupIdentifier"></h2>
-                        <p id="invite-member-btn"><i class="fa fa-user-plus" aria-hidden="true"></i> Invite member</p>
                     </div>
-                    <p id="group-description">mHealth apps  between providers and patients. Patients can access and monitor their medical records/prescription details from the convenience of their own homes without visiting hospitals.
-                        <br> convenience of their own homes without visiting hospitals.</p>
+                    <p id="group-description">mHealth apps between providers and patients. Patients can access and
+                        monitor their medical records/prescription details from the convenience of their own homes
+                        without visiting hospitals.
+                        <br> convenience of their own homes without visiting hospitals.
+                    </p>
 
                     <div class="progress-bar">
                         <p id="start-date">25-10-22</p>
-                        <div class="bar"><div class="progress"></div></div>
+                        <div class="bar">
+                            <div class="progress"></div>
+                        </div>
                         <p id="end-date">10-02-2023</p>
                     </div>
 
@@ -149,13 +158,14 @@
                             </form> -->
 
                             <div class="feedbacks-headers">
-                                <h3 id="group-announcements">Group Announcements</h3>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                                <h3 id="group-announcements">Group Announcements</h3>
+                                &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
                                 <h3 id="leader-feedback">Leader Feedback</h3>
                             </div>
-                            
+
                             <div class="group-announcement-area">
                                 <div class="feedback-form">
-                                
+
                                     <div class="announcement">
                                         <img src="" alt="">
                                         <div class="announcement-details">
@@ -166,27 +176,33 @@
                                             <p class="announcement-detail-message"></p>
                                         </div>
                                     </div>
-    
+
                                 </div>
                                 <form class="group-announcements-form" method="post">
-                                    <label id="announcementHeading" for="announcementHeading">Announcement Heading</label>
-                                    <label id="announcement-down"><i class="fa fa-chevron-down" aria-hidden="true"></i></label>
+                                    <label id="announcementHeading" for="announcementHeading">Announcement
+                                        Heading</label>
+                                    <label id="announcement-down"><i class="fa fa-chevron-down"
+                                            aria-hidden="true"></i></label>
                                     <br>
-                                    <input required id="announcement-heading" type="text" name="announcementHeading" placeholder=" Enter announcement heading ...">
+                                    <input required id="announcement-heading" type="text" name="announcementHeading"
+                                        placeholder=" Enter announcement heading ...">
                                     <br>
                                     <label for="announcementMessage">Announcement Message</label>
                                     <br>
-                                    <input required id="announcement-message" type="text" name="announcementMessage" placeholder=" Enter announcement message ...">
-    
-                                    <button id="feedback-message-btn" type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                                    <input required id="announcement-message" type="text" name="announcementMessage"
+                                        placeholder=" Enter announcement message ...">
+
+                                    <button id="feedback-message-btn" type="submit"><i
+                                            class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
                                 </form>
-                                <p id="show-send-announcement-form" class="show-send-announcement-form"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp; add announcement</p>
-      
+                                <p id="show-send-announcement-form" class="show-send-announcement-form"><i
+                                        class="fa fa-plus" aria-hidden="true"></i> &nbsp; add announcement</p>
+
                             </div>
 
 
                             <div class="leader-feedback-area">
-                                <div id = "feedback-message-container" class="group-feedback-messages">
+                                <div id="feedback-message-container" class="group-feedback-messages">
 
                                     <!--<div class="incomming-feedback">
                                         <img src="/View/images/dp.png" alt="">
@@ -201,15 +217,16 @@
                                         <p class="outgoing-time">4.14 PM</p>
                                     </div>-->
                                 </div>
-        
+
                                 <form id="leader-feedback-form">
                                     <input type="text" name="feedbackMessage" placeholder=" Type something...">
-                                    <button type="submit"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                                    <button type="submit"><i class="fa fa-chevron-circle-right"
+                                            aria-hidden="true"></i></button>
                                 </form>
                             </div>
 
                         </div>
-                        
+
                     </div>
                 </div>
 
@@ -274,82 +291,103 @@
                         <img src="/View/images/chart.png" alt="">
                     </div>
                 </div>-->
-
-                <div class="member-list">
-                    <div id="leaders-list-container-div" class="project-members">
-                        <h3>Group Leader</h3>
-                        <!-- add the leaders here -->
+                <div id="container">
+                    <div class="main-container">
+                        <div class="invite-div">
+                            <p id="invite-member-btn"><i class="fa fa-user-plus" aria-hidden="true"></i> Invite member</p>
+                        </div>
+    
+                        <div class="member-list">
+                            <div id="leaders-list-container-div" class="project-members">
+                                <h3>Group Leader</h3>
+                                <!-- add the leaders here -->
+                            </div>
+    
+                            <div id="members-list-container-div" class="project-members">
+                                <h3>Group Members</h3>
+                                <!-- add the members here -->
+                            </div>
+                        </div>
                     </div>
-
-                    <div id="members-list-container-div" class="project-members">
-                        <h3>Group Members</h3>
-                        <!-- add the members here -->
+                    <div class="chart">
+                        <div class="chart-title">
+                            <div class="chart-1-title">
+                                <h4 id="chart-1" class="active">Task Statistics</h4>
+                            </div>
+                            <h4>|</h3>
+                            <div class="chart-2-title">
+                                <h4 id="chart-2">Task Statistics Weekly</h4>
+                            </div>
+                        </div>
+                        <canvas id="myChart"></canvas>
+                        <canvas id="myChart2"></canvas>
                     </div>
-                </div>
-
                     
                 </div>
+                
             </div>
         </div>
-        <div class="notification-popup-container">
-            <div class="notification-popup">
-                <div class="notification-popup-top">
-                    <h3>Notifications</h3>
-                    <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
+    </div>
+    <div class="notification-popup-container">
+        <div class="notification-popup">
+            <div class="notification-popup-top">
+                <h3>Notifications</h3>
+                <i class="fa fa-times notification-popup-close-btn" aria-hidden="true"></i>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="create-project-container">
+        <div class="create-project-popup">
+            <div class="create-project-top">
+                <div class="create-project-header">
+                    <h3>Let's create a workspace.</h3>
+                    <p>Make it simpler for everyone to access boards in one place to increase productivity.</p>
                 </div>
-
+                <i class="fa fa-times create-project-popup-close" aria-hidden="true"></i>
             </div>
-        </div>
+            <div class="create-project-details">
+                <div class="create-project-form">
+                    <form action="#" method="post">
+                        <label for="projectName">Project Name</label>
+                        <br>
+                        <input type="text" name="projectName" placeholder="Enter project name ...">
+                        <br>
+                        <p>Your business, group, or organization's name is here.</p>
 
-        <div class="create-project-container">
-            <div class="create-project-popup">
-                <div class="create-project-top">
-                    <div class="create-project-header">
-                        <h3>Let's create a workspace.</h3>
-                        <p>Make it simpler for everyone to access boards in one place to increase productivity.</p>
-                    </div>
-                    <i class="fa fa-times create-project-popup-close" aria-hidden="true"></i>
+                        <label for="projectType">Project Type</label>
+                        <br>
+                        <input type="text" name="projectType" placeholder="Enter project type ...">
+
+                        <br>
+                        <label for="projectDescription">Project Description</label>
+                        <br>
+                        <input type="text" id="projectDescription" name="projectDescription"
+                            placeholder="Please enter something on your project ... ">
+
+                        <br>
+                        <button type="submit">CREATE</button>
+                    </form>
                 </div>
-                <div class="create-project-details">
-                    <div class="create-project-form">
-                        <form action="#" method="post">
-                            <label for="projectName">Project Name</label>
-                            <br>
-                            <input type="text" name="projectName" placeholder="Enter project name ...">
-                            <br>
-                            <p>Your business, group, or organization's name is here.</p>
-    
-                            <label for="projectType">Project Type</label>
-                            <br>
-                            <input type="text" name="projectType" placeholder="Enter project type ...">
-    
-                            <br>
-                            <label for="projectDescription">Project Description</label>
-                            <br>
-                            <input type="text" id="projectDescription" name="projectDescription" placeholder="Please enter something on your project ... ">
-    
-                            <br>
-                            <button type="submit">CREATE</button>
-                        </form>
-                    </div>
-                    <img src="/View/images/project_create.png" alt="project_create">
-                </div>
+                <img src="/View/images/project_create.png" alt="project_create">
             </div>
         </div>
+    </div>
 
 
-        <div class="invite-popup">
-            <h3>Invite group member</h3>
-            <label for="username">Username</label>
-            <br>
-            <input type="text" name="username" placeholder="Enter username">
-            <div class="buttons">
-                <button type="submit" id="inviteBtn">Send</button>
-                <button type="submit" id="closeBtn">Close</button>
-            </div>
+    <div class="invite-popup">
+        <h3>Invite group member</h3>
+        <label for="username">Username</label>
+        <br>
+        <input type="text" name="username" placeholder="Enter username">
+        <div class="buttons">
+            <button type="submit" id="inviteBtn">Send</button>
+            <button type="submit" id="closeBtn">Close</button>
         </div>
+    </div>
 
-        
+
     </div>
     <script>
         var jsonData = JSON.parse('<?= $data; ?>');
@@ -361,6 +399,7 @@
     <script src="/View/js/user/createProject.js"></script>
     <script src="/View/js/user/sidebar.js"></script>
     <script src="/View/js/group_leader/feedback_forum.js"></script>
-</body>
-</html>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/View/js/group_leader/chart.js"></script>
 
+</html>

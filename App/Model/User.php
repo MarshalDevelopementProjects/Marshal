@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\CrudUtil\CrudUtil;
 
-class User implements Model
+class User
 {
     private $crud_util = null, $user_data = null;
 
@@ -25,7 +25,7 @@ class User implements Model
         }
     }
 
-    public function createUser(array $args = array())
+    public function createUser(array $args = array()): bool
     {
         if (!empty($args)) {
             $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `verification_code`)
@@ -41,7 +41,7 @@ class User implements Model
         return false;
     }
 
-    public function updateState(string|int $id, string $user_state = "OFFLINE")
+    public function updateState(string|int $id, string $user_state = "OFFLINE"): bool
     {
         try {
             $sql_string = "UPDATE `user` SET `user_state` = :user_state WHERE `id` = :id";
@@ -52,7 +52,7 @@ class User implements Model
         }
     }
 
-    public function updatePassword(string|int $id, string $new_password)
+    public function updatePassword(string|int $id, string $new_password): bool
     {
         try {
             $sql_string = "UPDATE `user` SET `password` = :password WHERE `id` = :id";
@@ -65,7 +65,7 @@ class User implements Model
         }
     }
 
-    public function updateVerificationCode(string|int $id, int|string $verification_code)
+    public function updateVerificationCode(string|int $id, int|string $verification_code): bool
     {
         try {
             $sql_string = "UPDATE `user` SET `verification_code` = :verification_code WHERE `id` = :id";
@@ -93,7 +93,8 @@ class User implements Model
             throw $exception;
         }
     }
-    public function readMember(string $key, string|int $value)
+
+    public function readMember(string $key, string|int $value): object|bool|array|int|null
     {
         // example format => "SELECT * FROM users WHERE id = :id";
         $sql_string = "SELECT * FROM `user` WHERE `" . $key . "` = :" . $key;
@@ -108,6 +109,7 @@ class User implements Model
             throw $exception;
         }
     }
+
     public function getAllUsers(array $args, string $condition)
     {
 
@@ -124,6 +126,7 @@ class User implements Model
             throw $th;
         }
     }
+
     public function getUserProfiles(array $args, string $condition)
     {
 
@@ -141,7 +144,7 @@ class User implements Model
         }
     }
 
-    public function updateProfilePicture(string|int $id, string $value)
+    public function updateProfilePicture(string|int $id, string $value): bool
     {
         $sql_string = "UPDATE `user` SET `profile_picture` = :profile_picture WHERE `id` =:id";
         try {
@@ -152,7 +155,7 @@ class User implements Model
         }
     }
 
-    public function updateUser(string|int $id, array $args)
+    public function updateUser(string|int $id, array $args): bool
     {
         try {
             $sql_string = "UPDATE `user` SET
@@ -173,7 +176,7 @@ class User implements Model
         }
     }
 
-    public function updateVerified(string|int $id, string $value)
+    public function updateVerified(string|int $id, string $value): bool
     {
         try {
             $sql_string = "UPDATE `user` SET
@@ -185,12 +188,6 @@ class User implements Model
         } catch (\Exception $exception) {
             throw $exception;
         }
-    }
-
-    // handle with care
-    public function delete(string $id = null)
-    {
-        throw new \Exception("Not implemented");
     }
 
     public function checkUserRole(string|int $req_id, string $role, string $type): bool
@@ -244,6 +241,7 @@ class User implements Model
             throw $th;
         }
     }
+
     public function getCommit(string|int $id)
     {
         $sql_string = "SELECT *

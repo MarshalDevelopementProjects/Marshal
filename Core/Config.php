@@ -17,7 +17,7 @@ class Config
      * @static
      * @var array $config contains the configurations
      */
-    private static $config = array(
+    private static array $config = array(
         'mysql' => array(
             'host' => 'localhost',
             'username' => 'root',

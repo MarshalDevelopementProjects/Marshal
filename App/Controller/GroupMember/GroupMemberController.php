@@ -113,6 +113,7 @@ class GroupMemberController extends ProjectMemberController
 
     /**
      * @throws Exception
+     * @throws \Throwable
      */
     public function getForum(): void
     {
@@ -124,11 +125,14 @@ class GroupMemberController extends ProjectMemberController
                 "group_id" => $_SESSION["group_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
                 "messages" => $this->forum->getGroupForumMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"]) ? $this->forum->getMessageData() : [],
-                "members" =>  $this->groupMember->getGroupMembers() ? $this->groupMember->getGroupMemberData() : [],
+                "members" =>  $this->group->getGroupMembers_(group_id: $_SESSION["group_id"]) ? $this->group->getGroupMemberData() : [],
             ]
         );
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function getGroupAnnouncements()
     {
         $messageController = new MessageController();
@@ -156,6 +160,9 @@ class GroupMemberController extends ProjectMemberController
         );
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function sendTaskFeedback()
     {
         $data = json_decode(file_get_contents('php://input'));
@@ -331,7 +338,7 @@ class GroupMemberController extends ProjectMemberController
         try {
             if (array_key_exists("task_id", $args) && !empty($args["task_id"])) {
                 if ($this->forum->getGroupTaskFeedbackMessages(project_id: $_SESSION["project_id"], group_id: $_SESSION["group_id"], task_id: $args["task_id"])) {
-                    $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->groupMember->getMessageData() ?? []]);
+                    $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->forum->getMessageData() ?? []]);
                 } else {
                     $this->sendJsonResponse("error", ["message" => "Group is not valid"]);
                 }
