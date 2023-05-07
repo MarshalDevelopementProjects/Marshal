@@ -6,21 +6,6 @@ require __DIR__ . "/../vendor/autoload.php";
 
 use Core\View;
 
-/**
- * Class description
- * 
- * Class encapsulates the actions needed to send JSON responses to requesting clients
- * in a specific format
- * 
- * @method static void sendResponse() - sends a JSON encoded response to the client
- *                                the format is as follows,
- *                                {
- *                                    "message": "message body",
- *                                    "content": if there is content to be sent this will be included in here as well
- *                                }
- * 
- */
-
 class Response
 {
     /*

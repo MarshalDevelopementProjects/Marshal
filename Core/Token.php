@@ -9,7 +9,7 @@ use Core\Config;
 class Token
 {
     // current secret
-    protected $secret = 'secret';
+    private string $secret = 'secret';
 
     public function __construct(protected $algorithm = 'SHA256', protected $type = "JWT")
     {

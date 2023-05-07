@@ -44,7 +44,7 @@ class Cookie
                 "domain" => "",
                 "samesite" => "None"
             ]
-        ) ? true : false;
+        );
     }
 
     /**

@@ -93,6 +93,7 @@ class User
             throw $exception;
         }
     }
+
     public function readMember(string $key, string|int $value): object|bool|array|int|null
     {
         // example format => "SELECT * FROM users WHERE id = :id";
@@ -108,6 +109,7 @@ class User
             throw $exception;
         }
     }
+
     public function getAllUsers(array $args, string $condition)
     {
 
@@ -124,6 +126,7 @@ class User
             throw $th;
         }
     }
+
     public function getUserProfiles(array $args, string $condition)
     {
 

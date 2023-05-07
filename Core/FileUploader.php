@@ -64,7 +64,7 @@ class FileUploader
         }
     }
 
-    public static function performChecksAndUpload(
+    private static function performChecksAndUpload(
         array $allowed_file_types,
         string|array $field_to_look_for,
         string $upload_to,
