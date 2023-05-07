@@ -66,37 +66,54 @@ class UserController extends Controller
         $user = new User();
 
         $Projects = array();
+        $archivedProjects = array();
+        $user_projects = array();
+
         if ($project->readProjectsOfUser($payload->id)) {
             $Projects = $project->getProjectData();
 
-            foreach($Projects as $projectData) {
+            foreach ($Projects as $projectData) {
                 // get ongoing tasks
                 $ongoingTasks = [];
                 $tasks = $task->getTasks(array("project_id" => $projectData->id, "status" => "ONGOING"), array("project_id", "status"));
-                
-                if($tasks){
-                    foreach($tasks as $taskData) {
-                        
+
+                if ($tasks) {
+                    foreach ($tasks as $taskData) {
+
                         array_push($ongoingTasks, $taskData);
                     }
                 }
-                if($ongoingTasks){
+                if ($ongoingTasks) {
                     $projectData->tasks = $ongoingTasks;
-                }else{
+                } else {
                     $projectData->tasks = array();
                 }
-                
+                if ($projectData->created_by == $payload->id) {
+                    $projectData->isLeader = true;
+                } else {
+                    $projectData->isLeader = false;
+                }
+
+
                 // get project member profiles
                 $condition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id AND ( role = :role OR role = :role2))";
                 $projectData->memberProfiles = $user->getUserProfiles(array("project_id" => $projectData->id, "role" => "MEMBER", "role2" => "LEADER"), $condition);
-
             }
-              
         }
-        $data += array("projects" => $Projects);
+
+        foreach ($Projects as $user_project) {
+            if ($user_project->archived === 0) {
+                array_push($user_projects, $user_project);
+            } else {
+                array_push($archivedProjects, $user_project);
+            }
+        }
+
+        $data += array("projects" => $user_projects);
+        $data += array("archived_projects" => $archivedProjects);
 
         $userData = array();
-        if($user->readUser("id", $payload->id)){
+        if ($user->readUser("id", $payload->id)) {
             $userData = $user->getUserData();
         }
         $profile = $userData->profile_picture;
@@ -135,11 +152,80 @@ class UserController extends Controller
             //     // content: array("message" => "User cannot access this project")
             // );
             $this->defaultAction();
-            
         } catch (Exception $exception) {
             throw $exception;
         }
     }
+
+    public function unarchiveProject()
+    {
+        $data = json_decode(file_get_contents('php://input'));
+
+        $payload = $this->userAuth->getCredentials(); // get the payload content
+        $project = new Project($payload->id);
+
+        $columns = array("archived");
+        $conditions = array("id");
+        $args = array("archived" => 0, "id" => $data->id);
+
+        try {
+            $project->update($columns, $conditions, $args);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => "unarchived the project"
+            ]
+        );
+    }
+    public function archiveProject()
+    {
+
+        $payload = $this->userAuth->getCredentials(); // get the payload content
+        $project = new Project($payload->id);
+
+        $columns = array("archived");
+        $conditions = array("id");
+        $args = array("archived" => 1, "id" => $_SESSION['project_id']);
+
+        try {
+            $project->update($columns, $conditions, $args);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => "archived the project"
+            ]
+        );
+    }
+
+    public function deleteProject()
+    {
+        $data = json_decode(file_get_contents('php://input'));
+
+        $payload = $this->userAuth->getCredentials(); // get the payload content
+        $project = new Project($payload->id);
+
+        $conditions = array("id");
+        $args = array("id" => $data->id);
+
+        try {
+            $project->delete($conditions, $args);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => "delete the project"
+            ]
+        );
+    }
+
 
     public function viewProjects(): void
     {
@@ -147,11 +233,19 @@ class UserController extends Controller
             $payload = $this->userAuth->getCredentials(); // get the payload content
             $project = new Project($payload->id);
             if ($project->readProjectsOfUser($payload->id)) {
+                $projects = $project->getProjectData();
+
+                $user_projects = [];
+                foreach ($projects as $userproject) {
+                    if ($userproject->archived === 0) {
+                        $user_projects += $userproject;
+                    }
+                }
                 $this->sendJsonResponse(
                     "success",
                     array(
                         "message" => "user projects",
-                        "projects" => $project->getProjectData() // this is an array of objects
+                        "projects" => $user_projects // this is an array of objects
                     )
                 );
             } else {
@@ -179,13 +273,13 @@ class UserController extends Controller
                             "task_type" => "project"
                         );
                         $projectController = new ProjectController();
-                        
+
                         $data = array();
                         $data['tasks'] = $projectController->getProjectTasks($args, $payload->id);
 
                         // get project details as well
                         $projectData = array();
-                        if($project->readProjectData($_SESSION['project_id'])){
+                        if ($project->readProjectData($_SESSION['project_id'])) {
                             $projectData = $project->getProjectData();
                         }
                         $data['projectName'] = $projectData[0]->project_name;
@@ -193,7 +287,7 @@ class UserController extends Controller
                         // get user profile
                         $user = new User();
 
-                        if($user->readUser("id", $payload->id)){
+                        if ($user->readUser("id", $payload->id)) {
                             $data += array("profile" => $user->getUserData()->profile_picture);
                         }
                         $data += $this->getTaskDeadlines();
@@ -226,18 +320,18 @@ class UserController extends Controller
                             "task_type" => "project"
                         );
                         $projectController = new ProjectController();
-                        
+
                         $data['tasks'] = $projectController->getProjectTasks($args, $payload->id);
                         $data += $this->getTaskDeadlines();
 
-                         // get project details as well
-                         $projectData = array();
-                         if($project->readProjectData($_SESSION['project_id'])){
-                             $projectData = $project->getProjectData();
-                         }
-                         $data['projectName'] = $projectData[0]->project_name;
+                        // get project details as well
+                        $projectData = array();
+                        if ($project->readProjectData($_SESSION['project_id'])) {
+                            $projectData = $project->getProjectData();
+                        }
+                        $data['projectName'] = $projectData[0]->project_name;
 
-                         $data["user_data"] = ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,];
+                        $data["user_data"] = ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,];
 
                         $this->sendResponse(
                             view: "/project_member/dashboard.html",
@@ -246,13 +340,13 @@ class UserController extends Controller
                         );
                         break;
                     default: {
-                        unset($_SESSION["project_id"]);
-                        $this->sendResponse(
-                            view: "/errors/403.html",
-                            status: "unauthorized",
-                            content: array("message" => "User cannot access this project")
-                        );
-                    }
+                            unset($_SESSION["project_id"]);
+                            $this->sendResponse(
+                                view: "/errors/403.html",
+                                status: "unauthorized",
+                                content: array("message" => "User cannot access this project")
+                            );
+                        }
                 }
             } else {
                 $this->sendResponse(
@@ -287,10 +381,10 @@ class UserController extends Controller
                         "position" => $user_data->position,
                         "display_picture" => $user_data->profile_picture,
                         "bio" => $user_data->bio,
-                        "commits"=> $this->user->getCommit($user_data->id)
+                        "commits" => $this->user->getCommit($user_data->id)
                     ),
                     "other_info" => array()
-                )+$this->getTaskDeadlines()
+                ) + $this->getTaskDeadlines()
             );
         } catch (Exception $exception) {
             $this->sendJsonResponse("forbidden", array("message" => "User cannot be identified"));
@@ -445,13 +539,13 @@ class UserController extends Controller
             // header("Location: http://localhost/public/user/dashboard");
             // $this->clickOnNotification();
             $notification->readNotification(array("notification_id" => $notificationId, "member_id" => $userId));
-
         }
         // we should send the notification to leader to inform our response
         $this->sendResponseNotification($notificationId, $projectId);
     }
 
-    public function clickOnNotification(){
+    public function clickOnNotification()
+    {
         $notification_id = $_GET['data'];
         $payload = $this->userAuth->getCredentials();
 
@@ -542,7 +636,7 @@ class UserController extends Controller
         }
     }
 
-    public function getNotifications():array|object
+    public function getNotifications(): array|object
     {
         $payload = $this->userAuth->getCredentials();
 
@@ -551,17 +645,16 @@ class UserController extends Controller
         $project = new Project($payload->id);
         $payload = $this->userAuth->getCredentials();
 
-        $condition = " WHERE id IN (SELECT notification_id FROM notification_recievers WHERE member_id = " .$payload->id. " AND isRead = 0)";
+        $condition = " WHERE id IN (SELECT notification_id FROM notification_recievers WHERE member_id = " . $payload->id . " AND isRead = 0)";
         $notifications = [];
         try {
             $notifications = $notification->getNotifications($condition);
-
         } catch (\Throwable $th) {
             throw $th;
         }
 
-        if($notifications){
-            foreach($notifications as $notification) {
+        if ($notifications) {
+            foreach ($notifications as $notification) {
                 $user->readUser("id", $notification->sender_id);
                 $sender = $user->getUserData();
                 $notification->sender_name = $sender->first_name . " " . $sender->last_name;
@@ -578,16 +671,17 @@ class UserController extends Controller
         );
     }
 
-    public function getTaskDeadlines(){
+    public function getTaskDeadlines()
+    {
         $payload = $this->userAuth->getCredentials();
 
         $task = new Task();
         $tasks = $task->getTasks(array("status" => "ONGOING", "member_id" => $payload->id), array("status", "member_id"));
         // var_dump($tasks);
         $deadlines = [];
-        if($tasks){
-            foreach($tasks as $taskData) {
-                if( explode(" ", $taskData->deadline)[0] != "0000-00-00"){
+        if ($tasks) {
+            foreach ($tasks as $taskData) {
+                if (explode(" ", $taskData->deadline)[0] != "0000-00-00") {
                     $deadlines[] = array("deadline" => explode(" ", $taskData->deadline)[0], "task_name" => $taskData->task_name);
                 }
             }

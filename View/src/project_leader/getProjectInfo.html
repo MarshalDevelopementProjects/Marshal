@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/View/styles/user/calendar.css">
     <link rel="stylesheet" href="/View/styles/project_leader/project_info.css">
     <link rel="stylesheet" href="/View/styles/user/notification.css">
+    <link rel="stylesheet" href="/View/styles/project_member/archive_confirm_popup.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -50,7 +51,7 @@
                             style="text-decoration: none; color: #333;">
                             <li class="project-info active">Project Info</li>
                         </a>
-                        <li class="sketch-idea" style="display: none;"></li>
+                        <li class="archived">archived</li>
                     </ul>
                     <ul class="menu-icon">
                         <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
@@ -217,6 +218,14 @@
                 
 
                     
+                </div>
+            </div>
+            <div class="confirm-archive-popup">
+                <p class="confirm-msg">Are you sure to archive this project ?</p>
+
+                <div class="confirm-btns">
+                    <p class="archive-btn">Archive</p>
+                    <p class="cancel-btn">Cancel</p>
                 </div>
             </div>
         </div>
