@@ -274,7 +274,7 @@ class Group
                     COUNT(*) AS `no_of_completed_tasks`
                     FROM `completedtask` `c_t`
                     INNER JOIN `group_task` `g_t` ON `c_t`.task_id = `g_t`.task_id
-                    INNER JOIN `task` `t` ON `t`.task_id = `g_t`.task_id
+                    INNER JOIN `task` `t` ON `t`.task_id = `c_t`.task_id
                     INNER JOIN `groups` `g` ON `g_t`.group_id = `g`.id
                     WHERE `t`.status = 'DONE'
                       AND `g_t`.`group_id` = :group_id
