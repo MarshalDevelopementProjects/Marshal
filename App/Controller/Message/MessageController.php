@@ -2,10 +2,7 @@
 
 namespace App\Controller\Message;
 
-use App\Controller\Authenticate\UserAuthController;
-use App\Controller\Controller;
 use App\Model\Message;
-use Core\Validator\Validator;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 

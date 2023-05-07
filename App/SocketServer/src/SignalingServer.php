@@ -13,9 +13,6 @@ use Exception;
 
 class SignalingServer implements MessageComponentInterface
 {
-
-    private SplObjectStorage $clients;
-
     private array $channels;
 
     public function __construct()
@@ -26,7 +23,6 @@ class SignalingServer implements MessageComponentInterface
                 "forum" => array()
             ),
         );
-        $this->clients = new SplObjectStorage();
     }
 
     function onOpen(ConnectionInterface $conn): void
