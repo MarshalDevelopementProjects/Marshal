@@ -299,3 +299,43 @@ leaderFeedback.addEventListener('click', () => {
 //       console.error(error)
 //   })
 // })
+
+
+const archivedBtn = document.querySelector(".archived"),
+      confirmArchivePopup = document.querySelector(".confirm-archive-popup"),
+      rightPanel = document.querySelector(".right-panel"),
+      archiveCancelBtn = document.querySelector(".cancel-btn"),
+      projectInfoBtn = document.querySelector(".project-info"),
+      confirmArchiveBtn = document.querySelector('.archive-btn');
+
+archivedBtn.addEventListener("click", () => {
+    confirmArchivePopup.classList.add("active")
+    rightPanel.classList.add("archive");
+    projectInfoBtn.classList.remove("active")
+    archivedBtn.classList.add("active")
+});
+
+archiveCancelBtn.addEventListener("click", () => {
+    confirmArchivePopup.classList.remove("active")
+    rightPanel.classList.remove("archive");
+    projectInfoBtn.classList.add("active");
+    archivedBtn.classList.remove("active");
+});
+
+confirmArchiveBtn.addEventListener("click", function(){
+  
+    fetch("http://localhost/public/user/archiveproject", {
+      withCredentials: true,
+        credentials: "include",
+        mode: "cors",
+        method: "GET"
+    })
+    .then(response => response.json())
+    .then(data => {
+          console.log(data)
+          location.replace("http://localhost/public/user/dashboard")
+    })
+    .catch((error) => {
+        console.error(error)
+    })
+})
