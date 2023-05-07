@@ -41,6 +41,9 @@ $router->get('/admin/login', AdminAuthController::class . '::onAdminLogin');
 $router->post('/admin/login', AdminAuthController::class . '::onAdminLogin');
 
 $router->get('/user/dashboard', UserController::class . '::defaultAction');
+$router->post('/user/unarchive', UserController::class . '::unarchiveProject');
+$router->get('/user/archiveproject', UserController::class . '::archiveProject');
+$router->post('user/deleteproject', UserController::class . '::deleteProject');
 $router->get('/admin/dashboard', AdminController::class . '::defaultAction');
 $router->get('/client/dashboard', ClientController::class . '::defaultAction');
 
