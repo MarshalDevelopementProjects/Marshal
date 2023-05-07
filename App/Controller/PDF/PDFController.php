@@ -38,10 +38,6 @@ class PDFController
                           }
                           ";
 
-    public function __construct()
-    {
-    }
-
     /**
      * Method description
      * @param string $path_to_html_markup

@@ -48,7 +48,7 @@ class ProjectMemberController extends UserController
         }
     }
 
-    public function defaultAction(Object|array|string|int $data = null)
+    public function defaultAction(Object|array|string|int $data = null): void
     {
     }
 

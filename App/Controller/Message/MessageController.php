@@ -13,10 +13,7 @@ class MessageController
 {
     // public $key = 'mysecretkey12345';
 
-    public function defaultAction(Object|array|string|int $optional = null){
-    }
-
-    public function encryptMessage($message) {
+/*    public function encryptMessage($message) {
         $key = 'mysecretkey12345';
         $iv = random_bytes(openssl_cipher_iv_length('aes-256-cbc'));
       
@@ -38,9 +35,7 @@ class MessageController
         $decrypted = openssl_decrypt($encrypted, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
       
         return $decrypted;
-    }
-    
-
+    }*/
 
     public function send(array $args, array $keys):bool{
         

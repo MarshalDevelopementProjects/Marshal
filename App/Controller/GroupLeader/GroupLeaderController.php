@@ -40,16 +40,6 @@ class GroupLeaderController extends GroupMemberController
         }
     }
 
-    public function defaultAction(Object|array|string|int $optional = null)
-    {
-    }
-
-    public function auth(): bool
-    {
-        // TODO: COMPLETE THE AUTH
-        return parent::auth();
-    }
-
     public function createTask($args)
     {
         if ($args['taskname'] && $args['taskdescription']) {

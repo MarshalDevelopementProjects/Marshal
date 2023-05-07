@@ -43,18 +43,6 @@ class ClientController extends UserController
         }
     }
 
-    public function defaultAction(Object|array|string|int $data = null)
-    {
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function auth(): bool
-    {
-        return parent::auth();
-    }
-
     // save the message to the project table
     // $args format {"message" => "message string"}
     public function postMessageToProjectFeedback(array|object $args): void

@@ -42,16 +42,6 @@ class GroupMemberController extends ProjectMemberController
         }
     }
 
-    public function defaultAction(Object|array|string|int $optional = null)
-    {
-    }
-
-    public function auth(): bool
-    {
-        // TODO: COMPLETE THE AUTH
-        return parent::auth();
-    }
-
     /**
      * @throws \Throwable
      */
@@ -308,7 +298,7 @@ class GroupMemberController extends ProjectMemberController
         }
     }
 
-    // $args must follow this format
+  /*  // $args must follow this format
     // ["task_id" => "TaskID", "message" => "content of the message"]
     public function postMessageToGroupTaskFeedback(array $args): void
     {
@@ -348,5 +338,5 @@ class GroupMemberController extends ProjectMemberController
         } catch (Exception $exception) {
             throw $exception;
         }
-    }
+    }*/
 }

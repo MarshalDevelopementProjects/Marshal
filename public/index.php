@@ -27,8 +27,6 @@ use App\Controller\ProjectMember\ProjectMemberController;
 
 $router = new Router();
 
-// REMEMBER +> GET methods is used to create a resource and serve it
-
 $router->get('/', IndexController::class . '::defaultAction');
 
 $router->get('/user/login', UserAuthController::class . '::onUserLogin');

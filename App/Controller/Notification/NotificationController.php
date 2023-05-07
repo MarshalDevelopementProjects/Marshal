@@ -8,9 +8,6 @@ use App\Model\Notification;
 
 class NotificationController{
     
-    public function defaultAction(Object|array|string|int $optional = null){
-    }
-
     public function setNotification(array $args):int{
 
         /* args format is 

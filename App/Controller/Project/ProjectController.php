@@ -18,9 +18,6 @@ class ProjectController
     public function __construct()
     {
     }
-    public function defaultAction(Object|array|string|int $optional = null)
-    {
-    }
 
     public function getProjectTasks(array $args = array(), $user_id = null)
     {

@@ -41,10 +41,6 @@ class ProjectLeaderController extends ProjectMemberController
         }
     }
 
-    public function defaultAction(Object|array|string|int $data = null)
-    {
-    }
-
     public function getProjectInfo()
     {
         // print_r($_SESSION);
@@ -464,8 +460,8 @@ class ProjectLeaderController extends ProjectMemberController
             content: [
                 "project_id" => $_SESSION["project_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
-                "messages" => $this->projectLeader->getForumMessages() ? $this->projectLeader->getMessageData() : [],
-                "members" =>  $this->projectLeader->getProjectMembers() ? $this->projectLeader->getProjectMemberData() : [],
+                "messages" => $this->forum->getForumMessages(project_id: $_SESSION["project_id"]) ? $this->forum->getMessageData() : [],
+                "members" =>  $this->project->getProjectMembers(project_id: $_SESSION["project_id"]) ? $this->project->getProjectMemberData() : [],
             ] + parent::getTaskDeadlines()
         );
     }
