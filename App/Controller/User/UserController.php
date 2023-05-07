@@ -67,6 +67,9 @@ class UserController extends Controller
         $user = new User();
 
         $Projects = array();
+        $archivedProjects = array();
+        $user_projects = array();
+
         if ($project->readProjectsOfUser($payload->id)) {
             $Projects = $project->getProjectData();
 
@@ -86,6 +89,12 @@ class UserController extends Controller
                 }else{
                     $projectData->tasks = array();
                 }
+                if($projectData->created_by == $payload->id){
+                    $projectData->isLeader = true;
+                }else{
+                    $projectData->isLeader = false;
+                }
+                
                 
                 // get project member profiles
                 $condition = "WHERE id IN (SELECT member_id FROM project_join WHERE project_id = :project_id AND ( role = :role OR role = :role2))";
@@ -94,7 +103,17 @@ class UserController extends Controller
             }
               
         }
-        $data += array("projects" => $Projects);
+
+        foreach ($Projects as $user_project){
+            if ($user_project->archived === 0){
+                array_push($user_projects, $user_project);
+            }else{
+                array_push($archivedProjects, $user_project);
+            }
+        }
+
+        $data += array("projects" => $user_projects);
+        $data += array("archived_projects" => $archivedProjects);
 
         $userData = array();
         if($user->readUser("id", $payload->id)){
@@ -142,17 +161,98 @@ class UserController extends Controller
         }
     }
 
+    public function unarchiveProject(){
+        $data = json_decode(file_get_contents('php://input'));
+
+        $payload = $this->userAuth->getCredentials(); // get the payload content
+        $project = new Project($payload->id);
+
+        $columns = array("archived");
+        $conditions = array("id");
+        $args = array("archived" => 0, "id" => $data->id);
+
+        try {
+            $project->update($columns, $conditions, $args);
+            
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => "unarchived the project"
+            ]
+        );
+
+    }
+    public function archiveProject(){
+
+        $payload = $this->userAuth->getCredentials(); // get the payload content
+        $project = new Project($payload->id);
+
+        $columns = array("archived");
+        $conditions = array("id");
+        $args = array("archived" => 1, "id" => $_SESSION['project_id']);
+
+        try {
+            $project->update($columns, $conditions, $args);
+            
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => "archived the project"
+            ]
+        );
+
+    }
+
+    public function deleteProject(){
+        $data = json_decode(file_get_contents('php://input'));
+
+        $payload = $this->userAuth->getCredentials(); // get the payload content
+        $project = new Project($payload->id);
+
+        $conditions = array("id");
+        $args = array("id" => $data->id);
+
+        try {
+            $project->delete($conditions, $args);
+            
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => "delete the project"
+            ]
+        );
+
+    }
+
+
     public function viewProjects()
     {
         try {
             $payload = $this->userAuth->getCredentials(); // get the payload content
             $project = new Project($payload->id);
             if ($project->readProjectsOfUser($payload->id)) {
+                $projects = $project->getProjectData();
+
+                $user_projects = [];
+                foreach ($projects as $userproject){
+                    if ($userproject->archived === 0){
+                        $user_projects += $userproject;
+                    }
+                }
                 $this->sendJsonResponse(
                     "success",
                     array(
                         "message" => "user projects",
-                        "projects" => $project->getProjectData() // this is an array of objects
+                        "projects" => $user_projects // this is an array of objects
                     )
                 );
             } else {
