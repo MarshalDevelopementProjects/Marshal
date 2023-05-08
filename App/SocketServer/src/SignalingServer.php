@@ -6,7 +6,6 @@ require __DIR__ . '/../../../vendor/autoload.php';
 
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
-use SplObjectStorage;
 use Exception;
 
 // TODO: INCLUDE DOCS FOR SIGNALING SERVER ROUTES
