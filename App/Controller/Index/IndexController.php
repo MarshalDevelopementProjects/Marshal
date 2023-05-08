@@ -14,7 +14,7 @@ class IndexController extends UserAuthController
     parent::__construct();
   }
 
-  public function defaultAction(Object|array|string|int $optional = null)
+  public function defaultAction(Object|array|string|int $optional = null): void
   {
     if (parent::isLogged()) {
       if ((parent::getCredentials()->primary_role == "admin")) {

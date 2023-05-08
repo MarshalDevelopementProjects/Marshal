@@ -1,37 +1,7 @@
-// console.log(jsonData)
+console.log(jsonData)
 
-// const toastContainer = document.querySelector('.toast-notification');
-// const notificationCloseBtn = document.querySelector('.close-btn');
-// var toastNotificationTimeout = 5000;
+let archivedPopupShow = false;
 
-// setTimeout(() => {
-//     toastContainer.classList.add('active');
-// }, 1000);
-// setTimeout(() => {
-//     toastContainer.classList.remove('active');
-// }, toastNotificationTimeout);
-
-// // console.log(toastNotificationTimeout)
-
-// notificationCloseBtn.addEventListener('click', () => toastContainer.classList.remove('active'));
-
-/* --------------------added separate file notificationPopup--------------------------------*/ 
-// const notificationPopupBtn = document.querySelector('.notification-bell-btn')
-// const notificationPopup = document.querySelector('.notification-popup-container');
-// const notificationPopupCloseBtn = document.querySelector('.notification-popup-close-btn');
-// const notificationPopupContainer = document.querySelector('.notification-popup-container');
-// const container = document.querySelector('.container');
-
-// notificationPopupBtn.addEventListener('click', () => notificationPopup.classList.add('active'));
-// notificationPopupCloseBtn.addEventListener('click', () => notificationPopup.classList.remove('active'));
-// // notificationPopup.addEventListener('click', () => notificationPopup.classList.remove('active'))
-/*---------------------------------------------------------------------------------------------------------- */
-
-
-//$notifications = [];
-
-// check notifications for this user
-// const toastNotificationDetails = document.querySelector('.details'),
 const projects = document.querySelector('.projects');
 
 function getProjectsCode(projects){
@@ -105,6 +75,54 @@ function getProjectsCode(projects){
     return projectCardsCode
 }
 
+function ArchivedProjectsCode(projects){
+    console.log(projects)
+    let code = ""
+
+    projects.forEach(project => {
+        var members = [];
+
+        for(let i = 0; i <5; i++){
+            if(project['memberProfiles'][i] == undefined){
+                members.push('src="/View/images/Picture1.png" style="display: none;"');
+            }else{
+                members.push('src=' + project['memberProfiles'][i]['profile_picture']);
+            }
+        }
+
+        code += `<div class="project-card">
+                                            
+                        <p class="project-field ">${project['field']}</p>
+                    <h3 class="project-name">${project['project_name']}</h3>
+
+                    <div class="tasks">
+                        <div class="unarchived-delete-btns">
+                            <div class="unarchived-btn">
+                                <i value="${project['id']}" class="fa fa-archive" aria-hidden="true"></i>
+                            </div>
+                            <div class="delete-btn">
+                                <i value="${project['id']}" class="fa fa-trash" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="team">Team</p>
+                    <div class="card-bottom">
+                        <div class="member-images">
+                            <img class="image first" ${members[0]} alt="Picture1">
+                            <img class="image rest1" ${members[1]} alt="Picture2">
+                            <img class="image rest2" ${members[2]} alt="Picture3">
+                            <img class="image rest3" ${members[3]} alt="Picture4">
+                            <img class="image rest4" ${members[4]} alt="Picture5">
+                        </div>
+                        
+                    </div>
+                    
+                </div>`
+    });
+
+    return code;
+}
+
 // this onLoad function receive notifications and load page data
 function onLoad(){
     // load project data
@@ -119,7 +137,7 @@ function onLoad(){
 const profilePicture = document.querySelector('.profile-image');
 profilePicture.src = jsonData['profile'];
 
-// build search engine
+// build search engine for projects
 
 const searchInput = document.querySelector('.search-box input');
 
@@ -131,22 +149,42 @@ function getProjectNames(projects){
     return projectNames
 }
 
-function getMatchedProjectNames(keyword){
-    let projects = getProjectNames(jsonData['projects'])
+function getMatchedProjectNames(keyword, t_projects){
+    let projects = getProjectNames(t_projects)
     return projects.filter(project => project.toLowerCase().startsWith(keyword.toLowerCase()))
 }
 
-function getMatchedProjects(keyword){
-    let projectNames = getMatchedProjectNames(keyword)
-    return jsonData['projects'].filter(project => projectNames.includes(project['project_name']))
+function getMatchedProjects(keyword, projects){
+    let projectNames = getMatchedProjectNames(keyword, projects)
+    return projects.filter(project => projectNames.includes(project['project_name']))
 }
 
-searchInput.addEventListener('input', () =>{
-    console.log(getMatchedProjects(searchInput.value))
-    let code = getProjectsCode(getMatchedProjects(searchInput.value))
 
-    projects.innerHTML = code
-})
+    searchInput.addEventListener('input', () =>{
+
+        if(archivedPopupShow){
+            if(searchInput.value == ""){
+                archived_projects.innerHTML = ArchivedProjectsCode(jsonData.archived_projects)
+            }else{
+                console.log(getMatchedProjects(searchInput.value, jsonData.archived_projects))
+                let code = ArchivedProjectsCode(getMatchedProjects(searchInput.value, jsonData.archived_projects))
+                
+                archived_projects.innerHTML = code
+            }
+        }else{
+            if(searchInput.value == ""){
+                onLoad()
+            }else{
+                console.log(getMatchedProjects(searchInput.value, jsonData.projects))
+                let code = getProjectsCode(getMatchedProjects(searchInput.value, jsonData.projects))
+            
+                projects.innerHTML = code
+            }
+        }
+        
+        
+    })
+
 
 
 /*------------------------------------------------------*/ 

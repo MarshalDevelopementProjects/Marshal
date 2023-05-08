@@ -4,7 +4,6 @@ namespace App\Controller;
 
 require __DIR__ . "/../../vendor/autoload.php";
 
-use App\Controller\Authenticate\AuthenticateController;
 use Core\Response;
 
 /*
@@ -27,7 +26,7 @@ abstract class Controller
      * used to trigger the default action of a controller if no action was
      * mentioned in there request uri
      */
-    abstract public function defaultAction(Object|array|string|int $optional = null);
+    abstract public function defaultAction(Object|array|string|int $optional = null): void;
 
     /**
      * Function description
@@ -35,7 +34,7 @@ abstract class Controller
      * each controller can implement this action, in case the requested action
      * of the controller cannot be found
      */
-    public function actionNotFound()
+    public function actionNotFound(): void
     {
         $this->sendResponse("/errors/503.html", "service_unavailable", array("message" => "such a service cannot be found"));
     }

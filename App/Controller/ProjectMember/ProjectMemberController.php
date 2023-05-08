@@ -15,7 +15,6 @@ use App\Model\Group;
 use App\Model\User;
 use App\Model\File;
 use App\Model\Message;
-use Core\Validator\Validator;
 use Core\FileUploader;
 use Exception;
 use Throwable;
@@ -46,10 +45,6 @@ class ProjectMemberController extends UserController
         } catch (Exception $exception) {
             throw $exception;
         }
-    }
-
-    public function defaultAction(Object|array|string|int $data = null)
-    {
     }
 
     public function pickupTask()
@@ -317,7 +312,7 @@ class ProjectMemberController extends UserController
         // get all data related to the project
 
         $group = new Group();
-        $groups = $group->getAllGroups(array("project_id" => $project_id), array("project_id"));
+        $groups = $group->getAllGroups(array("project_id" => $project_id, "finished" => 0), array("project_id", "finished"));
         if($groups){
             foreach ($groups as $groupData) {
                 if ($group->getGroupMember(array("group_id" => $groupData->id, "member_id" => $user_id), array("group_id", "member_id"))) {

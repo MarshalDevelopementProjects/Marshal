@@ -48,12 +48,12 @@ class AdminController extends Controller
         }
     }
 
-    public function auth()
+    public function auth(): bool
     {
         return $this->adminAuth->isLogged();
     }
 
-    public function defaultAction(Object|array|string|int $optional = null)
+    public function defaultAction(Object|array|string|int $optional = null): void
     {
         // default page should have the following 
         // user count, active user count, admin count
@@ -104,7 +104,7 @@ class AdminController extends Controller
     }
 
     // get all the users in the database
-    public function viewAllUsers()
+    public function viewAllUsers(): void
     {
         try {
             // check whether the user exists first by checking the count then send the details
@@ -132,7 +132,7 @@ class AdminController extends Controller
 
     // this $args here should contain a field with a key as the
     // column name and the value as the column value
-    public function viewUserDetails(array $args)
+    public function viewUserDetails(array $args): void
     {
         try {
             // check whether the user exists first by checking the count then send the details
@@ -158,7 +158,7 @@ class AdminController extends Controller
         }
     }
 
-    public function createNewUser(array $args = array())
+    public function createNewUser(array $args = array()): void
     {
         try {
             // validate the data first and then create the user
@@ -196,7 +196,7 @@ class AdminController extends Controller
     // this args array should contain the following
     // $args["key"] => "column_name"
     // $args["value"] => "column_value"
-    public function blockUser(array $args)
+    public function blockUser(array $args): void
     {
         try {
             if ($this->admin->disableUserAccount(key: $args["key"], value: $args["value"])) {
@@ -222,7 +222,7 @@ class AdminController extends Controller
     // this args array should contain the following
     // $args["key"] => "column_name"
     // $args["value"] => "column_value"
-    public function grantAccessToUser(array $args)
+    public function grantAccessToUser(array $args): void
     {
         try {
             if ($this->admin->enableUserAccount(key: $args["key"], value: $args["value"])) {
@@ -245,7 +245,7 @@ class AdminController extends Controller
         }
     }
 
-    public function viewActiveUsers()
+    public function viewActiveUsers(): void
     {
         try {
 
@@ -270,7 +270,7 @@ class AdminController extends Controller
         }
     }
 
-    public function viewBlockedUsers()
+    public function viewBlockedUsers(): void
     {
         try {
             if ($this->admin->getBlockedUsers()) {
@@ -294,12 +294,7 @@ class AdminController extends Controller
         }
     }
 
-    // method will be used to send emails to either
-    // all or a single user of the system
-    public function sendEmailsToUsers(array $args)
-    {
-    }
-    public function viewOfflineUsers()
+    public function viewOfflineUsers(): void
     {
         try {
             if ($this->admin->getOfflineUsers()) {
@@ -321,20 +316,5 @@ class AdminController extends Controller
         } catch (\Exception $exception) {
             throw $exception;
         }
-    }
-
-    // after notification is fixed
-    public function broadcastMessages(array $args)
-    {
-        // this args array should contain the following
-        // $args["message"] => "message_to_be_sent"
-    }
-
-    // after notification is fixed
-    public function unicastMessages(array $args)
-    {
-        // this args array should contain the following
-        // $args["id"] => "user_id_of_the_receiver"
-        // $args["message"] => "message_to_be_sent"
     }
 }

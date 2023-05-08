@@ -105,6 +105,16 @@ class Project
             return false;
         }
     }
+    public function removeUserFromProject(array $args = array()) {
+        $sql = "DELETE FROM project_join WHERE project_id = :project_id AND member_id = :member_id";
+
+        try {
+            $this->crud_util->execute($sql_string, $args);
+            return true;
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
 
     public function getProject(array $args = array()): object|bool|array
     {
@@ -152,14 +162,54 @@ class Project
         }
     }
 
-    public function update(string $_id = null, array $_array = array())
+    public function update($columns, $conditions, $args)
     {
-        throw new \Exception("Not implemented yet");
+        $sql = "UPDATE project SET ";
+
+        for($i=0; $i<count($columns); $i++){
+            $sql .= $columns[$i] . ' = :' . $columns[$i];
+            if($i != count($columns) -1){
+                $sql .= ', ';
+            }
+        }
+        $sql .= " WHERE ";
+
+        for ($i = 0; $i < count($conditions); $i++) {
+            $key = $conditions[$i];
+            $sql .= $key . " = :" . $key;
+
+            if ($i != count($conditions) - 1) {
+                $sql .= " AND ";
+            }
+        }
+
+        // var_dump($sql);
+        try {
+            $this->crud_util->execute($sql, $args);
+            return true;
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
     }
 
     public function delete(string $_id = null)
     {
-        throw new \Exception("Not implemented yet");
+        $sql = "DELETE FROM project WHERE ";
+
+        for ($i = 0; $i < count($conditions); $i++) {
+            $key = $conditions[$i];
+            $sql .= $key . " = :" . $key;
+
+            if ($i != count($conditions) - 1) {
+                $sql .= " AND ";
+            }
+        }
+        try {
+            $this->crud_util->execute($sql, $args);
+            return true;
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
     }
 
     public function getProjectData()

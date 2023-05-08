@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects | Dashboard</title>
     <link rel="stylesheet" href="/View/styles/style_dashboard.css">
+    <link rel="stylesheet" href="/View/styles/user/archived_projects.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -44,6 +45,7 @@
                         <a href="http://localhost/public/user/sketch" style="text-decoration: none;">
                             <li class="sketch-idea">Sketch idea</li>
                         </a>
+                        <li id="archived-projects">archived projects</li>
                     </ul>
                     <ul class="menu-icon">
                         <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
@@ -57,6 +59,7 @@
                         <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333;">
                             <li class="sketch-idea"><i class="fa fa-paint-brush" aria-hidden="true"></i></li>
                         </a>
+                        
                         <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
                     </ul>
                 </div>
@@ -127,6 +130,13 @@
                 <div class="projects">
 
                 </div>
+                <div class="archived_projects_container">
+                    <h3>Archived projects</h3>
+                    <hr>
+                    <div class="archived_projects">
+                        
+                    </div>
+                </div>
             </div>
         </div>
         <div class="notification-popup-container">
@@ -191,6 +201,7 @@
     <script src="/View/js/user/sidebar.js"></script>
     <script src="/View/js/user/notification.js"></script>
     <script src="/View/js/user/notificationPopup.js"></script>
+    <script src="/View/js/user/archived.js"></script>
 </body>
 
 </html>

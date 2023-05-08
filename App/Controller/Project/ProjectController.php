@@ -2,13 +2,8 @@
 
 namespace App\Controller\Project;
 
-use App\Controller\Authenticate\UserAuthController;
-use App\Controller\User\UserController;
-// use App\Model\Project;
 use App\Model\Task;
 use App\Model\User;
-// use Core\Validator\Validator;
-// use App\Controller;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -16,9 +11,6 @@ class ProjectController
 {
 
     public function __construct()
-    {
-    }
-    public function defaultAction(Object|array|string|int $optional = null)
     {
     }
 

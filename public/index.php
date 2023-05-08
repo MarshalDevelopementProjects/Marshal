@@ -27,8 +27,6 @@ use App\Controller\ProjectMember\ProjectMemberController;
 
 $router = new Router();
 
-// REMEMBER +> GET methods is used to create a resource and serve it
-
 $router->get('/', IndexController::class . '::defaultAction');
 
 $router->get('/user/login', UserAuthController::class . '::onUserLogin');
@@ -41,6 +39,9 @@ $router->get('/admin/login', AdminAuthController::class . '::onAdminLogin');
 $router->post('/admin/login', AdminAuthController::class . '::onAdminLogin');
 
 $router->get('/user/dashboard', UserController::class . '::defaultAction');
+$router->post('/user/unarchive', UserController::class . '::unarchiveProject');
+$router->get('/user/archiveproject', UserController::class . '::archiveProject');
+$router->post('user/deleteproject', UserController::class . '::deleteProject');
 $router->get('/admin/dashboard', AdminController::class . '::defaultAction');
 $router->get('/client/dashboard', ClientController::class . '::defaultAction');
 
@@ -50,6 +51,7 @@ $router->get('/groupleader/dashboard', GroupLeaderController::class . '::default
 $router->post('/groupleader/task', GroupLeaderController::class . '::createTask');
 $router->get('/groupleader/group', GroupLeaderController::class. '::getGroupInfo');
 $router->post('/groupleader/announcement', GroupLeaderController::class. '::addAnnouncement');
+$router->get('/groupleader/finishgroup', GroupLeaderController::class. '::finishGroupTask');
 $router->get('/groupmember/announcement', GroupMemberController::class. '::getGroupAnnouncements');
 $router->get('/groupmember/group', GroupMemberController::class . '::getGroupInfo');
 

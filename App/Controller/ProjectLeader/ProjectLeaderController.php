@@ -41,10 +41,6 @@ class ProjectLeaderController extends ProjectMemberController
         }
     }
 
-    public function defaultAction(Object|array|string|int $data = null)
-    {
-    }
-
     public function getProjectInfo()
     {
         // print_r($_SESSION);
@@ -56,7 +52,7 @@ class ProjectLeaderController extends ProjectMemberController
         // get all data related to the project
 
         $group = new Group();
-        $groups = $group->getAllGroups(array("project_id" => $project_id), array("project_id"));
+        $groups = $group->getAllGroups(array("project_id" => $project_id, "finished" => 0), array("project_id", "finished"));
 
         $user = new User();
         $data = array("groups" => $groups, "projectData" => $project->getProject(array("id" => $project_id)));
@@ -453,6 +449,36 @@ class ProjectLeaderController extends ProjectMemberController
         );
     }
 
+    public function removeMemberFromProject(){
+        $data = json_decode(file_get_contents('php://input'));
+
+        $payload = $this->userAuth->getCredentials();
+        $notification =  new Notification();
+
+        $user = new User();
+        $member = $user->readUser("username", $data->username);
+
+        $project = new Project($payload->id);
+        
+        try {
+            $project->removeUserFromProject(array("project_id" => $_SESSION['project_id'], "member_id => $member->id"));
+
+            $notificationController = new NotificationController();
+
+            $args = array(
+                "message" => "You are no longer a member of this project",
+                "type" => "notification",
+                "sender_id" => $payload->id,
+                "url" => "http://localhost/public/user/dashboard",
+                "recive_id" => $member->id
+            );
+                
+            $notificationId = $notificationController->setNotification($args);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     /**
      * @throws Exception
      */
@@ -464,8 +490,8 @@ class ProjectLeaderController extends ProjectMemberController
             content: [
                 "project_id" => $_SESSION["project_id"],
                 "user_data" => ["username" => $this->user->getUserData()->username, "profile_picture" => $this->user->getUserData()->profile_picture,],
-                "messages" => $this->projectLeader->getForumMessages() ? $this->projectLeader->getMessageData() : [],
-                "members" =>  $this->projectLeader->getProjectMembers() ? $this->projectLeader->getProjectMemberData() : [],
+                "messages" => $this->forum->getForumMessages(project_id: $_SESSION["project_id"]) ? $this->forum->getMessageData() : [],
+                "members" =>  $this->project->getProjectMembers(project_id: $_SESSION["project_id"]) ? $this->project->getProjectMemberData() : [],
             ] + parent::getTaskDeadlines()
         );
     }

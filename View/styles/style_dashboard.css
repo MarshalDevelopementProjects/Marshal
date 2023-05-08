@@ -134,7 +134,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 130px 0px 0 auto;
+    margin: 100px 0px 0 auto;
     /*60*/
     background-color: #ddd;
     color: #333;
@@ -353,6 +353,10 @@ body{
     grid-template-rows: repeat(2, 300px);
     padding-left: 20px;
     padding-bottom: 200px;
+
+}
+.projects.remove{
+    display: none;
 }
 
 .projects.active{
@@ -408,6 +412,7 @@ body{
     font-weight: 700;
     height: 43px;
     margin-left: 5px;
+    /* overflow-x: hidden; */
 }
 .project-card .tasks{
     width: 180px;

@@ -2,9 +2,7 @@
 
 namespace App\Controller\GroupLeader;
 
-use App\Controller\Authenticate\UserAuthController;
 use App\Controller\GroupMember\GroupMemberController;
-use App\Controller\ProjectMember\ProjectMemberController;
 use App\Controller\Notification\NotificationController;
 use App\Controller\Message\MessageController;
 use App\Model\GroupLeader;
@@ -38,16 +36,6 @@ class GroupLeaderController extends GroupMemberController
         } catch (\Exception $exception) {
             throw $exception;
         }
-    }
-
-    public function defaultAction(Object|array|string|int $optional = null)
-    {
-    }
-
-    public function auth(): bool
-    {
-        // TODO: COMPLETE THE AUTH
-        return parent::auth();
     }
 
     public function createTask($args)
@@ -374,5 +362,70 @@ class GroupLeaderController extends GroupMemberController
         } catch (\Throwable $th) {
             echo (json_encode(array("message" => $th)));
         }
+    }
+
+    public function finishGroupTask(){
+        $success_message = "";
+
+        $group = new Group();
+        $group_data = $group->getGroup(array("id" => $_SESSION['group_id']), array("id"));
+        $group_leader_id = $group_data->leader_id;
+
+        $payload = $this->userAuth->getCredentials();
+        $project_id = $_SESSION["project_id"];
+        $user_id = $payload->id;
+        $project = new Project($user_id);
+
+        $notification = new Notification();
+        $notificationController = new NotificationController();
+        
+        $project_data = $project->readProjectData($_SESSION['project_id']) ? $project->getProjectData() : array();
+
+        if($project_data){
+            $project_data = $project_data[0];
+            if($project_data->created_by == $user_id){
+
+                try {
+                    $task = new Task();
+                    $task->updateTask(array("task_name" => $group_data->task_name, "assign_type" => 'group', "status" => "DONE"), array("status"), array("task_name", "assign_type"));
+                
+                    $group->updateGroup(array("id" => $_SESSION['group_id'], "finished" => 1), array("finished"), array("id"));
+
+                    $notification_args = array(
+                        "message" => "We are successfully done our task " . $group_data->task_name ." .Thank you for your support.",
+                        "type" => "notification",
+                        "sender_id" => $group_leader_id,
+                        "url" => "http://localhost/public/user/project?id=" . $_SESSION['project_id'],
+                        "recive_id" => null
+                    );
+                    
+                    $notificationId = $notificationController->setNotification($notification_args);
+                    $members = $group->getGroupMembers(array("group_id" => $_SESSION['group_id']), array("group_id"));
+                    
+                    $notificationController->boardcastNotification($notificationId, $members);
+
+                    $success_message = "Successfully finish the " . $group_data->task_name . ".";
+                } catch (\Throwable $th) {
+                    throw $th;
+                }
+            }else{
+                $notification_args = array(
+                    "message" => "We almostr done the task " . $group_data->task_name . ".",
+                    "type" => "notification",
+                    "sender_id" => $group_leader_id,
+                    "url" => "http://localhost/public/groupleader/group?id=" . $_SESSION['group_id'],
+                    "recive_id" => $project_data->created_by
+                );
+                
+                $notificationId = $notificationController->setNotification($notification_args);
+                $success_message = "Successfully notify the project leader to finish this task.";
+            }
+        }
+        $this->sendJsonResponse(
+            status: "success",
+            content: [
+                "message" => $success_message
+            ]
+        );
     }
 }

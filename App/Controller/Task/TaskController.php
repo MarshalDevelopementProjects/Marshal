@@ -9,9 +9,6 @@ use Core\Validator\Validator;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
-class TaskController extends Controller
+class TaskController
 {
-    public function defaultAction(Object|array|string|int $optional = null)
-    {
-    }
 }

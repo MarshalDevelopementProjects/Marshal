@@ -2,7 +2,6 @@
 
 namespace App\Controller\GroupMember;
 
-use App\Controller\Authenticate\UserAuthController;
 use App\Controller\ProjectMember\ProjectMemberController;
 use App\Controller\Notification\NotificationController;
 use App\Controller\Message\MessageController;
@@ -13,7 +12,6 @@ use App\Model\Task;
 use App\Model\Project;
 use App\Model\Notification;
 use App\Model\Group;
-use Core\Validator\Validator;
 use Exception;
 
 require __DIR__ . '/../../../vendor/autoload.php';
@@ -40,16 +38,6 @@ class GroupMemberController extends ProjectMemberController
         } catch (Exception $exception) {
             throw $exception;
         }
-    }
-
-    public function defaultAction(Object|array|string|int $optional = null)
-    {
-    }
-
-    public function auth(): bool
-    {
-        // TODO: COMPLETE THE AUTH
-        return parent::auth();
     }
 
     /**
@@ -308,7 +296,7 @@ class GroupMemberController extends ProjectMemberController
         }
     }
 
-    // $args must follow this format
+  /*  // $args must follow this format
     // ["task_id" => "TaskID", "message" => "content of the message"]
     public function postMessageToGroupTaskFeedback(array $args): void
     {
@@ -348,5 +336,5 @@ class GroupMemberController extends ProjectMemberController
         } catch (Exception $exception) {
             throw $exception;
         }
-    }
+    }*/
 }

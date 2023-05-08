@@ -108,6 +108,40 @@ class Group
         }
     }
 
+    public function updateGroup(array $args, array $updates, array $conditions): object|bool|array
+    {
+        $updateFieldsCount = count($updates);
+        $conditionFieldsCount = count($conditions);
+
+        $sql = "UPDATE groups SET ";
+        for ($i = 0; $i < $updateFieldsCount; $i++) {
+            $updateField = $updates[$i];
+            $sql .= '`' . $updateField . "` = :" . $updateField;
+
+            if ($i != $updateFieldsCount - 1) {
+                $sql .= ", ";
+            }
+        }
+        $sql .= " WHERE ";
+
+        for ($j = 0; $j < $conditionFieldsCount; $j++) {
+            $conditionField = $conditions[$j];
+            $sql .= '`' . $conditionField . "` = :" . $conditionField;
+
+            if ($j != $conditionFieldsCount - 1) {
+                $sql .= " AND ";
+            }
+        }
+
+        try {
+            $this->crud_util->execute($sql, $args);
+            return true;
+        } catch (\Exception $exception) {
+            throw $exception;
+            // return false;
+        }
+    }
+
     public function addGroupMember(array $args, array $keys)
     {
         $keyCount = count($keys);

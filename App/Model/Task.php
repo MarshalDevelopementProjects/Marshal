@@ -144,7 +144,7 @@ class Task
 
         try {
             $this->crud_util->execute($sql, $args);
-            return $sql;
+            return true;
         } catch (\Exception $exception) {
             throw $exception;
             // return false;

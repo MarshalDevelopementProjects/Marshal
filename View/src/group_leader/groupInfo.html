@@ -8,6 +8,7 @@
     <title>Projects | Dashboard</title>
     <link rel="stylesheet" href="/View/styles/group_leader/groupInfo.css">
     <link rel="stylesheet" href="/View/styles/user/calendar.css">
+    <link rel="stylesheet" href="/View/styles/group_leader/group_finish_confirm_popup.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -42,6 +43,7 @@
                         <a style="text-decoration: none; color: black;" href="http://localhost/public/user/profile">
                             <li class="profile">Profile</li>
                         </a>
+                        <li style="background-color: #EECACA;" class="finish-group-task">finish</li>
                         <a style="text-decoration: none; color: black; display: none;" href="#">
                             <li class="sketch-idea">Forum</li>
                         </a>
@@ -326,6 +328,17 @@
                 </div>
                 
             </div>
+
+            <div class="confirm-finish-popup">
+                <p class="confirm-msg">Do you need to finish this group task ?</p>
+
+                <div class="confirm-btns">
+                    <p class="finish-btn">Finish</p>
+                    <p class="cancel-btn">Cancel</p>
+                </div>
+                <p class="success-message"></p>
+            </div>
+
         </div>
     </div>
     <div class="notification-popup-container">
@@ -401,5 +414,6 @@
     <script src="/View/js/group_leader/feedback_forum.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/View/js/group_leader/chart.js"></script>
+    <script src="/View/js/group_leader/confirm_finish_group.js"></script>
 
 </html>
