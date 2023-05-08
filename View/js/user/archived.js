@@ -1,15 +1,20 @@
-const archived_projects_btn = document.getElementById("archived-projects"),
+const archived_projects_btn1 = document.getElementById("archived-projects"),
+    archived_projects_btn2 = document.getElementById("archived-projects-2")
     projects_container = document.querySelector(".projects"),
     archived_projects = document.querySelector(".archived_projects"),
     dashboardBtn = document.querySelector(".dashboard");
 
-archived_projects_btn.addEventListener("click", function(){
-    projects_container.classList.add("remove");
-    dashboardBtn.classList.remove("active");
-    archived_projects_btn.classList.add("active");
-    archivedPopupShow = true;
-    console.log(archivedPopupShow)
-})
+function onClickArchivedProjects() {
+  projects_container.classList.add("remove");
+  dashboardBtn.classList.remove("active");
+  archived_projects_btn1.classList.add("active");
+  archived_projects_btn2.classList.add("active");
+  archivedPopupShow = true;
+  console.log(archivedPopupShow);
+}
+
+archived_projects_btn1.addEventListener("click", onClickArchivedProjects);
+archived_projects_btn2.addEventListener("click", onClickArchivedProjects);
 
 dashboardBtn.addEventListener("click", function(){
     archivedPopupShow = false;
