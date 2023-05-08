@@ -1270,3 +1270,30 @@ div::-webkit-scrollbar {
     font-size: 12px;
     font-weight: 550;
 }
+.right-panel .messaging-area {
+    transition: width 1s ease-out;
+}
+
+@media (max-width: 1250px) {
+    .right-panel .messaging-area {
+        width: 730px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .right-panel .messaging-area {
+        width: 530px;
+    }
+}
+
+@media (max-width: 890px) {
+    .right-panel .messaging-area {
+        width: 330px;
+    }
+}
+
+@media (max-width: 530px) {
+    .member-list {
+        display: none;
+    }
+}

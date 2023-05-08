@@ -551,7 +551,7 @@ body {
     background-position: right bottom;
     transition: background-position 0.3s ease-in-out;
   }
-  
+
 .create-group-container {
     margin: 160px 0 0 0;
     position: relative;
@@ -1293,4 +1293,32 @@ div::-webkit-scrollbar {
     color: #f1f1f1;
     font-size: 12px;
     font-weight: 550;
+}
+
+.right-panel .messaging-area {
+    transition: width 1s ease-out;
+}
+
+@media (max-width: 1250px) {
+    .right-panel .messaging-area {
+        width: 730px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .right-panel .messaging-area {
+        width: 530px;
+    }
+}
+
+@media (max-width: 890px) {
+    .right-panel .messaging-area {
+        width: 330px;
+    }
+}
+
+@media (max-width: 530px) {
+    .member-list {
+        display: none;
+    }
 }
