@@ -541,16 +541,21 @@ body {
 }
 
 .delete-icon i {
-    font-size: 14px;
+    /* font-size: 14px;
     color: #b60d0d;
-    cursor: pointer;
+    cursor: pointer; */
+    display:none;
 }
-.only-members:hover {
+/* .only-members:hover {
     background: linear-gradient(to right, #f1f1f1 50%, rgba(201, 113, 113, 0.384) 50%);
     background-size: 200% 100%;
     background-position: right bottom;
     transition: background-position 0.3s ease-in-out;
-  }
+} */
+/* hide the trash icon */
+.delete-icon{
+    display:none;
+}
 
 .create-group-container {
     margin: 160px 0 0 0;
