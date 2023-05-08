@@ -52,7 +52,7 @@ class ProjectLeaderController extends ProjectMemberController
         // get all data related to the project
 
         $group = new Group();
-        $groups = $group->getAllGroups(array("project_id" => $project_id), array("project_id"));
+        $groups = $group->getAllGroups(array("project_id" => $project_id, "finished" => 0), array("project_id", "finished"));
 
         $user = new User();
         $data = array("groups" => $groups, "projectData" => $project->getProject(array("id" => $project_id)));

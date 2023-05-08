@@ -51,6 +51,7 @@ $router->get('/groupleader/dashboard', GroupLeaderController::class . '::default
 $router->post('/groupleader/task', GroupLeaderController::class . '::createTask');
 $router->get('/groupleader/group', GroupLeaderController::class. '::getGroupInfo');
 $router->post('/groupleader/announcement', GroupLeaderController::class. '::addAnnouncement');
+$router->get('/groupleader/finishgroup', GroupLeaderController::class. '::finishGroupTask');
 $router->get('/groupmember/announcement', GroupMemberController::class. '::getGroupAnnouncements');
 $router->get('/groupmember/group', GroupMemberController::class . '::getGroupInfo');
 

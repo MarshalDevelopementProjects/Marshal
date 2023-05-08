@@ -317,7 +317,7 @@ class ProjectMemberController extends UserController
         // get all data related to the project
 
         $group = new Group();
-        $groups = $group->getAllGroups(array("project_id" => $project_id), array("project_id"));
+        $groups = $group->getAllGroups(array("project_id" => $project_id, "finished" => 0), array("project_id", "finished"));
         if($groups){
             foreach ($groups as $groupData) {
                 if ($group->getGroupMember(array("group_id" => $groupData->id, "member_id" => $user_id), array("group_id", "member_id"))) {
