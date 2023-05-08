@@ -471,6 +471,40 @@ body {
     display: none;
 }
 
+.delete-icon {
+    /* position: absolute; */
+    top: 5px;
+    right: 5px;
+    width: 15px;
+    height: 100%;
+    display: none;
+    /* background-color: #3620b2; */
+}
+
+.member-card:hover .delete-icon {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transition: all 0.3s ease-in-out;
+}
+.member-card:hover .member-info{
+    width: 130px;
+    /* background-color: #20B289; */
+    overflow: hidden;
+}
+
+.delete-icon i {
+    font-size: 14px;
+    color: #b60d0d;
+    cursor: pointer;
+}
+.only-members:hover {
+    background: linear-gradient(to right, #f1f1f1 50%, rgba(201, 113, 113, 0.384) 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: background-position 0.3s ease-in-out;
+  }
+
 .create-group-container.active {
     display: block;
 }
