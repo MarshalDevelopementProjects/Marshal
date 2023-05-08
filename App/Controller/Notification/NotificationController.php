@@ -2,8 +2,6 @@
 
 namespace App\Controller\Notification;
 
-use App\Controller\Authenticate\UserAuthController;
-use App\Controller\Controller;
 use App\Model\Notification;
 
 class NotificationController{

@@ -4,6 +4,8 @@ namespace App\Controller\PDF;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
+use App\Model\PDF;
+
 class PDFController
 {
     private $CDN = '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>

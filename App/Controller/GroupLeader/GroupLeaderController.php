@@ -2,9 +2,7 @@
 
 namespace App\Controller\GroupLeader;
 
-use App\Controller\Authenticate\UserAuthController;
 use App\Controller\GroupMember\GroupMemberController;
-use App\Controller\ProjectMember\ProjectMemberController;
 use App\Controller\Notification\NotificationController;
 use App\Controller\Message\MessageController;
 use App\Model\GroupLeader;

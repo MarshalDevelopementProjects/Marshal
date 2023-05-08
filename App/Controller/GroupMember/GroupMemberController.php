@@ -2,7 +2,6 @@
 
 namespace App\Controller\GroupMember;
 
-use App\Controller\Authenticate\UserAuthController;
 use App\Controller\ProjectMember\ProjectMemberController;
 use App\Controller\Notification\NotificationController;
 use App\Controller\Message\MessageController;
@@ -13,7 +12,6 @@ use App\Model\Task;
 use App\Model\Project;
 use App\Model\Notification;
 use App\Model\Group;
-use Core\Validator\Validator;
 use Exception;
 
 require __DIR__ . '/../../../vendor/autoload.php';

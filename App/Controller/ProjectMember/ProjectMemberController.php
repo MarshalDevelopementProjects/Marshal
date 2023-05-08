@@ -15,7 +15,6 @@ use App\Model\Group;
 use App\Model\User;
 use App\Model\File;
 use App\Model\Message;
-use Core\Validator\Validator;
 use Core\FileUploader;
 use Exception;
 use Throwable;
@@ -46,10 +45,6 @@ class ProjectMemberController extends UserController
         } catch (Exception $exception) {
             throw $exception;
         }
-    }
-
-    public function defaultAction(Object|array|string|int $data = null): void
-    {
     }
 
     public function pickupTask()

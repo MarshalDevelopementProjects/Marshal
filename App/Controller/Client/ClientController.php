@@ -4,13 +4,11 @@
 
 namespace App\Controller\Client;
 
-use App\Controller\Authenticate\UserAuthController;
 use App\Controller\Conference\ConferenceController;
 use App\Controller\PDF\PDFController;
 use App\Controller\User\UserController;
 use App\Model\Client;
 use App\Model\Project;
-use Core\PdfGenerator;
 use Exception;
 
 require __DIR__ . '/../../../vendor/autoload.php';
