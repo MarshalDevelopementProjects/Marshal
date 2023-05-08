@@ -105,6 +105,16 @@ class Project
             return false;
         }
     }
+    public function removeUserFromProject(array $args = array()) {
+        $sql = "DELETE FROM project_join WHERE project_id = :project_id AND member_id = :member_id";
+
+        try {
+            $this->crud_util->execute($sql_string, $args);
+            return true;
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
 
     public function getProject(array $args = array()): object|bool|array
     {

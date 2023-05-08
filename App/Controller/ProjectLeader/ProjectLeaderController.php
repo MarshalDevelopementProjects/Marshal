@@ -449,6 +449,36 @@ class ProjectLeaderController extends ProjectMemberController
         );
     }
 
+    public function removeMemberFromProject(){
+        $data = json_decode(file_get_contents('php://input'));
+
+        $payload = $this->userAuth->getCredentials();
+        $notification =  new Notification();
+
+        $user = new User();
+        $member = $user->readUser("username", $data->username);
+
+        $project = new Project($payload->id);
+        
+        try {
+            $project->removeUserFromProject(array("project_id" => $_SESSION['project_id'], "member_id => $member->id"));
+
+            $notificationController = new NotificationController();
+
+            $args = array(
+                "message" => "You are no longer a member of this project",
+                "type" => "notification",
+                "sender_id" => $payload->id,
+                "url" => "http://localhost/public/user/dashboard",
+                "recive_id" => $member->id
+            );
+                
+            $notificationId = $notificationController->setNotification($args);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     /**
      * @throws Exception
      */
