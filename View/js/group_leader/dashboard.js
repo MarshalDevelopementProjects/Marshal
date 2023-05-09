@@ -550,16 +550,24 @@ let feedbackFormSubmitHandler = null
 
 function showOngoingPopup(taskDetails){
     const ongoingTaskPopup = document.querySelector('.Ongoing-task-details'),
-        taskName = document.querySelector('.ongoing-top-bar h3'),
+        taskName = document.querySelector('#ongoing-title'),
         taskPriority = document.querySelector('.ongoing-top-bar p'),
-        taskDescription = document.querySelector('.ongoing-task-details-description'),
-        taskDeadline = document.querySelector('.ongoing-task-details-deadline'),
+        taskDescription = document.querySelector('#ongoing-description'),
+        // taskDeadline = document.querySelector('.ongoing-task-details-deadline'),
         taskFeedbackMessages = document.querySelector('.ongoing-task-feedback-messages'),
         taskFeedbackForm = document.querySelector('#ongoing-task-feedback-form'),
         taskFeedbackFormInput = document.querySelector('#ongoing-task-feedback-form-input'),
+        taskDeadline = document.querySelector('.ongoing-task-details-deadline'),
+        ongoingDeadlineInput = document.getElementById('ongoing-deadline'),
 
         cancelBtn = document.getElementById('cancel-ongoing-task-details'),
-        finishBtn = document.getElementById('finishTaskBtn')
+        finishBtn = document.getElementById('finishTaskBtn'),
+
+        editIcon = document.querySelector('.edit-icon'),
+        deadlineInput = document.querySelector('#ongoing-deadline'),
+        saveButton = document.querySelector('#save-button'),
+        cancelButton = document.querySelector('#cancel-button')
+      
 
     let feedbacksCode = getFeedbacks(taskDetails, "ongoing")
     taskFeedbackFormInput.focus()
@@ -570,12 +578,47 @@ function showOngoingPopup(taskDetails){
     .catch((error)=>console.error(error))
 
     ongoingTaskPopup.classList.add('active');
+
+    onLoad();
+
+    function onLoad(){
+        taskName.value = taskDetails['task_name']
+        taskPriority.innerText = taskDetails['priority']
+        taskPriority.classList.add(taskDetails['priority'])
+        taskDescription.value = taskDetails['description']
+        // taskDeadline.innerText = "Deadline : " + taskDetails['deadline'].split(' ')[0]
+        const deadlineString = taskDetails['deadline'].split(' ')[0];
+        ongoingDeadlineInput.value = deadlineString;
+        taskDeadline.innerText = "Deadline : ";
+        taskDeadline.appendChild(ongoingDeadlineInput);
+    }
     
-    taskName.innerText = taskDetails['task_name']
-    taskPriority.innerText = taskDetails['priority']
-    taskPriority.classList.add(taskDetails['priority'])
-    taskDescription.innerText = taskDetails['description']
-    taskDeadline.innerText = "Deadline : " + taskDetails['deadline'].split(' ')[0]
+
+    editIcon.addEventListener('click', (event) => {
+        event.preventDefault();
+        taskName.disabled = false;
+        taskDescription.disabled = false;
+        deadlineInput.disabled = false;
+        saveButton.disabled = false;
+        saveButton.style.display = "block";
+        cancelButton.style.display = "block";
+        editIcon.style.display = "none";
+        taskFeedbackFormInput.disabled = true;
+    });
+
+    cancelButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        taskName.disabled = true;
+        taskDescription.disabled = true;
+        deadlineInput.disabled = true;
+        saveButton.disabled = true;
+        saveButton.style.display = "none";
+        cancelButton.style.display = "none";
+        editIcon.style.display = "block";
+        taskFeedbackFormInput.disabled = false;
+        onLoad();
+    });
+      
 
     if(feedbackFormSubmitHandler){
         taskFeedbackForm.removeEventListener('submit', feedbackFormSubmitHandler)

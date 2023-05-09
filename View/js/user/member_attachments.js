@@ -35,6 +35,70 @@ function createProjectMemberList(args) {
     }
 }
 
+// function appendProjectMember(parent_div, member_details) {
+//     if (member_details !== undefined) {
+
+//         let memberCard = document.createElement('div');
+//         memberCard.setAttribute('class', 'member-card');
+
+//         let profilePictureDiv = document.createElement('div');
+//         profilePictureDiv.setAttribute('class', 'profile-image');
+
+//         memberCard.appendChild(profilePictureDiv);
+
+//         let profileImage = document.createElement('img');
+//         profileImage.setAttribute('src', member_details.profile_picture);
+
+//         profilePictureDiv.appendChild(profileImage);
+
+//         let statusIcon = document.createElement('i');
+//         statusIcon.setAttribute('class', 'fa fa-circle');
+//         statusIcon.setAttribute('aria-hidden', 'true'); // need to ask about this
+
+//         profilePictureDiv.appendChild(profileImage);
+
+//         if (member_details.state === "ONLINE") {
+//             statusIcon.setAttribute('style', 'color: green');
+//         } else {
+//             statusIcon.setAttribute('style', 'color: red');
+//         }
+
+//         profilePictureDiv.appendChild(statusIcon);
+
+//         let memberInfoDiv = document.createElement('div');
+//         memberInfoDiv.setAttribute('class', 'member-info');
+
+//         memberCard.appendChild(memberInfoDiv);
+
+//         let memberUsername = document.createElement('h6');
+//         memberUsername.innerText = member_details.username;
+
+//         memberInfoDiv.appendChild(memberUsername);
+
+//         let memberStatus = document.createElement('p');
+//         memberStatus.innerText = member_details.status;
+
+//         let memberDeleteDiv = document.createElement('div');
+//         memberDeleteDiv.setAttribute('class', 'delete-icon');
+
+//         memberCard.appendChild(memberDeleteDiv);
+
+//         let TrashIcon = document.createElement('i');
+//         TrashIcon.setAttribute('class', 'fa fa-trash-o');
+//         TrashIcon.setAttribute('aria-hidden', 'true');
+
+//         memberDeleteDiv.appendChild(TrashIcon);
+
+//         memberInfoDiv.appendChild(memberStatus);
+
+//         // parent_div.appendChild(memberDiv);
+//         parent_div.appendChild(memberCard);
+
+//     } else {
+//         console.error('empty fields given');
+//     }
+// }
+
 function appendProjectMember(parent_div, member_details) {
     if (member_details !== undefined) {
 
@@ -53,17 +117,15 @@ function appendProjectMember(parent_div, member_details) {
 
         let statusIcon = document.createElement('i');
         statusIcon.setAttribute('class', 'fa fa-circle');
-        statusIcon.setAttribute('aria-hidden', 'true'); // need to ask about this
+        statusIcon.setAttribute('aria-hidden', 'true');
 
-        profilePictureDiv.appendChild(profileImage);
+        profilePictureDiv.appendChild(statusIcon);
 
         if (member_details.state === "ONLINE") {
             statusIcon.setAttribute('style', 'color: green');
         } else {
             statusIcon.setAttribute('style', 'color: red');
         }
-
-        profilePictureDiv.appendChild(statusIcon);
 
         let memberInfoDiv = document.createElement('div');
         memberInfoDiv.setAttribute('class', 'member-info');
@@ -80,7 +142,21 @@ function appendProjectMember(parent_div, member_details) {
 
         memberInfoDiv.appendChild(memberStatus);
 
-        // parent_div.appendChild(memberDiv);
+        if (member_details.role !== "CLIENT" && member_details.role !== "LEADER") {
+            let memberDeleteDiv = document.createElement('div');
+            memberDeleteDiv.setAttribute('class', 'delete-icon');
+
+            memberCard.appendChild(memberDeleteDiv);
+
+            let TrashIcon = document.createElement('i');
+            TrashIcon.setAttribute('class', 'fa fa-trash-o');
+            TrashIcon.setAttribute('aria-hidden', 'true');
+
+            memberCard.classList.add('only-members');
+
+            memberDeleteDiv.appendChild(TrashIcon);
+        }
+
         parent_div.appendChild(memberCard);
 
     } else {

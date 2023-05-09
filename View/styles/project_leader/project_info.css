@@ -1488,3 +1488,227 @@ div::-webkit-scrollbar {
 .project-feedback-messages {
     overflow-y: scroll;
 }
+
+
+.delete-icon {
+    /* position: absolute; */
+    top: 5px;
+    right: 5px;
+    width: 15px;
+    height: 100%;
+    display: none;
+    /* background-color: #3620b2; */
+}
+
+.member-card:hover .delete-icon {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transition: all 0.3s ease-in-out;
+}
+.member-card:hover .member-info{
+    width: 130px;
+    /* background-color: #20B289; */
+    overflow: hidden;
+}
+
+.delete-icon i {
+    font-size: 14px;
+    color: #b60d0d;
+    cursor: pointer;
+}
+.only-members:hover {
+    background: linear-gradient(to right, #f1f1f1 50%, rgba(201, 113, 113, 0.384) 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: background-position 0.3s ease-in-out;
+}
+
+@media(max-width:1290px) {
+    
+    .right-panel{
+        width: 1000px;
+        /* background-color: #0a4fa3; */
+    }
+    .right-panel .project-info {
+        width: 740px;
+        /* background-color:#8eb220; */
+    }
+    .feedbacks-and-groups{
+        width: 600px;
+        /* background-color: #87b894; */
+    }
+    .feedbacks-and-groups .feedbacks {
+        width: 500px;
+        margin-left: 10px;
+    }
+    .feedbacks .feedbacks-headers {
+        display: flex;
+        width: 485px;
+        margin-left: 13px;
+        cursor: pointer;
+    }
+    .project-announcement-area .feedback-form {
+        height: 380px;
+        width: 485px;
+    }
+    project-info .project-info-top {
+        width: 685px;
+    }
+    .project-announcement-area .show-send-announcement-form {
+        width: 485px;
+      
+    }
+    .project-info-top h2 {
+        font-size: 25px;
+        width: 450px;
+    }
+    .project-details p {
+        width: 480px;
+    }
+    #client-feedback-form input[type="text"] {
+        width: 455px;
+    }
+    #client-feedback-form button {
+        width: 30px;
+    }
+    .project-announcements-form.active {
+        width: 485px;
+    }
+    .project-announcements-form {
+        height: 0px;
+        background-color: #f1f1f1;
+        width: 484px;
+
+    }
+    .groups{
+        margin-left: -17px;
+    }
+    .project-announcements-form input{
+        width: 220px;
+    }
+    #announcement-message {
+        width: 390px;
+        height: 45px;
+        margin-bottom: 5px;
+    }
+    #announcement-down {
+        margin-left: 80px;
+        color: #222;
+        cursor: pointer;
+    }
+}
+
+ 
+@media(max-width:1190px) {
+  
+    .member-list{
+        display: none;
+    }
+    .right-panel.active .member-list{
+        display: block;
+    }
+    /* .top-group-list h3{
+        display: none;
+    } */
+ 
+}
+@media(max-width:1195px) {
+    /* .groups{
+        display: none;
+    } */
+    /* .right-panel.active .groups{
+        display: block;
+    } */
+    .right-panel.active .member-list{
+        display: block;
+    }
+    /* .right-panel.active .top-group-list h3{
+        display:block;
+    } */
+    project-info .project-info-top {
+        width: 485px;
+    }
+    .project-announcement-area .show-send-announcement-form {
+        width: 185px;
+      
+    }
+    .project-info-top h2 {
+        font-size: 21px;
+        width: 450px;
+    }
+    .project-details p {
+        width: 650px;
+    }
+    #client-feedback-form input[type="text"] {
+        width: 455px;
+    }
+    #client-feedback-form button {
+        width: 30px;
+    }
+    .project-announcements-form.active {
+        width: 485px;
+    }
+    .project-announcements-form {
+        height: 0px;
+        background-color: #f1f1f1;
+        width: 484px;
+
+    }
+    .project-announcements-form input{
+        width: 220px;
+    }
+    #announcement-message {
+        width: 390px;
+        height: 45px;
+        margin-bottom: 5px;
+    }
+    #announcement-down {
+        margin-left: 80px;
+        color: #222;
+        cursor: pointer;
+    }
+    .project-announcement-area .show-send-announcement-form{
+        margin-left: 150px;
+    }
+    .project-info .progress-bar{
+        width: 500px;
+    }
+    
+}
+@media(max-width:1000px) {
+    project-info .project-info-top {
+        width: 385px;
+    }
+    .project-announcement-area .show-send-announcement-form {
+        width: 185px;
+      
+    }
+    .project-info-top h2 {
+        font-size: 19px;
+        width: 250px;
+    }
+    .project-details p {
+        width: 400px;
+    }
+
+    .right-panel.active .member-list{
+        display: none;
+    }
+    .member-list{
+        display: none;
+    }
+    .group-list{
+        display:none;
+    }
+    .right-panel.active .group-list{
+        display:block;
+    }
+    
+}
+@media(max-width:780px) {
+    .group-list{
+        display:none;
+    }
+    
+}

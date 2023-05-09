@@ -626,6 +626,11 @@ body {
     color: #555;
 }
 
+/* hide the trash icon */
+.delete-icon{
+    display:none;
+}
+
 .create-group-container {
     margin: 160px 0 0 0;
     position: relative;

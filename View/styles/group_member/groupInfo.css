@@ -555,7 +555,10 @@ body{
     border-radius: 22px;
 }
 
-
+/* hide the trash icon */
+.delete-icon{
+    display:none;
+}
 
 
 

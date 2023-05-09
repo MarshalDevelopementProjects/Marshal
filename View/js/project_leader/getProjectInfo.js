@@ -303,7 +303,7 @@ leaderFeedback.addEventListener('click', () => {
 
 const archivedBtn = document.querySelector(".archived"),
       confirmArchivePopup = document.querySelector(".confirm-archive-popup"),
-      rightPanel = document.querySelector(".right-panel"),
+      // rightPanel = document.querySelector(".right-panel"),
       archiveCancelBtn = document.querySelector(".cancel-btn"),
       projectInfoBtn = document.querySelector(".project-info"),
       confirmArchiveBtn = document.querySelector('.archive-btn');

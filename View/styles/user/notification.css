@@ -6,6 +6,7 @@
     position: fixed;
     background-color: rgba(0, 0, 0, 0);
     transition: all 2s ease;
+    z-index: 10000;
 }
 .notification-popup-container.active{
     display: block;
@@ -169,4 +170,11 @@
     font-weight: 550;
     color: #444;
     overflow-y: hidden;
+}
+@media(max-width:1290px) {
+
+    .notification-popup{
+        margin: 65px 10px 0 950px;
+    }
+    
 }

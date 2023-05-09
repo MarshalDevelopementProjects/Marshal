@@ -92,9 +92,9 @@
                             <li class="profile">Profile</li>
                         </a>
                         <a href="http://localhost/public/group/leader/group/forum" style="text-decoration: none; color: #333;">
-                            <li class="settings">Forum</li>
+                            <li class="settings">Group Forum</li>
                         </a>
-                        <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333;">
+                        <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333; display: none;">
                             <li class="sketch-idea">Sketch idea</li>
                         </a>
 
@@ -118,7 +118,7 @@
                         <a href="http://localhost/public/projectmember/forum" style="text-decoration: none; color: #333;">
                             <li class="forum"><i class="fa fa-forumbee"></i></li>
                         </a>
-                        <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333;">
+                        <a href="http://localhost/public/user/sketch" style="text-decoration: none; color: #333; display: none;">
                             <li class="sketch-idea"><i class="fa fa-paint-brush" aria-hidden="true"></i></li>
                         </a>
                         <a href="http://localhost/public/projectleader/getinfo" style="text-decoration: none; color: #333;">
@@ -131,10 +131,10 @@
                         <li class="calender"><i class="fa fa-calendar" aria-hidden="true"></i></li>
                     </ul>
                 </div>
-                <div class="middle-icon" style="margin-top: 15px;">
+                <div class="middle-icon" style="margin-top: 53px;">
                     <i class="fa fa-caret-left" aria-hidden="true"></i>
                 </div>
-                <div class="middle-icon2" style="margin-top: -108px;">
+                <div class="middle-icon2" style="margin-top: -59px;">
                     <i class="fa fa-caret-right" aria-hidden="true"></i>
                 </div>
 
@@ -203,12 +203,20 @@
                 </div>
 
                 <div class="Ongoing-task-details">
-                    <div class="ongoing-top-bar">
-                        <h3></h3>
-                        <p class=""></p>
-                    </div>
-                    <p class="ongoing-task-details-description"></p>
-                    <p class="ongoing-task-details-deadline"></p>
+                    <form>
+                        <div class="ongoing-top-bar">
+                          <input type="text" id="ongoing-title" name="ongoing-title" disabled>
+                          <p class=""></p>
+                          <i class="fas fa-edit edit-icon"></i>
+                        </div>
+                        <textarea id="ongoing-description" name="ongoing-description" disabled></textarea>
+                        <div class="ongoing-container">
+                            <p class="ongoing-task-details-deadline"></p>
+                            <input type="date" id="ongoing-deadline" name="ongoing-deadline" class="min-date" disabled>
+                            <button id="cancel-button" style="display: none;">Cancel</button>
+                            <button type="submit" id="save-button" style="display: none;" disabled>Save</button>
+                        </div>
+                    </form>
 
                     <div class="ongoing-task-feedbacks">
                         <div id="ongoing-task-feedback-messages" class="ongoing-task-feedback-messages">
@@ -444,6 +452,7 @@
     <script src="/View/js/user/createProject.js"></script>
     <script src="/View/js/user/sidebar.js"></script>
     <script src="/View/js/user/notification.js"></script>
+    <script src="/View/js/user/minDate.js"></script>
     <script src="https://kit.fontawesome.com/0ecc390bb7.js" crossorigin="anonymous"></script>
 </body>
 </html>
