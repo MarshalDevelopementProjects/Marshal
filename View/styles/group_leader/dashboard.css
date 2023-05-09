@@ -899,11 +899,11 @@ body{
     color: #20B289;
     cursor: pointer;
 }
-.task-boards{
-    margin-top: 50PX;
-    overflow-x: auto; /* enable horizontal scrolling */
-    white-space: nowrap;
-}
+/* .task-boards{ */
+    /* margin-top: 50PX; */
+    /* overflow-x: auto; enable horizontal scrolling */
+    /* white-space: nowrap; */
+/* } */
 .search-bar {
     transition: all 1.5s ease;
   }
