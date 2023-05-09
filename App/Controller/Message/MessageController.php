@@ -35,32 +35,47 @@ class MessageController
     }*/
 
     public function send(array $args, array $keys):bool{
-        
         $message = new Message();
         // $args->msg = encryptMessage($args->msg);
 
-        try {
-            $message->sendMessage($args, $keys);
-            return true;
-        } catch (\Throwable $th) {
-            // return false;
-            throw $th;
+        // check if there are any missing values
+        foreach ($keys as $key) {
+            if (!isset($args[$key]) || empty($args[$key])) {
+                return false;
+            }
+        }
+        // check valid keys
+        if (array_keys($args) !== $keys){
+            return false;
+        }else{
+            try {
+                $message->sendMessage($args, $keys);
+                return true;
+            } catch (\Throwable $th) {
+                // return false;
+                throw $th;
+            }
         }
     }
 
-    public function recieve(string $condition):object|array|bool
+    public function recieve(string|null $condition):object|array|bool
     {
         $message = new Message();
-        try {
-            $messages = $message->getMessages($condition);
-            // foreach($messages as $message) {
-            //     $message->msg = decryptMessage($message->msg);
-            // }
-            // var_dump($messages);
-            return $messages;
-        } catch (\Throwable $th) {
-            // return array();
-            throw $th;
+        if($condition){
+            try {
+                $messages = $message->getMessages($condition);
+                // foreach($messages as $message) {
+                //     $message->msg = decryptMessage($message->msg);
+                // }
+    
+                // var_dump($messages);
+                return $messages;
+            } catch (\Throwable $th) {
+                // return array();
+                throw $th;
+            }
+        }else{
+            return array();
         }
     }
 }
