@@ -54,7 +54,6 @@ class ProjectLeaderController extends ProjectMemberController
         $group = new Group();
         $groups = $group->getAllGroups(array("project_id" => $project_id, "finished" => 0), array("project_id", "finished"));
 
-        $user = new User();
         $data = array("groups" => $groups, "projectData" => $project->getProject(array("id" => $project_id)));
 
         $data += parent::getTaskDeadlines();
@@ -68,8 +67,6 @@ class ProjectLeaderController extends ProjectMemberController
         if ($this->forum->getProjectFeedbackMessages(project_id: $_SESSION["project_id"])) {
             $data["feedback_messages"] = $this->forum->getMessageData();
         }
-
-
 
         $data["user_data"] = [
             "username" => $this->user->getUserData()->username,

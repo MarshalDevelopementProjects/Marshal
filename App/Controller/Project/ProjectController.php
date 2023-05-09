@@ -4,6 +4,7 @@ namespace App\Controller\Project;
 
 use App\Model\Task;
 use App\Model\User;
+use App\Model\Project;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -16,9 +17,16 @@ class ProjectController
 
     public function getProjectTasks(array $args = array(), $user_id = null)
     {
+        $task_types = array("project", "group");
         $newTask = new Task();
         $user = new User();
-        // get all tasks related to this project
+        $project = new Project($user_id);
+
+        // var_dump($args['task_type']);
+        if($args == array() || $user_id == null || !in_array($args['task_type'], $task_types) || !$project->readUserRole(member_id: $user_id, project_id: $_SESSION['project_id'])){
+            return array();
+        }else{
+            // get all tasks related to this project
         $tasks = $newTask->getAllTasks($args);
 
         if ($tasks) {
@@ -89,6 +97,7 @@ class ProjectController
             return $projectTasks;
         } else {
             return array();
+        }
         }
     }
 }

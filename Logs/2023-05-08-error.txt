@@ -1,0 +1,2 @@
+{"Error number":2,"Error string":"Undefined variable $router","File name":"D:\\xampp\\htdocs\\public\\index.php","Line number":30,"Time stamp":"May,08,2023 08:05:25 PM"}
+{"Error number":2,"Error string":"Undefined variable $router","File name":"D:\\xampp\\htdocs\\public\\index.php","Line number":30,"Time stamp":"May,08,2023 08:05:57 PM"}
