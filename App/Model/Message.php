@@ -19,6 +19,13 @@ class Message
     }
     public function sendMessage(array $args, array $keys): bool
     {
+
+        foreach ($keys as $key) {
+            if (!isset($args[$key]) || empty($args[$key])) {
+                return false;
+            }
+        }
+
         $keyCount = count($keys);
 
         $sql = "INSERT INTO `message` (";
@@ -45,12 +52,17 @@ class Message
             $this->crud_util->execute($sql, $args);
             return true;
         } catch (\Exception $exception) {
-            throw $exception;
+            return false;
         }
     }
 
     public function setMessageType(array $args, array $keys, string $table): bool
     {
+        foreach ($keys as $key) {
+            if (!isset($args[$key]) || empty($args[$key])) {
+                return false;
+            }
+        }
         $keyCount = count($keys);
 
         $sql = "INSERT INTO `" . $table . "` (";
@@ -119,7 +131,7 @@ class Message
                 return array();
             }
         } catch (\Exception $exception) {
-            throw $exception;
+            return array();
         }
     }
 
@@ -134,18 +146,21 @@ class Message
                 return array();
             }
         } catch (\Throwable $th) {
-            throw $th;
+            return array();
         }
     }
 
-    public function deleteMessage(string $condition, string $table){
+    public function deleteMessage(string|null $condition, string $table){
+        if(!$condition){
+            return false;
+        }
         $sql = "DELETE FROM " .$table . " " . $condition;
 
         try {
             $this->crud_util->execute($sql);
             return true;
         } catch (\Throwable $th) {
-            throw $th;
+            return false;
         }
     }
 }
