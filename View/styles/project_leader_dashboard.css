@@ -1061,14 +1061,15 @@ body{
     cursor: pointer;
 }
 
-.task-boards{
-    margin-top: 50PX;
-    overflow-x: auto; /* enable horizontal scrolling */
-    white-space: nowrap;
-}
+/* .task-boards{ */
+    /* margin-top: 50PX; */
+    /* overflow-x: auto; enable horizontal scrolling */
+    /* white-space: nowrap; */
+/* } */
+
 .search-bar {
     transition: all 1.5s ease;
-  }
+}
 
 @media(max-width:1290px) {
 
