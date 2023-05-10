@@ -55,7 +55,11 @@ const data = {
                 'rgba(201, 203, 207, 1)',
                 'rgba(255, 99, 132, 1)',
             ],
-            borderWidth: 1
+            borderWidth: 1,
+            borderRadius: {
+                topLeft: 10,
+                topRight: 10
+            }
         }
     ]
 };
@@ -65,7 +69,7 @@ const options = {
         y: {
             beginAtZero: true,
             grid: {
-                color: 'rgba(0, 0, 0, 0.2)'
+                color: 'rgba(0, 0, 0, 0.1)'
             },
             ticks: {
                 font: {
