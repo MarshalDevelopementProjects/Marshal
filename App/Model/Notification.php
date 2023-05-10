@@ -49,8 +49,8 @@ class Notification
             $this->crud_util->execute($sql, $args);
             return true;
         } catch (\Exception $exception) {
-            // return false;
-            throw $exception;
+            return false;
+            // throw $exception;
         }
     }
 
@@ -60,7 +60,7 @@ class Notification
             $this->create($args, $keys, 'notifications');
             return true;
         } catch (\Throwable $th) {
-            throw $th;
+            return false;
         }
     }
 
@@ -69,7 +69,7 @@ class Notification
             $this->create($args, $keys, 'task_notification');
             return true;
         } catch (\Throwable $th) {
-            throw $th;
+            return false;
         }
     }
 
@@ -78,7 +78,7 @@ class Notification
             $this->create($args, $keys, 'message_notification');
             return true;
         } catch (\Throwable $th) {
-            throw $th;
+            return false;
         }
     }
     public function setNotifiers(array $args, array $keys):bool{
@@ -87,7 +87,7 @@ class Notification
             $this->create($args, $keys, 'notification_recievers');
             return true;
         } catch (\Throwable $th) {
-            throw $th;
+            return false;
         }
     }
 
@@ -132,18 +132,29 @@ class Notification
         }
     }
 
-    public function deleteNotification(string $condition, string $table){
-        $sql = "DELETE FROM " .$table . " " . $condition;
+    public function deleteNotification(string|null $condition, string $table){
+        if(!$condition){
+            return false;
+        }else{
+            $sql = "DELETE FROM " .$table . " " . $condition;
 
-        try {
-            $this->crud_util->execute($sql);
-            return true;
-        } catch (\Throwable $th) {
-            throw $th;
+            try {
+                $this->crud_util->execute($sql);
+                return true;
+            } catch (\Throwable $th) {
+                return false;
+            }
         }
+        
     }
 
     public function readNotification(array $args = array()){
+
+        if(array_key_exists('notification_id', $args)) {
+            if(!is_int($args['notification_id']) || $args['notification_id'] < 0){
+                return false;
+            }
+        }
 
         $sql_string = "UPDATE notification_recievers
         SET isRead = 1

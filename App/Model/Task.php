@@ -93,11 +93,13 @@ class Task
         }
 
         // check arguments validity
-        if(in_array('project_id', $keys)){
-            if($args['project_id'] != $_SESSION['project_id']) {
+
+        if(in_array('project_id', $keys) && $_SESSION){
+            if($args['project_id'] != isset($_SESSION['project_id'])) {
                 return false;
             }
-        }elseif(in_array('status', $keys)){
+        }
+        if(in_array('status', $keys)){
             if(!in_array($args['status'], $status_array)){
                 return false;
             }
@@ -137,7 +139,7 @@ class Task
         }
 
         // check arguments validity
-        if(in_array('project_id', $keys)){
+        if(in_array('project_id', $keys) && isset($_SESSION['project_id'])){
             if($args['project_id'] != $_SESSION['project_id']) {
                 return array();
             }
