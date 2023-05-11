@@ -62,7 +62,7 @@ class Request
         if (!empty($args)) {
             foreach ($args as $key => $value) {
                 $key = htmlspecialchars(trim($key), ENT_QUOTES, 'UTF-8');
-                $value = str_replace("'", '\"', htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8'));
+                $value = htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
                 $args[$key] = $value;
             }
         }

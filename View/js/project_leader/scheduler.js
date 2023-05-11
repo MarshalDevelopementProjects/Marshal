@@ -41,13 +41,18 @@ async function createNewSchedule(scheduleObj) {
             mode: "cors",
             method: "POST",
             body: JSON.stringify(scheduleObj)
+        }).then(async response => {
+            if (response.ok) {
+                let data = await response.json();
+                console.log(data);
+                alert(data.message);
+                window.location.reload();
+            } else {
+                let error = await response.json();
+                alert(error.message);
+                console.error(error);
+            }
         });
-        if (response.ok) {
-            let data = await response.json();
-            console.log(data);
-            alert(data.message);
-            window.location.reload();
-        }
     } catch (error) {
         console.error(error);
     }
@@ -60,8 +65,9 @@ function appendSchedules(parentContainerDiv, schedules) {
             appendSchedule(parentContainerDiv, schedule);
         });
     } else {
-        let text = document.createElement('h6');
-        text.innerText = 'There are no scheduled conferences in this project';
+        let text = document.createElement('h2');
+        text.setAttribute('style', 'margin-top: 15%; margin-left: 20px; color: #a39a99;');
+        text.innerText = 'There are no scheduled conferences';
         parentContainerDiv.appendChild(text);
     }
 }
@@ -160,7 +166,7 @@ function appendSchedule(parent_div, schedule) {
         if (schedule.meeting_status === "PENDING") {
             let link = document.createElement('a');
             link.setAttribute('style', 'text-decoration: none; color: #333;');
-            link.setAttribute('href', 'http://localhost/public/project/leader/conference'); // TODO :: SET THE LINK LATER
+            link.setAttribute('href', `http://localhost/public/project/leader/conference?conf_id=${schedule.conf_id}`); // TODO :: SET THE LINK LATER
             link.appendChild(scheduleDiv);
             parent_div.appendChild(link);
         } else {

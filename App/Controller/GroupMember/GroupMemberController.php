@@ -2,6 +2,7 @@
 
 namespace App\Controller\GroupMember;
 
+use App\Controller\PDF\PDFController;
 use App\Controller\ProjectMember\ProjectMemberController;
 use App\Controller\Notification\NotificationController;
 use App\Controller\Message\MessageController;
@@ -290,6 +291,34 @@ class GroupMemberController extends ProjectMemberController
                 $this->sendJsonResponse("success", ["message" => "Successfully retrieved", "messages" => $this->forum->getMessageData() ?? []]);
             } else {
                 $this->sendJsonResponse("error", ["message" => ""]);
+            }
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function generateProjectReport(): void
+    {
+        try {
+            $pdfGenerator = new PDFController();
+            // TODO: GET THE PROJECT DATA HERE
+            if ($this->group->getPDFData(group_id: $_SESSION["group_id"])) {
+                $data = $this->group->getGroupData();
+                $pdfGenerator->generateGeneralFormatPDF(
+                    path_to_html_markup: "/View/src/group_member/pdf-templates/pdf-template.html",
+                    path_to_style_sheet: "/View/src/group_member/pdf-templates/pdf-styles.css",
+                    file_name: "Report.pdf",
+                    attributes: $data,
+                    flag: false
+                );
+            } else {
+                $this->sendResponse(
+                    view: "/error/505.html",
+                    status: "error",
+                    content: [
+                        "message" => "Pdf file cannot be generated, Sorry for the inconvenience"
+                    ]
+                );
             }
         } catch (Exception $exception) {
             throw $exception;
