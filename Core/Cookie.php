@@ -31,7 +31,7 @@ class Cookie
      * @return bool if the cookie was successful set then true else false
      * 
      */
-    public static function setCookie(string $name, string $value, $expiry, bool $httpOnly = true): bool
+    public static function setCookie(string $name, string $value, int $expiry, bool $httpOnly = true): bool
     {
         return setcookie(
             name: $name,
@@ -59,7 +59,7 @@ class Cookie
      */
     public static function cookieExists(string $name): bool
     {
-        return (isset($_COOKIE[$name])) ? true : false;
+        return isset($_COOKIE[$name]);
     }
 
     /**
