@@ -2,6 +2,7 @@
 
 namespace App\Controller\ProjectLeader;
 
+use App\Controller\PDF\PDFController;
 use App\Controller\ProjectMember\ProjectMemberController;
 use App\Controller\Message\MessageController;
 use App\Controller\Notification\NotificationController;
@@ -673,9 +674,9 @@ class ProjectLeaderController extends ProjectMemberController
     {
         try {
             $args["leader_id"] = $this->user->getUserData()->id;
-            if ($this->projectLeader->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "CLIENT")) {
-                if (!empty($this->projectLeader->getProjectData())) {
-                    $args["client_id"] = $this->projectLeader->getProjectData()[0]->id;
+            if ($this->project->getProjectMembersByRole(project_id: $_SESSION["project_id"], role: "CLIENT") && !empty($this->project->getProjectMemberData())) {
+                if (!empty($this->project->getProjectData())) {
+                    $args["client_id"] = $this->project->getProjectMemberData()[0]->id;
                     $args["project_id"] = $_SESSION["project_id"];
                     $returned = $this->conferenceController->scheduleConference(args: $args);
                     if (is_bool($returned) && $returned) {
@@ -758,6 +759,33 @@ class ProjectLeaderController extends ProjectMemberController
                 initiator: "LEADER"
             );
             $this->sendJsonResponse("success", ["message" => "Data retrieved", "conferences" => $returned]);
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    public function generateProjectReport(): void
+    {
+        try {
+            $pdfGenerator = new PDFController();
+            // TODO: GET THE PROJECT DATA HERE
+            if ($this->project->getPDFData(project_id: $_SESSION["project_id"])) {
+                $data = $this->project->getProjectData();
+                $pdfGenerator->generateGeneralFormatPDF(
+                    path_to_html_markup: "/View/src/project_leader/pdf-templates/pdf-template.html",
+                    path_to_style_sheet: "/View/src/project_leader/pdf-templates/pdf-styles.css",
+                    file_name: "Report.pdf",
+                    attributes: $data
+                );
+            } else {
+                $this->sendResponse(
+                    view: "/error/505.html",
+                    status: "error",
+                    content: [
+                        "message" => "Pdf file cannot be generated, Sorry for the inconvenience"
+                    ]
+                );
+            }
         } catch (Exception $exception) {
             throw $exception;
         }
