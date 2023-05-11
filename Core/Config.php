@@ -24,7 +24,7 @@ class Config
             'password' => '',
             'db' => 'login_auth_rest_api'
         ),
-        'linux_db_config' => array('connection' => 'mysql:host=127.0.0.1;dbname=login_auth_rest_api;port=3306', 'password' => 'password_is_2021_ID', 'username' => 'marshal'),
+        // 'linux_db_config' => array('connection' => 'mysql:host=127.0.0.1;dbname=login_auth_rest_api;port=3306', 'password' => 'password_is_2021_ID', 'username' => 'marshal'),
         // logging page remember functionality storage to store the cookie
         'remember' => array(
 
@@ -52,6 +52,6 @@ class Config
      */
     public static function getApiGlobal(string $key = null): string|array|null
     {
-        return self::$config[$key] ?? null;
+        return $key ? (self::$config[$key] ?? null) : null;
     }
 }

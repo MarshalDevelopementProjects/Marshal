@@ -8,8 +8,8 @@ function testPdfGenerator()
 {
     $PdfGenerator = new PdfGenerator();
     $PdfGenerator->renderPDF(
-        path_to_html_markup: "/Tests/Test.Core/test.pdfgenerator/pdf-template.html",
-        path_to_style_sheet: "/Tests/Test.Core/test.pdfgenerator/pdf-styles.css",
+        path_to_html_markup: "/Tests/Core/test.pdfgenerator/pdf-template.html",
+        path_to_style_sheet: "/Tests/Core/test.pdfgenerator/pdf-styles.css",
         file_name: "first_pdf.pdf"
     );
 }

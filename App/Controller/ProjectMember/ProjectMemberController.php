@@ -2,6 +2,7 @@
 
 namespace App\Controller\ProjectMember;
 
+use App\Controller\PDF\PDFController;
 use App\Controller\User\UserController;
 use App\Controller\Group\GroupController;
 use App\Controller\Message\MessageController;
@@ -228,6 +229,7 @@ class ProjectMemberController extends UserController
                     "end_date" => explode(" ", $taskinfo->deadline)[0],
                     "project_name" => $projectinfo->project_name
                 );
+                $groupData['progress'] = $group->getGroupProgress($_SESSION["group_id"]);
 
                 // get user details
                 $user = new User();
@@ -683,4 +685,32 @@ class ProjectMemberController extends UserController
             ]
         );
     }
+
+    public function generateProjectReport(): void
+    {
+        try {
+            $pdfGenerator = new PDFController();
+            // TODO: GET THE PROJECT DATA HERE
+            if ($this->project->getPDFData(project_id: $_SESSION["project_id"])) {
+                $data = $this->project->getProjectData();
+                $pdfGenerator->generateGeneralFormatPDF(
+                    path_to_html_markup: "/View/src/project_member/pdf-templates/pdf-template.html",
+                    path_to_style_sheet: "/View/src/project_member/pdf-templates/pdf-styles.css",
+                    file_name: "Report.pdf",
+                    attributes: $data
+                );
+            } else {
+                $this->sendResponse(
+                    view: "/error/505.html",
+                    status: "error",
+                    content: [
+                        "message" => "Pdf file cannot be generated, Sorry for the inconvenience"
+                    ]
+                );
+            }
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
 }

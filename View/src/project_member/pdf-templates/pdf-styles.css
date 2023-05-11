@@ -1,0 +1,226 @@
+:root {
+    --body-bg: #525659;
+    --white: #ffffff;
+    --darkWhite: #ccc;
+    --black: #000000;
+    --pageShadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap');
+
+body {
+    background-color: var(--body-bg);
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.page {
+    background: var(--white);
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: var(--pageShadow);
+}
+
+.page[size="A4"] {
+    width: 21cm;
+    height: 29.7cm;
+    overflow: hidden;
+}
+
+.bb {
+    border-bottom: 3px solid var(--darkWhite);
+}
+
+header{
+    widows: 100%;
+    height: 90px;
+    margin-top: 20px;
+    /* background-color: aqua; */
+}
+header .logo{
+    height: 100%;
+    width: 100px;
+    margin-left: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: beige; */
+}
+header .logo img{
+    width: 100%;
+    height: 100%;
+
+}
+.project-header{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    /* background-color: #ccc; */
+}
+.project-name-container{
+    margin-left: 60px;
+    height: 100%;
+}
+
+.project-auth-container{
+    margin-right: 20px;
+    width: 200px;
+    display: grid;
+    grid-template-rows: 0.5fr;
+    /* background-color: rebeccapurple; */
+}
+.auth-name{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    /* background-color:red; */
+}
+.auth-position{
+    /* background-color: aqua; */
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+.name,.position{
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 200;
+    font-size: 1.1rem;
+}
+.name{
+    font-size:1.3rem;
+}
+.project-description{
+    /* background-color: aquamarine; */
+    width: 100%;
+    height: 100px;
+    padding-top: 10px;
+    font-family:'Times New Roman', Times, serif
+    /* margin-left: ; */
+}
+.project-description .description{
+    margin-left:60px;
+    margin-right: 20px;
+    background-color:rgb(213, 168, 168 , 0.1);
+    padding: 10px;
+    border-radius: 5px;
+}
+.project-date{
+    width: 754px;
+    margin-left: 40px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.project-start-date{
+    height: 100%;
+    width: 30%;
+    margin-left: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: aqua; */
+}
+.project-end-date{
+    height: 100%;
+    width: 30%;
+    margin-right: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: aqua; */
+}
+.project-date .line{
+    height: 10px;
+    width:55%;
+    background-color:#e89292;
+}
+.project-task-container{
+    width: 100%;
+    height:400px;
+    display: flex;
+    margin-top: 10px;
+    margin-left: 15px;
+    justify-content: center;
+    /* background-color:aqua; */
+}
+.start-date, .end-date{
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+}
+#st-date, #ed-date{
+    margin-left: 20px;
+}
+.task-container{
+    width: 700px;
+    height:100%;
+    background-color:rgb(213, 168, 168 , 0.1);
+}
+.project-task-title{
+    width: 100%;
+    height: 20px;
+    margin-top: 20px;
+    /* background-color: #e89292; */
+    display: flex;
+    align-items: center;
+    margin-left: 60px;
+    /* justify-content:center; */
+}
+/* .line-2{
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.line-5 {
+    height: 3px;
+    width: 700px;
+    background: linear-gradient(
+      to bottom,
+      transparent 2px,
+      rgb(167, 101, 101) 2px,
+      rgb(160, 114, 114) 3px,
+      transparent 3px
+    );
+  } */
+.task-container-header{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: rgba(226, 151, 151, 0.1);
+}
+.task-name-header,   .task .task-name{
+    width: 70%;
+    height: 100%;
+    margin-left: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: antiquewhite; */
+}
+.task-date-header,  .task .completed-date{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: antiquewhite; */
+}
+.task{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+    justify-content: space-around;
+    background-color: rgba(233, 190, 190, 0.1);
+}

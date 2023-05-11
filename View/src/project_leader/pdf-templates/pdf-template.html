@@ -1,11 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- CDN -->
+    <style>
+        /*{{ styles }}*/
+    </style>
 </head>
 
-<body>
+<body onload="generatePDF();">
+    <div id="pdf-template" class="my-5 page" size="A4">
+
+        <header>
+            <div class="logo">
+                <img src="/View/src/client/pdf-templates/logo.png" alt="">
+            </div>
+        </header>
+
+        <div class="project-header">
+
+            <div class="project-name-container">
+                <h2 class="project-name">
+                    <!-- project_name -->
+                </h2>
+            </div>
+
+            <div class="project-auth-container">
+
+                <div class="auth-name">
+                    <h4 class="name">
+                        <!-- project_creator -->
+                    </h4>
+                </div>
+
+                <div class="auth-position">
+                    <h4 class="position">
+                        <!-- project_creator_position -->
+                    </h4>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="project-description">
+            <P class="description">
+                <!-- project_description -->
+            </P>
+        </div>
+
+        <div class="project-date">
+            <div class="project-start-date">
+                <div class="start-date">
+                    <P>Start Date</P>
+                    <p id="st-date">
+                        <!-- start_date -->
+                    </p>
+                </div>
+            </div>
+
+            <div class="project-end-date">
+                <div class="end-date">
+                    <P>End Date</P>
+                    <p id="ed-date">
+                        <!-- end_date -->
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-task-title">
+            <h3>Project Tasks</h3>
+        </div>
+
+        <div class="project-task-container">
+            <div class="task-container">
+                <div class="task-container-header">
+                    <div class="task-name-header">
+                        <h4>Task Name</h4>
+                    </div>
+                    <div class="task-date-header">
+                        <h4>Completed date</h4>
+                    </div>
+                </div>
+
+                <!-- task_data -->
+
+            </div>
+        </div>
+        <footer>Copyright &copy; Marshal</footer>
+    </div>
+
+    <!-- SCRIPT -->
 
 </body>
 

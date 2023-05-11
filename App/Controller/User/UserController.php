@@ -427,6 +427,7 @@ class UserController extends Controller
 
     public function editProfile(array $args = array()): void
     {
+        var_dump($args);
         try {
             $old_user_info = $this->user->getUserData();
             $new_user_info = array();
@@ -541,7 +542,7 @@ class UserController extends Controller
             $notification->readNotification(array("notification_id" => $notificationId, "member_id" => $userId));
         }
         // we should send the notification to leader to inform our response
-        $this->sendResponseNotification($notificationId, $projectId);
+        // $this->sendResponseNotification($notificationId, $projectId);
     }
 
     public function clickOnNotification()

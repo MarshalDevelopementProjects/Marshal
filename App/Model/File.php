@@ -30,7 +30,7 @@ class File
                 return array();
             }
         } catch (\Exception $exception) {
-            throw $exception;
+            return array();
         }
     }
 }

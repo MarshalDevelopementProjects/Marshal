@@ -149,7 +149,12 @@ $router->post('/group/member/task/feedback/messages', GroupMemberController::cla
 
 $router->get('/project/client/project/feedback/messages', ClientController::class . '::getProjectFeedbackMessages');
 $router->post('/project/client/project/feedback/messages', ClientController::class . '::postMessageToProjectFeedback');
+
 $router->get('/project/client/report', ClientController::class . '::generateProjectReport');
+$router->get('/project/leader/report', ProjectLeaderController::class . '::generateProjectReport');
+$router->get('/project/member/report', ProjectMemberController::class . '::generateProjectReport');
+$router->get('/group/leader/report', GroupLeaderController::class . '::generateProjectReport');
+$router->get('/group/member/report', GroupMemberController::class . '::generateProjectReport');
 
 $router->get('/project/leader/conference/scheduler', ProjectLeaderController::class . '::gotoConferenceScheduler');
 $router->get('/project/leader/conference', ProjectLeaderController::class . '::gotoConference');
