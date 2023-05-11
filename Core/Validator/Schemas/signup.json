@@ -4,17 +4,20 @@
         "required": true,
         "min": 4,
         "max": 40,
-        "unique": true
+        "unique": true,
+        "format": "/^(?!_)[A-Za-z0-9]+(?:_[A-Za-z0-9]+)*$/"
     },
     "first_name": {
         "required": true,
         "min": 4,
-        "max": 40
+        "max": 40,
+        "format": "/^(?!_)[A-Za-z0-9]+(?:_[A-Za-z0-9]+)*$/"
     },
     "last_name": {
         "required": true,
         "min": 4,
-        "max": 40
+        "max": 40,
+        "format": "/^(?!_)[A-Za-z0-9]+(?:_[A-Za-z0-9]+)*$/"
     },
     "email_address": {
         "required": true,

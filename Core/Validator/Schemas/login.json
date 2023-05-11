@@ -3,12 +3,19 @@
     "username": {
         "required": true,
         "min": 4,
-        "max": 40
+        "max": 40,
+        "format": "/^(?!_)[A-Za-z0-9]+(?:_[A-Za-z0-9]+)*$/",
+        "exists": {
+            "table": "user",
+            "field": "username"
+        }
     },
     "email_address": {
         "required": true,
-        "unique": true,
-        "email": true
+        "exists": {
+            "table": "user",
+            "field": "email_address"
+        }
     },
     "password": {
         "required": true,

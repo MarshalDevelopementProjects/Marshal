@@ -3,7 +3,8 @@
   "conf_name": {
     "required": true,
     "min": 4,
-    "max": 255
+    "max": 255,
+    "format": "/^(?!_)[A-Za-z0-9]+(?:_[A-Za-z0-9]+)*$/"
   },
   "conf_description": {
     "required": true
