@@ -25,6 +25,12 @@ class Group
 
     public function createGroup(array $args, array $keys)
     {
+        foreach ($keys as $key) {
+            if (!isset($args[$key])) {
+                return false;
+            }
+        }
+         
         $keyCount = count($keys);
 
         $sql = "INSERT INTO groups (";
@@ -50,14 +56,20 @@ class Group
 
         try {
             $this->crud_util->execute($sql, $args);
-            return $sql;
+            return true;
         } catch (\Exception $exception) {
-            throw $exception;
+            return false;
         }
     }
 
     public function getAllGroups(array $args, array $keys): object|bool|array
     {
+        foreach ($keys as $key) {
+            if (!isset($args[$key])) {
+                return false;
+            }
+        }
+        
         $keyCount = count($keys);
         $sql = "SELECT * FROM groups WHERE ";
 
@@ -78,12 +90,17 @@ class Group
                 return false;
             }
         } catch (\Throwable $th) {
-            throw $th;
+            return false;
         }
     }
 
     public function getGroup(array $args, array $keys): object|bool|array
     {
+        foreach ($keys as $key) {
+            if (!isset($args[$key])) {
+                return false;
+            }
+        }
         $keyCount = count($keys);
         $sql = "SELECT * FROM groups WHERE ";
 
@@ -104,12 +121,23 @@ class Group
                 return false;
             }
         } catch (\Throwable $th) {
-            throw $th;
+            return false;
         }
     }
 
     public function updateGroup(array $args, array $updates, array $conditions): object|bool|array
     {
+        foreach ($updates as $key) {
+            if (!isset($args[$key])) {
+                return false;
+            }
+        }
+        foreach ($conditions as $key) {
+            if (!isset($args[$key])) {
+                return false;
+            }
+        }
+
         $updateFieldsCount = count($updates);
         $conditionFieldsCount = count($conditions);
 
@@ -137,13 +165,18 @@ class Group
             $this->crud_util->execute($sql, $args);
             return true;
         } catch (\Exception $exception) {
-            throw $exception;
-            // return false;
+            // throw $exception;
+            return false;
         }
     }
 
     public function addGroupMember(array $args, array $keys)
     {
+        foreach ($keys as $key) {
+            if (!isset($args[$key])) {
+                return false;
+            }
+        }
         $keyCount = count($keys);
 
         $sql = "INSERT INTO group_join (";
@@ -169,14 +202,19 @@ class Group
 
         try {
             $this->crud_util->execute($sql, $args);
-            return $sql;
+            return true;
         } catch (\Exception $exception) {
-            throw $exception;
+            return false;
         }
     }
 
     public function getGroupMember(array $args, array $keys): bool|object|array
     {
+        foreach ($keys as $key) {
+            if (!isset($args[$key])) {
+                return false;
+            }
+        }
         $keyCount = count($keys);
         $sql = "SELECT * FROM group_join WHERE ";
 
@@ -203,6 +241,16 @@ class Group
 
     public function getGroupMembers(array $args, array $keys): bool|object|array
     {
+        foreach ($keys as $key) {
+            if (!isset($args[$key])) {
+                return false;
+            }
+        }
+        foreach ($keys as $key) {
+            if (!isset($args[$key])) {
+                return false;
+            }
+        }
         $keyCount = count($keys);
         $sql = "SELECT * FROM group_join WHERE ";
 
@@ -223,7 +271,7 @@ class Group
                 return false;
             }
         } catch (\Throwable $th) {
-            throw $th;
+            return false;
         }
     }
 
@@ -255,8 +303,11 @@ class Group
         }
     }
 
-    public function getGroupProgress(string|int $group_id): float|bool|int
+    public function getGroupProgress(string|int|null $group_id): float|bool|int
     {
+        if($group_id == null) {
+            return false;
+        }
         try {
             $sql_string = "
                    SELECT 
@@ -276,16 +327,18 @@ class Group
                 return false;
             }
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
-            throw $exception;
+            return false;
         }
     }
 
     /**
      * @throws Exception
      */
-    public function getGroupStatistics(string|int $group_id): bool
+    public function getGroupStatistics(string|int|null $group_id): bool
     {
+        if($group_id == null) {
+            return false;
+        }
         $task_details_sql_string = "
                    SELECT
                    COUNT(CASE WHEN `t`.`status` = 'DONE' THEN 1 END) AS `no_of_completed_tasks`,

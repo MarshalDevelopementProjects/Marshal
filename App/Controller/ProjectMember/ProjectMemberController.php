@@ -229,6 +229,7 @@ class ProjectMemberController extends UserController
                     "end_date" => explode(" ", $taskinfo->deadline)[0],
                     "project_name" => $projectinfo->project_name
                 );
+                $groupData['progress'] = $group->getGroupProgress($_SESSION["group_id"]);
 
                 // get user details
                 $user = new User();

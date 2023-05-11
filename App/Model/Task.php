@@ -143,7 +143,8 @@ class Task
             if($args['project_id'] != $_SESSION['project_id']) {
                 return array();
             }
-        }elseif(in_array('status', $keys)){
+        }
+        if(in_array('status', $keys)){
             if(!in_array($args['status'], $status_array)){
                 return array();
             }
@@ -253,10 +254,13 @@ class Task
 
     public function addGroupToTask(array $args = array()): bool
     {
-        if(!in_array('group_id', $args)|| !in_array('task_id',$args)){
+        
+        if(!isset($args['task_id']) || !isset($args['group_id'])){
             return false;
         }
+
         if($this->getTask(array("task_id" => $args['task_id']), array("task_id"))){
+
             $sql = "INSERT INTO group_task (`task_id`, `group_id`) VALUES (:task_id, :group_id)";
 
             try {
