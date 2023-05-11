@@ -60,7 +60,8 @@ class Notification
             $this->create($args, $keys, 'notifications');
             return true;
         } catch (\Throwable $th) {
-            return false;
+            // return false;
+            throw $th;
         }
     }
 
@@ -87,7 +88,8 @@ class Notification
             $this->create($args, $keys, 'notification_recievers');
             return true;
         } catch (\Throwable $th) {
-            return false;
+            // return false;
+            throw $th;
         }
     }
 
