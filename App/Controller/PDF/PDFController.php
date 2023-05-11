@@ -49,7 +49,7 @@ class PDFController
      * Generates a pdf with a given name using the given content
      * @param array $attributes
      */
-    public function generateGeneralFormatPDF(string $path_to_html_markup, string $path_to_style_sheet, string $file_name, array $attributes = []): void
+    public function generateGeneralFormatPDF(string $path_to_html_markup, string $path_to_style_sheet, string $file_name, array $attributes = [], bool $flag = true): void
     {
         $html = file_get_contents("D:/xampp/htdocs" . $path_to_html_markup);
         $css = file_get_contents("D:/xampp/htdocs" . $path_to_style_sheet);
@@ -59,7 +59,8 @@ class PDFController
         $html = str_replace("<!-- SCRIPT -->", $this->SCRIPT, $html);
 
         // process task data
-        if(!empty($attributes)) $attributes = $this->processGeneralFormatPDFData($attributes);
+        if(!empty($attributes) && $flag) $attributes = $this->processGeneralFormatPDFDataOfProject($attributes);
+        if(!empty($attributes) && !$flag) $attributes = $this->processGeneralFormatPDFDataOfGroup($attributes);
 
         if (!empty($attributes)) {
             foreach ($attributes as $key => $value) {
@@ -81,21 +82,47 @@ class PDFController
         </div>
     </div>
      **/
-    private function processGeneralFormatPDFData(array $args): array
+    private function processGeneralFormatPDFDataOfProject(array $args): array
     {
         // TODO: PROCESS THE GIVEN ARRAY AND MAKE A NEW ARRAY WITH THE APPROPRIATE ATTRIBUTES
         if (
             !empty($args) &&
             array_key_exists("project_data", $args) &&
             !empty($args["project_data"]) &&
-            array_key_exists("task_data", $args) &&
-            !empty($args["task_data"])
+            array_key_exists("task_data", $args)
         ) {
             // TODO: CHANGE THE KEYS TO HTML COMMENTED KEYS
             $processed_data = [];
             $project_data = $args["project_data"];
             $task_data = $args["task_data"];
             foreach ($project_data as $attr_name => $value) {
+                $processed_data[$attr_name] = $value;
+            }
+
+            $processed_data["task_data"] = "";
+
+            foreach ($task_data as $task) {
+                $processed_data["task_data"] .= "\n" . ' <div class="task"> <div class="task-name"> <p> ' . $task["task_name"] . ' </p> </div> <div class="completed-date"> <p> ' . $task["task_completed_date"] . ' </p> </div> </div> ' . "\n";
+            }
+            return $processed_data;
+        }
+        return [];
+    }
+
+    private function processGeneralFormatPDFDataOfGroup(array $args): array
+    {
+        // TODO: PROCESS THE GIVEN ARRAY AND MAKE A NEW ARRAY WITH THE APPROPRIATE ATTRIBUTES
+        if (
+            !empty($args) &&
+            array_key_exists("group_data", $args) &&
+            !empty($args["group_data"]) &&
+            array_key_exists("task_data", $args)
+        ) {
+            // TODO: CHANGE THE KEYS TO HTML COMMENTED KEYS
+            $processed_data = [];
+            $group_data = $args["group_data"];
+            $task_data = $args["task_data"];
+            foreach ($group_data as $attr_name => $value) {
                 $processed_data[$attr_name] = $value;
             }
 
