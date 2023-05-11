@@ -554,7 +554,15 @@ body {
     color: #031738;
     /* text-decoration: underline; */
 }
-
+#group-announcements{
+    text-decoration: underline;
+}
+#group-announcements.active{
+    text-decoration: none;
+}
+#leader-feedback.active{
+    text-decoration: underline;
+}
 .group-announcement-area .feedback-form {
     height: 385px;
     width: 685px;
