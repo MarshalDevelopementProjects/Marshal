@@ -41,13 +41,18 @@ async function createNewSchedule(scheduleObj) {
             mode: "cors",
             method: "POST",
             body: JSON.stringify(scheduleObj)
+        }).then(async response => {
+            if (response.ok) {
+                let data = await response.json();
+                console.log(data);
+                alert(data.message);
+                window.location.reload();
+            } else {
+                let error = await response.json();
+                alert(error.message);
+                console.error(error);
+            }
         });
-        if (response.ok) {
-            let data = await response.json();
-            console.log(data);
-            alert(data.message);
-            window.location.reload();
-        }
     } catch (error) {
         console.error(error);
     }
