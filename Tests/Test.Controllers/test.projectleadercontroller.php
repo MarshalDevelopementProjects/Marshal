@@ -32,7 +32,8 @@ function testGetProjectFeedbackMessages(): void
     $project_leader_controller->getProjectFeedbackMessages();
 }
 
-function testScheduleConference() {
+function testScheduleConference(): void
+{
     $project_leader_controller = new ProjectLeaderController();
     echo "<pre>";
     $project_leader_controller->scheduleConference([]);
