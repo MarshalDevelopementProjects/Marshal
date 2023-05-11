@@ -90,7 +90,7 @@ abstract class Tester
         if (assert($value == true)) {
             $this->passed_tests++;
         } else {
-            printf("%s +> %s\n", "Test case failed", "{$value} is not equal to true.");
+            printf("%s %d %s +> %s\n", "Test case", $this->number_of_test, "failed", "{$value} is not equal to false.");
             $this->failed_tests++;
         }
     }
@@ -102,7 +102,7 @@ abstract class Tester
         if (assert($value == false)) {
             $this->passed_tests++;
         } else {
-            printf("%s +> %s\n", "Test case failed", "{$value} is not equal to false.");
+            printf("%s %d %s +> %s\n", "Test case", $this->number_of_test, "failed", "{$value} is not equal to false.");
             $this->failed_tests++;
         }
     }
@@ -113,7 +113,7 @@ abstract class Tester
         if (assert($value == null)) {
             $this->passed_tests++;
         } else {
-            printf("%s +> %s\n", "Test case failed", "{$value} is not equal to false.");
+            printf("%s %d %s +> %s\n", "Test case", $this->number_of_test, "failed", "{$value} is not equal to false.");
             $this->failed_tests++;
         }
     }
@@ -125,7 +125,7 @@ abstract class Tester
             printf("%s\n", "Test case successfully passed");
             $this->passed_tests++;
         } else {
-            printf("%s\n", "Test case failed passed");
+            printf("%s %d %s +> %s\n", "Test case", $this->number_of_test, "failed", "{$value} is not equal to false.");
             $this->failed_tests++;
         }
     }
@@ -136,7 +136,7 @@ abstract class Tester
         if (assert($value === $target)) {
             $this->passed_tests++;
         } else {
-            printf("%s +> %s \n", "Test case failed", "{$value} if not the same as {$target}");
+            printf("%s %d %s +> %s\n", "Test case", $this->number_of_test, "failed", "{$value} is not the same as {$target}.");
             $this->failed_tests++;
         }
     }
