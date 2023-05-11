@@ -104,8 +104,8 @@
 .assign-member-for-task{
     height: 30px;
     padding-left: 10px;
-    margin: 7px 100px 0 0;
-    width: 250px;
+    margin: 7px 60px 0 0;
+    width: 220px;
     border-radius: 5px;
     border: 1px solid #888;
 }
@@ -133,4 +133,20 @@
 }
 #cancel-todo-task-details{
     background-color: #FB160D;
+}
+
+.buttons i{
+    color: #FB160D;
+    width: 40px;
+    margin-right: 15px;
+    font-size: 23px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.buttons i:hover{
+    background-color: #eee;
 }
