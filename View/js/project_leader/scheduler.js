@@ -166,7 +166,7 @@ function appendSchedule(parent_div, schedule) {
         if (schedule.meeting_status === "PENDING") {
             let link = document.createElement('a');
             link.setAttribute('style', 'text-decoration: none; color: #333;');
-            link.setAttribute('href', 'http://localhost/public/project/leader/conference'); // TODO :: SET THE LINK LATER
+            link.setAttribute('href', `http://localhost/public/project/leader/conference?conf_id=${schedule.conf_id}`); // TODO :: SET THE LINK LATER
             link.appendChild(scheduleDiv);
             parent_div.appendChild(link);
         } else {

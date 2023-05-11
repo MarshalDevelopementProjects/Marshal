@@ -596,20 +596,37 @@ class ProjectLeaderController extends ProjectMemberController
      */
     public function gotoConference(array $args): void
     {
-        // TODO: Depending on the conference user want to join redirect him
-        $this->sendResponse(
-            view: "/user/meeting.html",
-            status: "success",
-            // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
-            content: [
-                "user_data" => [
-                    "username" => $this->user->getUserData()->username,
-                    "profile_picture" => $this->user->getUserData()->profile_picture,
-                ],
-                "peer" => $this->project->getProjectMembersByRole($_SESSION["project_id"], "CLIENT") && !empty($this->project->getProjectMemberData()) ? $this->project->getProjectMemberData()[0] : [],
-                "project_id" => $_SESSION["project_id"],
-            ]
-        );
+        if($args && sizeof($args) === 1  && array_key_exists("conf_id", $args)) {
+            $args["status"] = "DONE";
+            $returned = $this->conferenceController->changeConferenceStatus(args: $args);
+            if (is_bool($returned) && $returned) {
+                $this->sendResponse(
+                    view: "/user/meeting.html",
+                    status: "success",
+                    // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
+                    content: [
+                        "user_data" => [
+                            "username" => $this->user->getUserData()->username,
+                            "profile_picture" => $this->user->getUserData()->profile_picture,
+                        ],
+                        "peer" => $this->project->getProjectMembersByRole(
+                            $_SESSION["project_id"], "CLIENT") &&
+                        !empty($this->project->getProjectMemberData()) ?
+                            $this->project->getProjectMemberData()[0] :
+                            [],
+                        "project_id" => $_SESSION["project_id"],
+                    ]
+                );
+            }
+        } else {
+            $this->sendResponse(
+                view: 404,
+                status: "error",
+                content: [
+                    "message" => "Requested service cannot be found"
+                ]
+            );
+        }
     }
 
     /**
@@ -679,6 +696,7 @@ class ProjectLeaderController extends ProjectMemberController
                     $args["client_id"] = $this->project->getProjectMemberData()[0]->id;
                     $args["project_id"] = $_SESSION["project_id"];
                     $returned = $this->conferenceController->scheduleConference(args: $args);
+//                    var_dump($returned);
                     if (is_bool($returned) && $returned) {
                         $this->sendJsonResponse(status: "success", content: [
                             "message" => "Meeting was successfully added to the schedule",
