@@ -4,6 +4,12 @@ const chart2 = document.querySelector('#chart-2');
 const myChart = document.querySelector('#myChart');
 const myChart2 = document.querySelector('#myChart2');
 
+function hideChart(){
+    myChart2.style.display = 'none';
+}
+
+hideChart()
+
 chart1.addEventListener('click', () => {
     myChart.style.display = 'block';
     myChart2.style.display = 'none';
