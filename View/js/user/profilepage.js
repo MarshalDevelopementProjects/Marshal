@@ -46,6 +46,15 @@ function onLoad() {
     Position.value = jsonData.user_info.position;
     PhoneNumber.value = jsonData.user_info.phone_number;
     // Status.value = jsonData.user_info.user_status;
+    var userStatus = jsonData.user_info.user_status;
+
+    for (var i = 0; i < Status.options.length; i++) {
+        if (Status.options[i].value === userStatus) {
+            Status.selectedIndex = i;
+          break;
+        }
+    }
+
     ProfilePictureImg.src = jsonData.user_info.display_picture;
     ProfilePicture.src = jsonData.user_info.display_picture;
     console.log(ProfilePictureImg.src);
@@ -56,7 +65,7 @@ function onLoad() {
     EmailAddress.disabled = true;
     Position.disabled = true;
     PhoneNumber.disabled = true;
-    // Status.disabled = true;
+    Status.disabled = true;
     SaveChangesBtn.disabled = true;
     CancelChangesBtn.disabled = true;
     SaveChangesBtn.setAttribute("style", "display: none");
@@ -77,7 +86,7 @@ EditProfileBtn.addEventListener('click', function(event) {
     EmailAddress.disabled = false;
     Position.disabled = false;
     PhoneNumber.disabled = false;
-    // Status.disabled = false;
+    Status.disabled = false;
     SaveChangesBtn.disabled = false;
     CancelChangesBtn.disabled = false;
     SaveChangesBtn.setAttribute("style", "display: inline");
