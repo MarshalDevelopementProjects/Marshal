@@ -1,11 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- CDN -->
+    <style>
+        /*{{ styles }}*/
+    </style>
 </head>
 
-<body>
+<body onload="generatePDF();">
+    <div id="pdf-template" class="my-5 page" size="A4">
+
+        <header>
+            <div class="logo">
+                <img src="/View/src/client/pdf-templates/logo.png" alt="">
+            </div>
+        </header>
+
+        <div class="group-header">
+
+            <div class="group-name-container">
+                <h2 class="group-name">
+                    <!-- group_name -->
+                </h2>
+            </div>
+
+            <div class="group-auth-container">
+
+                <div class="auth-name">
+                    <h4 class="name">
+                        <!-- group_leader -->
+                    </h4>
+                </div>
+
+                <div class="auth-position">
+                    <h4 class="position">
+                        <!-- group_leader_position -->
+                    </h4>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="group-description">
+            <P class="description">
+                <!-- group_description -->
+            </P>
+        </div>
+
+        <div class="group-date">
+            <div class="group-created-date">
+                <div class="created-date">
+                    <P>Created Date</P>
+                    <p id="cr-date">
+                        <!-- created_date -->
+                    </p>
+                </div>
+            </div>
+
+            <div class="group-created-time">
+                <div class="created-time">
+                    <P>Created Time</P>
+                    <p id="cr-time">
+                        <!-- created_time -->
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="group-task-title">
+            <h3>group Tasks</h3>
+        </div>
+
+        <div class="group-task-container">
+            <div class="task-container">
+                <div class="task-container-header">
+                    <div class="task-name-header">
+                        <h4>Task Name</h4>
+                    </div>
+                    <div class="task-date-header">
+                        <h4>Completed date</h4>
+                    </div>
+                </div>
+
+                <!-- task_data -->
+
+            </div>
+        </div>
+        <footer>Copyright &copy; Marshal</footer>
+    </div>
+
+    <!-- SCRIPT -->
 
 </body>
 
