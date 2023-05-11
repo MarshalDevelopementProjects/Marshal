@@ -92,7 +92,7 @@ class Validator
                                     break;
                                 case 'email': {
                                         if (!filter_var($value, FILTER_VALIDATE_EMAIL))
-                                            $this->errors[] = str_replace('_', ' ', $key) . " is not in a valid format";
+                                            $this->errors[] = str_replace('_', ' ', $key) . " is not in a valid email address format, please check again";
                                     }
                                     break;
                                 case 'unique': {
@@ -107,7 +107,7 @@ class Validator
                                     break;
                                 case 'format': {
                                         if (!preg_match($rule_value, $value)) {
-                                            $this->errors[] = str_replace('_', ' ', $key) . " is not in a valid format";
+                                            $this->errors[] = str_replace('_', ' ', $key) . " is not in a valid format, we only accepts in";
                                         }
                                     }
                                     break;
@@ -183,10 +183,14 @@ class Validator
                     }
                     if (empty($this->errors)) $this->passed = true;
                     else $this->passed = false;
+                } else {
+                    $this->passed = false;
                 }
             } catch (Exception $exception) {
                 throw $exception;
             }
+        } else {
+            throw new Exception("Schema cannot be found");
         }
     }
 
