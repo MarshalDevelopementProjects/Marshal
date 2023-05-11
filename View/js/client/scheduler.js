@@ -58,8 +58,9 @@ function appendSchedules(parentContainerDiv, schedules) {
             appendSchedule(parentContainerDiv, schedule);
         });
     } else {
-        let text = document.createElement('h6');
-        text.innerText = 'There are no scheduled conferences in this project';
+        let text = document.createElement('h2');
+        text.setAttribute('style', 'margin-top: 15%; margin-left: 20px; color: #a39a99;');
+        text.innerText = 'There are no scheduled conferences';
         parentContainerDiv.appendChild(text);
     }
 }
