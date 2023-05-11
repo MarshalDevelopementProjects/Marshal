@@ -69,8 +69,10 @@ class ProjectController
 
                         // $taskData = $newTask->getTask(array("project_id" => $_SESSION['project_id'], "task_name" => "Build API")); 
                         $completedData = $newTask->getTaskCompletedDetails(array("task_id" => $task->task_id));
-                        $task->completeTime = $completedData->date . ' ' . $completedData->time;
-                        $task->confirmationMessage = $completedData->confirmation_message;
+                        if($completedData){
+                            $task->completeTime = $completedData->date . ' ' . $completedData->time;
+                            $task->confirmationMessage = $completedData->confirmation_message;
+                        }
 
                         $reviewTasks[] = $task;
                         break;
