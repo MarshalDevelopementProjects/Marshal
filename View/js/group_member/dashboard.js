@@ -782,7 +782,7 @@ const groupDescription = document.getElementById('groupDescription');
 const groupStart = document.getElementById('groupStart');
 const groupEnd = document.getElementById('groupEnd');
 
-groupName.innerText = jsonData['groupDetails']['name']
+groupName.innerText = `#Group : ${jsonData['groupDetails']['name']}`
 groupDescription.innerText = jsonData['groupDetails']['description']
 groupStart.innerHTML = "Start date : " + jsonData['groupDetails']['start_date'] + '<span>Deadline : ' + jsonData['groupDetails']['end_date'] + '</span>'
 
