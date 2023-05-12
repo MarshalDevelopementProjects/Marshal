@@ -60,6 +60,20 @@ class Task
         
     }
 
+    public function deleteTask(string|null $condition){
+        if(!$condition){
+            return false;
+        }
+        $sql = "DELETE FROM `task` " . $condition;
+
+        try {
+            $this->crud_util->execute($sql);
+            return true;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function getAllTasks(array $args = array()): object|bool|array
     {
         $task_types = array("project", "group");
@@ -214,8 +228,8 @@ class Task
             $this->crud_util->execute($sql, $args);
             return true;
         } catch (\Exception $exception) {
-            // throw $exception;
-            return false;
+            throw $exception;
+            // return false;
         }
     }
 

@@ -215,6 +215,9 @@
                     <div class="buttons">
                         <input type="text" name="assignedMember" class="assign-member-for-task"
                             placeholder="Assign member ...">
+
+                        <i id="delete-todo-task-btn" class="fa fa-trash-o" aria-hidden="true"></i>
+                        
                         <p id="cancel-todo-task-details">Cancel</p>
                         <p id="pickup-task-btn">PickUp</p>
                     </div>
@@ -224,16 +227,16 @@
                 </div>
 
                 <div class="Ongoing-task-details">
-                    <form>
+                    <form id="edt-task-form">
                         <div class="ongoing-top-bar">
-                          <input type="text" id="ongoing-title" name="ongoing-title" disabled>
+                          <input type="text" id="ongoing_title" name="ongoing_title" disabled>
                           <p class=""></p>
                           <i class="fas fa-edit edit-icon"></i>
                         </div>
-                        <textarea id="ongoing-description" name="ongoing-description" disabled></textarea>
+                        <textarea id="ongoing_description" name="ongoing_description" disabled></textarea>
                         <div class="ongoing-container">
                             <p class="ongoing-task-details-deadline"></p>
-                            <input type="date" id="ongoing-deadline" name="ongoing-deadline" class="min-date" disabled>
+                            <input type="date" id="ongoing_deadline" name="ongoing_deadline" class="min-date" disabled>
                             <button id="cancel-button" style="display: none;">Cancel</button>
                             <button type="submit" id="save-button" style="display: none;" disabled>Save</button>
                         </div>
@@ -336,7 +339,7 @@
                                     <input type="text" name="taskdescription" id="taskdescription"
                                         placeholder="Task description ...">
                                     <label for="taskdeadline">Deadline</label>
-                                    <input type="date" name="taskdeadline" id="taskdeadline">
+                                    <input type="date" class="min-date" name="taskdeadline" id="taskdeadline">
                                     <label for="assignedMember">Assign a member</label>
                                     <input type="text" name="assignedMember" id="assignedMember"
                                         placeholder="Enter username or email...">

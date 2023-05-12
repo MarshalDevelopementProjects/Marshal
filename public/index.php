@@ -69,6 +69,8 @@ $router->post('/projectmember/pickuptask', ProjectMemberController::class . '::p
 $router->post('/projectmember/sendconfirmation', ProjectMemberController::class . '::sendConfirmation');
 $router->post('/projectleader/rearangetask', ProjectLeaderController::class . '::rearangeTask');
 $router->post('/projectleader/assigntask', ProjectLeaderController::class . '::assignTask');
+$router->post('/projectleader/deletetask', ProjectLeaderController::class . '::deleteTask');
+$router->post('/projectleader/task/edit', ProjectLeaderController::class . '::editTask');
 $router->post('/projectleader/announcement', ProjectLeaderController::class . '::addAnnouncement');
 $router->post('/projectleader/clientfeedback', ProjectLeaderController::class . '::sendMessageToClient');
 $router->get('/projectmember/announcement', ProjectMemberController::class . '::getProjectAnnouncements');

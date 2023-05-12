@@ -21,8 +21,9 @@
         <div class="navbar">
             <div class="profile-area">
                 <img id="profile-picture-img" alt="Profile Picture" class="profile-picture">
-                <p class="user-name" id="username-header"></p>
+                <!-- <p class="user-name" id="username-header"></p> -->
             </div>
+            <p class="user-name" id="username-header"></p>
             <div class="alert hide">
                 <span class="fas fa-exclamation-circle"></span>
                 <span class="msg">Warning: This is a warning alert!</span>
@@ -45,7 +46,7 @@
                             <li class="sketch-idea">Sketch idea</li>
                         </a>
                         <li id="log-out-btn">Logout</li>
-                        
+
                     </ul>
                     <ul class="menu-icon">
                         <a href="http://localhost/public/user/dashboard" style="text-decoration: none; color: #333;">
@@ -159,12 +160,27 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="field">
-                                            <div class="lable">
-                                                <label for="phonenumber">Phone Number</label>
+                                        <div class="field-2">
+                                            <div class="field">
+                                                <div class="lable">
+                                                    <label for="phonenumber">Phone Number</label>
+                                                </div>
+                                                <div class="data">
+                                                    <input type="text" id="phone_number" name="phone_number" disabled>
+                                                </div>
                                             </div>
-                                            <div class="data">
-                                                <input type="text" id="phone_number" name="phone_number" disabled>
+                                            <div class="field">
+                                                <div class="label">
+                                                    <label for="user-status">User Status</label>
+                                                </div>
+                                                <div class="data">
+                                                    <select id="status" name="status" disabled>
+                                                        <option value="Available" selected>Available</option>
+                                                        <option value="Idle">Idle</option>
+                                                        <option value="Busy">Busy</option>
+                                                        <!-- Add more options as needed -->
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -181,7 +197,8 @@
                                 </div>
                             </div>
                             <div class="user-text" style="margin-top: 15px;">
-                                <textarea name="bio" id="bio" cols="30" rows="10" style="padding: 10px;" disabled></textarea>
+                                <textarea name="bio" id="bio" cols="30" rows="10" style="padding: 10px;"
+                                    disabled></textarea>
                             </div>
                         </form>
                         <div class="user-pwd-area" id="pwdDiv" style="display: none;">

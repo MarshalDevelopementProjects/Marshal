@@ -4,6 +4,12 @@ const chart2 = document.querySelector('#chart-2');
 const myChart = document.querySelector('#myChart');
 const myChart2 = document.querySelector('#myChart2');
 
+function hideChart(){
+    myChart2.style.display = 'none';
+}
+
+hideChart()
+
 chart1.addEventListener('click', () => {
     myChart.style.display = 'block';
     myChart2.style.display = 'none';
@@ -55,7 +61,11 @@ const data = {
                 'rgba(201, 203, 207, 1)',
                 'rgba(255, 99, 132, 1)',
             ],
-            borderWidth: 1
+            borderWidth: 1,
+            borderRadius: {
+                topLeft: 10,
+                topRight: 10
+            }
         }
     ]
 };
@@ -65,7 +75,7 @@ const options = {
         y: {
             beginAtZero: true,
             grid: {
-                color: 'rgba(0, 0, 0, 0.2)'
+                color: 'rgba(0, 0, 0, 0.1)'
             },
             ticks: {
                 font: {
