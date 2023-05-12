@@ -236,46 +236,47 @@ tasks.forEach(task => {
                 console.error(error)
             });
         }else if(newBoard === "REVIEW" && oldBoard === "ONGOING"){
-            const confirmationPopup = document.querySelector('.confirmation-popup')
-            const confirmationPopupCloseBtn = document.querySelector('.confirmation-popup .close-area i')
+            // const confirmationPopup = document.querySelector('.confirmation-popup')
+            // const confirmationPopupCloseBtn = document.querySelector('.confirmation-popup .close-area i')
 
-            const sendConfirmation = document.querySelector('.confirmation-popup .input-area button')
-            const confirmationMessage = document.getElementById('confirmationMessage')
+            // const sendConfirmation = document.querySelector('.confirmation-popup .input-area button')
+            // const confirmationMessage = document.getElementById('confirmationMessage')
 
-            let draggedTaskName = task.firstElementChild.firstElementChild.textContent;
-            var message = ""
+            // let draggedTaskName = task.firstElementChild.firstElementChild.textContent;
+            // var message = ""
 
-            /**
-             * get current date and time
-             */            
-            var date = new Date();
-            var year = date.getFullYear();
-            var month = (date.getMonth() + 1).toString().padStart(2, '0');
-            var day = date.getDate().toString().padStart(2, '0');
-            var formattedDate = year + '-' + month + '-' + day;
+            // /**
+            //  * get current date and time
+            //  */            
+            // var date = new Date();
+            // var year = date.getFullYear();
+            // var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            // var day = date.getDate().toString().padStart(2, '0');
+            // var formattedDate = year + '-' + month + '-' + day;
 
-            var time = date.toLocaleTimeString();
+            // var time = date.toLocaleTimeString();
 
-            confirmationMessage.addEventListener('input', () => {
-                message = confirmationMessage.value
-            })
-
-
-            sendConfirmation.addEventListener('click', () => {
-                sendConfirmationFunction(draggedTaskName, message, formattedDate, time)
-            })
-            confirmationMessage.addEventListener('keyup', (event) =>{
-                if(event.keyCode === 13){
-                    sendConfirmationFunction(draggedTaskName, message, formattedDate, time)
-                }
-            })
+            // confirmationMessage.addEventListener('input', () => {
+            //     message = confirmationMessage.value
+            // })
 
 
-            confirmationPopup.classList.add('active')
-            confirmationPopupCloseBtn.addEventListener('click', () => {
-                confirmationPopup.classList.remove('active')
-                location.reload();
-            })
+            // sendConfirmation.addEventListener('click', () => {
+            //     sendConfirmationFunction(draggedTaskName, message, formattedDate, time)
+            // })
+            // confirmationMessage.addEventListener('keyup', (event) =>{
+            //     if(event.keyCode === 13){
+            //         sendConfirmationFunction(draggedTaskName, message, formattedDate, time)
+            //     }
+            // })
+
+
+            // confirmationPopup.classList.add('active')
+            // confirmationPopupCloseBtn.addEventListener('click', () => {
+            //     confirmationPopup.classList.remove('active')
+            //     location.reload();
+            // })
+            showConfirmationPopup(draggedTaskName)
             
         }
                 
@@ -379,7 +380,7 @@ async function getFeedbacks(taskDetails, board){
 
 let popped = false;
 
-function showConfirmationPopup(){
+function showConfirmationPopup(taskName){
 
     const confirmationPopup = document.querySelector('.confirmation-popup'),
         confirmationPopupCloseBtn = document.querySelector('.confirmation-popup .close-area i'),
@@ -583,7 +584,7 @@ function showOngoingPopup(taskDetails){
 
     finishBtn.addEventListener('click', () => {
         popped = false
-        showConfirmationPopup()
+        showConfirmationPopup(taskDetails['task_name'])
     })
     cancelBtn.addEventListener('click', () => {
         popped = false;

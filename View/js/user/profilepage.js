@@ -73,7 +73,7 @@ function onLoad() {
     CancelChangesBtn.setAttribute("style", "display: none");
     ChangePasswordBtn.setAttribute("style", "display: none");
     popupWrapper.style.display = "none";
-};
+}
 onLoad();
 // ==============================================================
 // edit form buttons

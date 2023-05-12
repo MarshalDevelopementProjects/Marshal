@@ -199,6 +199,63 @@ class ProjectLeaderController extends ProjectMemberController
         }
     }
 
+    public function deleteTask()
+    {
+        $data = json_decode(file_get_contents('php://input'));
+        $project_id = $_SESSION["project_id"];
+
+        $task = new Task();
+        $condition = "WHERE project_id = " . $project_id . " AND task_type = 'project' AND task_name = '" . $data->task_name . "'";
+
+        try {
+            $task->deleteTask($condition);
+            $this->sendJsonResponse(
+                status: "success",
+                content: [
+                    "message" => 'delete the task ' . $data->task_name . ' successfully'
+                ]
+            );
+        } catch (\Throwable $th) {
+            $this->sendJsonResponse(
+                status: "error",
+                content: [
+                    "message" => 'failed to delete the task ' . $data->task_name
+                ]
+            );
+        }
+    }
+    
+    public function editTask(){
+        $data = json_decode(file_get_contents('php://input'));
+
+        $args = array(
+            "description" => $data->ongoing_description,
+            "deadline" => $data->ongoing_deadline,
+            "task_name" => $data->ongoing_title,
+            "task_id" => $data->task_id
+        );
+        $conditions = array("task_id");
+        $updates = array("task_name", "description", "deadline");
+
+        $task = new Task();
+        try {
+            $task->updateTask($args, $updates, $conditions);
+            $this->sendJsonResponse(
+                status: "success",
+                content: [
+                    "message" => "Successfully updated task "
+                ]
+            );
+        } catch (\Throwable $th) {
+            $this->sendJsonResponse(
+                status: "success",
+                content: [
+                    "message" => "Failed to update task"
+                ]
+            );
+        }
+        
+    }
 
     public function rearangeTask()
     {

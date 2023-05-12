@@ -286,9 +286,9 @@ tasks.forEach(task => {
                 //     confirmationPopupCloseBtn.addEventListener('click', () => {
                 //         confirmationPopup.classList.remove('active')
                 //         location.reload();
-                //     })
+                //     })showCon
                 // }
-                showConfirmationPopup(draggedTaskName)
+                firmationPopup(draggedTaskName)
 
                 
             }else if(newBoard == "DONE" && oldBoard == "REVIEW"){
@@ -603,6 +603,29 @@ function pickupTask(task){
     });
 }
 
+function deleteTask(task){
+    fetch("http://localhost/public/projectleader/deletetask", {
+        withCredentials: true,
+        credentials: "include",
+        mode: "cors",
+        method: "POST",
+        body: JSON.stringify({
+            "task_name" : task
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const todoTaskPopup = document.querySelector('.TO-DO-task-details')
+        
+        todoTaskPopup.classList.remove('active')
+        location.reload();
+        // console.log(data)
+    })
+    .catch((error) => {
+        console.error(error)
+    });
+}
+
 function showTodoPopup(taskDetails){
 
     const todoTaskPopup = document.querySelector('.TO-DO-task-details'),
@@ -612,7 +635,8 @@ function showTodoPopup(taskDetails){
         taskDeadline = document.querySelector('.todo-task-details-deadline'),
         assignMemberInput = document.querySelector('.assign-member-for-task'),
         pickupbtn = document.getElementById('pickup-task-btn'),
-        cancelBtn = document.getElementById('cancel-todo-task-details')
+        cancelBtn = document.getElementById('cancel-todo-task-details'),
+        taskDeleteBtn = document.getElementById('delete-todo-task-btn');
 
     todoTaskPopup.classList.add('active')
     taskName.innerText = taskDetails['task_name']
@@ -633,6 +657,10 @@ function showTodoPopup(taskDetails){
     cancelBtn.addEventListener('click', () => {
         todoTaskPopup.classList.remove('active')
     })
+    taskDeleteBtn.addEventListener('click', () => {
+        // console.log("HHHH")
+        deleteTask(taskName.innerText)
+    });
 }
 
 // show up the ongoing popup
@@ -640,23 +668,24 @@ let feedbackFormSubmitHandler = null
 
 function showOngoingPopup(taskDetails){
     const ongoingTaskPopup = document.querySelector('.Ongoing-task-details'),
-        taskName = document.querySelector('#ongoing-title'),
+        taskName = document.querySelector('#ongoing_title'),
         taskPriority = document.querySelector('.ongoing-top-bar p'),
-        taskDescription = document.querySelector('#ongoing-description'),
+        taskDescription = document.querySelector('#ongoing_description'),
         // taskDeadline = document.querySelector('.ongoing-task-details-deadline'),
         taskFeedbackMessages = document.querySelector('.ongoing-task-feedback-messages'),
         taskFeedbackForm = document.querySelector('#ongoing-task-feedback-form'),
         taskFeedbackFormInput = document.querySelector('#ongoing-task-feedback-form-input'),
         taskDeadline = document.querySelector('.ongoing-task-details-deadline'),
-        ongoingDeadlineInput = document.getElementById('ongoing-deadline'),
+        ongoingDeadlineInput = document.getElementById('ongoing_deadline'),
 
         cancelBtn = document.getElementById('cancel-ongoing-task-details'),
         finishBtn = document.getElementById('finishTaskBtn'),
 
         editIcon = document.querySelector('.edit-icon'),
-        deadlineInput = document.querySelector('#ongoing-deadline'),
+        deadlineInput = document.querySelector('#ongoing_deadline'),
         saveButton = document.querySelector('#save-button'),
-        cancelButton = document.querySelector('#cancel-button')
+        cancelButton = document.querySelector('#cancel-button'),
+        editTaskForm = document.querySelector('#edt-task-form');
       
 
     let feedbacksCode = getFeedbacks(taskDetails, "ongoing")
@@ -708,7 +737,49 @@ function showOngoingPopup(taskDetails){
         taskFeedbackFormInput.disabled = false;
         onLoad();
     });
-      
+
+    saveButton.addEventListener('click', async function(event) {
+        event.preventDefault();
+        let formData = new FormData(editTaskForm);
+        formData.append('task_id', taskDetails['task_id'])
+        let jsonFormData = JSON.stringify(Object.fromEntries(formData));
+
+        console.log(jsonFormData);
+        try {
+            let response = await fetch("http://localhost/public/projectleader/task/edit", {
+                withCredentials: true,
+                credentials: "include",
+                mode: "cors",
+                method: "POST",
+                body: jsonFormData
+            });
+    
+            let returnData = await response.json();
+            console.log(returnData);
+            if (response.ok) {
+
+                console.log(formData.get('ongoing_title'))
+                taskName.value = formData.get('ongoing_title');
+                taskDescription.value = formData.get('ongoing_description');
+                deadlineInput.value = formData.get('ongoing_deadline');
+
+                event.preventDefault();
+                taskName.disabled = true;
+                taskDescription.disabled = true;
+                deadlineInput.disabled = true;
+                saveButton.disabled = true;
+                saveButton.style.display = "none";
+                cancelButton.style.display = "none";
+                editIcon.style.display = "block";
+                taskFeedbackFormInput.disabled = false;
+            }
+
+        } catch (error) {
+            // alert(error.message);
+            console.error(error);
+        }
+    });
+
 
     if(feedbackFormSubmitHandler){
         taskFeedbackForm.removeEventListener('submit', feedbackFormSubmitHandler)
