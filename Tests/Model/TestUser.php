@@ -31,11 +31,7 @@ class TestUser extends Tester
     {
         $this->assertException(
             callback: User::class . '::createUser',
-            args: [
-                "args" => [
-                    "username" => "kylo_ren"
-                ]
-            ],
+            args: ["username" => "kylo_ren"],
             message: ""
         );
     }
