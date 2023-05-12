@@ -226,7 +226,7 @@ SaveChangesBtn.addEventListener('click', async function(event) {
         console.log(returnData);
         if (response.ok) {
             jsonData.user_info = returnData.user_info;
-            await OnLoad();
+            onLoad();
         }
         alert(returnData.message);
     } catch (error) {
