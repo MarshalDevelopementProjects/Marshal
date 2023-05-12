@@ -29,7 +29,9 @@ class TestUser extends Tester
 
     public function testCreateUserWithMissingArguments():void
     {
-        $this->assertException(callback: User::class . '::createUser', args: [
+        $this->assertException(
+            callback: User::class . '::createUser',
+            args: [
                 "args" => [
                     "username" => "kylo_ren"
                 ]
