@@ -491,6 +491,14 @@ body{
     color: #333;
     margin: 8px 0 5px 12%;
 }
+
+#leaders-list-container-div h3{
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
+}
+
 .member-list .group-leaders{
     height: 250px;
     overflow-y: scroll;
@@ -499,12 +507,12 @@ body{
 }
 .member-list .project-members{
     /* border: 1px solid black; */
-    height: 100px;
+    height: 120px;
     overflow-y: scroll;
 }
 
 #members-list-container-div{
-    height: 520px;
+    height: 220px;
 }
 #members-list-container-div h3{
     position: sticky; /* fix the h3 element */
