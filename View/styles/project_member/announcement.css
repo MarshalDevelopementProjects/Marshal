@@ -42,7 +42,10 @@
 .project-announcement-area .feedback-form{
     height: 410px;
     width: 685px;
-    justify-content: center;
+    /* justify-content: center; */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     overflow-y: scroll;
     margin-left: 13px;
     padding: 10px 10px 10px 10px;
