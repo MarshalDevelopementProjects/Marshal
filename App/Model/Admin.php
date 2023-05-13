@@ -9,8 +9,8 @@ use App\CrudUtil\CrudUtil;
 class Admin
 {
     private $crud_util;
-    private $admin_data;
-    private $query_results;
+    private object|array|null|bool $admin_data = null;
+    private object|array|null|bool $query_results = null;
 
     public function __construct(private string $id = "")
     {
@@ -28,13 +28,13 @@ class Admin
 
     // this will only be used for testing since admins aren't allowed
     // create other administrators
-    private function createAdmin(array $args = array())
+    public function createAdmin(array $args = array())
     {
         if (!empty($args)) {
-            $sql_string = "INSERT INTO `admin` (`id`, `username`, `first_name`, `last_name`, `email_address`, `password`, `street_address`, `city`, `country`, `phone_number`)
-                           VALUES (:id, :username, :first_name, :last_name, :email_address, :password, :street_address, :city, :country, :phone_number)";
-            $args['id'] = uniqid("admin");
-            $args['password'] = password_hash($args['password'], PASSWORD_ARGON2ID);
+            $sql_string = "INSERT INTO `admin` (`username`, `first_name`, `last_name`, `email_address`, `password`, `street_address`, `city`, `country`, `phone_number`)
+                           VALUES (:username, :first_name, :last_name, :email_address, :password, :street_address, :city, :country, :phone_number)";
+            if(array_key_exists("password", $args)) $args['password'] = password_hash($args['password'], PASSWORD_ARGON2ID);
+            else return false;
             try {
                 $this->crud_util->execute($sql_string, $args);
                 return true;
@@ -49,7 +49,7 @@ class Admin
     // this only performs a read by field
     public function readAdmin(string $key, string|int $value): bool
     {
-        if ($key) {
+        if ($key && $value) {
             $sql_string = "SELECT * FROM `admin` WHERE `" . $key . "` = :" . $key;
             // example format => "SELECT * FROM users WHERE id = :id";
             try {
@@ -71,9 +71,12 @@ class Admin
     public function createUser(array $args = array()): bool
     {
         if (!empty($args)) {
-            $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `phone_number`)
-                           VALUES (:username, :first_name, :last_name, :email_address, :password, :phone_number)";
-            $args['password'] = password_hash($args['password'], PASSWORD_ARGON2ID);
+            $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `phone_number`, `access`, `verified`)
+                           VALUES (:username, :first_name, :last_name, :email_address, :password, :phone_number, :access, :verified)";
+            if(array_key_exists("password", $args)) $args['password'] = password_hash($args['password'], PASSWORD_ARGON2ID);
+            else return false;
+            $args["access"] = "ENABLED";
+            $args["verified"] = "TRUE";
             try {
                 $this->crud_util->execute($sql_string, $args);
                 return true;
@@ -84,26 +87,26 @@ class Admin
         return false;
     }
 
-    // create more than one user in one go
+/*    // create more than one user in one go
     public function createUsers(array $args = array())
     {
         foreach ($args as $user) {
+            $val = true;
             if (!empty($user)) {
-                $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `phone_number`)
-                           VALUES (:username, :first_name, :last_name, :email_address, :password, :phone_number)";
-                $user['password'] = password_hash($user['password'], PASSWORD_ARGON2ID);
                 try {
-                    $this->crud_util->execute($sql_string, $user);
-                    return true;
+                   $val = $this->createUser($user);
                 } catch (\Exception $exception) {
                     throw $exception;
                 }
+            } else {
+                return false;
             }
-            return false;
+            if (!$val) return $val;
         }
-    }
+        return true;
+    }*/
 
-    // update a single user
+  /*  // update a single user
     public function updateUserDetails(string|int $id, array $args = array())
     {
         try {
@@ -123,12 +126,12 @@ class Admin
         } catch (\Exception $exception) {
             throw $exception;
         }
-    }
+    }*/
 
     // read a single user in the system 
     public function readUser(string|int $key = "username", string $value)
     {
-        if ($key) {
+        if ($key && $value) {
             $sql_string = "SELECT * FROM `user` WHERE `" . $key . "` = :" . $key;
             // example format => "SELECT * FROM users WHERE id = :id";
             try {
@@ -165,12 +168,12 @@ class Admin
         }
     }
 
-    // this function will be used for searching table with conditions
+/*    // this function will be used for searching table with conditions
     // mainly operators and all greater than some values and so on
     // mainly used for filtering
     public function conditionalSearch(string $table = "user", string|int|array $fields, string|array $operators)
     {
-    }
+    }*/
 
     public function getActiveUsers()
     {
@@ -223,32 +226,36 @@ class Admin
     // disable a particular user account
     public function disableUserAccount(string $key, string|int $value)
     {
-        try {
-            $sql_string = "UPDATE `user` SET
+       if ($key && $value) {
+           try {
+               $sql_string = "UPDATE `user` SET
                           `access` = :access
                           WHERE `$key` = :$key";
-            $this->crud_util->execute($sql_string, ["access" => "DISABLED", $key => $value]);
-            return true;
-        } catch (\Exception $exception) {
-            throw $exception;
-        }
+               $this->crud_util->execute($sql_string, ["access" => "DISABLED", $key => $value]);
+               return true;
+           } catch (\Exception $exception) {
+               throw $exception;
+           }
+       } return false;
     }
 
     // enable a particular user account
     public function enableUserAccount(string $key, string|int $value)
     {
-        try {
-            $sql_string = "UPDATE `user` SET
+        if ($key && $value) {
+            try {
+                $sql_string = "UPDATE `user` SET
                           `access` = :access
                           WHERE `$key` = :$key";
-            $this->crud_util->execute($sql_string, ["access" => "ENABLED", $key => $value]);
-            return true;
-        } catch (\Exception $exception) {
-            throw $exception;
-        }
+                $this->crud_util->execute($sql_string, ["access" => "ENABLED", $key => $value]);
+                return true;
+            } catch (\Exception $exception) {
+                throw $exception;
+            }
+        } return false;
     }
 
-    // update admin details
+    /*// update admin details
     private function updateAdminDetails(string|int $id, array $args = array())
     {
         try {
@@ -269,15 +276,15 @@ class Admin
         } catch (\Exception $exception) {
             throw $exception;
         }
+    }*/
+
+    public function getAdminData(): object|bool|array|null
+    {
+        return $this->admin_data ?? [];
     }
 
-    public function getAdminData()
+    public function getQueryResults(): object|bool|array|null
     {
-        return $this->admin_data;
-    }
-
-    public function getQueryResults()
-    {
-        return $this->query_results;
+        return $this->query_results ?? [];
     }
 }
