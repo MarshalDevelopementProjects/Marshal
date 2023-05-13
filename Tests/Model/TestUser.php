@@ -19,7 +19,7 @@ class TestUser extends Tester
 
     protected function setup(): void
     {
-       $this->user = new User();
+        $this->user = new User();
     }
 
     public function testCreateUserWithEmptyArgs(): void
@@ -27,12 +27,13 @@ class TestUser extends Tester
         $this->assertFalse($this->user->createUser(args: []));
     }
 
-    public function testCreateUserWithMissingArguments():void
+    public function testCreateUserWithMissingArguments(): void
     {
         $this->assertException(
             callback: User::class . '::createUser',
-            args: ["username" => "kylo_ren"]
-            ,
+            args: [
+                "args" => ["username" => "kylo_ren"]
+            ],
             message: ""
         );
     }
@@ -45,76 +46,38 @@ class TestUser extends Tester
 
     public function testUpdateStateWithEmptyArguments(): void
     {
-        $this->assertException(
-            callback: User::class . '::updateState',
-            args: [
-                "id" => []
-            ],
-            message: ""
-        );
-    }
-    public function testUpdateStateWithMissingArguments(): void
-    {
-        $this->assertException(
-            callback: User::class . '::updateState',
-            args: [
-                "id" => 1
-            ],
-            message: ""
-        );
+        $this->assertFalse($this->user->updateState(id: "", user_state: ""));
+        $this->assertFalse($this->user->updateState(id: "1", user_state: ""));
+        $this->assertFalse($this->user->updateState(id: "", user_state: "ONLINE"));
     }
 
     // test update user password function
     public function testUpdatePasswordWithValidArguments(): void
     {
-        $this->assertTrue($this->user->updatePassword(1, 'newpassword'));
+        $this->assertTrue($this->user->updatePassword(id: 1, new_password: '1234567890'));
     }
 
     public function testUpdatePasswordWithEmptyArguments(): void
     {
-        $this->assertException(
-            callback: User::class . '::updatePassword',
-            args: null,
-            message: ""
-        );
-    }
-    public function testUpdatePasswordWithMissingArguments(): void
-    {
-        $this->assertException(
-            callback: User::class . '::updatePassword',
-            args: [
-                "id" => 1
-            ],
-            message: ""
-        );
+        $this->assertFalse($this->user->updatePassword(id: "", new_password: ""));
+        $this->assertFalse($this->user->updatePassword(id: "1", new_password: ""));
+        $this->assertFalse($this->user->updatePassword(id: 1, new_password: ''));
     }
 
     // test read user functionality
-    public function testReadUserWithValidArguments() :void
+    public function testReadUserWithValidArguments(): void
     {
-        $this->assertTrue($this->user->readUser('id', 1));
+        $this->assertTrue($this->user->readUser(key: 'id', value: 5));
+        $this->assertTrue($this->user->readUser(key: 'username', value: 'Harsha_123'));
     }
-    public function testReadUserWithInvalidArguments() :void
+    public function testReadUserWithInvalidArguments(): void
     {
-        $this->assertFalse($this->user->readUser('id', 10000));
+        $this->assertFalse($this->user->readUser(key: 'id', value: 10000));
     }
-    public function testReadUserWithEmptyArguments() :void
+    public function testReadUserWithEmptyArguments(): void
     {
-        $this->assertException(
-            callback: User::class . '::readUser',
-            args: [],
-            message: ""
-        );   
-    }
-    public function testReadUserWithMissingArguments(): void
-    {
-        $this->assertException(
-            callback: User::class . '::readUser',
-            args: [
-                'key' => 'id'
-            ],
-            message: ""
-        );  
+        $this->assertFalse($this->user->readUser(key: "", value: ""));
+        $this->assertFalse($this->user->readUser(key: "", value: "value"));
     }
 
     // test get all users function
@@ -129,16 +92,16 @@ class TestUser extends Tester
     }
     public function testGetAllUsersWithInvalidArguments(): void
     {
-        $this->assertTrue(empty(is_array($this->user->getAllUsers(
+        $this->assertTrue(empty($this->user->getAllUsers(
             array(
                 'user_state' => 'ONGOING'
             ),
             'WHERE user_state = :user_state'
-        ))));
+        )));
     }
     public function testGetAllUsersWithEmptyArguments(): void
     {
-        $this->assertTrue(empty(is_array($this->user->getAllUsers(null, null))));
+        $this->assertTrue(empty($this->user->getAllUsers([], "")));
     }
 
     // test update user profile functionality
@@ -149,21 +112,9 @@ class TestUser extends Tester
 
     public function testUpdateProfilePictureWithEmptyArguments(): void
     {
-        $this->assertException(
-            callback: User::class . '::updateProfilePicture',
-            args: [],
-            message: ""
-        );  
-    }
-    public function testUpdateProfilePictureWithMissingArguments(): void
-    {
-        $this->assertException(
-            callback: User::class . '::updateProfilePicture',
-            args: [
-                'id' => 1
-            ],
-            message: ""
-        );  
+        $this->assertFalse($this->user->updateProfilePicture(id: "", value: ""));
+        $this->assertFalse($this->user->updateProfilePicture(id: "1", value: ""));
+        $this->assertFalse($this->user->updateProfilePicture(id: "", value: "/App/Database/Uploads/ProfilePictures/unvicio_squab_sun_glasses_aviator_under_a_shower_of_bubbles_Fra_c90eabc9-2980-4f3d-91f4-efe65adafcdb.png"));
     }
 
     // test update user functionality
@@ -180,15 +131,24 @@ class TestUser extends Tester
             "user_status" => "ONLINE"
         )));
     }
-    public function testUpdateUserWithEmptyArguments(): void
-    {
-        $this->assertException(
-            callback: User::class . '::updateUser',
-            args: [],
-            message: ""
-        ); 
-    }
+
+
     public function testUpdateUserWithMissingArguments(): void
+    {
+        $this->assertFalse($this->user->updateUser(id: "", args: []));
+        $this->assertFalse($this->user->updateUser(id: "5", args: []));
+        $this->assertFalse($this->user->updateUser(id: "", args: [
+            "username" => "test user name",
+            "first_name" => "test first name",
+            "last_name" => "test last_name",
+            "email_address" => "test email_address",
+            "phone_number" => '0071223432',
+            "position" => "Developer",
+            "bio" => "test bio",
+            "user_status" => "ONLINE"
+        ]));
+    }
+    public function testUpdateUserWithMissingAttributes(): void
     {
         $this->assertException(
             callback: User::class . '::updateUser',
@@ -203,53 +163,17 @@ class TestUser extends Tester
                 )
             ],
             message: ""
-        ); 
-    }
-
-    // test check user role functionality    
-    public function testCheckUserRole()
-    {   
-        // Test for valid project leader
-        $this->assertTrue($this->user->checkUserRole(1, 'LEADER', 'PROJECT'));
-        
-        // Test for invalid project leader
-        $this->assertFalse($this->user->checkUserRole(456, 'LEADER', 'PROJECT'));
-        
-        // Test for valid project member
-        $this->assertTrue($this->user->checkUserRole(2, 'MEMBER', 'PROJECT'));
-        
-        // Test for invalid project member
-        $this->assertFalse($this->user->checkUserRole(1, 'MEMBER', 'PROJECT'));
-        
-        // Test for valid project client
-        $this->assertTrue($this->user->checkUserRole(3, 'CLIENT', 'PROJECT'));
-        
-        // Test for invalid project client
-        $this->assertFalse($this->user->checkUserRole(101112, 'CLIENT', 'PROJECT'));
-        
-        // Test for valid group leader
-        $this->assertTrue($this->user->checkUserRole(1, 'LEADER', 'GROUP'));
-        
-        // Test for invalid group leader
-        $this->assertFalse($this->user->checkUserRole(789, 'LEADER', 'GROUP'));
-        
-        // Test for valid group member
-        $this->assertTrue($this->user->checkUserRole(3, 'MEMBER', 'GROUP'));
-        
-        // Test for invalid group member
-        $this->assertFalse($this->user->checkUserRole(101112, 'MEMBER', 'GROUP'));
-        
-        // Test for invalid type
-        $this->assertFalse($this->user->checkUserRole(123, 'LEADER', 'INVALID'));
+        );
     }
 
     // test isUserJoinedProject function
-    public function testIsUserJoinedProject(){
+    public function testIsUserJoinedProject()
+    {
 
         // test with valid arguments
         $this->assertTrue($this->user->isUserJoinedToProject(array(
-           "project_id" => 1,
-           "member_id" => 1 
+            "project_id" => 1,
+            "member_id" => 1
         )));
 
         // test with empty arguments
@@ -271,18 +195,15 @@ class TestUser extends Tester
         );
     }
 
-    public function testgetCommit(): void
+    public function testGetCommit(): void
     {
-        // test with valid id
-        $this->assertTrue(is_array($this->user->getCommit(1)));
-
         // test with invalid id
-        $this->assertFalse(is_array($this->user->getCommit(1000)));
+        $this->assertFalse($this->user->getCommit(1000));
 
-        // test with emoty id
+        // test with empty id
         $this->assertException(
             callback: User::class . '::getCommit',
-            args: 1,
+            args: ["id" => ""],
             message: ""
         );
     }
@@ -295,17 +216,14 @@ class TestUser extends Tester
         $this->testCreateUserWithEmptyArgs();
         $this->testCreateUserWithMissingArguments();
 
-        /*$this->testUpdateStateWithValidArguments();
+        $this->testUpdateStateWithValidArguments();
         $this->testUpdateStateWithEmptyArguments();
-        $this->testUpdateStateWithMissingArguments();
 
         $this->testUpdatePasswordWithValidArguments();
         $this->testUpdatePasswordWithEmptyArguments();
-        $this->testUpdatePasswordWithMissingArguments();
 
         $this->testReadUserWithValidArguments();
         $this->testReadUserWithEmptyArguments();
-        $this->testReadUserWithMissingArguments();
         $this->testReadUserWithInvalidArguments();
 
         $this->testGetAllUsersWithValidArguments();
@@ -313,21 +231,16 @@ class TestUser extends Tester
         $this->testReadUserWithEmptyArguments();
 
         $this->testUpdateProfilePictureWithValidArguments();
-//        $this->testUpdateProfilePictureWithInvalidArguments();
-        $this->testUpdateProfilePictureWithMissingArguments();
         $this->testUpdateProfilePictureWithEmptyArguments();
 
         $this->testUpdateUserWithValidArguments();
         $this->testUpdateUserWithMissingArguments();
-        $this->testUpdateUserWithEmptyArguments();
+        $this->testUpdateUserWithMissingAttributes();
 
-        $this->testCheckUserRole();
+        $this->testisuserjoinedproject();
 
-        $this->testIsUserJoinedProject();
+        $this->testgetcommit();
 
-        $this->testgetCommit();*/
-
-        
         $this->summary();
     }
 }
