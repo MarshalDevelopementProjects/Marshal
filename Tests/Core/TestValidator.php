@@ -28,7 +28,7 @@ class TestValidator extends Tester
     public function testValidateWithEmptySchema():void
     {
         $this->assertException(
-            callback: Validator::class . "::validate",
+            callback: Validator::class . '::validate',
             args: [
                 "values" => [
                     "username" => "ed_north",
@@ -51,8 +51,8 @@ class TestValidator extends Tester
     {
         $this->validator->validate(
             values: [
-                "username" => "kylo_ren",
-                "email_address" => "kylo_ren@gmail.com",
+                "username" => "Bhathiya_123",
+                "email_address" => "malingabhathiya@gmail.com",
                 "password" => "1234567890",
             ],
             schema: "login"
