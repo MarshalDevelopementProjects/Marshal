@@ -25,11 +25,13 @@ fullScreenBtn.addEventListener("click", function() {
   container1.style.width = "50%";
   container2.style.width = "50%";
   videoContainer2.style.height = "95%";
+  PeerProfileImg.style.marginTop = "20px";
 });
 normalScreenBtn.addEventListener("click", function() {
     container1.style.width = "70%";
     container2.style.width = "30%";
     videoContainer2.style.height = "40%";
+    PeerProfileImg.style.marginTop = "-20px";
   });
 
 // Get the microphone icons

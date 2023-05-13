@@ -134,9 +134,6 @@ body {
     width: 95%;
     height: 95%;
     background-color: rgb(0, 0, 0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .video-container-2 {
@@ -306,13 +303,16 @@ body {
 }
 
 .user-profile-img-container {
-    margin-left: 40%;
-    margin-top: 10%;
-    border-radius: 50%;
-    background-color: whitesmoke;
+    display:flex;
+    align-items:center;
+    flex-direction: column;
+    margin: auto;
+    /* border-radius: 50%; */
+    /* background-color: whitesmoke; */
     height: 160px;
     width: 160px;
     position: relative;
+    top: 30%;
 }
 
 .user-profile-img-container img {
@@ -320,16 +320,20 @@ body {
     margin: 20px;
     height: 120px;
     width: 120px;
+    border: 6px solid whitesmoke;
 }
 
 .peer-profile-img-container {
-    margin-left: 25%;
-    margin-top: 20%;
-    border-radius: 50%;
-    background-color: whitesmoke;
-    height: 160px;
+    margin: auto;
+    /* border-radius: 50%; */
+    /* background-color: whitesmoke; */
+    display:flex;
+    align-items:center;
+    flex-direction: column;
+    height: 180px;
     width: 160px;
     position: relative;
+    top: 35%;
 }
 
 .peer-profile-img-container img {
@@ -337,4 +341,13 @@ body {
     margin: 20px;
     height: 120px;
     width: 120px;
+    border: 6px solid whitesmoke;
+    margin-top: -20px;
+    transition: all 1s ease-in-out;
+}
+#peer-username-p ,#user-username-p{
+    color: #fff;
+}
+video{
+    margin-top: -160px;
 }
