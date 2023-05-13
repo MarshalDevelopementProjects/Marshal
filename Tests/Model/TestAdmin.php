@@ -81,9 +81,9 @@ class TestAdmin extends Tester
 
     public function testReadAdminWithValidArguments(): void
     {
-        $this->assertTrue($this->admin->readAdmin(key: "id", value: "3"));
-        $this->assertTrue($this->admin->readAdmin(key: "username", value: "SysAdmin"));
-        $this->assertTrue($this->admin->readAdmin(key: "last_name", value: "Snow"));
+        $this->assertTrue($this->admin->readAdmin(key: "username", value: "ConfAdmin"));
+        $this->assertTrue($this->admin->readAdmin(key: "first_name", value: "Isaac"));
+        $this->assertTrue($this->admin->readAdmin(key: "last_name", value: "Newton"));
     }
 
     public function testReadAdminWithInvalidArguments(): void

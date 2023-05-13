@@ -9,7 +9,7 @@ use Tests\Model\TestConference;
 use Tests\Model\TestForum;
 use Tests\Model\TestUser;
 
-/*$testValidator = new TestValidator();
+$testValidator = new TestValidator();
 $testValidator->run();
 
 $testConfig = new TestConfig();
@@ -23,7 +23,6 @@ $testAdminModel->run();
 
 $testConference = new TestConference();
 $testConference->run();
-*/
 
 $testForum = new TestForum();
 $testForum->run();
