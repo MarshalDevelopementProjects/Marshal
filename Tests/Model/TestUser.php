@@ -313,7 +313,10 @@ class TestUser extends Tester
         $this->testReadUserWithEmptyArguments();
 
         $this->testUpdateProfilePictureWithValidArguments();
+<<<<<<< HEAD
+=======
 //        $this->testUpdateProfilePictureWithInvalidArguments();
+>>>>>>> 5b17d32ed56303bca6e9a68f4ae7b496d3c6cbee
         $this->testUpdateProfilePictureWithMissingArguments();
         $this->testUpdateProfilePictureWithEmptyArguments();
 
@@ -324,10 +327,15 @@ class TestUser extends Tester
         $this->testCheckUserRole();
 
         $this->testIsUserJoinedProject();
+<<<<<<< HEAD
+
+        $this->testgetCommit();
+
+=======
 
         $this->testgetCommit();*/
+>>>>>>> 5b17d32ed56303bca6e9a68f4ae7b496d3c6cbee
 
-        
         $this->summary();
     }
 }
