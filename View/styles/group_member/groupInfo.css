@@ -300,8 +300,8 @@ body{
 }
 .right-panel .project-info{
     /* border: 1px solid black; */
-    width: 970px;
-    height: 565px;
+    width: 60%;
+    height: 645px;
     margin: 5px;
 }
 .project-info .project-info-top{
@@ -402,9 +402,11 @@ body{
 }
 .feedbacks .feedback-form{
     height: 393px;
-    width: 800px;
+    width: 685px;
     display: flex;
-    flex-direction: column-reverse;
+    /* flex-direction: column-reverse; */
+    flex-direction: column;
+    overflow-y: scroll;
     margin-left: 13px;
     padding: 10px 10px 10px 10px;
     border-top-left-radius: 10px;
@@ -462,12 +464,24 @@ body{
     color: #2F984A;
 }
 
+#container{
+    width: 40%;
+    height:650px;
+}
+
+.main-container {
+    width: 90%;
+    height: 370px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
 
 .member-list{
     /* border: 1px solid black; */
     border-radius: 10px;
     width: 260px;
-    height: 649px;
+    height: 350px;
     margin-top: 15px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
     background-color: #fff;
@@ -477,6 +491,14 @@ body{
     color: #333;
     margin: 8px 0 5px 12%;
 }
+
+#leaders-list-container-div h3{
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
+}
+
 .member-list .group-leaders{
     height: 250px;
     overflow-y: scroll;
@@ -485,12 +507,12 @@ body{
 }
 .member-list .project-members{
     /* border: 1px solid black; */
-    height: 100px;
+    height: 120px;
     overflow-y: scroll;
 }
 
 #members-list-container-div{
-    height: 520px;
+    height: 220px;
 }
 #members-list-container-div h3{
     position: sticky; /* fix the h3 element */
@@ -1237,4 +1259,51 @@ div::-webkit-scrollbar {
     cursor: pointer;
 }
 
+.chart {
+    width: 470px;
+    height: 270px;
+    padding: 8px;
+    margin-top: 10px;
+    padding-left: 12px;
+}
 
+
+.chart-title {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
+.chart {
+    position: relative;
+}
+
+#myChart2 {
+    display: none;
+}
+
+.chart-title h4 {
+    cursor: pointer;
+    margin: 0 10px;
+    position: relative;
+}
+
+.chart-title h4::after {
+    content: '';
+    display: block;
+    width: 0%;
+    height: 2px;
+    background-color: black;
+    transition: all 0.2s;
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+}
+
+.chart-title h4.active::after,
+.chart-title h4:hover::after {
+    width: 100%;
+}

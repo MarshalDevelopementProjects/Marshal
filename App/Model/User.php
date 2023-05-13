@@ -30,8 +30,7 @@ class User
         if (!empty($args)) {
             $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `verification_code`)
                            VALUES (:username, :first_name, :last_name, :email_address, :password, :verification_code)";
-            if (array_key_exists('password', $args)) $args['password'] = password_hash($args['password'], PASSWORD_ARGON2ID);
-            else return false;
+            $args['password'] = password_hash($args['password'], PASSWORD_ARGON2ID);
             try {
                 $this->crud_util->execute($sql_string, $args);
                 return true;

@@ -8,10 +8,10 @@ ongoingBoard = document.querySelector('.ongoing .tasks'),
 reviewBoard = document.querySelector('.review .tasks'),
 doneBoard = document.querySelector('.done .tasks');
 
-var todoTasks = jsonData['todoTasks'];
-var ongoingTasks = jsonData['ongoingTasks'];
-var reviewTasks = jsonData['reviewTasks'];
-var doneTasks = jsonData['doneTasks'];
+var todoTasks = jsonData.groupTasks['todoTasks'];
+var ongoingTasks = jsonData.groupTasks['ongoingTasks'];
+var reviewTasks = jsonData.groupTasks['reviewTasks'];
+var doneTasks = jsonData.groupTasks['doneTasks'];
 
 
 let priorities = { "high": 3, "medium": 2, "low": 1 };
@@ -782,7 +782,7 @@ const groupDescription = document.getElementById('groupDescription');
 const groupStart = document.getElementById('groupStart');
 const groupEnd = document.getElementById('groupEnd');
 
-groupName.innerText = jsonData['groupDetails']['name']
+groupName.innerText = `#Group : ${jsonData['groupDetails']['name']}`
 groupDescription.innerText = jsonData['groupDetails']['description']
 groupStart.innerHTML = "Start date : " + jsonData['groupDetails']['start_date'] + '<span>Deadline : ' + jsonData['groupDetails']['end_date'] + '</span>'
 

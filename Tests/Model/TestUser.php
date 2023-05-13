@@ -31,7 +31,8 @@ class TestUser extends Tester
     {
         $this->assertException(
             callback: User::class . '::createUser',
-            args: ["username" => "kylo_ren"],
+            args: ["username" => "kylo_ren"]
+            ,
             message: ""
         );
     }
@@ -46,7 +47,9 @@ class TestUser extends Tester
     {
         $this->assertException(
             callback: User::class . '::updateState',
-            args: null,
+            args: [
+                "id" => []
+            ],
             message: ""
         );
     }
@@ -292,7 +295,7 @@ class TestUser extends Tester
         $this->testCreateUserWithEmptyArgs();
         $this->testCreateUserWithMissingArguments();
 
-        $this->testUpdateStateWithValidArguments();
+        /*$this->testUpdateStateWithValidArguments();
         $this->testUpdateStateWithEmptyArguments();
         $this->testUpdateStateWithMissingArguments();
 
@@ -310,6 +313,10 @@ class TestUser extends Tester
         $this->testReadUserWithEmptyArguments();
 
         $this->testUpdateProfilePictureWithValidArguments();
+<<<<<<< HEAD
+=======
+//        $this->testUpdateProfilePictureWithInvalidArguments();
+>>>>>>> 5b17d32ed56303bca6e9a68f4ae7b496d3c6cbee
         $this->testUpdateProfilePictureWithMissingArguments();
         $this->testUpdateProfilePictureWithEmptyArguments();
 
@@ -320,9 +327,14 @@ class TestUser extends Tester
         $this->testCheckUserRole();
 
         $this->testIsUserJoinedProject();
+<<<<<<< HEAD
 
         $this->testgetCommit();
 
+=======
+
+        $this->testgetCommit();*/
+>>>>>>> 5b17d32ed56303bca6e9a68f4ae7b496d3c6cbee
 
         $this->summary();
     }

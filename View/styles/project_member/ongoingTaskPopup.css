@@ -22,7 +22,7 @@
     height: 25px;
     margin-bottom: 10px;
 }
-#ongoing-title{
+#ongoing_title{
     margin-left: 10px;
     font-size: 20px;
     font-weight: bold;
@@ -49,7 +49,7 @@
 .ongoing-top-bar p.low{
     background-color: #20B289;
 }
-#ongoing-description{
+#ongoing_description{
     font-size: 13px;
     width: 80%;
     max-height: 90px;
@@ -64,7 +64,7 @@
     margin-left: 20px;
     margin-top: 0px;
 }
-#ongoing-deadline{
+#ongoing_deadline{
     color: #FB160D;
     font-weight: bold;
 }

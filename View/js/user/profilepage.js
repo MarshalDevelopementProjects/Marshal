@@ -28,6 +28,7 @@ const popupWrapper = document.querySelector(".wrapper-container");
 const addProfileBtn = document.getElementById("add-icon");
 const overlay = document.getElementById("lay");
 const MessageBox = document.querySelector(".msg");
+const commitBoard = document.querySelector(".commit-board-div");
 // ==============================================================
 // user profile information
 
@@ -72,7 +73,7 @@ function onLoad() {
     CancelChangesBtn.setAttribute("style", "display: none");
     ChangePasswordBtn.setAttribute("style", "display: none");
     popupWrapper.style.display = "none";
-};
+}
 onLoad();
 // ==============================================================
 // edit form buttons
@@ -95,6 +96,7 @@ EditProfileBtn.addEventListener('click', function(event) {
     pwdDiv.setAttribute("style", "display: block");
     titleElement.textContent = "Edit Profile";
     EditProfileBtn.classList.add("hide");
+    commitBoard.setAttribute("style", "display: none");
     addProfileBtn.setAttribute("style", "display: block; animation: fadeIn 1s ease;");
     if (pwdDiv.classList.contains("hide")) {
         pwdDiv.classList.remove("hide");
@@ -113,7 +115,9 @@ CancelChangesBtn.addEventListener('click', function(event) {
     addProfileBtn.setAttribute("style", "display: none");
     titleElement.textContent = "Profile Details";
     titleElement.setAttribute("style", "animation: fadeIn 1s ease;");
-    onLoad();
+    commitBoard.setAttribute("style", "display: block; animation: fadeIn 1s ease;");
+    // onLoad();
+    location.reload();
 });
 // ==============================================================
 
@@ -226,7 +230,7 @@ SaveChangesBtn.addEventListener('click', async function(event) {
         console.log(returnData);
         if (response.ok) {
             jsonData.user_info = returnData.user_info;
-            await OnLoad();
+            onLoad();
         }
         alert(returnData.message);
     } catch (error) {
