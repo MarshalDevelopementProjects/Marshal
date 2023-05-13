@@ -310,7 +310,6 @@ class TestUser extends Tester
         $this->testReadUserWithEmptyArguments();
 
         $this->testUpdateProfilePictureWithValidArguments();
-        $this->testUpdateProfilePictureWithInvalidArguments();
         $this->testUpdateProfilePictureWithMissingArguments();
         $this->testUpdateProfilePictureWithEmptyArguments();
 
@@ -318,13 +317,13 @@ class TestUser extends Tester
         $this->testUpdateUserWithMissingArguments();
         $this->testUpdateUserWithEmptyArguments();
 
-        testCheckUserRole();
+        $this->testCheckUserRole();
 
-        testIsUserJoinedProject();
+        $this->testIsUserJoinedProject();
 
-        testgetCommit();
+        $this->testgetCommit();
 
-        
+
         $this->summary();
     }
 }

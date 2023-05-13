@@ -427,7 +427,7 @@ class UserController extends Controller
 
     public function editProfile(array $args = array()): void
     {
-        var_dump($args);
+        // var_dump($args);
         try {
             $old_user_info = $this->user->getUserData();
             $new_user_info = array();
