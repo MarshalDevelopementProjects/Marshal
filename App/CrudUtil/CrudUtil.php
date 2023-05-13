@@ -109,6 +109,14 @@ class CrudUtil
     }
 
     /**
+     * Return the PDO used to manipulate query
+     * */
+    public function getPDO(): \PDO|null
+    {
+        return $this->pdo ?? null;
+    }
+
+    /**
      * Method description
      * 
      * Getter method for @var $_results
