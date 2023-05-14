@@ -33,7 +33,7 @@ class FileUploader
      */
     public static function upload(array $allowed_file_types, array $fields)
     {
-        if (!empty($_FILES)) {
+        if ($allowed_file_types && $fields && !empty($_FILES)) {
             foreach ($fields as $key => $values) {
                 $values["allowed_file_types"] = $allowed_file_types;
                 $values["field_to_look_for"] = $key;
@@ -81,7 +81,6 @@ class FileUploader
                             "message" => "File only partially uploaded, try again"
                         )
                     );
-                    exit;
                     break;
                 case UPLOAD_ERR_NO_FILE:
                     Response::sendJsonResponse(
@@ -90,7 +89,6 @@ class FileUploader
                             "message" => "No file to upload"
                         )
                     );
-                    exit;
                     break;
                 case UPLOAD_ERR_EXTENSION:
                     Response::sendJsonResponse(
@@ -99,7 +97,6 @@ class FileUploader
                             "message" => "File cannot be uploaded, an extension failure occurred"
                         )
                     );
-                    exit;
                     break;
                 case UPLOAD_ERR_INI_SIZE:
                     Response::sendJsonResponse(
@@ -108,7 +105,6 @@ class FileUploader
                             "message" => "File cannot be uploaded, the maximum file size specified in the php.ini file is exceeded"
                         )
                     );
-                    exit;
                     break;
                 case UPLOAD_ERR_NO_TMP_DIR:
                     Response::sendJsonResponse(
@@ -117,7 +113,6 @@ class FileUploader
                             "message" => "File cannot be uploaded, the temporary file directory doesn't exist"
                         )
                     );
-                    exit;
                     break;
                 case UPLOAD_ERR_CANT_WRITE:
                     Response::sendJsonResponse(
@@ -126,7 +121,6 @@ class FileUploader
                             "message" => "File cannot be uploaded, cannot write to the temporary directory"
                         )
                     );
-                    exit;
                     break;
                 default:
                     Response::sendJsonResponse(
@@ -135,9 +129,9 @@ class FileUploader
                             "message" => "File cannot be uploaded, some unknown error occurred"
                         )
                     );
-                    exit;
                     break;
             }
+            exit;
         } else {
             // check the maximum file size, if the incoming file exceeds this rate then reject the file
             if ($_FILES[$field_to_look_for]["size"] <= $max_cap) {

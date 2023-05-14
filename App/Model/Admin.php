@@ -8,7 +8,7 @@ use App\CrudUtil\CrudUtil;
 
 class Admin
 {
-    private $crud_util;
+    private CrudUtil $crud_util;
     private object|array|null|bool $admin_data = null;
     private object|array|null|bool $query_results = null;
 

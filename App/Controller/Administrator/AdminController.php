@@ -40,7 +40,8 @@ class AdminController extends Controller
             }
             $this->validator = new Validator();
         } catch (\Exception $exception) {
-            $this->sendJsonResponse(
+            $this->sendResponse(
+                view: "/errors/403.html",
                 status: "unauthorized",
                 content: array("message" => "No such user")
             );

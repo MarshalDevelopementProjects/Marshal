@@ -16,11 +16,10 @@ class View
             $file .= "$view.html";
         }
 
+        $data = json_encode($args);
         if (is_readable($file)) {
-            $data = json_encode($args);
             require $file;
         } else {
-            $data = json_encode($args);
             require __DIR__ . '/../View/src/errors/500.html';
         }
     }

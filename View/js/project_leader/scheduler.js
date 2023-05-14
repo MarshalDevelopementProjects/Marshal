@@ -6,9 +6,9 @@ const CurrentProjectScheduleContainer = document.getElementById('current-schedul
 // const ClientContainerDiv = document.getElementById('current-schedule-container-div');
 const ScheduleDataInputForum = document.getElementById('schedule-detail-input-form');
 const userData = jsonData.user_data;
-let allSchedules = jsonData.all_conference_details;
+let allSchedules = jsonData.all_conference_details.reverse();
 console.log(allSchedules)
-let projectSchedules = jsonData.project_conference_details;
+let projectSchedules = jsonData.project_conference_details.reverse();
 console.log(projectSchedules)
 const clientsOfProject = jsonData.clients_of_the_project;
 

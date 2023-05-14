@@ -208,16 +208,17 @@ class Router
                             $action = $parts[1];
                             if (is_callable([$controller_object, $action])) {
                                 $controller_object->$action($data);
-                            } else throw new Exception("$action method cannot be found in the $class_name controller");
-                        } else throw new Exception("$class_name controller cannot be found");
-                    } else throw new Exception("Invalid callback format");
+                            }
+                        }
+                    }
+                    $this->requestNotFound();
                 } else {
                     if (is_callable($callback)) {
                         call_user_func_array($callback, array("data" => $data));
                     } else if (is_object($callback)) {
                         $callback->callback($data);
                     } else {
-                        throw new Exception("Invalid callback format");
+                        $this->requestNotFound();
                     }
                 }
                 break;
