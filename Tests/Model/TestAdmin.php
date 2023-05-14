@@ -179,25 +179,25 @@ class TestAdmin extends Tester
     function testReadUserWithEmptyArgs(): void
     {
         // both key and value fields are empty
-        $this->assertFalse($this->admin->readUser(key: "", value: ""));
+        $this->assertFalse($this->admin->readUser(value: "", key: ""));
 
         // empty value field
-        $this->assertFalse($this->admin->readUser(key: "id", value: ""));
+        $this->assertFalse($this->admin->readUser(value: "", key: "id"));
 
         // empty key field
-        $this->assertFalse($this->admin->readUser(key: "", value: "8"));
+        $this->assertFalse($this->admin->readUser(value: "8", key: ""));
     }
 
     function testReadUserWithValidArguments(): void
     {
         // using id
-        $this->assertTrue($this->admin->readUser(key: "id", value: "8"));
+        $this->assertTrue($this->admin->readUser(value: "8", key: "id"));
 
         // using username
-        $this->assertTrue($this->admin->readUser(key: "username", value: "Bhathiya_123"));
+        $this->assertTrue($this->admin->readUser(value: "kylo_ren", key: "username"));
 
         // using first_name
-        $this->assertTrue($this->admin->readUser(key: "first_name", value: "Bhathiya"));
+        $this->assertTrue($this->admin->readUser(value: "Bhathiya", key: "first_name"));
     }
 
     function testReadUserWithInValidKeyField(): void
@@ -206,7 +206,7 @@ class TestAdmin extends Tester
             callback: Admin::class . "::readUser",
             args: [
                 "key" => "invalid_key_field",
-                "value" => "Bhathiya_123"
+                "value" => "kylo_ren"
             ]
         );
     }
@@ -214,13 +214,13 @@ class TestAdmin extends Tester
     function testReadUserWithNonExistingValue(): void
     {
         // non-existing id
-        $this->assertFalse($this->admin->readUser(key: "id", value: "4000"));
+        $this->assertFalse($this->admin->readUser(value: "4000", key: "id"));
 
         // non-existing username
-        $this->assertFalse($this->admin->readUser(key: "username", value: "edward_rixton"));
+        $this->assertFalse($this->admin->readUser(value: "edward_rixton", key: "username"));
 
         // non-existing first_name
-        $this->assertFalse($this->admin->readUser(key: "first_name", value: "Rixton"));
+        $this->assertFalse($this->admin->readUser(value: "Rixton", key: "first_name"));
     }
 
     function testReadAllUsers(): void

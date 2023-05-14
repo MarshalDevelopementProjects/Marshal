@@ -34,3 +34,6 @@ $testFileUploader->run();
 $testStatus = new \Tests\Core\TestStatus();
 $testStatus->run();
 */
+
+$testAdminModel = new TestAdmin();
+$testAdminModel->run();

@@ -129,7 +129,7 @@ class Admin
     }*/
 
     // read a single user in the system 
-    public function readUser(string|int $key = "username", string $value)
+    public function readUser(string $value ,string|int $key = "username"): bool
     {
         if ($key && $value) {
             $sql_string = "SELECT * FROM `user` WHERE `" . $key . "` = :" . $key;

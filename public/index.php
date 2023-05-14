@@ -21,9 +21,9 @@ use App\Controller\ProjectLeader\ProjectLeaderController;
 use App\Controller\ProjectMember\ProjectMemberController;
 
 // register custom error and exception handlers
-// error_reporting(E_ALL);
-// set_error_handler('Core\ErrorHandler::errorHandler');
-// set_exception_handler('Core\ErrorHandler::exceptionHandler');
+ error_reporting(E_ALL);
+ set_error_handler('Core\ErrorHandler::errorHandler');
+ set_exception_handler('Core\ErrorHandler::exceptionHandler');
 
 $router = new Router();
 

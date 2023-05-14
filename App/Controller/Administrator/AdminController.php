@@ -138,7 +138,7 @@ class AdminController extends Controller
         try {
             // check whether the user exists first by checking the count then send the details
             // and unset the user password from this
-            if ($this->admin->readUser($args["key"], $args["value"])) {
+            if ($this->admin->readUser(value: $args["value"], key: $args["key"])) {
                 $this->sendJsonResponse(
                     status: "success",
                     content: array(
