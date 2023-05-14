@@ -52,31 +52,32 @@ class Conference
     // TODO: PERHAPS EXTEND FOR GROUP MEMBERS AS WELL
     public function getScheduledConferences(string|int $id, string $role, string $with = ""): bool
     {
-        try{
-            if ($role === "LEADER" ) {
-                $role = "leader_id";
-                $with = "client_id";
-            } else if ($role === "CLIENT") {
-                $role = "client_id";
-                $with = "leader_id";
-            } else {
-                return false;
-            }
-            /*
-             * Example query string :
-               SELECT
-                    u.`profile_picture` AS `caller_dp`,
-                    u.`username` AS `caller_username`,
-                    p.`project_name`AS `project_name`,
-                    c.`on` AS `scheduled_date`,
-                    c.`at` AS `scheduled_time`,
-                    c.`status` AS `meeting_status`
-               FROM `conference`c
-               JOIN `user` u ON c.`leader_id` = u.`id`
-               JOIN `project` p ON p.`id` = c.`project_id`
-               WHERE c.`leader_id` = 1;
-            */
-            $sql_string = "SELECT
+       if ($id) {
+           try{
+               if ($role === "LEADER" ) {
+                   $role = "leader_id";
+                   $with = "client_id";
+               } else if ($role === "CLIENT") {
+                   $role = "client_id";
+                   $with = "leader_id";
+               } else {
+                   return false;
+               }
+               /*
+                * Example query string :
+                  SELECT
+                       u.`profile_picture` AS `caller_dp`,
+                       u.`username` AS `caller_username`,
+                       p.`project_name`AS `project_name`,
+                       c.`on` AS `scheduled_date`,
+                       c.`at` AS `scheduled_time`,
+                       c.`status` AS `meeting_status`
+                  FROM `conference`c
+                  JOIN `user` u ON c.`leader_id` = u.`id`
+                  JOIN `project` p ON p.`id` = c.`project_id`
+                  WHERE c.`leader_id` = 1;
+               */
+               $sql_string = "SELECT
                                 c.`conf_id` AS `conf_id`,
                                 u.`profile_picture` AS `caller_dp`,
                                 u.`username` AS `caller_username`,
@@ -90,17 +91,18 @@ class Conference
                                JOIN `user` u ON c.`" . $with . "` = u.`id`
                                JOIN `project` p ON p.`id` = c.`project_id`
                                WHERE c.`" . $role . "` = :id";
-            $this->crud_util = $this->crud_util->execute($sql_string, array("id" => $id));
-            if (!$this->crud_util->hasErrors()) {
-               $this->data = $this->crud_util->getResults();
-               return true;
-            } else {
-                $this->data = NULL;
-                return false;
-            }
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+               $this->crud_util = $this->crud_util->execute($sql_string, array("id" => $id));
+               if (!$this->crud_util->hasErrors()) {
+                   $this->data = $this->crud_util->getResults();
+                   return true;
+               } else {
+                   $this->data = NULL;
+                   return false;
+               }
+           } catch (Exception $exception) {
+               throw $exception;
+           }
+       } return false;
     }
 
     public function getDetailsOfConference(string|int $conf_id): array|bool
@@ -123,17 +125,18 @@ class Conference
 
     public function getScheduledConferencesByProject(int|string $id, int|string $project_id, string $role, string $with = ""): bool|array
     {
-        try{
-            if ($role === "LEADER" ) {
-                $role = "leader_id";
-                $with = "client_id";
-            } else if ($role === "CLIENT") {
-                $role = "client_id";
-                $with = "leader_id";
-            } else {
-                return false;
-            }
-            $sql_string = "SELECT
+        if ($id && $project_id) {
+            try {
+                if ($role === "LEADER") {
+                    $role = "leader_id";
+                    $with = "client_id";
+                } else if ($role === "CLIENT") {
+                    $role = "client_id";
+                    $with = "leader_id";
+                } else {
+                    return false;
+                }
+                $sql_string = "SELECT
                                 c.`conf_id` AS `conf_id`,
                                 u.`profile_picture` AS `caller_dp`,
                                 u.`username` AS `caller_username`,
@@ -147,17 +150,18 @@ class Conference
                                JOIN `user` u ON c.`" . $with . "` = u.`id`
                                JOIN `project` p ON p.`id` = c.`project_id`
                                WHERE c.`" . $role . "` = :id AND c.`project_id` = " . ":project_id";
-            $this->crud_util = $this->crud_util->execute($sql_string, array("id" => $id, "project_id" => $project_id));
-            if (!$this->crud_util->hasErrors()) {
-                $this->data = $this->crud_util->getResults();
-                return true;
-            } else {
-                $this->data = NULL;
-                return false;
+                $this->crud_util = $this->crud_util->execute($sql_string, array("id" => $id, "project_id" => $project_id));
+                if (!$this->crud_util->hasErrors()) {
+                    $this->data = $this->crud_util->getResults();
+                    return true;
+                } else {
+                    $this->data = NULL;
+                    return false;
+                }
+            } catch (Exception $exception) {
+                throw $exception;
             }
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+        } return false;
     }
 
     public function changeStatusOfConference(string|int $conf_id, string $status):bool|array

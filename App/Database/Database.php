@@ -51,6 +51,7 @@ class Database
 
             // enabling PDO errors	
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->pdo->exec("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE");
         } catch (\Exception $exception) {
             throw $exception;
         }

@@ -22,7 +22,7 @@ abstract class Tester
         assert_options(ASSERT_ACTIVE,   true);
         assert_options(ASSERT_BAIL,     false);
         assert_options(ASSERT_WARNING,  false);
-        assert_options(ASSERT_EXCEPTION,  false);
+        // assert_options(ASSERT_EXCEPTION,  false);
         assert_options(ASSERT_CALLBACK, Tester::class . "::assertHandler");
         echo "<br>";
         echo "<pre>";
@@ -34,40 +34,32 @@ abstract class Tester
     {
         echo "<br>";
         printf("Assertion failed in the file :: %s\n At the line :: %d\n Code :: %s\n", $file, $line, $code);
-        if($description) {
+        if ($description) {
             printf(" Description :: %s\n", $description);
         }
     }
 
-    protected function setup(): void {}
+    protected function setup(): void
+    {
+    }
 
     public abstract function run(): void; // add all your test function calls to this
 
-    protected function assertException(callable|string|object $callback, array $args, string $message = ""): void
+    protected function assertException(string $callback, array $args, string $message = ""): void
     {
         $this->number_of_test++;
         try {
-
-            if (is_string($callback)) {
-                $parts = explode('::', $callback);
-                if ($parts) {
-                    $class_name = $parts[0];
-                    if (class_exists($class_name)) {
-                        $controller_object = new $class_name();
-                        $action = $parts[1];
-                        if (is_callable([$controller_object, $action])) {
-                            $controller_object->$action($args);
-                        }
+            $parts = explode('::', $callback);
+            if ($parts) {
+                $class_name = $parts[0];
+                if (class_exists($class_name)) {
+                    $controller_object = new $class_name();
+                    $action = $parts[1];
+                    if (is_callable([$controller_object, $action])) {
+                        $controller_object->$action(...$args);
                     }
                 }
-            } else {
-                if (is_callable($callback)) {
-                    call_user_func_array($callback, array("data" => $args));
-                } else if (is_object($callback)) {
-                    $callback->callback($args);
-                }
             }
-
             $this->failed_tests++;
             printf("Test case number: %d => %s +> %s\n", $this->number_of_test, "Test case failed", "the given callback did not threw an exception.");
         } catch (Exception $exception) {
