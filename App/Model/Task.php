@@ -190,16 +190,6 @@ class Task
 
     public function updateTask(array $args, array $updates, array $conditions): object|bool|array
     {
-        foreach ($updates as $key) {
-            if (!isset($args[$key]) || empty($args[$key])) {
-                return false;
-            }
-        }
-        foreach ($conditions as $key) {
-            if (!isset($args[$key]) || empty($args[$key])) {
-                return false;
-            }
-        }
 
         $updateFieldsCount = count($updates);
         $conditionFieldsCount = count($conditions);
