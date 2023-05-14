@@ -292,7 +292,8 @@ class ProjectLeaderController extends ProjectMemberController
         }
         try {
             $task->updateTask($args, $updates, $conditions);
-            $successMessage = "Reported successfully";
+            
+            $successMessage = "Rearranged successfully";
         } catch (\Throwable $th) {
             $successMessage = "Failed to rearange the task";
         }
@@ -510,13 +511,15 @@ class ProjectLeaderController extends ProjectMemberController
         $payload = $this->userAuth->getCredentials();
         $notification =  new Notification();
 
-        $user = new User();
-        $member = $user->readUser("username", $data->username);
+        $user = new User(); 
+        if($user->readUser("username", $data->username)){
+            $member = $user->getUserData();
+        }
 
         $project = new Project($payload->id);
         
         try {
-            $project->removeUserFromProject(array("project_id" => $_SESSION['project_id'], "member_id => $member->id"));
+            $project->removeUserFromProject(array("project_id" => $_SESSION['project_id'], "member_id" => $member->id));
 
             $notificationController = new NotificationController();
 
@@ -529,8 +532,10 @@ class ProjectLeaderController extends ProjectMemberController
             );
                 
             $notificationId = $notificationController->setNotification($args);
+            $this->sendJsonResponse("success", ["message" => $data->username . "removed successfully"]);
         } catch (\Throwable $th) {
             throw $th;
+            // $this->sendJsonResponse("error", ["message" =>$th->getMessage()]);
         }
     }
 

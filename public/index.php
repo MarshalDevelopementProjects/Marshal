@@ -64,6 +64,7 @@ $router->get('/projectmember/taskfeedback', ProjectMemberController::class. '::g
 $router->post('/groupmember/taskfeedback', GroupMemberController::class. '::sendTaskFeedback');
 $router->get('/groupmember/taskfeedback', GroupMemberController::class. '::getTaskFeedback');
 $router->get('/projectmember/group', ProjectMemberController::class . '::goToGroup');
+$router->post('/projectleader/member/remove', ProjectLeaderController::class . '::removeMemberFromProject');
 
 $router->post('/projectmember/pickuptask', ProjectMemberController::class . '::pickupTask');
 $router->post('/projectmember/sendconfirmation', ProjectMemberController::class . '::sendConfirmation');

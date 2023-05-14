@@ -156,8 +156,25 @@ function appendProjectMember(parent_div, member_details) {
 
             memberDeleteDiv.appendChild(TrashIcon);
 
-            TrashIcon.addEventListener('click', function(){
-                console.log('delete member')
+            memberCard.addEventListener('click', () =>{
+                console.log(member_details.username)
+                fetch("http://localhost/public/projectleader/member/remove", {
+                    withCredentials: true,
+                    credentials: "include",
+                    mode: "cors",
+                    method: "POST",
+                    body: JSON.stringify({
+                        "username" : member_details.username,
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    location.reload();
+                })
+                .catch((error) => {
+                    console.error(error)
+                });
             })
         }
 
