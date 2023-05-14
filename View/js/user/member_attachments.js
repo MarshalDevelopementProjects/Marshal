@@ -155,6 +155,10 @@ function appendProjectMember(parent_div, member_details) {
             memberCard.classList.add('only-members');
 
             memberDeleteDiv.appendChild(TrashIcon);
+
+            TrashIcon.addEventListener('click', function(){
+                console.log('delete member')
+            })
         }
 
         parent_div.appendChild(memberCard);
