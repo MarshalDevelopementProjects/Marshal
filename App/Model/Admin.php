@@ -71,8 +71,8 @@ class Admin
     public function createUser(array $args = array()): bool
     {
         if (!empty($args)) {
-            $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `phone_number`, `access`, `verified`)
-                           VALUES (:username, :first_name, :last_name, :email_address, :password, :phone_number, :access, :verified)";
+            $sql_string = "INSERT INTO `user`(`username`, `first_name`, `last_name`, `email_address`, `password`, `access`, `verified`)
+                           VALUES (:username, :first_name, :last_name, :email_address, :password, :access, :verified)";
             if(array_key_exists("password", $args)) $args['password'] = password_hash($args['password'], PASSWORD_ARGON2ID);
             else return false;
             $args["access"] = "ENABLED";
