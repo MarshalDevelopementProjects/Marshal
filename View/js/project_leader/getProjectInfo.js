@@ -301,27 +301,31 @@ leaderFeedback.addEventListener('click', () => {
 // })
 
 
-const archivedBtn = document.querySelector(".archived"),
+const archivedBtn = document.querySelectorAll(".archived"),
       confirmArchivePopup = document.querySelector(".confirm-archive-popup"),
       // rightPanel = document.querySelector(".right-panel"),
       archiveCancelBtn = document.querySelector(".cancel-btn"),
       projectInfoBtn = document.querySelector(".project-info"),
       confirmArchiveBtn = document.querySelector('.archive-btn');
 
-archivedBtn.addEventListener("click", () => {
-    confirmArchivePopup.classList.add("active")
+archivedBtn.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    confirmArchivePopup.classList.add("active");
     rightPanel.classList.add("archive");
-    projectInfoBtn.classList.remove("active")
-    archivedBtn.classList.add("active")
+    projectInfoBtn.classList.remove("active");
+    btn.classList.add("active");
+  });
 });
 
 archiveCancelBtn.addEventListener("click", () => {
-    confirmArchivePopup.classList.remove("active")
-    rightPanel.classList.remove("archive");
-    projectInfoBtn.classList.add("active");
-    archivedBtn.classList.remove("active");
+  confirmArchivePopup.classList.remove("active");
+  rightPanel.classList.remove("archive");
+  projectInfoBtn.classList.add("active");
+  const archivedBtns = document.querySelectorAll(".archived");
+  archivedBtns.forEach((btn) => {
+      btn.classList.remove("active");
+  });
 });
-
 confirmArchiveBtn.addEventListener("click", function(){
   
     fetch("http://localhost/public/user/archiveproject", {
