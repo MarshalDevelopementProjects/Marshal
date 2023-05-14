@@ -5,20 +5,8 @@ const container1 = document.querySelector(".container-1");
 const container2 = document.querySelector(".container-2");
 const videoContainer2 = document.querySelector(".video-container-2");
 
-const PeerProfileImg = document.getElementById('peer-profile-img');
-const PeerUsername = document.getElementById('peer-username-p');
-const UserProfileImg = document.getElementById('user-profile-img');
-const UserUsername = document.getElementById('user-username-p');
-
 const userData = jsonData.user_data;
-const peerData = jsonData.peer;
-console.log(jsonData);
 ProfilePictureImg.setAttribute("src", userData.profile_picture);
-
-UserProfileImg.setAttribute('src', userData.profile_picture);
-UserUsername.innerText = userData.username;
-PeerProfileImg.setAttribute('src', peerData.profile_picture);
-PeerUsername.innerText = peerData.username;
 
 
 fullScreenBtn.addEventListener("click", function() {

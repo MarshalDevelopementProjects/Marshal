@@ -292,7 +292,8 @@ class ProjectLeaderController extends ProjectMemberController
         }
         try {
             $task->updateTask($args, $updates, $conditions);
-            $successMessage = "Reported successfully";
+            
+            $successMessage = "Rearranged successfully";
         } catch (\Throwable $th) {
             $successMessage = "Failed to rearange the task";
         }
@@ -510,13 +511,15 @@ class ProjectLeaderController extends ProjectMemberController
         $payload = $this->userAuth->getCredentials();
         $notification =  new Notification();
 
-        $user = new User();
-        $member = $user->readUser("username", $data->username);
+        $user = new User(); 
+        if($user->readUser("username", $data->username)){
+            $member = $user->getUserData();
+        }
 
         $project = new Project($payload->id);
         
         try {
-            $project->removeUserFromProject(array("project_id" => $_SESSION['project_id'], "member_id => $member->id"));
+            $project->removeUserFromProject(array("project_id" => $_SESSION['project_id'], "member_id" => $member->id));
 
             $notificationController = new NotificationController();
 
@@ -529,8 +532,10 @@ class ProjectLeaderController extends ProjectMemberController
             );
                 
             $notificationId = $notificationController->setNotification($args);
+            $this->sendJsonResponse("success", ["message" => $data->username . "removed successfully"]);
         } catch (\Throwable $th) {
             throw $th;
+            // $this->sendJsonResponse("error", ["message" =>$th->getMessage()]);
         }
     }
 
@@ -653,7 +658,7 @@ class ProjectLeaderController extends ProjectMemberController
      */
     public function gotoConference(array $args): void
     {
-        if($args && sizeof($args) === 1  && array_key_exists("conf_id", $args)) {
+        /*if($args && sizeof($args) === 1  && array_key_exists("conf_id", $args)) {
             $args["status"] = "DONE";
             $returned = $this->conferenceController->changeConferenceStatus(args: $args);
             if (is_bool($returned) && $returned) {
@@ -683,7 +688,21 @@ class ProjectLeaderController extends ProjectMemberController
                     "message" => "Requested service cannot be found"
                 ]
             );
-        }
+        }*/
+        // TODO: Depending on the conference user want to join redirect him
+        $this->sendResponse(
+            view: "/user/meeting.html",
+            status: "success",
+            // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
+            content: [
+                "user_data" => [
+                    "username" => $this->user->getUserData()->username,
+                    "profile_picture" => $this->user->getUserData()->profile_picture,
+                ],
+                "peer" => $this->project->getProjectMembersByRole($_SESSION["project_id"], "CLIENT") && !empty($this->project->getProjectMemberData()) ? $this->project->getProjectMemberData()[0] : [],
+                "project_id" => $_SESSION["project_id"],
+            ]
+        );
     }
 
     /**

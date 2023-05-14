@@ -107,9 +107,9 @@ class Project
     }
     public function removeUserFromProject(array $args = array()) {
         $sql = "DELETE FROM project_join WHERE project_id = :project_id AND member_id = :member_id";
-
+        // var_dump($sql);
         try {
-            $this->crud_util->execute($sql_string, $args);
+            $this->crud_util->execute($sql, $args);
             return true;
         } catch (\Exception $exception) {
             return false;

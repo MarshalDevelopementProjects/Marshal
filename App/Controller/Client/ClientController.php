@@ -88,7 +88,7 @@ class ClientController extends UserController
      */
     public function gotoConference(array $args): void
     {
-        if($args && sizeof($args) === 1  && array_key_exists("conf_id", $args)) {
+        /*if($args && sizeof($args) === 1  && array_key_exists("conf_id", $args)) {
             $args["status"] = "DONE";
             $returned = $this->conferenceController->changeConferenceStatus(args: $args);
             if (is_bool($returned) && $returned) {
@@ -114,7 +114,21 @@ class ClientController extends UserController
                     "message" => "Requested service cannot be found"
                 ]
             );
-        }
+        }*/
+        // TODO: Depending on the conference user want to join redirect him
+        $this->sendResponse(
+            view: "/user/meeting.html",
+            status: "success",
+            // TODO: PASS THE NECESSARY INFORMATION OF THE REDIRECTING PAGE
+            content: [
+                "user_data" => [
+                    "username" => $this->user->getUserData()->username,
+                    "profile_picture" => $this->user->getUserData()->profile_picture,
+                ],
+                "peer" => $this->project->getProjectMembersByRole($_SESSION["project_id"], "LEADER") ? $this->project->getProjectMemberData()[0] : [],
+                "project_id" => $_SESSION["project_id"],
+            ]
+        );
     }
 
     /**

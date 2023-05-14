@@ -134,7 +134,8 @@ if(endValue != 0){
             #924444 ${value * 3.6}deg,
             #be9191 ${value * 3.6}deg
         )`;
-        if(value === endValue){
+        // console.log(endValue, value)
+        if(value >= endValue){
             clearInterval(progress);
         }
     }, speed);
