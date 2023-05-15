@@ -222,7 +222,11 @@
                     </div>
 
                     <div id="client-list-container-div" class="project-members">
-                        <h3>Clients</h3>
+                        <div class="client-area" style="display: flex; justify-content: space-between;">
+                            <h3>Client</h3>
+                            <i id="add-client-btn" class="fa fa-plus" aria-hidden="true" style="margin: 9px 30px 0 0; cursor: pointer;"></i>
+                        </div>
+                        
                         <!-- add the members here -->
                     </div>
 
@@ -344,8 +348,20 @@
             </div>
         </div>
 
+        <div class="client-invite-popup">
+            <h3>Invite client</h3>
+            <label for="username">Username</label>
+            <br>
+            <input type="text" name="username" placeholder="Enter username">
+            <div class="buttons">
+                <button type="submit" id="clientInviteBtn">Send</button>
+                <button type="submit" id="clientInvitecloseBtn">Close</button>
+            </div>
+        </div>
+
         
     </div>
+
     <script>
         var jsonData = JSON.parse('<?= $data; ?>');
     </script>
@@ -361,6 +377,7 @@
     <script src="/View/js/user/sidebar.js"></script>
     <script src="/View/js/user/notification.js"></script>
     <script src="/View/js/user/minDate.js"></script>
+    <script src="/View/js/project_leader/client_invite.js"></script>
 </body>
 </html>
 

@@ -396,7 +396,7 @@ class UserController extends Controller
         // perform additional checks and other validations before giving data to this function
         // and also make sure to construct an appropriate file name for storing the file
         $result = FileUploader::upload(
-            allowed_file_types: array("image/jpg", "image/png", "image/gif"),
+            allowed_file_types: array("image/jpg", "image/png", "image/gif", "image/jpeg"),
             fields: array(
                 "profile_picture" => array(
                     "upload_to" => "/App/Database/Uploads/ProfilePictures",
@@ -508,40 +508,35 @@ class UserController extends Controller
     {
         $projectId = $_GET['data1'];
         $notificationId = $_GET['data2'];
+        // var_dump($projectId);
 
         $payload = $this->userAuth->getCredentials();
         $userId = $payload->id;
-
-        $args = array(
-            "project_id" => $projectId,
-            "member_id" => $userId,
-            "role" => "MEMBER",
-            "joined" => date("Y-m-d H:i:s")
-        );
 
         $project = new Project($userId);
         $notification = new Notification();
         $clickedNotification = $notification->getNotification(array("id" => $notificationId), array("id"));
 
+        $urlAndRole = explode(' ', $clickedNotification->url);
+
+        $url = $urlAndRole[0];
+        $role = $urlAndRole[1];
+
+        $args = array(
+            "project_id" => $projectId,
+            "member_id" => $userId,
+            "role" => $role,
+            "joined" => date("Y-m-d H:i:s")
+        );
         // set as read the notification 
 
         if ($project->joinProject($args) && $notification->readNotification(array("notification_id" => $notificationId, "member_id" => $userId))) {
-            // $this->sendResponse(
-            //     view: "/user/login.html",
-            //     status: "success"
-            // );
-            header("Location: " . $clickedNotification->url);
+            header("Location: " . $url);
         } else {
-            // $this->sendResponse(
-            //     view: "/user/signup.html",
-            //     status: "success"
-            // );
-            // header("Location: http://localhost/public/user/dashboard");
-            // $this->clickOnNotification();
             $notification->readNotification(array("notification_id" => $notificationId, "member_id" => $userId));
+            header("Location: http://localhost/public/user/dashboard");
         }
-        // we should send the notification to leader to inform our response
-        // $this->sendResponseNotification($notificationId, $projectId);
+
     }
 
     public function clickOnNotification()
@@ -688,5 +683,26 @@ class UserController extends Controller
         }
 
         return array("taskDeadlines" => $deadlines);
+    }
+
+    public function rejectRequest(){
+        $notification_id = $_GET['data'];
+        $payload = $this->userAuth->getCredentials();
+
+        // set the notification as read 
+        $notification = new Notification();
+        
+        try {
+            $notification->readNotification(array("notification_id" => $notification_id, "member_id" => $payload->id));
+            $this->sendJsonResponse(
+                status: "success",
+                content: ["message" => "Rejected the request"]
+            );
+        } catch (\Throwable $th) {
+            $this->sendJsonResponse(
+                status: "error",
+                content: ["message" => "Failed to reject the request"]
+            );
+        }
     }
 }

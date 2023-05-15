@@ -1,0 +1,2 @@
+{"Error number":2,"Error string":"Undefined property: stdClass::$archived","File name":"D:\\xampp\\htdocs\\App\\Controller\\User\\UserController.php","Line number":105,"Time stamp":"May,15,2023 01:41:35 AM"}
+{"Error number":2,"Error string":"Undefined property: stdClass::$archived","File name":"D:\\xampp\\htdocs\\App\\Controller\\User\\UserController.php","Line number":105,"Time stamp":"May,15,2023 01:46:50 AM"}

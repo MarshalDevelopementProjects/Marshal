@@ -10,7 +10,6 @@ require __DIR__ . "/../vendor/autoload.php";
  * encapsulates the behavior of a http states
  * 
  * @abstract 
- * @method static mixed getHeaderContent(string $status, string $http_method)
  */
 
 abstract class Status

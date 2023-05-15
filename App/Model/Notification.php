@@ -152,11 +152,11 @@ class Notification
 
     public function readNotification(array $args = array()){
 
-        if(array_key_exists('notification_id', $args)) {
-            if(!is_int($args['notification_id']) || $args['notification_id'] < 0){
-                return false;
-            }
-        }
+        // if(array_key_exists('notification_id', $args)) {
+        //     if(!is_int($args['notification_id']) || $args['notification_id'] < 0){
+        //         return false;
+        //     }
+        // }
 
         $sql_string = "UPDATE notification_recievers
         SET isRead = 1

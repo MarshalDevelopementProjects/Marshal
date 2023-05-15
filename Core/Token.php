@@ -9,13 +9,13 @@ use Core\Config;
 class Token
 {
     // current secret
-    private string $secret = 'secret';
+    protected $secret = 'secret';
 
     public function __construct(protected $algorithm = 'SHA256', protected $type = "JWT")
     {
     }
 
-    public function generateToken($headers = array(), $payload = array(), $ttl = "access_ttl"): ?string
+    public function generateToken($headers = array(), $payload = array(), $ttl = "access_ttl")
     {
         if (!empty($headers) && !empty($payload)) {
 
@@ -36,7 +36,7 @@ class Token
         }
     }
 
-    protected function validateToken($json_web_token): bool
+    protected function validateToken($json_web_token)
     {
         // break the token into parts
         if ($json_web_token) {
@@ -72,12 +72,12 @@ class Token
         return false;
     }
 
-    protected function _base64url_encode($string): string
+    protected function _base64url_encode($string)
     {
         return rtrim(strtr(base64_encode($string), '+/', '-_'), '=');
     }
 
-    private function isTokenExpired($payload): bool
+    private function isTokenExpired($payload)
     {
         $expiration = json_decode($payload)->exp;
         return ($expiration - time()) < 0;
@@ -90,7 +90,7 @@ class Token
             : null;
     }
 
-    protected function setBearerTokenInCookie($headers = array(), $payload = array(), $token_type = "access", $ttl = "access_ttl"): bool
+    protected function setBearerTokenInCookie($headers = array(), $payload = array(), $token_type = "access", $ttl = "access_ttl")
     {
         return Cookie::setCookie(
             name: Config::getApiGlobal('remember')[$token_type],
@@ -99,7 +99,7 @@ class Token
         );
     }
 
-    protected function unsetBearerTokenCookie(): bool
+    protected function unsetBearerTokenCookie()
     {
         if (Cookie::cookieExists(Config::getApiGlobal('remember')['access'])) {
             Cookie::deleteCookie(
