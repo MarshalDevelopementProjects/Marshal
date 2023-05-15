@@ -1579,6 +1579,7 @@ div::-webkit-scrollbar {
     background-size: 200% 100%;
     background-position: right bottom;
     transition: background-position 0.3s ease-in-out;
+    cursor: pointer;
 }
 
 @media(max-width:1290px) {
