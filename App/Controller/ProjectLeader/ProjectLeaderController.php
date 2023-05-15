@@ -114,7 +114,7 @@ class ProjectLeaderController extends ProjectMemberController
                     "message" => "Invite you to the peoject.",
                     "type" => "request",
                     "sender_id" => $user_id,
-                    "url" => "http://localhost/public/user/project?id=" . $project_id,
+                    "url" => "http://localhost/public/user/project?id=" . $project_id . ' MEMBER',
                     "recive_id" => $receivedUser->id
                 );
                 
@@ -882,6 +882,41 @@ class ProjectLeaderController extends ProjectMemberController
             }
         } catch (Exception $exception) {
             throw $exception;
+        }
+    }
+    public function sendClientInvitation()
+    {
+        try {
+            // get receiver user name
+            $data = file_get_contents('php://input');
+
+            // first check receiver is valid user or not
+            // get received user id
+            $user = new User();
+            $user->readUser("username", $data);
+            $receivedUser = $user->getUserData();
+
+            if ($receivedUser) {
+                $payload = $this->userAuth->getCredentials();
+                $project_id = $_SESSION["project_id"];
+                $user_id = $payload->id;
+
+                $notificationController = new NotificationController();
+
+                $args = array(
+                    "message" => "Invite you to the peoject.",
+                    "type" => "request",
+                    "sender_id" => $user_id,
+                    "url" => "http://localhost/public/user/project?id=" . $project_id . ' CLIENT',
+                    "recive_id" => $receivedUser->id
+                );
+                
+                $notificationId = $notificationController->setNotification($args);
+            }
+           
+            echo (json_encode(array("message" => "Success")));
+        } catch (\Throwable $th) {
+            echo (json_encode(array("message" => $th)));
         }
     }
 }

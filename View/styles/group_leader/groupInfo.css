@@ -991,6 +991,7 @@ body {
     background-size: 200% 100%;
     background-position: right bottom;
     transition: background-position 0.3s ease-in-out;
+    cursor: pointer;
   }
 
 
