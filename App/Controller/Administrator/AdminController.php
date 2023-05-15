@@ -56,7 +56,7 @@ class AdminController extends Controller
 
     public function defaultAction(Object|array|string|int $optional = null): void
     {
-        // default page should have the following 
+        // default page should have the following
         // user count, active user count, admin count
         // and all the users
         try {
@@ -68,7 +68,7 @@ class AdminController extends Controller
                 $data["user_details"] = $this->admin->getQueryResults();
                 $data["all_user_count"] = sizeof($data["user_details"]);
             }
-            
+
             $data["admin_data"] = $this->admin->getAdminData();
 
             $count = array();
@@ -85,7 +85,7 @@ class AdminController extends Controller
                 $count["active_users"] = $this->admin->getQueryResults();
                 $data["active_user_count"] = sizeof($count["active_users"]);
             }
-           
+
             if($this->admin->getOfflineUsers() == "0"){
                 $data["offline_user_count"] = 0;
             }else{
@@ -133,12 +133,12 @@ class AdminController extends Controller
 
     // this $args here should contain a field with a key as the
     // column name and the value as the column value
-    public function viewUserDetails(array $args): void
+    public function viewUserDetails(array $args)
     {
         try {
             // check whether the user exists first by checking the count then send the details
             // and unset the user password from this
-            if ($this->admin->readUser(value: $args["value"], key: $args["key"])) {
+            if ($this->admin->readUser($args["key"], $args["value"])) {
                 $this->sendJsonResponse(
                     status: "success",
                     content: array(
@@ -159,7 +159,7 @@ class AdminController extends Controller
         }
     }
 
-    public function createNewUser(array $args = array()): void
+    public function createNewUser(array $args = array())
     {
         try {
             // validate the data first and then create the user
@@ -197,7 +197,7 @@ class AdminController extends Controller
     // this args array should contain the following
     // $args["key"] => "column_name"
     // $args["value"] => "column_value"
-    public function blockUser(array $args): void
+    public function blockUser(array $args)
     {
         try {
             if ($this->admin->disableUserAccount(key: $args["key"], value: $args["value"])) {
@@ -223,7 +223,7 @@ class AdminController extends Controller
     // this args array should contain the following
     // $args["key"] => "column_name"
     // $args["value"] => "column_value"
-    public function grantAccessToUser(array $args): void
+    public function grantAccessToUser(array $args)
     {
         try {
             if ($this->admin->enableUserAccount(key: $args["key"], value: $args["value"])) {
@@ -246,7 +246,7 @@ class AdminController extends Controller
         }
     }
 
-    public function viewActiveUsers(): void
+    public function viewActiveUsers()
     {
         try {
 
@@ -271,7 +271,7 @@ class AdminController extends Controller
         }
     }
 
-    public function viewBlockedUsers(): void
+    public function viewBlockedUsers()
     {
         try {
             if ($this->admin->getBlockedUsers()) {
@@ -295,7 +295,12 @@ class AdminController extends Controller
         }
     }
 
-    public function viewOfflineUsers(): void
+    // method will be used to send emails to either
+    // all or a single user of the system
+    public function sendEmailsToUsers(array $args)
+    {
+    }
+    public function viewOfflineUsers()
     {
         try {
             if ($this->admin->getOfflineUsers()) {

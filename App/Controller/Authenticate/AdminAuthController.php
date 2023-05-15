@@ -75,7 +75,7 @@ class AdminAuthController extends Token
                             ttl: $ttl
                         );
                         $_SESSION["primary_role"] = $primary_role;
-                        // header("Location: http://localhost/public/admin/dashboard");
+                        header("Location: http://localhost/public/admin/dashboard");
                     } else {
                         $this->sendResponse(
                             view: "/admin/login.html",

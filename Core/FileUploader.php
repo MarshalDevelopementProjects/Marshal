@@ -148,6 +148,14 @@ class FileUploader
 
                     // $destination = $upload_to . '\\' . ($upload_as != "" ? $upload_as : $filename);
                     $destination = "D:/xampp/htdocs" . $upload_to . '/' . ($upload_as != "" ? $upload_as : $filename);
+
+                    $f_count = 1;
+                    for(;file_exists($destination);) {
+                        $filename = $base . "($f_count)." . $pathinfo["extension"];
+                        $destination = "D:/xampp/htdocs" . $upload_to . '/' . ($upload_as != "" ? $upload_as : $filename);
+                        $f_count++;
+                    }
+
                     if (!move_uploaded_file($_FILES[$field_to_look_for]["tmp_name"], $destination)) {
                         // file cannot be moved failed to move the file
                         throw new \Exception("File cannot be moved due to permission errors");

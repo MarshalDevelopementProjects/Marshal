@@ -23,7 +23,7 @@ use Exception;
 
 /**
  * Class description
- * 
+ *
  * Encapsulates routing behavior within the API
  *
  */
@@ -142,10 +142,10 @@ class Router
 
     /**
      * Function description
-     * 
+     *
      * In case if the route requested cannot be matched with the registered routes in the @var array $routes
      * this function will be called
-     * 
+     *
      * @access private
      * @return void
      */
@@ -156,14 +156,14 @@ class Router
 
     /**
      * Function description
-     * 
+     *
      * If a route matches then, this function will get the parameter of that route and
      * will return a boolean value indicating the match
-     * 
+     *
      * @access private
      * @param string $pattern takes the route pattern of a particular route
-     * @param string $target takes a target route 
-     * @return bool 
+     * @param string $target takes a target route
+     * @return bool
      */
     private function match(string $pattern, string $target): bool
     {
@@ -208,17 +208,16 @@ class Router
                             $action = $parts[1];
                             if (is_callable([$controller_object, $action])) {
                                 $controller_object->$action($data);
-                            }
-                        }
-                    }
-                    $this->requestNotFound();
+                            } else $this->requestNotFound();// throw new Exception("$action method cannot be found in the $class_name controller");
+                        } else $this->requestNotFound();// throw new Exception("$class_name controller cannot be found");
+                    } else $this->requestNotFound();// throw new Exception("Invalid callback format");
                 } else {
                     if (is_callable($callback)) {
                         call_user_func_array($callback, array("data" => $data));
                     } else if (is_object($callback)) {
                         $callback->callback($data);
                     } else {
-                        $this->requestNotFound();
+                        $this->requestNotFound();// throw new Exception("Invalid callback format");
                     }
                 }
                 break;

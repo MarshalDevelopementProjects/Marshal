@@ -9,15 +9,16 @@ use Core\Config;
 class Token
 {
     // current secret
-    private string $secret = 'secret';
+    protected $secret = 'secret';
 
     public function __construct(protected $algorithm = 'SHA256', protected $type = "JWT")
     {
     }
 
-    public function generateToken($headers = array(), $payload = array(), $ttl = "access_ttl"): ?string
+    public function generateToken($headers = array(), $payload = array(), $ttl = "access_ttl")
     {
-        if (!empty($headers) && !empty($payload) && $ttl && array_key_exists($ttl, Config::getApiGlobal('remember'))) {
+        if (!empty($headers) && !empty($payload)) {
+
             $payload = array_merge($payload, ["exp" => time() + Config::getApiGlobal('remember')[$ttl]]);
 
             $encoded_headers = $this->_base64url_encode(json_encode($headers));
@@ -30,11 +31,12 @@ class Token
             $json_web_token = "$encoded_headers.$encoded_payload.$encoded_signature";
 
             return $json_web_token;
+        } else {
+            return null;
         }
-        return null;
     }
 
-    public function validateToken($json_web_token): bool
+    protected function validateToken($json_web_token)
     {
         // break the token into parts
         if ($json_web_token) {
@@ -70,34 +72,25 @@ class Token
         return false;
     }
 
-    protected function _base64url_encode($string): string
+    protected function _base64url_encode($string)
     {
-        return $string ? rtrim(strtr(base64_encode($string), '+/', '-_'), '=') : "";
+        return rtrim(strtr(base64_encode($string), '+/', '-_'), '=');
     }
 
-    private function isTokenExpired($payload): bool
+    private function isTokenExpired($payload)
     {
-       if($payload) {
-           $expiration = json_decode($payload)->exp;
-           return ($expiration - time()) < 0;
-       }
-       return false;
+        $expiration = json_decode($payload)->exp;
+        return ($expiration - time()) < 0;
     }
 
     public function getBearerToken($token_type = "access")
     {
-        return $token_type &&
-        array_key_exists($token_type, Config::getApiGlobal('remember')) ?
-        (
-            (Cookie::cookieExists(Config::getApiGlobal('remember')[$token_type]))
+        return (Cookie::cookieExists(Config::getApiGlobal('remember')[$token_type]))
             ? json_decode(Cookie::getCookieData(Config::getApiGlobal('remember')[$token_type]), true)['Token']
-            : null
-        ) :
-            null
-        ;
+            : null;
     }
 
-    protected function setBearerTokenInCookie($headers = array(), $payload = array(), $token_type = "access", $ttl = "access_ttl"): bool
+    protected function setBearerTokenInCookie($headers = array(), $payload = array(), $token_type = "access", $ttl = "access_ttl")
     {
         return Cookie::setCookie(
             name: Config::getApiGlobal('remember')[$token_type],
@@ -106,7 +99,7 @@ class Token
         );
     }
 
-    protected function unsetBearerTokenCookie(): bool
+    protected function unsetBearerTokenCookie()
     {
         if (Cookie::cookieExists(Config::getApiGlobal('remember')['access'])) {
             Cookie::deleteCookie(
@@ -123,15 +116,13 @@ class Token
 
     public function getTokenPayload($json_web_token)
     {
-        if($json_web_token) {
-            // break the token into parts
-            $parts_of_token = explode('.', $json_web_token);
-            if (count($parts_of_token) == 3) {
-                // $_headers = base64_decode($parts_of_token[0]);
-                $payload = base64_decode($parts_of_token[1]);
-                // $_signature_sent = base64_decode($parts_of_token[2]);
-                return json_decode($payload);
-            }
+        // break the token into parts
+        $parts_of_token = explode('.', $json_web_token);
+        if (count($parts_of_token) == 3) {
+            // $_headers = base64_decode($parts_of_token[0]);
+            $payload = base64_decode($parts_of_token[1]);
+            // $_signature_sent = base64_decode($parts_of_token[2]);
+            return json_decode($payload);
         }
         return null;
     }
