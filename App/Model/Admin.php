@@ -8,7 +8,7 @@ use App\CrudUtil\CrudUtil;
 
 class Admin
 {
-    private $crud_util;
+    private CrudUtil $crud_util;
     private object|array|null|bool $admin_data = null;
     private object|array|null|bool $query_results = null;
 
@@ -129,7 +129,7 @@ class Admin
     }*/
 
     // read a single user in the system 
-    public function readUser(string|int $key = "username", string $value)
+    public function readUser(string $value ,string|int $key = "username"): bool
     {
         if ($key && $value) {
             $sql_string = "SELECT * FROM `user` WHERE `" . $key . "` = :" . $key;

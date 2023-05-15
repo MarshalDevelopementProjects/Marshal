@@ -396,7 +396,7 @@ class UserController extends Controller
         // perform additional checks and other validations before giving data to this function
         // and also make sure to construct an appropriate file name for storing the file
         $result = FileUploader::upload(
-            allowed_file_types: array("image/jpg", "image/png", "image/gif"),
+            allowed_file_types: array("image/jpg", "image/png", "image/gif", "image/jpeg"),
             fields: array(
                 "profile_picture" => array(
                     "upload_to" => "/App/Database/Uploads/ProfilePictures",

@@ -342,7 +342,7 @@ body {
 }
 
 .messaging-area .send-area {
-    /* border: 1px solid black; */
+    border: 1px solid #d8d8d8;
     height: 40px;
     background-color: #fff;
     border-radius: 10px;
@@ -351,13 +351,29 @@ body {
 .send-area input {
     width: 890px;
     height: 40px;
-    border: 1px solid #d8d8d8;
-    border-right: none;
+    /* border: 1px solid #d8d8d8; */
+    border: none;
     border-radius: 10px;
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
     outline: none;
     padding-left: 20px;
+}
+
+.send-area button {
+    margin-right: 10px;
+    border: none;
+    background-color: transparent;
+}
+.send-area button:hover {
+    scale: 1.2;
+    cursor: pointer;
+}
+
+.send-area button i {
+    color: #20B289;
+    font-size: 1.2rem;
+    transition: transform 0.2s ease-in-out;
 }
 
 .chatting-area {
@@ -457,14 +473,14 @@ body {
     overflow-y: scroll;
 }
 
-.member-list .group-members {
+.member-list #leaders-list-container-div {
     /* border: 1px solid black; */
-    height: 100px;
+    height: 200px;
     overflow-y: scroll;
 }
 
 #members-list-container-div{
-    height: 520px;
+    height: 420px;
 }
 #members-list-container-div h3{
     position: sticky; /* fix the h3 element */

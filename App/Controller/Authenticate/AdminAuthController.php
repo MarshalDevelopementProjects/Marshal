@@ -84,6 +84,7 @@ class AdminAuthController extends Token
                         );
                     }
                 } catch (\Exception $exception) {
+                    var_dump($exception);
                     throw $exception;
                 }
             } else {
