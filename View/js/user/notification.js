@@ -14,6 +14,8 @@ function getNotification(){
     .then(data => {
 
       let notifications = data['message']
+      notifications = notifications.reverse()
+
       console.log(notifications)
       let code = "";
       if(notifications != []){
@@ -33,7 +35,7 @@ function getNotification(){
                                         <p class="request-message">${notification['message']}</p>
 
                                         <div class="responses">
-                                            <a href="#"><button type="submit" id="rejectInviteBtn">Reject</button></a>
+                                            <a href="http://localhost/public/user/request/reject?data=${notification['id']}"><button type="submit" id="rejectInviteBtn">Reject</button></a>
                                             <a href="http://localhost/public/user/join?data1=${notification['project_id']}&data2=${notification['id']}"><button type="submit" id="acceptInviteBtn">Accept</button></a>
                                             
                                         </div>
@@ -76,3 +78,21 @@ function getNotification(){
 }
 
 getNotification()
+
+function rejectRequest(notificationId){
+    fetch(
+        "http://localhost/public/user/request/reject?data=" + notificationId, 
+        {
+          withCredentials: true,
+          credentials: "include",
+          mode: "cors",
+          method: "GET",
+        }
+    )
+    .then(response => response.json())
+    .then(data => {
+
+      
+    })
+    .catch((error) => console.error(error))
+}

@@ -93,12 +93,14 @@ $router->get('/user/project', UserController::class . '::gotoProject');
 $router->get('/user/notifications', UserController::class . '::getNotifications');
 $router->get('/user/join', UserController::class . '::userJoinOnProject');
 $router->get('/user/clicknotification', UserController::class . '::clickOnNotification');
+$router->get('/user/request/reject', UserController::class . '::rejectRequest');
 $router->get('/user/sketch', UserController::class . '::sketch');
 
 $router->get('/projectleader/getinfo', ProjectLeaderController::class . '::getProjectInfo');
 $router->get('/projectmember/getinfo', ProjectMemberController::class . '::getProjectInfo');
 $router->post('/projectleader/invite', ProjectLeaderController::class . '::sendProjectInvitation');
 $router->post('/group/leader/invite', GroupLeaderController::class . '::sendGroupInvitation');
+$router->post('/project/leader/client/invite', ProjectLeaderController::class . '::sendClientInvitation');
 $router->post('/projectleader/createtask', ProjectLeaderController::class . '::createTask');
 $router->post('/projectleader/group', ProjectLeaderController::class . '::createGroup');
 $router->get('/projectmember/fileupload', ProjectMemberController::class . '::getFileUploadPage');
