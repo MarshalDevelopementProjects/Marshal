@@ -1,2 +1,7 @@
 {"Error number":2,"Error string":"Undefined property: stdClass::$archived","File name":"D:\\xampp\\htdocs\\App\\Controller\\User\\UserController.php","Line number":105,"Time stamp":"May,15,2023 01:41:35 AM"}
 {"Error number":2,"Error string":"Undefined property: stdClass::$archived","File name":"D:\\xampp\\htdocs\\App\\Controller\\User\\UserController.php","Line number":105,"Time stamp":"May,15,2023 01:46:50 AM"}
+{"Error number":2,"Error string":"Undefined array key \"assignedMember\"","File name":"D:\\xampp\\htdocs\\Core\\Validator\\Validator.php","Line number":76,"Time stamp":"May,15,2023 04:46:09 AM"}
+{"Error number":2,"Error string":"Undefined array key \"assignedMember\"","File name":"D:\\xampp\\htdocs\\Core\\Validator\\Validator.php","Line number":76,"Time stamp":"May,15,2023 04:50:30 AM"}
+{"Error number":2,"Error string":"Undefined array key \"assignedMember\"","File name":"D:\\xampp\\htdocs\\Core\\Validator\\Validator.php","Line number":76,"Time stamp":"May,15,2023 04:51:03 AM"}
+{"Error number":2,"Error string":"Undefined array key \"assignedMember\"","File name":"D:\\xampp\\htdocs\\Core\\Validator\\Validator.php","Line number":76,"Time stamp":"May,15,2023 04:51:07 AM"}
+{"Error number":2,"Error string":"Undefined array key \"assignedMember\"","File name":"D:\\xampp\\htdocs\\Core\\Validator\\Validator.php","Line number":76,"Time stamp":"May,15,2023 04:51:22 AM"}

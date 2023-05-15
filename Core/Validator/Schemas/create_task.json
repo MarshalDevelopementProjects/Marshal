@@ -1,0 +1,21 @@
+{
+    "table" : "task",
+    "taskname": {
+      "required": true,
+      "min": 4,
+      "max": 255
+    },
+    "taskdescription": {
+      "required": true
+    },
+    
+    "taskdeadline": {
+      "required": true,
+      "date": {
+        "if_eq_time": "at"
+      }
+    },
+    "at": {
+      "required": true
+    }
+  }

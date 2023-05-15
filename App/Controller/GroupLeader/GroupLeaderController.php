@@ -41,6 +41,7 @@ class GroupLeaderController extends GroupMemberController
 
     public function createTask($args)
     {
+        // var_dump($args);
         if ($args['taskname'] && $args['taskdescription']) {
             $status = "TO-DO";
             if ($args['assignedMember']) {

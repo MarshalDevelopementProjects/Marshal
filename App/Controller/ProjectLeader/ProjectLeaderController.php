@@ -15,6 +15,7 @@ use App\Model\Group;
 use App\Controller\Conference\ConferenceController;
 use App\Model\Message;
 use Exception;
+use Core\Validator\Validator;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 

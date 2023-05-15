@@ -20,11 +20,11 @@ class Task
 
     public function createTask(array $args, array $keys): bool
     {
-        foreach ($keys as $key) {
-            if (!isset($args[$key]) || empty($args[$key])) {
-                return false;
-            }
-        }
+        // foreach ($keys as $key) {
+        //     if (!isset($args[$key]) || empty($args[$key])) {
+        //         return false;
+        //     }
+        // }
         if($args['project_id'] != $_SESSION['project_id']) {
             return false;
         }else{
@@ -76,10 +76,10 @@ class Task
 
     public function getAllTasks(array $args = array()): object|bool|array
     {
-        $task_types = array("project", "group");
-        if (!array_key_exists('project_id', $args) || !array_key_exists('task_type', $args) || $args['project_id'] != $_SESSION['project_id'] || !in_array($args['task_type'], $task_types)){
-            return false;
-        }
+        // $task_types = array("project", "group");
+        // if (!array_key_exists('project_id', $args) || !array_key_exists('task_type', $args) || $args['project_id'] != $_SESSION['project_id'] || !in_array($args['task_type'], $task_types)){
+        //     return false;
+        // }
 
         if ($args['task_type'] === 'group') {
             if(!array_key_exists('group_id', $args) || $args['group_id'] != $_SESSION['group_id']){
@@ -99,25 +99,25 @@ class Task
     }
     public function getTasks(array $args, array $keys)
     {
-        $status_array = array("TO-DO", "ONGOING", "PENDING", "DONE");
-        foreach ($keys as $key) {
-            if (!isset($args[$key]) || empty($args[$key])) {
-                return false;
-            }
-        }
+        // $status_array = array("TO-DO", "ONGOING", "PENDING", "DONE");
+        // foreach ($keys as $key) {
+        //     if (!isset($args[$key]) || empty($args[$key])) {
+        //         return false;
+        //     }
+        // }
 
         // check arguments validity
 
-        if(in_array('project_id', $keys) && $_SESSION){
-            if($args['project_id'] != isset($_SESSION['project_id'])) {
-                return false;
-            }
-        }
-        if(in_array('status', $keys)){
-            if(!in_array($args['status'], $status_array)){
-                return false;
-            }
-        }
+        // if(in_array('project_id', $keys) && $_SESSION){
+        //     if($args['project_id'] != isset($_SESSION['project_id'])) {
+        //         return false;
+        //     }
+        // }
+        // if(in_array('status', $keys)){
+        //     if(!in_array($args['status'], $status_array)){
+        //         return false;
+        //     }
+        // }
 
         $keyCount = count($keys);
 
@@ -145,24 +145,24 @@ class Task
 
     public function getTask(array $args, array $keys): object|bool|array
     {
-        $status_array = array("TO-DO", "ONGOING", "PENDING", "DONE");
-        foreach ($keys as $key) {
-            if (!isset($args[$key]) || empty($args[$key])) {
-                return array();
-            }
-        }
+        // $status_array = array("TO-DO", "ONGOING", "PENDING", "DONE");
+        // foreach ($keys as $key) {
+        //     if (!isset($args[$key]) || empty($args[$key])) {
+        //         return array();
+        //     }
+        // }
 
-        // check arguments validity
-        if(in_array('project_id', $keys) && isset($_SESSION['project_id'])){
-            if($args['project_id'] != $_SESSION['project_id']) {
-                return array();
-            }
-        }
-        if(in_array('status', $keys)){
-            if(!in_array($args['status'], $status_array)){
-                return array();
-            }
-        }
+        // // check arguments validity
+        // if(in_array('project_id', $keys) && isset($_SESSION['project_id'])){
+        //     if($args['project_id'] != $_SESSION['project_id']) {
+        //         return array();
+        //     }
+        // }
+        // if(in_array('status', $keys)){
+        //     if(!in_array($args['status'], $status_array)){
+        //         return array();
+        //     }
+        // }
 
         $keyCount = count($keys);
 
@@ -259,9 +259,9 @@ class Task
     public function addGroupToTask(array $args = array()): bool
     {
         
-        if(!isset($args['task_id']) || !isset($args['group_id'])){
-            return false;
-        }
+        // if(!isset($args['task_id']) || !isset($args['group_id'])){
+        //     return false;
+        // }
 
         if($this->getTask(array("task_id" => $args['task_id']), array("task_id"))){
 
