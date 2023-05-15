@@ -162,7 +162,7 @@ class AdminController extends Controller
     {
         try {
             // validate the data first and then create the user
-            $this->validator->validate(values: $args, schema: "signup");
+            $this->validator->validate(values: $args, schema: "admin_create_user");
             if ($this->validator->getPassed()) {
                 unset($args['password_re_enter']);
                 if ($this->admin->createUser($args))

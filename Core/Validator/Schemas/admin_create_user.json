@@ -1,0 +1,36 @@
+{
+  "table": "user",
+  "username": {
+    "required": true,
+    "min": 4,
+    "max": 40,
+    "unique": true
+  },
+  "first_name": {
+    "required": true,
+    "min": 4,
+    "max": 40
+  },
+  "last_name": {
+    "required": true,
+    "min": 4,
+    "max": 40
+  },
+  "phone_number": {
+    "required": true
+  },
+  "email_address": {
+    "required": true,
+    "unique": true,
+    "email": true
+  },
+  "password": {
+    "required": true,
+    "min": 8
+  },
+  "password_re_enter": {
+    "required": true,
+    "min": 8,
+    "match": "password"
+  }
+}
